@@ -1,13 +1,15 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { Text, View } from "react-native";
-
+import { NavigationContainer } from "@react-navigation/native";
+import AppNavigator from "./src/Navigation/AppNavigator";
+import { Provider } from "react-redux";
+import { store } from "./src/Store/store";
 const App = () => {
 	return (
-		<View className="flex-1 items-center justify-center">
-			<Text>HELLOOOOOOOO !</Text>
-			<StatusBar style="auto" />
-		</View>
+		<Provider store={store}>
+			<NavigationContainer>
+				<AppNavigator />
+			</NavigationContainer>
+		</Provider>
 	);
 };
 
