@@ -26,7 +26,7 @@ const TextInputComponent = ({
 				<View className={"rounded-lg"} style={{ zIndex: 1, backgroundColor: Color.WHITE }}>
 					<TextInput
 						style={{ borderColor: Color.PRIMARY, borderWidth: 1 }}
-						className={"p-4 rounded-lg h-11"}
+						className={"px-4 rounded-lg h-11"}
 						onChangeText={onChangeText}
 						value={textInput}
 						keyboardType={keyboardType}
