@@ -24,14 +24,12 @@ const Login = () => {
 						label={Content.LABEL_EMAIL}
 						textInput={email}
 						placeholder={Content.PLACEHOLDER_EMAIL}
-						icon={"envelope"}
 					/>
 					<TextInputComponent
 						onChangeText={setPassword}
 						label={Content.LABEL_PASSWORD}
 						textInput={password}
 						placeholder={Content.PLACEHOLDER_PASSWORD}
-						icon={"lock"}
 					/>
 					<Text className={"underline mt-1"}>{Content.PASSWORD_FORGET}</Text>
 				</View>

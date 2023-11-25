@@ -8,7 +8,6 @@ interface TextInputComponentProps {
 	textInput: string;
 	keyboardType?: KeyboardTypeOptions;
 	placeholder: string;
-	icon?: string;
 }
 
 const TextInputComponent = ({
@@ -17,7 +16,6 @@ const TextInputComponent = ({
 	textInput,
 	keyboardType = "default",
 	placeholder,
-	icon,
 }: TextInputComponentProps) => {
 	return (
 		<View className={"w-11/12 my-2"}>
