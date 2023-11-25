@@ -7,7 +7,7 @@ import TextInputComponent from "../Base/TextInput";
 import SvgGoogle from "../Svg/SvgGoogle";
 import SvgFacebook from "../Svg/SvgFacebook";
 
-const Home = () => {
+const Login = () => {
 	const [email, setEmail] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
 
@@ -80,4 +80,4 @@ const Home = () => {
 	);
 };
 
-export default Home;
+export default Login;
