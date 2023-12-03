@@ -26,19 +26,19 @@ const ButtonComponent = ({
 	return (
 		<TouchableOpacity className={width} onPress={onPress} disabled={disabled}>
 			<View
-				className={"rounded-lg h-12"}
+				className="rounded-lg h-12"
 				style={{
 					backgroundColor: disabled ? Color.GREY : `${shadowColor}`,
-					borderColor: borderColor,
-					borderWidth: borderWidth,
+					borderColor,
+					borderWidth,
 				}}>
-				<View className={"rounded-lg h-11"} style={{ zIndex: 1, backgroundColor: disabled ? Color.GREY : `${bg}` }}>
+				<View className="rounded-lg h-11" style={{ zIndex: 1, backgroundColor: disabled ? Color.GREY : `${bg}` }}>
 					{typeof content === "string" ? (
-						<Text className={"text-center font-bold text-xl py-3"} style={{ color: Color.WHITE }}>
+						<Text className="text-center font-bold text-xl py-3" style={{ color: Color.WHITE }}>
 							{content}
 						</Text>
 					) : (
-						<View className={"p-3 justify-center"}>{content}</View>
+						<View className="p-3 justify-center">{content}</View>
 					)}
 				</View>
 			</View>

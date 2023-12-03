@@ -16,7 +16,7 @@ export default function SvgGoogle() {
 		</defs>
 	</svg>`;
 
-	const Svg = () => <SvgXml xml={google} width={"100%"} height={"100%"} />;
+	const Svg = () => <SvgXml xml={google} width="100%" height="100%" />;
 
 	return <Svg />;
 }

@@ -30,7 +30,7 @@ export default function SvgConnexion() {
   <path d="M76 77.9983C76.3333 73.4705 77.2 67.1317 78 77.9983H76Z" fill="black"/>
 </svg>`;
 
-	const Svg = () => <SvgXml xml={elie} width={"100%"} height={"50%"} />;
+	const Svg = () => <SvgXml xml={elie} width="100%" height="50%" />;
 
 	return <Svg />;
 }
