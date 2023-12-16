@@ -1,12 +1,9 @@
 import React from "react";
-import {
-	NativeStackNavigationProp,
-	createNativeStackNavigator,
-} from "@react-navigation/native-stack";
-import Home from "../Views/Home";
+import { NativeStackNavigationProp, createNativeStackNavigator } from "@react-navigation/native-stack";
+import Login from "../Views/Login";
 
 export type StackParamList = {
-	Home: undefined;
+	Login: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -19,11 +16,7 @@ const AppNavigator = (): JSX.Element => {
 				headerTransparent: true,
 				headerBackTitleVisible: false,
 			}}>
-			<Stack.Screen
-				name="Home"
-				component={Home}
-				options={{ headerShown: false }}
-			/>
+			<Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
 		</Stack.Navigator>
 	);
 };
