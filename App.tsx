@@ -2,7 +2,8 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import AppNavigator from "./src/Navigation/AppNavigator";
 import { Provider } from "react-redux";
-import { store } from "./src/Store/store";
+import { store } from "./src/store/store";
+
 const App = () => {
 	return (
 		<Provider store={store}>
