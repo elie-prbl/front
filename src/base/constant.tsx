@@ -14,6 +14,7 @@ export class Content {
 	static PLACEHOLDER_EMAIL: string = "johndoe@exemple.fr";
 	static LABEL_PASSWORD: string = "Mot de passe";
 	static PLACEHOLDER_PASSWORD: string = "•••••••••";
+	static LABEL_CONFIRM_PASSWORD: string = "Confirmation du mot de passe";
 	static PASSWORD_FORGET: string = "Mot de passe oublié ?";
 	static NO_ACCOUNT: string = "Pas encore de compte ? ";
 	static NO_ACCOUNT_SIGN_UP: string = "Inscrivez-vous !";
@@ -24,6 +25,7 @@ export class Content {
 	static LABEL_AGE: string = "Âge";
 	static PLACEHOLDER_AGE: string = "18";
 	static ELIE_SIGNUP_1: string = "Hello, qui es-tu ?";
+	static ELIE_SIGNUP_2: string = "Renseigne tes informations complémentaires";
 }
 
 export class FontSize {}

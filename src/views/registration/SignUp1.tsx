@@ -1,13 +1,21 @@
 import { SafeAreaView, Text, View } from "react-native";
 import React, { useState } from "react";
-import { Color, Content } from "../base/constant";
-import ButtonComponent from "../base/Button";
-import TextInputComponent from "../base/TextInput";
-import SvgSignUp1 from "../svg/SvgSignUp1";
+import { Color, Content } from "../../base/constant";
+import ButtonComponent from "../../base/Button";
+import TextInputComponent from "../../base/TextInput";
+import SvgSignUp1 from "../../svg/SvgSignUp1";
+import { useNavigation } from "@react-navigation/core";
+import { NavigationSignUp2Props } from "../../navigation/AppNavigator";
 
 const SignUp1 = () => {
+	const navigation = useNavigation<NavigationSignUp2Props>();
 	const [email, setEmail] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
+	const [age, setAge] = useState<string>("");
+
+	const handleNavigateToSignUp = () => {
+		navigation.navigate("SignUp2");
+	};
 
 	return (
 		<SafeAreaView style={{ backgroundColor: Color.WHITE }} className="h-full justify-around">
@@ -29,14 +37,14 @@ const SignUp1 = () => {
 					placeholder={Content.PLACEHOLDER_LASTNAME}
 				/>
 				<TextInputComponent
-					onChangeText={setPassword}
+					onChangeText={setAge}
 					label={Content.LABEL_AGE}
-					textInput={password}
+					textInput={age}
 					placeholder={Content.PLACEHOLDER_AGE}
 				/>
 			</View>
 			<View className="w-full items-center">
-				<ButtonComponent content={Content.CONTINUE} onPress={() => {}} />
+				<ButtonComponent content={Content.CONTINUE} onPress={handleNavigateToSignUp} />
 			</View>
 		</SafeAreaView>
 	);
