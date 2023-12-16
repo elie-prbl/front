@@ -27,9 +27,6 @@ export type NavigationSignUp1Props = NativeStackNavigationProp<StackParamList, "
 export type RouteSignUp2Props = NativeStackScreenProps<StackParamList, "SignUp2">;
 export type NavigationSignUp2Props = NativeStackNavigationProp<StackParamList, "SignUp2">;
 
-export type RouteSignUp3Props = NativeStackScreenProps<StackParamList, "SignUp3">;
-export type NavigationSignUp3Props = NativeStackNavigationProp<StackParamList, "SignUp3">;
-
 const AppNavigator = (): JSX.Element => {
 	return (
 		<Stack.Navigator

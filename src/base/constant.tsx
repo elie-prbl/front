@@ -27,9 +27,6 @@ export class Content {
 	static ELIE_SIGNUP_1: string = "Hello, qui es-tu ?";
 	static ELIE_SIGNUP_2: string = "Renseigne tes informations complémentaires";
 	static ELIE_SIGNUP_3: string = "Bien joué ! Tu as fini ton inscription.";
-	static PASSWORD_FORGET: string = "Mot de passe oublié ?";
-	static NO_ACCOUNT: string = "Pas encore de compte ? ";
-	static NO_ACCOUNT_SIGN_UP: string = "Inscrivez-vous !";
 }
 
 export class FontSize {}
