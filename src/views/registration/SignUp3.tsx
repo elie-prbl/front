@@ -1,10 +1,10 @@
 import { SafeAreaView, Text, View } from "react-native";
-import { Color, Content } from "../../base/constant";
+import { Color, Content } from "../../Base/constant";
 import React from "react";
-import ButtonComponent from "../../base/Button";
+import ButtonComponent from "../../Base/Button";
 import SvgSignUp3 from "../../svg/SvgSignUp3";
 import { useNavigation } from "@react-navigation/core";
-import { NavigationLoginProps } from "../../navigation/AppNavigator";
+import { NavigationLoginProps } from "../../Navigation/AppNavigator";
 
 const SignUp3 = () => {
 	const navigation = useNavigation<NavigationLoginProps>();

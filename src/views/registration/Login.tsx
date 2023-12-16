@@ -1,13 +1,13 @@
 import { SafeAreaView, Text, View } from "react-native";
 import React, { useState } from "react";
-import { Color, Content } from "../../base/constant";
-import ButtonComponent from "../../base/Button";
+import { Color, Content } from "../../Base/constant";
+import ButtonComponent from "../../Base/Button";
 import SvgConnexion from "../../svg/SvgConnexion";
-import TextInputComponent from "../../base/TextInput";
+import TextInputComponent from "../../Base/TextInput";
 import SvgGoogle from "../../svg/SvgGoogle";
 import SvgFacebook from "../../svg/SvgFacebook";
 import { useNavigation } from "@react-navigation/core";
-import { NavigationSignUp1Props } from "../../navigation/AppNavigator";
+import { NavigationSignUp1Props } from "../../Navigation/AppNavigator";
 
 const Login = () => {
 	const navigation = useNavigation<NavigationSignUp1Props>();

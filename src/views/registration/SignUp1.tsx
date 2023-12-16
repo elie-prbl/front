@@ -1,11 +1,11 @@
 import { SafeAreaView, Text, View } from "react-native";
 import React, { useState } from "react";
-import { Color, Content } from "../../base/constant";
-import ButtonComponent from "../../base/Button";
-import TextInputComponent from "../../base/TextInput";
+import { Color, Content } from "../../Base/constant";
+import ButtonComponent from "../../Base/Button";
+import TextInputComponent from "../../Base/TextInput";
 import SvgSignUp1 from "../../svg/SvgSignUp1";
 import { useNavigation } from "@react-navigation/core";
-import { NavigationSignUp2Props } from "../../navigation/AppNavigator";
+import { NavigationSignUp2Props } from "../../Navigation/AppNavigator";
 
 const SignUp1 = () => {
 	const navigation = useNavigation<NavigationSignUp2Props>();
