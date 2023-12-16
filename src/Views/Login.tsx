@@ -6,10 +6,17 @@ import SvgConnexion from "../Svg/SvgConnexion";
 import TextInputComponent from "../Base/TextInput";
 import SvgGoogle from "../Svg/SvgGoogle";
 import SvgFacebook from "../Svg/SvgFacebook";
+import { useNavigation } from "@react-navigation/core";
+import { NavigationSignUp1Props } from "../Navigation/AppNavigator";
 
 const Login = () => {
+	const navigation = useNavigation<NavigationSignUp1Props>();
 	const [email, setEmail] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
+
+	const handleNavigateToSignUp = () => {
+		navigation.navigate("SignUp1");
+	};
 
 	return (
 		<SafeAreaView style={{ backgroundColor: Color.WHITE }} className="h-full justify-around">
@@ -39,7 +46,7 @@ const Login = () => {
 					<ButtonComponent content={Content.LOGIN} onPress={() => {}} />
 					<View className="w-11/12 flex-row justify-center mt-3">
 						<Text>{Content.NO_ACCOUNT}</Text>
-						<Text className="underline" style={{ color: Color.PRIMARY }}>
+						<Text className="underline" style={{ color: Color.PRIMARY }} onPress={handleNavigateToSignUp}>
 							{Content.NO_ACCOUNT_SIGN_UP}
 						</Text>
 					</View>
