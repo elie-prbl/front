@@ -26,6 +26,7 @@ export class Content {
 	static PLACEHOLDER_AGE: string = "18";
 	static ELIE_SIGNUP_1: string = "Hello, qui es-tu ?";
 	static ELIE_SIGNUP_2: string = "Renseigne tes informations complémentaires";
+	static ELIE_SIGNUP_3: string = "Bien joué ! Tu as fini ton inscription.";
 }
 
 export class FontSize {}

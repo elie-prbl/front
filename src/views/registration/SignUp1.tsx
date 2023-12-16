@@ -18,7 +18,7 @@ const SignUp1 = () => {
 	};
 
 	return (
-		<SafeAreaView style={{ backgroundColor: Color.WHITE }} className="h-full justify-around">
+		<SafeAreaView style={{ backgroundColor: Color.WHITE }} className="h-full justify-between">
 			<View className="w-full items-center justify-center h-2/5">
 				<SvgSignUp1 />
 				<Text className="font-bold text-xl">{Content.ELIE_SIGNUP_1}</Text>
