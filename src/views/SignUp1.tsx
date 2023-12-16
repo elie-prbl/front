@@ -1,9 +1,9 @@
 import { SafeAreaView, Text, View } from "react-native";
 import React, { useState } from "react";
-import { Color, Content } from "../Base/constant";
-import ButtonComponent from "../Base/Button";
-import TextInputComponent from "../Base/TextInput";
-import SvgSignUp1 from "../Svg/SvgSignUp1";
+import { Color, Content } from "../base/constant";
+import ButtonComponent from "../base/Button";
+import TextInputComponent from "../base/TextInput";
+import SvgSignUp1 from "../svg/SvgSignUp1";
 
 const SignUp1 = () => {
 	const [email, setEmail] = useState<string>("");

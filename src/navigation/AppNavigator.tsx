@@ -4,8 +4,8 @@ import {
 	createNativeStackNavigator,
 	NativeStackScreenProps,
 } from "@react-navigation/native-stack";
-import Login from "../Views/Login";
-import SignUp1 from "../Views/SignUp1";
+import Login from "../views/Login";
+import SignUp1 from "../views/SignUp1";
 
 export type StackParamList = {
 	Login: undefined;
