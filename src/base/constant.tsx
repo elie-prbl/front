@@ -3,9 +3,12 @@ export class Color {
 	static SECONDARY: string = "#48A106";
 	static WHITE: string = "#FFFFFF";
 	static GREY: string = "#CDCCCC";
+	static BLACK: string = "#000000";
+	static GOLD: string = "#FDE404";
 }
 
 export class Content {
+	// Registration
 	static LOGIN: string = "Connexion";
 	static SIGN_UP: string = "Inscription";
 	static CONTINUE: string = "Continuer";
@@ -27,8 +30,17 @@ export class Content {
 	static ELIE_SIGNUP_1: string = "Hello, qui es-tu ?";
 	static ELIE_SIGNUP_2: string = "Renseigne tes informations complémentaires";
 	static ELIE_SIGNUP_3: string = "Bien joué ! Tu as fini ton inscription.";
+
+	//Home
+	static DAILY_QUEST: string = "Quêtes du jour";
+	static SHOP: string = "Boutique";
+	static GAME: string = "Jeu";
+	static MAP: string = "Map";
+	static EVENT: string = "Évènement";
 }
 
-export class FontSize {}
+export class FontSize {
+	static TEXT_XL: string = "text-xl";
+}
 
 export class Url {}
