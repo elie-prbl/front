@@ -4,6 +4,7 @@ export class Color {
 	static WHITE: string = "#FFFFFF";
 	static GREY: string = "#CDCCCC";
 	static BLACK: string = "#000000";
+	static GOLD: string = "#FDE404";
 }
 
 export class Content {

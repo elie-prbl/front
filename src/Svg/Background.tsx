@@ -33,7 +33,7 @@ export default function Background() {
     </defs>
   </svg>`;
 
-	const Svg = () => <SvgXml xml={background} className="w-full h-full" />;
+	const Svg = () => <SvgXml xml={background} className="w-full h-full absolute" />;
 
 	return <Svg />;
 }
