@@ -1,21 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import {
 	NativeStackNavigationProp,
 	createNativeStackNavigator,
 	NativeStackScreenProps,
 } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Login from "../views/registration/Login";
 import SignUp1 from "../views/registration/SignUp1";
 import SignUp2 from "../views/registration/SignUp2";
 import SignUp3 from "../views/registration/SignUp3";
+import Home from "../views/Home";
+import { AntDesign } from "@expo/vector-icons";
+import { Color } from "../base/constant";
 
 export type StackParamList = {
 	Login: undefined;
 	SignUp1: undefined;
 	SignUp2: undefined;
 	SignUp3: undefined;
+	Home: undefined;
 };
 
+const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator<StackParamList>();
 
 export type RouteLoginProps = NativeStackScreenProps<StackParamList, "Login">;
@@ -27,7 +33,10 @@ export type NavigationSignUp1Props = NativeStackNavigationProp<StackParamList, "
 export type RouteSignUp2Props = NativeStackScreenProps<StackParamList, "SignUp2">;
 export type NavigationSignUp2Props = NativeStackNavigationProp<StackParamList, "SignUp2">;
 
-const AppNavigator = (): JSX.Element => {
+export type RouteHomeProps = NativeStackScreenProps<StackParamList, "Home">;
+export type NavigationHomeProps = NativeStackNavigationProp<StackParamList, "Home">;
+
+const AuthStack = () => {
 	return (
 		<Stack.Navigator
 			screenOptions={{
@@ -39,6 +48,33 @@ const AppNavigator = (): JSX.Element => {
 			<Stack.Screen name="SignUp2" component={SignUp2} options={{ headerTitle: "" }} />
 			<Stack.Screen name="SignUp3" component={SignUp3} options={{ headerTitle: "" }} />
 		</Stack.Navigator>
+	);
+};
+
+const AppNavigator = (): JSX.Element => {
+	const [isLoggedIn, setLoggedIn] = useState(true);
+
+	return (
+		<>
+			{isLoggedIn ? (
+				<Tab.Navigator
+					screenOptions={{
+						tabBarActiveTintColor: Color.PRIMARY,
+						tabBarInactiveTintColor: Color.BLACK,
+					}}>
+					<Tab.Screen
+						name="Home"
+						component={Home}
+						options={{
+							tabBarShowLabel: false,
+							tabBarIcon: ({ color }) => <AntDesign name="home" size={24} color={color} />,
+						}}
+					/>
+				</Tab.Navigator>
+			) : (
+				<AuthStack />
+			)}
+		</>
 	);
 };
 

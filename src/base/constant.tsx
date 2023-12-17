@@ -3,6 +3,7 @@ export class Color {
 	static SECONDARY: string = "#48A106";
 	static WHITE: string = "#FFFFFF";
 	static GREY: string = "#CDCCCC";
+	static BLACK: string = "#000000";
 }
 
 export class Content {

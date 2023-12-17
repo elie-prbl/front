@@ -7,15 +7,24 @@ import TextInputComponent from "../../base/TextInput";
 import SvgGoogle from "../../svg/SvgGoogle";
 import SvgFacebook from "../../svg/SvgFacebook";
 import { useNavigation } from "@react-navigation/core";
-import { NavigationSignUp1Props } from "../../navigation/AppNavigator";
+import { NavigationHomeProps, NavigationSignUp1Props } from "../../navigation/AppNavigator";
 
 const Login = () => {
-	const navigation = useNavigation<NavigationSignUp1Props>();
+	const navigationSignUp1 = useNavigation<NavigationSignUp1Props>();
+	const navigationHome = useNavigation<NavigationHomeProps>();
 	const [email, setEmail] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
 
 	const handleNavigateToSignUp = () => {
-		navigation.navigate("SignUp1");
+		navigationSignUp1.navigate("SignUp1");
+	};
+
+	const handleNavigateHome = () => {
+		navigationHome.navigate("Home");
+		// navigationHome.reset({
+		// 	index: 0,
+		// 	routes: [{ name: "Home" }],
+		// });
 	};
 
 	return (
@@ -43,7 +52,7 @@ const Login = () => {
 			</View>
 			<View>
 				<View className="w-full items-center">
-					<ButtonComponent content={Content.LOGIN} onPress={() => {}} />
+					<ButtonComponent content={Content.LOGIN} onPress={handleNavigateHome} />
 					<View className="w-11/12 flex-row justify-center mt-3">
 						<Text>{Content.NO_ACCOUNT}</Text>
 						<Text className="underline" style={{ color: Color.PRIMARY }} onPress={handleNavigateToSignUp}>
