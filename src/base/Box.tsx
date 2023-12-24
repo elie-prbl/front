@@ -5,7 +5,7 @@ import { Color, FontSize } from "./constant";
 interface BoxComponentProps {
 	title: string;
 	itemRight?: string | ReactElement;
-	height: string;
+	height?: string;
 	children: ReactElement;
 }
 

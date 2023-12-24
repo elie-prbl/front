@@ -2,7 +2,7 @@ import React from "react";
 import { SvgXml } from "react-native-svg";
 
 export default function Circle_1() {
-	const img = `<svg width="59" height="60" viewBox="0 0 59 60" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	const svg = `<svg width="59" height="60" viewBox="0 0 59 60" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <ellipse id="Ellipse 2" cx="29.5" cy="30" rx="29.5" ry="30" fill="url(#pattern0)"/>
 <defs>
 <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="2.47458" height="2.43333">
@@ -12,7 +12,7 @@ export default function Circle_1() {
 </defs>
 </svg>`;
 
-	const Svg = () => <SvgXml xml={img} width="100%" height="100%" />;
+	const Svg = () => <SvgXml xml={svg} width="100%" height="100%" />;
 
 	return <Svg />;
 }

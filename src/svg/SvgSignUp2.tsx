@@ -2,7 +2,7 @@ import React from "react";
 import { SvgXml } from "react-native-svg";
 
 export default function SvgSignUp2() {
-	const elie = `<svg xmlns="http://www.w3.org/2000/svg" width="198" height="206" viewBox="0 0 198 206" fill="none">
+	const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="198" height="206" viewBox="0 0 198 206" fill="none">
 		<path d="M24.2164 123.865C-40.1657 92.1929 38.9273 52.257 86.5216 36.248C117.025 24.2262 151.423 94.6591 150.125 123.865C148.827 153.07 104.694 163.454 24.2164 123.865Z" fill="#87F992" fill-opacity="0.26"/>
 		<path d="M153.816 167.766C188 169 193.5 160.5 197.5 153C200 170.5 188 183.54 177 187.5C164.5 192 121.69 196.053 114.875 193.727C112.442 173.932 110.202 137.522 120.716 150.243C131.23 162.964 147.482 167.538 153.816 167.766Z" fill="#58CC02"/>
 		<path d="M72.534 197.947L25.799 199.152C31.7394 184.858 38.2827 184.054 40.8118 185.439C50.0294 191.281 56.848 191.003 59.1051 190.134L72.534 197.947Z" fill="#48A106"/>
@@ -28,7 +28,7 @@ export default function SvgSignUp2() {
 		<path d="M64.5524 54.0951C63.66 53.7706 61.0499 53.4895 62.362 52.4537C63.9539 51.197 68.0408 52.8159 68.0408 54.0951C68.0408 55.3743 66.6941 54.8739 64.5524 54.0951Z" fill="#767575"/>
 	</svg>`;
 
-	const Svg = () => <SvgXml xml={elie} width="100%" height="60%" />;
+	const Svg = () => <SvgXml xml={svg} width="100%" height="60%" />;
 
 	return <Svg />;
 }
