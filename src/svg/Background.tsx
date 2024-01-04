@@ -2,7 +2,7 @@ import React from "react";
 import { SvgXml } from "react-native-svg";
 
 export default function Background() {
-	const background = `<svg width="390" height="844" viewBox="0 0 390 844" fill="none" xmlns="http://www.w3.org/2000/svg">
+	const svg = `<svg width="390" height="844" viewBox="0 0 390 844" fill="none" xmlns="http://www.w3.org/2000/svg">
     <g clip-path="url(#clip0_606_2030)">
     <rect width="390" height="844" fill="#FAF9F9"/>
     <ellipse cx="189" cy="155.5" rx="201" ry="229.5" fill="url(#paint0_radial_606_2030)"/>
@@ -33,7 +33,7 @@ export default function Background() {
     </defs>
   </svg>`;
 
-	const Svg = () => <SvgXml xml={background} className="w-full h-full absolute" />;
+	const Svg = () => <SvgXml xml={svg} className="w-full h-full absolute" />;
 
 	return <Svg />;
 }

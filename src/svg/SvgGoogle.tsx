@@ -2,7 +2,7 @@ import React from "react";
 import { SvgXml } from "react-native-svg";
 
 export default function SvgGoogle() {
-	const google = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+	const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
 		<g clip-path="url(#clip0_487_1907)">
 			<path d="M10.1235 4.023C11.6065 4.023 12.9355 4.535 13.9835 5.535L16.8765 2.636C15.1275 1.002 12.8465 0 10.1235 0C6.18047 0 2.76647 2.269 1.10547 5.573L4.47247 8.192C5.26847 5.799 7.49647 4.023 10.1235 4.023Z" fill="#EB4335"/>
 			<path d="M19.815 10.345C19.815 9.62099 19.747 8.92799 19.63 8.26099H10.123V12.135H15.563C15.4562 12.7638 15.2218 13.3642 14.8742 13.899C14.5267 14.4339 14.0733 14.8919 13.542 15.245L16.812 17.789C18.718 16.028 19.815 13.424 19.815 10.345Z" fill="#4285F4"/>
@@ -16,7 +16,7 @@ export default function SvgGoogle() {
 		</defs>
 	</svg>`;
 
-	const Svg = () => <SvgXml xml={google} width="100%" height="100%" />;
+	const Svg = () => <SvgXml xml={svg} width="100%" height="100%" />;
 
 	return <Svg />;
 }

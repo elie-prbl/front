@@ -3,9 +3,9 @@ import { Color, Content } from "../../base/constant";
 import React, { useState } from "react";
 import TextInputComponent from "../../base/TextInput";
 import ButtonComponent from "../../base/Button";
-import SvgSignUp2 from "../../svg/SvgSignUp2";
 import { useNavigation } from "@react-navigation/core";
 import { NavigationSignUp2Props } from "../../navigation/AppNavigator";
+import SvgSignUp2 from "../../svg/SvgSignUp2";
 
 const SignUp2 = () => {
 	const navigation = useNavigation<NavigationSignUp2Props>();

@@ -37,10 +37,15 @@ export class Content {
 	static GAME: string = "Jeu";
 	static MAP: string = "Map";
 	static EVENT: string = "Évènement";
+
+	//Shop
+	static SHOP_PERSONALISATION = "Personnalisation";
+	static SHOP_POWER_UP = "Power Up";
 }
 
 export class FontSize {
 	static TEXT_XL: string = "text-xl";
+	static TEXT_LG: string = "text-lg";
 }
 
 export class Url {}
