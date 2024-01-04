@@ -1,8 +1,8 @@
 import React from "react";
 import { Text, View } from "react-native";
 import { Color, Content, FontSize } from "../../base/constant";
-import PowerUp from "../../svg/PowerUp";
 import EliePirate from "../../svg/EliePirate";
+import PowerUp from "../../svg/PowerUp";
 
 const ShopHomeComponent = () => {
 	return (

@@ -1,21 +1,21 @@
 import { QuestItem } from "./QuestItem";
 import React from "react";
-import Circle_1 from "../../svg/Circle_1";
+import Circle1 from "../../svg/Circle1";
 
 export class Quest {
 	item: QuestItem[];
 
 	static EASY_QUEST = new Quest([
-		new QuestItem("Connectes toi sur l'application", <Circle_1 />, 1, ""),
-		new QuestItem("Joues à 1 quiz", <Circle_1 />, 1, "game"),
+		new QuestItem("Connectes toi sur l'application", <Circle1 />, 1, ""),
+		new QuestItem("Joues à 1 quiz", <Circle1 />, 1, "game"),
 	]);
 	static MEDIUM_QUEST = new Quest([
-		new QuestItem("Gagne 1 quiz", <Circle_1 />, 1, "game"),
-		new QuestItem("Joues à 3 quiz", <Circle_1 />, 3, "game"),
+		new QuestItem("Gagne 1 quiz", <Circle1 />, 1, "game"),
+		new QuestItem("Joues à 3 quiz", <Circle1 />, 3, "game"),
 	]);
 	static HARD_QUEST = new Quest([
-		new QuestItem("Effectues un trajet", <Circle_1 />, 1, "map"),
-		new QuestItem("Gagnes 5 quiz", <Circle_1 />, 5, "game"),
+		new QuestItem("Effectues un trajet", <Circle1 />, 1, "map"),
+		new QuestItem("Gagnes 5 quiz", <Circle1 />, 5, "game"),
 	]);
 
 	constructor(item: QuestItem[]) {

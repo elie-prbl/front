@@ -1,11 +1,11 @@
 import React from "react";
 import { SafeAreaView, ScrollView, Text } from "react-native";
-import Background from "../svg/Background";
 import BoxComponent from "../base/Box";
 import { Content } from "../base/constant";
 import QuestComponent from "../components/quest/QuestComponent";
 import ShopHomeComponent from "../components/shop/ShopHomeComponent";
 import GameHomeComponent from "../components/game/GameHomeComponent";
+import Background from "../svg/Background";
 
 const Home = () => {
 	return (
