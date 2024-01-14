@@ -25,7 +25,7 @@ const CircleComponent = ({ img, isDisabled, isDone, onPress }: CircleComponentPr
 				}>
 				<View
 					className="h-14 w-14 rounded-full justify-center items-center"
-					style={{ borderColor: Color.WHITE, borderWidth: 6, borderStyle: "solid" }}>
+					style={{ borderColor: Color.WHITE, borderWidth: 3, borderStyle: "solid" }}>
 					<View className="h-full w-full rounded-full">{img}</View>
 				</View>
 			</Pressable>
