@@ -5,6 +5,14 @@ export class Color {
 	static GREY: string = "#CDCCCC";
 	static BLACK: string = "#000000";
 	static GOLD: string = "#FDE404";
+	static PURPLE_LIGHT: string = "#CE82FF";
+	static PURPLE_DARK: string = "#A568CC";
+	static RED_LIGHT: string = "#FA6C6C";
+	static RED_DARK: string = "#C85656";
+	static PINK_LIGHT: string = "#FF82EB";
+	static PINK_DARK: string = "#D36CC1";
+	static CYAN_LIGHT: string = "#00CD9C";
+	static CYAN_DARK: string = "#00A47D";
 }
 
 export class Content {
