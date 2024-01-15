@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import MapView, { Region } from "react-native-maps";
-import { ActivityIndicator, Pressable, View } from "react-native";
+import { Pressable, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
@@ -36,11 +36,6 @@ const Map = () => {
 				className="absolute bottom-5 right-5 bg-[#FFFFFF] p-3 rounded-full">
 				<Feather name="crosshair" size={26} color="black" />
 			</Pressable>
-			{!currentRegion && (
-				<View className="absolute flex-1 justify-center items-center">
-					<ActivityIndicator size="large" />
-				</View>
-			)}
 		</View>
 	);
 };
