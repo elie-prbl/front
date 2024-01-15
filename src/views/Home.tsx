@@ -9,9 +9,17 @@ import Background from "../svg/Background";
 import { useAppDispatch } from "../store/hooks";
 import { setPosition } from "../store/features/Position/PositionSlices";
 import { getTheCurrentPosition } from "../utils";
+import MapView from "react-native-maps";
+import { useNavigation } from "@react-navigation/core";
+import { MyNavigationProp } from "../navigation/AppNavigator";
+
+export enum ContentHome {
+	MAP = "Map",
+}
 
 const Home = () => {
 	const dispatch = useAppDispatch();
+	const navigation = useNavigation<MyNavigationProp>();
 
 	useEffect(() => {
 		getTheCurrentPosition().then(location => {
@@ -36,8 +44,8 @@ const Home = () => {
 					<BoxComponent title={Content.GAME}>
 						<GameHomeComponent nextQuiz="" />
 					</BoxComponent>
-					<BoxComponent title={Content.MAP} height="h-24">
-						<Text />
+					<BoxComponent title={Content.MAP} height="h-auto" onPress={() => navigation.navigate(ContentHome.MAP)}>
+						<MapView className="w-full h-full" style={{ borderRadius: 8 }} />
 					</BoxComponent>
 					<BoxComponent title={Content.EVENT} height="h-24">
 						<Text />
