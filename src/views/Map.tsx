@@ -1,7 +1,6 @@
-
 import React, { useEffect, useState } from "react";
 import MapView, { Region } from "react-native-maps";
-import { Pressable, View } from "react-native";
+import { Pressable } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
