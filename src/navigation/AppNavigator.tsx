@@ -10,6 +10,7 @@ import SignUp2 from "../views/registration/SignUp2";
 import SignUp3 from "../views/registration/SignUp3";
 import TabNavigator from "./TabNavigator";
 import GameModule from "../views/game/GameModule";
+import { Content } from "../base/constant";
 
 export type StackParamList = {
 	TabNav: undefined;
@@ -67,7 +68,11 @@ const AppNavigator = (): JSX.Element => {
 					headerBackTitleVisible: false,
 				}}>
 				<Stack.Screen name="TabNav" component={TabNavigator} options={{ headerShown: false }} />
-				<Stack.Screen name="GameModule" component={GameModule} options={{ headerShown: false }} />
+				<Stack.Screen
+					name="GameModule"
+					component={GameModule}
+					options={{ presentation: "modal", headerTitle: Content.CHOOSE_MODULE }}
+				/>
 			</Stack.Navigator>
 		</>
 	);

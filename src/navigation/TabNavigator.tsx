@@ -1,19 +1,16 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Color, FontSize } from "../base/constant";
+import { Color } from "../base/constant";
 import Home from "../views/Home";
-import { AntDesign, Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { AntDesign, Feather, Ionicons } from "@expo/vector-icons";
 import Game from "../views/game/Game";
 import Shop from "../views/Shop";
 import Map from "../views/Map";
 import Quest from "../views/Quest";
-import { Text, View } from "react-native";
-import Gem from "../svg/Gem";
-import Life from "../svg/Life";
 import { useAppSelector } from "../store/hooks";
-import ModuleGame from "../base/ModuleGame";
 import { useNavigation } from "@react-navigation/core";
 import { NavigationGameModuleProps } from "./AppNavigator";
+import GameHeaderComponent from "../components/game/GameHeaderComponent";
 
 const Tab = createBottomTabNavigator();
 
@@ -45,32 +42,7 @@ const TabNavigator = () => {
 				options={{
 					tabBarShowLabel: false,
 					tabBarIcon: ({ color }) => <Ionicons name="game-controller-outline" size={24} color={color} />,
-					headerTitle: () => (
-						<View className="my-2 justify-center">
-							<View className="flex-row justify-between w-full">
-								<View className="flex-row items-center">
-									<Gem />
-									<Text className={`${FontSize.TEXT_XL} ml-1 font-bold`} style={{ color: Color.PRIMARY }}>
-										1250
-									</Text>
-								</View>
-								<View className="flex-row items-center">
-									<Life />
-									<Text className={`${FontSize.TEXT_XL} ml-1 font-bold`} style={{ color: Color.RED_LIGHT }}>
-										5
-									</Text>
-								</View>
-							</View>
-							<View className="items-center my-3">
-								<ModuleGame
-									onPress={handleGameModule}
-									title={module.name}
-									description={module.description}
-									icon={<MaterialCommunityIcons name="notebook-multiple" size={24} color="white" />}
-								/>
-							</View>
-						</View>
-					),
+					headerTitle: () => <GameHeaderComponent onPress={handleGameModule} module={module} />,
 					headerStyle: {
 						height: 220,
 					},

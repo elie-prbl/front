@@ -7,13 +7,22 @@ interface CircleComponentProps {
 	isDisabled: boolean;
 	isDone: boolean;
 	onPress?: () => void;
+	classNamePressable?: string;
+	classNameView?: string;
 }
 
-const CircleComponent = ({ img, isDisabled, isDone, onPress }: CircleComponentProps) => {
+const CircleComponent = ({
+	img,
+	isDisabled,
+	isDone,
+	onPress,
+	classNamePressable = "h-16 w-16",
+	classNameView = "h-14 w-14",
+}: CircleComponentProps) => {
 	return (
 		<View>
 			<Pressable
-				className="h-16 w-16 rounded-full justify-center items-center"
+				className={`rounded-full justify-center items-center ${classNamePressable}`}
 				onPress={onPress}
 				disabled={isDisabled}
 				style={
@@ -24,7 +33,7 @@ const CircleComponent = ({ img, isDisabled, isDone, onPress }: CircleComponentPr
 						: { backgroundColor: Color.GOLD }
 				}>
 				<View
-					className="h-14 w-14 rounded-full justify-center items-center"
+					className={`h-14 w-14 rounded-full justify-center items-center ${classNameView}`}
 					style={{ borderColor: Color.WHITE, borderWidth: 3, borderStyle: "solid" }}>
 					<View className="h-full w-full rounded-full">{img}</View>
 				</View>
