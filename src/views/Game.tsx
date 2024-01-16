@@ -1,11 +1,12 @@
 import React from "react";
-import Background from "../svg/Background";
+import Layout from "../base/Layout";
+import { Text } from "react-native";
 
 const Game = () => {
 	return (
-		<>
-			<Background />
-		</>
+		<Layout>
+			<Text> Le reste de la page à mettre ici </Text>
+		</Layout>
 	);
 };
 
