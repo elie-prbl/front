@@ -9,6 +9,7 @@ import SignUp1 from "../views/registration/SignUp1";
 import SignUp2 from "../views/registration/SignUp2";
 import SignUp3 from "../views/registration/SignUp3";
 import TabNavigator from "./TabNavigator";
+import GameModule from "../views/game/GameModule";
 
 export type StackParamList = {
 	TabNav: undefined;
@@ -17,6 +18,7 @@ export type StackParamList = {
 	SignUp2: undefined;
 	SignUp3: undefined;
 	Home: undefined;
+	GameModule: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -32,6 +34,8 @@ export type NavigationSignUp2Props = NativeStackNavigationProp<StackParamList, "
 
 export type RouteHomeProps = NativeStackScreenProps<StackParamList, "Home">;
 export type NavigationHomeProps = NativeStackNavigationProp<StackParamList, "Home">;
+
+export type NavigationGameModuleProps = NativeStackNavigationProp<StackParamList, "GameModule">;
 
 const AuthStack = () => {
 	return (
@@ -63,6 +67,7 @@ const AppNavigator = (): JSX.Element => {
 					headerBackTitleVisible: false,
 				}}>
 				<Stack.Screen name="TabNav" component={TabNavigator} options={{ headerShown: false }} />
+				<Stack.Screen name="GameModule" component={GameModule} options={{ headerShown: false }} />
 			</Stack.Navigator>
 		</>
 	);

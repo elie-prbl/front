@@ -1,11 +1,11 @@
 import React from "react";
-import Layout from "../base/Layout";
+import Layout from "../../base/Layout";
 import { Text } from "react-native";
 
 const Game = () => {
 	return (
 		<Layout>
-			<Text> Le reste de la page à mettre ici </Text>
+			<Text>Game</Text>
 		</Layout>
 	);
 };
