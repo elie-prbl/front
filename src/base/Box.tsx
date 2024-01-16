@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { Color, FontSize } from "./constant";
 
 interface BoxComponentProps {
@@ -7,11 +7,15 @@ interface BoxComponentProps {
 	itemRight?: string | ReactElement;
 	height?: string;
 	children: ReactElement;
+	onPress?: () => void;
 }
 
-const BoxComponent = ({ title, height, children, itemRight }: BoxComponentProps) => {
+const BoxComponent = ({ title, height, children, itemRight, onPress }: BoxComponentProps) => {
 	return (
-		<View style={{ backgroundColor: Color.WHITE }} className={`${height} mx-2 my-1.5 p-4 rounded-lg`}>
+		<Pressable
+			onPress={onPress}
+			style={{ backgroundColor: Color.WHITE }}
+			className={`${height} mx-2 my-1.5 p-4 rounded-lg`}>
 			<View className="mb-2 flex-row justify-between">
 				<Text className={FontSize.TEXT_XL}>{title}</Text>
 				{typeof itemRight === "string" ? (
@@ -21,7 +25,7 @@ const BoxComponent = ({ title, height, children, itemRight }: BoxComponentProps)
 				)}
 			</View>
 			{children}
-		</View>
+		</Pressable>
 	);
 };
 
