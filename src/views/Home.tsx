@@ -1,3 +1,4 @@
+
 import React, { useEffect } from "react";
 import { SafeAreaView, ScrollView, Text } from "react-native";
 import BoxComponent from "../base/Box";
@@ -14,6 +15,7 @@ import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp } from "../navigation/AppNavigator";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
+import Layout from "../base/Layout";
 
 export enum ContentHome {
 	MAP = "Map",
@@ -34,9 +36,7 @@ const Home = () => {
 	}, []);
 
 	return (
-		<>
-			<Background />
-			<SafeAreaView className="h-full">
+		<Layout>
 				<ScrollView>
 					<BoxComponent title={Content.DAILY_QUEST}>
 						<QuestComponent />
@@ -64,8 +64,7 @@ const Home = () => {
 						<Text />
 					</BoxComponent>
 				</ScrollView>
-			</SafeAreaView>
-		</>
+	</Layout>
 	);
 };
 

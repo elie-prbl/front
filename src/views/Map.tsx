@@ -1,9 +1,11 @@
+
 import React, { useEffect, useState } from "react";
 import MapView, { Region } from "react-native-maps";
 import { Pressable, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
+import Layout from "../base/Layout";
 
 const Map = () => {
 	const position = useSelector((state: RootState) => state.position.position);
@@ -24,7 +26,7 @@ const Map = () => {
 	}, [position]);
 
 	return (
-		<View className="flex-1">
+		<Layout>
 			<MapView
 				className="w-full h-full"
 				region={currentRegion}
@@ -36,7 +38,7 @@ const Map = () => {
 				className="absolute bottom-5 right-5 bg-[#FFFFFF] p-3 rounded-full">
 				<Feather name="crosshair" size={26} color="black" />
 			</Pressable>
-		</View>
+		</Layout>
 	);
 };
 
