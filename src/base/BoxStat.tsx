@@ -7,18 +7,17 @@ import Crown from "../svg/Crown";
 interface BoxStatComponentProps {
 	result: string;
 	resultType: string;
-	color: Color;
+	color: string;
+	icon: ReactElement;
 }
 
-const BoxStatComponent = ({ color, result, resultType }: BoxStatComponentProps) => {
+const BoxStatComponent = ({ color, result, resultType, icon }: BoxStatComponentProps) => {
 	return (
 		<>
 			<View
-				className="flex-row p-2 rounded-lg border-2 items-center border-blue-500 border-b-4 border-b-blue-500"
-				style={{ height: 70, width: 165 }}>
-				<View className={`w-10`}>
-					<Crown />
-				</View>
+				className={`flex-row p-2 rounded-lg items-center`}
+				style={{ height: 70, width: 165, borderColor: `${color}`, borderBottomWidth: 4, borderWidth: 2 }}>
+				<View className={`w-10`}>{icon}</View>
 				<View className={`ml-4 flex-col items-start justify-start`}>
 					<Text className={`text-${color}-600 font-bold text-xl`}>{result}</Text>
 					<Text className="text-center text-gray-600">{resultType}</Text>
