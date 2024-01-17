@@ -76,16 +76,16 @@ const AppNavigator = (): JSX.Element => {
 					headerTransparent: true,
 					headerBackTitleVisible: false,
 				}}>
-				<Stack.Screen name="TabNav" component={TabNavigator} options={{ headerShown: true }} />
+				<Stack.Screen name="TabNav" component={TabNavigator} options={{ headerShown: false }} />
 				<Stack.Screen
 					name="GameModule"
 					component={GameModule}
 					options={{ presentation: "modal", headerTitle: Content.CHOOSE_MODULE }}
 				/>
+
 				<Stack.Screen name="Map" component={Map} options={{ headerShown: false }} />
 
 				<Stack.Screen name="Shop" component={Shop} options={{ headerShown: false }} />
-
 				<Stack.Screen name="Profil" component={Dashboard} options={{ headerShown: true, headerTransparent: false }} />
 			</Stack.Navigator>
 		</>
