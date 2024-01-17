@@ -18,7 +18,7 @@ const Dashboard = () => {
 				<BoxComponent title={"Statistiques"} height="h-50">
 					<StatDashboardComponent />
 				</BoxComponent>
-				<BoxComponent title={"Elie"} height={"h-50"}>
+				<BoxComponent title={"Elie"} height="h-30">
 					<CustomizeDashboardComponent elie={""} />
 				</BoxComponent>
 			</ScrollView>

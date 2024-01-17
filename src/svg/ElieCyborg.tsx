@@ -57,7 +57,7 @@ export default function ElieCyborg() {
 </linearGradient>
 </defs>
 </svg>`;
-	const Svg = () => <SvgXml xml={svg} width="100%" height="100%" />;
+	const Svg = () => <SvgXml xml={svg} width="100%" height="50%" />;
 
 	return <Svg />;
 }
