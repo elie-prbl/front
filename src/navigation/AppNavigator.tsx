@@ -12,6 +12,7 @@ import TabNavigator from "./TabNavigator";
 import GameModule from "../views/game/GameModule";
 import { Content } from "../base/constant";
 import Map from "../views/Map";
+import Shop from "../views/Shop";
 
 export type StackParamList = {
 	TabNav: undefined;
@@ -22,6 +23,7 @@ export type StackParamList = {
 	Home: undefined;
 	Map: undefined;
 	GameModule: undefined;
+	Shop: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -75,6 +77,7 @@ const AppNavigator = (): JSX.Element => {
 					options={{ presentation: "modal", headerTitle: Content.CHOOSE_MODULE }}
 				/>
 				<Stack.Screen name="Map" component={Map} options={{ headerShown: false }} />
+				<Stack.Screen name="Shop" component={Shop} options={{ headerShown: false }} />
 			</Stack.Navigator>
 		</>
 	);

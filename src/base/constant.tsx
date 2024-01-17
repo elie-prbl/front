@@ -51,14 +51,14 @@ export class Content {
 	static SHOP_PERSONALISATION = "Personnalisation";
 	static SHOP_POWER_UP = "Power Up";
 
-
 	//Quest
 	static SUCCESS = "Succès";
+	static SHOP_TITLE = "Dépenser ces points";
+	static SHOP_DESCRIPTION = "Go à la boutique !";
 
 	//Game
 	static CHOOSE_MODULE = "Choisissez un module";
 	static START = "Commencer";
-
 }
 
 export class FontSize {
