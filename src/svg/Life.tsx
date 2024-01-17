@@ -7,7 +7,7 @@ export default function Life() {
 		<circle cx="6.53125" cy="6.86292" r="3" fill="#EF807C"/>
 	</svg>`;
 
-	const Svg = () => <SvgXml xml={svg} width="7%" height="7%" />;
+	const Svg = () => <SvgXml xml={svg} className="h-full w-full" />;
 
 	return <Svg />;
 }

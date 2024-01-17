@@ -9,6 +9,8 @@ import SignUp1 from "../views/registration/SignUp1";
 import SignUp2 from "../views/registration/SignUp2";
 import SignUp3 from "../views/registration/SignUp3";
 import TabNavigator from "./TabNavigator";
+import GameModule from "../views/game/GameModule";
+import { Content } from "../base/constant";
 import Map from "../views/Map";
 
 export type StackParamList = {
@@ -19,6 +21,7 @@ export type StackParamList = {
 	SignUp3: undefined;
 	Home: undefined;
 	Map: undefined;
+	GameModule: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -66,6 +69,11 @@ const AppNavigator = (): JSX.Element => {
 					headerBackTitleVisible: false,
 				}}>
 				<Stack.Screen name="TabNav" component={TabNavigator} options={{ headerShown: false }} />
+				<Stack.Screen
+					name="GameModule"
+					component={GameModule}
+					options={{ presentation: "modal", headerTitle: Content.CHOOSE_MODULE }}
+				/>
 				<Stack.Screen name="Map" component={Map} options={{ headerShown: false }} />
 			</Stack.Navigator>
 		</>
