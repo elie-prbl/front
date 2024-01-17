@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import Layout from "../../base/Layout";
 import { FlatList, Text, View } from "react-native";
 import { useAppSelector } from "../../store/hooks";
@@ -8,11 +8,18 @@ import Game1 from "../../svg/Game1";
 import { Color, Content, FontSize } from "../../base/constant";
 import ButtonComponent from "../../base/Button";
 import { ListItem } from "@rneui/themed";
+import { useNavigation } from "@react-navigation/core";
+import { NavigationGameQuizProps } from "../../navigation/AppNavigator";
 
 const Game = () => {
+	const navigation = useNavigation<NavigationGameQuizProps>();
 	const quiz: quizState[] = useAppSelector(state => state.quiz.quiz);
 	const [selectedItem, setSelectedItem] = useState<quizState | null>(null);
 	const [expandedItem, setExpandedItem] = useState<number | null>(null);
+
+	const handleGoingToGame = useCallback((qid: number) => {
+		navigation.navigate("GameQuiz", { qid });
+	}, []);
 
 	const renderItem = ({ item }: { item: quizState }) => (
 		<ListItem.Accordion
@@ -42,7 +49,7 @@ const Game = () => {
 						{selectedItem?.title}
 					</Text>
 					<ButtonComponent
-						onPress={() => {}}
+						onPress={() => handleGoingToGame(item.qid)}
 						content={Content.START}
 						width="w-full"
 						bg={Color.WHITE}
