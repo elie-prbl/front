@@ -2,6 +2,7 @@ export class Color {
 	static PRIMARY: string = "#58CC02";
 	static SECONDARY: string = "#48A106";
 	static WHITE: string = "#FFFFFF";
+	static WHITE_OPACITY: string = "#FFFFFFBF";
 	static GREY: string = "#CDCCCC";
 	static BLACK: string = "#000000";
 	static GOLD: string = "#FDE404";
@@ -50,8 +51,14 @@ export class Content {
 	static SHOP_PERSONALISATION = "Personnalisation";
 	static SHOP_POWER_UP = "Power Up";
 
+
 	//Quest
 	static SUCCESS = "Succès";
+
+	//Game
+	static CHOOSE_MODULE = "Choisissez un module";
+	static START = "Commencer";
+
 }
 
 export class FontSize {

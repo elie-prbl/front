@@ -9,7 +9,38 @@ export interface quizState {
 }
 
 const initialState = {
-	quiz: null as null | quizState,
+	quiz: [
+		{
+			qid: 0,
+			tid: 1,
+			title: "Quiz n°1",
+			level: "",
+		},
+		{
+			qid: 1,
+			tid: 1,
+			title: "Quiz n°2",
+			level: "",
+		},
+		{
+			qid: 2,
+			tid: 1,
+			title: "Quiz n°3",
+			level: "",
+		},
+		{
+			qid: 3,
+			tid: 1,
+			title: "Quiz n°4",
+			level: "",
+		},
+		{
+			qid: 4,
+			tid: 1,
+			title: "Quiz n°5",
+			level: "",
+		},
+	],
 	isLoading: false,
 	error: null as null | unknown,
 	isModified: false,

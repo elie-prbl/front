@@ -3,16 +3,27 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Color } from "../base/constant";
 import Home from "../views/Home";
 import { AntDesign, Feather, Ionicons } from "@expo/vector-icons";
-import Game from "../views/Game";
+import Game from "../views/game/Game";
 import Shop from "../views/Shop";
 import Map from "../views/Map";
 import Quest from "../views/Quest";
 import { Text, View } from "react-native";
 import ElieHeader from "../svg/ElieHeader";
+import { useAppSelector } from "../store/hooks";
+import { useNavigation } from "@react-navigation/core";
+import { MyNavigationProp } from "./AppNavigator";
+import GameHeaderComponent from "../components/game/GameHeaderComponent";
 
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
+	const navigation = useNavigation<MyNavigationProp>();
+	const module = useAppSelector(state => state.quizModules.modules[0]);
+
+	const handleGameModule = () => {
+		navigation.navigate("GameModule");
+	};
+
 	return (
 		<Tab.Navigator
 			screenOptions={{
@@ -33,6 +44,10 @@ const TabNavigator = () => {
 				options={{
 					tabBarShowLabel: false,
 					tabBarIcon: ({ color }) => <Ionicons name="game-controller-outline" size={24} color={color} />,
+					headerTitle: () => <GameHeaderComponent onPress={handleGameModule} module={module} />,
+					headerStyle: {
+						height: 220,
+					},
 				}}
 			/>
 			<Tab.Screen

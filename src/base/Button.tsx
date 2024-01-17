@@ -10,6 +10,7 @@ interface ButtonComponentProps {
 	borderColor?: string;
 	borderWidth?: number;
 	shadowColor?: string;
+	textColor?: string;
 	width?: string;
 }
 
@@ -21,6 +22,7 @@ const ButtonComponent = ({
 	shadowColor = Color.SECONDARY,
 	borderColor,
 	borderWidth,
+	textColor = Color.WHITE,
 	width = "w-11/12",
 }: ButtonComponentProps) => {
 	return (
@@ -34,7 +36,7 @@ const ButtonComponent = ({
 				}}>
 				<View className="rounded-lg h-11" style={{ zIndex: 1, backgroundColor: disabled ? Color.GREY : `${bg}` }}>
 					{typeof content === "string" ? (
-						<Text className="text-center font-bold text-xl py-3" style={{ color: Color.WHITE }}>
+						<Text className="text-center font-bold text-xl py-3" style={{ color: textColor }}>
 							{content}
 						</Text>
 					) : (
