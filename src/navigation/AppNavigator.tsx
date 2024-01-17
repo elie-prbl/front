@@ -10,9 +10,11 @@ import SignUp2 from "../views/registration/SignUp2";
 import SignUp3 from "../views/registration/SignUp3";
 import TabNavigator from "./TabNavigator";
 import GameModule from "../views/game/GameModule";
-import { Content } from "../base/constant";
+import { Color, Content } from "../base/constant";
 import Map from "../views/Map";
 import GameQuiz from "../views/game/GameQuiz";
+import GameQuizHeaderComponent from "../components/game/GameQuizHeaderComponent";
+import { SafeAreaView, View } from "react-native";
 
 export type StackParamList = {
 	TabNav: undefined;
@@ -61,6 +63,7 @@ const AuthStack = () => {
 
 const AppNavigator = (): JSX.Element => {
 	const [isLoggedIn, setLoggedIn] = useState(true);
+	// const navigation = useNavigation<MyNavigationProp>();
 
 	if (!isLoggedIn) {
 		return <AuthStack />;
@@ -80,7 +83,19 @@ const AppNavigator = (): JSX.Element => {
 					options={{ presentation: "modal", headerTitle: Content.CHOOSE_MODULE }}
 				/>
 				<Stack.Screen name="Map" component={Map} options={{ headerShown: false }} />
-				<Stack.Screen name="GameQuiz" component={GameQuiz} options={{ headerShown: false }} />
+				<Stack.Screen
+					name="GameQuiz"
+					component={GameQuiz}
+					options={{
+						header: () => (
+							<View style={{ height: 120, backgroundColor: Color.WHITE }}>
+								<SafeAreaView>
+									<GameQuizHeaderComponent />
+								</SafeAreaView>
+							</View>
+						),
+					}}
+				/>
 			</Stack.Navigator>
 		</>
 	);
