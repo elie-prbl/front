@@ -39,8 +39,6 @@ export type NavigationSignUp2Props = NativeStackNavigationProp<StackParamList, "
 export type RouteHomeProps = NativeStackScreenProps<StackParamList, "Home">;
 export type NavigationHomeProps = NativeStackNavigationProp<StackParamList, "Home">;
 
-export type NavigationGameModuleProps = NativeStackNavigationProp<StackParamList, "GameModule">;
-
 const AuthStack = () => {
 	return (
 		<Stack.Navigator

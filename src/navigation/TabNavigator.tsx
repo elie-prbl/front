@@ -9,13 +9,13 @@ import Map from "../views/Map";
 import Quest from "../views/Quest";
 import { useAppSelector } from "../store/hooks";
 import { useNavigation } from "@react-navigation/core";
-import { NavigationGameModuleProps } from "./AppNavigator";
+import { MyNavigationProp } from "./AppNavigator";
 import GameHeaderComponent from "../components/game/GameHeaderComponent";
 
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
-	const navigation = useNavigation<NavigationGameModuleProps>();
+	const navigation = useNavigation<MyNavigationProp>();
 	const module = useAppSelector(state => state.quizModules.modules[0]);
 
 	const handleGameModule = () => {
