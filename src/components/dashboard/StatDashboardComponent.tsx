@@ -1,43 +1,18 @@
 import React from "react";
 import { Text, View } from "react-native";
+import BoxStat from "../../base/BoxStat";
 import { Color } from "../../base/constant";
-import Crown from "../../svg/Crown";
-import Flash from "../../svg/Flash";
-import Target from "../../svg/Target";
-import Goal from "../../svg/Goal";
+
 const StatDashboardComponent = () => {
 	return (
-		<View className="flex-row flex-wrap justify-around">
-			<View className={`flex-row border-2 border-${Color.GOLD} flex-1 ml-2 rounded-lg p-4 m-1 w-1`}>
-				<Crown />
-				<View className={`p-4 m-1 flex-row items-center justify-between`}>
-					<Text className={`text-${Color.GOLD} font-semibold`}>17</Text>
-					<Text className={`text-${Color.GOLD} font-semibold`}>Quizz réussi</Text>
-				</View>
+		<View>
+			<View className="flex-row justify-between mb-4">
+				<BoxStat color={Color.GOLD} result="17" resultType="Quizzs réussi" />
+				<BoxStat color={Color.RED_LIGHT} result="1538" resultType="Total xp" />
 			</View>
-
-			<View className={`flex-row border-2 border-${Color.GOLD} flex-1 ml-2 rounded-lg p-4 m-1`}>
-				<Flash />
-				<View className={`p-4 m-1 flex-row items-center justify-between`}>
-					<Text className={`text-${Color.GOLD} font-semibold`}>17</Text>
-					<Text className={`text-${Color.GOLD} font-semibold`}>Quizz réussi</Text>
-				</View>
-			</View>
-
-			<View className={`flex-row border-2 border-${Color.RED_LIGHT} flex-1 ml-2 rounded-lg p-4 m-1`}>
-				<Target />
-				<View className={`p-4 m-1 flex-row items-center justify-between`}>
-					<Text className={`text-${Color.RED_LIGHT} font-semibold`}>17</Text>
-					<Text className={`text-${Color.RED_LIGHT} font-semibold`}>Quizz réussi</Text>
-				</View>
-			</View>
-
-			<View className={`flex-row border-2 border-${Color.GOLD} rounded-lg p-4 m-1`}>
-				<Goal />
-				<View className={`p-4 m-1 flex-row items-center justify-between`}>
-					<Text className={`text-${Color.GOLD} font-semibold`}>17</Text>
-					<Text className={`text-${Color.GOLD} font-semibold`}>Quizz réussi</Text>
-				</View>
+			<View className="flex-row justify-between">
+				<BoxStat color={Color.CYAN_DARK} result="22" resultType="km parcouru" />
+				<BoxStat color={Color.PRIMARY} result="78%" resultType="Précisions" />
 			</View>
 		</View>
 	);
