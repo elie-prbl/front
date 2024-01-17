@@ -6,7 +6,7 @@ interface BoxComponentProps {
 	title: string;
 	itemRight?: string | ReactElement;
 	height?: string;
-	children: ReactElement;
+	children: any;
 	onPress?: () => void;
 }
 

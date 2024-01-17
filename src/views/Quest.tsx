@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from "../base/Layout";
-import { ScrollView } from "react-native";
+import { ScrollView, View } from "react-native";
 import BoxComponent from "../base/Box";
 import { Content } from "../base/constant";
 import QuestComponent from "../components/quest/QuestComponent";
@@ -23,7 +23,13 @@ const Quest = () => {
 					<QuestComponent quest={quests.filter(q => q.difficulty === Difficulty.ADVANCED)[0]} img={<Circle1 />} />
 				</BoxComponent>
 				<BoxComponent title={Content.SUCCESS}>
-					<SuccessComponent success={success[0]} img={<Circle1 />} />
+					{success.map((s, index) => {
+						return (
+							<View key={index}>
+								<SuccessComponent success={s} />
+							</View>
+						);
+					})}
 				</BoxComponent>
 			</ScrollView>
 		</Layout>
