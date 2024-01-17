@@ -7,35 +7,27 @@ import ElieCyborg from "../../svg/ElieCyborg";
 import EliePirate from "../../svg/EliePirate";
 import { Color } from "../../base/constant";
 import { flex } from "nativewind/dist/postcss/to-react-native/properties/flex";
+import ElieDetail from "../../base/ElieDetail";
 
 interface CustomizeDashboardComponentProps {
+	title: string;
+	detail: string;
 	elie: string;
 }
 
 const CustomizeDashboardComponent = ({ elie }: CustomizeDashboardComponentProps) => {
 	return (
-		<View className={`flex-col h-40`} style={{ width: 220 }}>
-			<View className="flex-row items-center gap-5">
-				<View className={`w-16`}>
-					<EliePirate />
-				</View>
-				<View className="flex-col w-52">
-					<Text className="font-bold text-xl">Elie Pirate</Text>
-					<Text>Personnaliser votre Ellie pour partir à la découverte de nouveaux quizz !!</Text>
-				</View>
-				<Ionicons name="add-outline" size={30} color={Color.SECONDARY} />
-			</View>
-
-			<View className="flex-row items-center gap-5">
-				<View className={`w-16`}>
-					<ElieCyborg />
-				</View>
-				<View className="fllex-col w-52">
-					<Text className="font-bold text-xl">Elie Cyborg</Text>
-					<Text>Ellie deviens un cyber compagnon près à vous accompagner dans tout vos quizz</Text>
-				</View>
-				<Ionicons name="add-outline" size={30} color={Color.SECONDARY} />
-			</View>
+		<View>
+			<ElieDetail
+				elie={<EliePirate />}
+				title={"Elie Pirate"}
+				detail={"Personnaliser votre Ellie pour partir à la découverte de \n" + "nouveaux quizz !!"}
+			/>
+			<ElieDetail
+				elie={<ElieCyborg />}
+				title={"Elie Cyborg"}
+				detail={"Ellie deviens un cyber compagnon près à vous accompagner dans tout vos quizz"}
+			/>
 		</View>
 	);
 };

@@ -12,13 +12,13 @@ const Dashboard = () => {
 		<>
 			<Background />
 			<ScrollView>
-				<BoxComponent title={"Robin Litiere"} height="h-30">
+				<BoxComponent title={"Robin Litiere"}>
 					<UserDashboardComponent user={""} />
 				</BoxComponent>
-				<BoxComponent title={"Statistiques"} height="h-50">
+				<BoxComponent title={"Statistiques"}>
 					<StatDashboardComponent />
 				</BoxComponent>
-				<BoxComponent title={"Elie"} height="h-30">
+				<BoxComponent title={"Elie"}>
 					<CustomizeDashboardComponent elie={""} />
 				</BoxComponent>
 			</ScrollView>

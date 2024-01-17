@@ -8,7 +8,7 @@ export default function Goal() {
 <path d="M9.20898 9.89714L2.81051 2.37114" stroke="black" stroke-width="4" stroke-linecap="round"/>
 </svg>`;
 
-	const Svg = () => <SvgXml xml={svg} width="7%" height="7%" />;
+	const Svg = () => <SvgXml xml={svg} width="150%" height="100%" />;
 
 	return <Svg />;
 }
