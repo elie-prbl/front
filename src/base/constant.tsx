@@ -49,6 +49,9 @@ export class Content {
 	//Shop
 	static SHOP_PERSONALISATION = "Personnalisation";
 	static SHOP_POWER_UP = "Power Up";
+
+	//Quest
+	static SUCCESS = "Succès";
 }
 
 export class FontSize {
