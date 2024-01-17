@@ -9,7 +9,7 @@ import Map from "../views/Map";
 import Quest from "../views/Quest";
 import { useAppSelector } from "../store/hooks";
 import { useNavigation } from "@react-navigation/core";
-import { MyNavigationProp } from "./AppNavigator";
+import { MyNavigationProp, StackParamList } from "./AppNavigator";
 import GameHeaderComponent from "../components/game/GameHeaderComponent";
 
 const Tab = createBottomTabNavigator();
@@ -32,6 +32,17 @@ const TabNavigator = () => {
 				name="Home"
 				component={Home}
 				options={{
+					headerRight: () => (
+						<Ionicons
+							size={30}
+							style={{ margin: 10 }} // Ajoute une marge de 10 sur tous les côtés
+							name="person-circle-outline"
+							onPress={() => {
+								navigation.push("Profil");
+							}}
+						/>
+					),
+					headerShown: true,
 					tabBarShowLabel: false,
 					tabBarIcon: ({ color }) => <AntDesign name="home" size={24} color={color} />,
 				}}

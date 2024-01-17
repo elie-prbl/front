@@ -46,6 +46,7 @@ export class Content {
 	static GAME: string = "Jeu";
 	static MAP: string = "Map";
 	static EVENT: string = "Évènement";
+	static PROFIL: string = "Profil";
 
 	//Shop
 	static SHOP_PERSONALISATION = "Personnalisation";
