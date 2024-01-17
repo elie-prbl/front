@@ -34,11 +34,11 @@ const TabNavigator = () => {
 				options={{
 					headerRight: () => (
 						<Ionicons
-							size={30}
-							style={{ margin: 10 }} // Ajoute une marge de 10 sur tous les côtés
+							size={35}
+							style={{ marginRight: 10 }} // Ajoute une marge de 10 sur tous les côtés
 							name="person-circle-outline"
 							onPress={() => {
-								navigation.push("Profil");
+								navigation.navigate("Profil");
 							}}
 						/>
 					),
