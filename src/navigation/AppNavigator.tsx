@@ -16,6 +16,8 @@ import Map from "../views/Map";
 import Shop from "../views/Shop";
 
 import Dashboard from "../views/user/Dashboard";
+import { View, Text } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 export type StackParamList = {
 	TabNav: undefined;
@@ -86,7 +88,14 @@ const AppNavigator = (): JSX.Element => {
 				<Stack.Screen name="Map" component={Map} options={{ headerShown: false }} />
 
 				<Stack.Screen name="Shop" component={Shop} options={{ headerShown: false }} />
-				<Stack.Screen name="Profil" component={Dashboard} options={{ headerShown: true, headerTransparent: false }} />
+				<Stack.Screen
+					name="Profil"
+					component={Dashboard}
+					options={{
+						headerShown: true,
+						headerTransparent: false,
+					}}
+				/>
 			</Stack.Navigator>
 		</>
 	);
