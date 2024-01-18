@@ -7,6 +7,8 @@ import Game from "../views/game/Game";
 import Shop from "../views/Shop";
 import Map from "../views/Map";
 import Quest from "../views/Quest";
+import { Text, View } from "react-native";
+import ElieHeader from "../svg/ElieHeader";
 import { useAppSelector } from "../store/hooks";
 import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp } from "./AppNavigator";
@@ -70,6 +72,20 @@ const TabNavigator = () => {
 				options={{
 					tabBarShowLabel: false,
 					tabBarIcon: ({ color }) => <Feather name="list" size={24} color={color} />,
+					headerTitle: () => (
+						<View className="my-2">
+							<Text className="font-bold text-lg text-center mb-2">Quêtes</Text>
+							<View>
+								<Text className="w-10/12 mb-2">
+									Visualises la progression de tes quêtes et dépenses tes points gagnés !
+								</Text>
+								<ElieHeader />
+							</View>
+						</View>
+					),
+					headerStyle: {
+						height: 130,
+					},
 				}}
 			/>
 		</Tab.Navigator>

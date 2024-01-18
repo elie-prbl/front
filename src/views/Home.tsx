@@ -14,6 +14,8 @@ import { MyNavigationProp } from "../navigation/AppNavigator";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import Layout from "../base/Layout";
+import Circle1 from "../svg/Circle1";
+import { Difficulty } from "../store/features/Quests/QuestsSlices";
 
 export enum ContentHome {
 	MAP = "Map",
@@ -23,6 +25,7 @@ const Home = () => {
 	const dispatch = useAppDispatch();
 	const navigation = useNavigation<MyNavigationProp>();
 	const position = useSelector((state: RootState) => state.position.position);
+	const quests = useSelector((state: RootState) => state.quests.quests);
 
 	useEffect(() => {
 		getTheCurrentPosition().then(location => {
@@ -35,9 +38,11 @@ const Home = () => {
 
 	return (
 		<Layout>
-			<ScrollView>
+			<ScrollView showsVerticalScrollIndicator={false}>
 				<BoxComponent title={Content.DAILY_QUEST}>
-					<QuestComponent />
+					<QuestComponent quest={quests.filter(q => q.difficulty === Difficulty.BEGINNER)[0]} img={<Circle1 />} />
+					<QuestComponent quest={quests.filter(q => q.difficulty === Difficulty.INTERMEDIATE)[0]} img={<Circle1 />} />
+					<QuestComponent quest={quests.filter(q => q.difficulty === Difficulty.ADVANCED)[0]} img={<Circle1 />} />
 				</BoxComponent>
 				<BoxComponent title={Content.SHOP} itemRight="1224 pts" height="h-1/5">
 					<ShopHomeComponent />

@@ -6,17 +6,49 @@ export enum Difficulty {
 	INTERMEDIATE = "INTERMEDIATE",
 	ADVANCED = "ADVANCED",
 }
+
+export enum QuestsType {
+	QUIZ = "QUIZ",
+	CONNECTION = "CONNECTION",
+	SCAN = "SCAN",
+	EVENT = "EVENT",
+}
 export interface QuestState {
 	qeid: number;
 	name: string;
 	xp: number;
-	qtid: number;
+	qtid: string;
 	difficulty: Difficulty;
 	done_condition: any;
 }
 
 const initialState = {
-	quiz: null as null | QuestState,
+	quests: [
+		{
+			qeid: 2,
+			name: "Joue à 1 quiz",
+			xp: 100,
+			qtid: QuestsType.QUIZ,
+			difficulty: Difficulty.BEGINNER,
+			done_condition: 1,
+		},
+		{
+			qeid: 3,
+			name: "Gagne 1 quiz",
+			xp: 200,
+			qtid: QuestsType.QUIZ,
+			difficulty: Difficulty.INTERMEDIATE,
+			done_condition: 1,
+		},
+		{
+			qeid: 5,
+			name: "Gagne 3 quiz",
+			xp: 300,
+			qtid: QuestsType.QUIZ,
+			difficulty: Difficulty.ADVANCED,
+			done_condition: 3,
+		},
+	],
 	isLoading: false,
 	error: null as null | unknown,
 	isModified: false,
@@ -32,7 +64,7 @@ export const getQuestsSlice = createSlice({
 				state.isLoading = true;
 			})
 			.addCase(getQuests.fulfilled, (state, action) => {
-				state.quiz = action.payload;
+				state.quests = action.payload;
 				state.isLoading = false;
 			})
 			.addCase(getQuests.rejected, (state, action) => {
