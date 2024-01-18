@@ -12,15 +12,8 @@ import TabNavigator from "./TabNavigator";
 import GameModule from "../views/game/GameModule";
 import { Content } from "../base/constant";
 import Map from "../views/Map";
-import Dashboard from "../views/user/Dashboard";
-import { View, Text } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-
 import Shop from "../views/Shop";
-
 import Dashboard from "../views/user/Dashboard";
-import { View, Text } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 
 export type StackParamList = {
 	TabNav: undefined;
@@ -31,12 +24,7 @@ export type StackParamList = {
 	Home: undefined;
 	Map: undefined;
 	GameModule: undefined;
-<<<<<<< HEAD
-
 	Shop: undefined;
-
-=======
->>>>>>> ad16e2da4c8ad3f22aa6b22c68a9844ee3919811
 	Profil: undefined;
 };
 
