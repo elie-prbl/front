@@ -36,7 +36,7 @@ const TabNavigator = () => {
 				options={{
 					headerRight: () => (
 						<Ionicons
-							size={35}
+							size={30}
 							style={{ marginRight: 10 }} // Ajoute une marge de 10 sur tous les côtés
 							name="person-circle-outline"
 							onPress={() => {
