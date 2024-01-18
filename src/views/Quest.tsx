@@ -30,7 +30,8 @@ const Quest = () => {
 					onPress={() => navigation.navigate(ContentQuest.SHOP)}
 					title={Content.SHOP_TITLE}
 					bg={Color.CYAN_LIGHT}
-					shadowColor={Color.CYAN_LIGHT}
+					shadowColor={Color.CYAN_DARK}
+					borderColor={Color.CYAN_DARK}
 					width="w-[95%] self-center mt-2"
 					description={Content.SHOP_DESCRIPTION}
 					icon={<Entypo name="shop" size={24} color="white" />}
