@@ -13,6 +13,8 @@ import GameModule from "../views/game/GameModule";
 import { Content } from "../base/constant";
 import Map from "../views/Map";
 import Dashboard from "../views/user/Dashboard";
+import { View, Text } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 export type StackParamList = {
 	TabNav: undefined;
@@ -77,7 +79,14 @@ const AppNavigator = (): JSX.Element => {
 					options={{ presentation: "modal", headerTitle: Content.CHOOSE_MODULE }}
 				/>
 				<Stack.Screen name="Map" component={Map} options={{ headerShown: true }} />
-				<Stack.Screen name="Profil" component={Dashboard} options={{ headerShown: true, headerTransparent: false }} />
+				<Stack.Screen
+					name="Profil"
+					component={Dashboard}
+					options={{
+						headerShown: true,
+						headerTransparent: false,
+					}}
+				/>
 			</Stack.Navigator>
 		</>
 	);
