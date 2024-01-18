@@ -2,7 +2,7 @@ import React from "react";
 import Layout from "../base/Layout";
 import { ScrollView, View } from "react-native";
 import BoxComponent from "../base/Box";
-import { Content } from "../base/constant";
+import { Color, Content } from "../base/constant";
 import QuestComponent from "../components/quest/QuestComponent";
 import Circle1 from "../svg/Circle1";
 import { useSelector } from "react-redux";
@@ -29,8 +29,8 @@ const Quest = () => {
 				<ModuleGame
 					onPress={() => navigation.navigate(ContentQuest.SHOP)}
 					title={Content.SHOP_TITLE}
-					bg="#00CD9C"
-					shadowColor="#00CD9C"
+					bg={Color.CYAN_LIGHT}
+					shadowColor={Color.CYAN_LIGHT}
 					width="w-[95%] self-center mt-2"
 					description={Content.SHOP_DESCRIPTION}
 					icon={<Entypo name="shop" size={24} color="white" />}
