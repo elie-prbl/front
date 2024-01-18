@@ -10,8 +10,8 @@ import { flex } from "nativewind/dist/postcss/to-react-native/properties/flex";
 import ElieDetail from "../../base/ElieDetail";
 
 interface CustomizeDashboardComponentProps {
-	title: string;
-	detail: string;
+	title?: string;
+	detail?: string;
 	elie: string;
 }
 
