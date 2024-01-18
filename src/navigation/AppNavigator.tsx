@@ -63,7 +63,6 @@ const AuthStack = () => {
 
 const AppNavigator = (): JSX.Element => {
 	const [isLoggedIn, setLoggedIn] = useState(true);
-	// const navigation = useNavigation<MyNavigationProp>();
 
 	if (!isLoggedIn) {
 		return <AuthStack />;
@@ -83,19 +82,7 @@ const AppNavigator = (): JSX.Element => {
 					options={{ presentation: "modal", headerTitle: Content.CHOOSE_MODULE }}
 				/>
 				<Stack.Screen name="Map" component={Map} options={{ headerShown: false }} />
-				<Stack.Screen
-					name="GameQuiz"
-					component={GameQuiz}
-					options={{
-						header: () => (
-							<View style={{ height: 120, backgroundColor: Color.WHITE }}>
-								<SafeAreaView>
-									<GameQuizHeaderComponent />
-								</SafeAreaView>
-							</View>
-						),
-					}}
-				/>
+				<Stack.Screen name="GameQuiz" component={GameQuiz} options={{ headerShown: false }} />
 			</Stack.Navigator>
 		</>
 	);

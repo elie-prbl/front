@@ -14,6 +14,8 @@ export class Color {
 	static PINK_DARK: string = "#D36CC1";
 	static CYAN_LIGHT: string = "#00CD9C";
 	static CYAN_DARK: string = "#00A47D";
+	static BLUE_DARK: string = "#85D8FF";
+	static BLUE_LIGHT: string = "#DCF1FF";
 }
 
 export class Content {
@@ -54,6 +56,9 @@ export class Content {
 	//Game
 	static CHOOSE_MODULE = "Choisissez un module";
 	static START = "Commencer";
+	static VALIDATE = "Valider";
+	static CORRECT = "Continuer";
+	static INCORRECT = "D'accord";
 }
 
 export class FontSize {
