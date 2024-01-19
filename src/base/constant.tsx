@@ -1,6 +1,7 @@
 export class Color {
 	static PRIMARY: string = "#58CC02";
 	static SECONDARY: string = "#48A106";
+	static GREEN_OPACITY: string = "#CBFCCA";
 	static WHITE: string = "#FFFFFF";
 	static WHITE_OPACITY: string = "#FFFFFFBF";
 	static GREY: string = "#CDCCCC";
@@ -8,14 +9,18 @@ export class Color {
 	static GOLD: string = "#FDE404";
 	static PURPLE_LIGHT: string = "#CE82FF";
 	static PURPLE_DARK: string = "#A568CC";
-	static RED_LIGHT: string = "#FA6C6C";
-	static RED_DARK: string = "#C85656";
+	static RED_PALE_LIGHT: string = "#FA6C6C";
+	static RED_PALE_DARK: string = "#C85656";
 	static PINK_LIGHT: string = "#FF82EB";
 	static PINK_DARK: string = "#D36CC1";
 	static CYAN_LIGHT: string = "#00CD9C";
 	static CYAN_DARK: string = "#00A47D";
 	static BLUE_DARK: string = "#85D8FF";
 	static BLUE_LIGHT: string = "#DCF1FF";
+	static RED_BRIGHT_LIGHT: string = "#FF4343";
+	static RED_BRIGHT_DARK: string = "#BC0D0D";
+	static RED: string = "#EF0C0C";
+	static RED_OPACITY: string = "#FDCACA";
 }
 
 export class Content {
@@ -57,8 +62,9 @@ export class Content {
 	static CHOOSE_MODULE = "Choisissez un module";
 	static START = "Commencer";
 	static VALIDATE = "Valider";
-	static CORRECT = "Continuer";
-	static INCORRECT = "D'accord";
+	static AGREED = "D'accord";
+	static INCORRECT = "Incorrect";
+	static SUPER = "Super !";
 }
 
 export class FontSize {

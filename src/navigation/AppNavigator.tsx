@@ -10,11 +10,10 @@ import SignUp2 from "../views/registration/SignUp2";
 import SignUp3 from "../views/registration/SignUp3";
 import TabNavigator from "./TabNavigator";
 import GameModule from "../views/game/GameModule";
-import { Color, Content } from "../base/constant";
+import { Content } from "../base/constant";
 import Map from "../views/Map";
 import GameQuiz from "../views/game/GameQuiz";
-import GameQuizHeaderComponent from "../components/game/GameQuizHeaderComponent";
-import { SafeAreaView, View } from "react-native";
+import GameScore from "../views/game/GameScore";
 
 export type StackParamList = {
 	TabNav: undefined;
@@ -26,6 +25,7 @@ export type StackParamList = {
 	Map: undefined;
 	GameModule: undefined;
 	GameQuiz: { qid: number };
+	GameScore: { qid: number; score: number; nbQuestions: number };
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -45,6 +45,9 @@ export type NavigationHomeProps = NativeStackNavigationProp<StackParamList, "Hom
 
 export type RouteGameQuizProps = NativeStackScreenProps<StackParamList, "GameQuiz">;
 export type NavigationGameQuizProps = NativeStackNavigationProp<StackParamList, "GameQuiz">;
+
+export type RouteGameScoreProps = NativeStackScreenProps<StackParamList, "GameScore">;
+export type NavigationGameScoreProps = NativeStackNavigationProp<StackParamList, "GameScore">;
 
 const AuthStack = () => {
 	return (
@@ -83,6 +86,7 @@ const AppNavigator = (): JSX.Element => {
 				/>
 				<Stack.Screen name="Map" component={Map} options={{ headerShown: false }} />
 				<Stack.Screen name="GameQuiz" component={GameQuiz} options={{ headerShown: false }} />
+				<Stack.Screen name="GameScore" component={GameScore} options={{ headerShown: false }} />
 			</Stack.Navigator>
 		</>
 	);

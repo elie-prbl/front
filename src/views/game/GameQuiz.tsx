@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { SafeAreaView, Text, View } from "react-native";
-import { RouteGameQuizProps } from "../../navigation/AppNavigator";
+import React, { useEffect, useState } from "react";
+import { Alert, SafeAreaView, Text, View } from "react-native";
+import { MyNavigationProp, NavigationGameScoreProps, RouteGameQuizProps } from "../../navigation/AppNavigator";
 import GameQuizHeaderComponent from "../../components/game/GameQuizHeaderComponent";
 import { Color, Content, FontSize } from "../../base/constant";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -8,32 +8,77 @@ import { quizQuestionsState } from "../../store/features/QuizQuestions/QuizQuest
 import GameAnswerComponent from "../../components/game/GameAnswerComponent";
 import GameSnackBarComponent from "../../components/game/GameSnackBarComponent";
 import ButtonComponent from "../../base/Button";
-import { incrementCurrentQuestionIndexState } from "../../store/features/QuizQuestions/CurrentQuestionIndexSlices";
+import {
+	incrementCurrentQuestionIndexState,
+	restartCurrentQuestionIndexState,
+} from "../../store/features/QuizQuestions/CurrentQuestionIndexSlices";
+import { decrementLife } from "../../store/features/Lives/LivesSlices";
+import { CommonActions, useNavigation } from "@react-navigation/core";
 
 const GameQuiz = ({ route }: RouteGameQuizProps) => {
 	const { qid } = route.params;
 	const dispatch = useAppDispatch();
+	const navigationHome = useNavigation<MyNavigationProp>();
+	const navigationScore = useNavigation<NavigationGameScoreProps>();
 
 	const questions: quizQuestionsState[] = useAppSelector(state => state.quizQuestions.questions);
 	const currentQuestionIndex: number = useAppSelector(state => state.currentQuestionIndex.value);
 	const currentQuestion = questions[currentQuestionIndex];
+	const [currentIndexQuestionDisplay, setCurrentIndexQuestionDisplay] = useState(0);
 
 	const [selectedOption, setSelectedOption] = useState<string | null>(null);
-	const [colorSelectedOption, setColorSelectedOption] = useState(Color.PRIMARY);
-
 	const [isDisabled, setIsDisabled] = useState(false);
 
 	const [titleButton, setTitleButton] = useState(Content.VALIDATE);
-	const [colorTitleButton, setColorTitleButton] = useState(Color.PRIMARY);
+	const [colorBgButton, setColorBgButton] = useState(Color.PRIMARY);
+	const [colorShadowButton, setColorShadowButton] = useState(Color.SECONDARY);
+
+	const lives = useAppSelector(state => state.lives.value);
+	const [score, setScore] = useState(0);
 
 	const handleAnswer = (selectedOption: string) => {
 		setSelectedOption(selectedOption);
 	};
 
+	useEffect(() => {
+		if (currentIndexQuestionDisplay === questions.length) {
+			dispatch(restartCurrentQuestionIndexState());
+			navigationScore.dispatch(
+				CommonActions.reset({
+					index: 1,
+					routes: [
+						{
+							name: "GameScore",
+							params: {
+								qid,
+								score,
+								nbQuestion: questions.length,
+							},
+						},
+					],
+				}),
+			);
+		}
+		if (lives === 0) {
+			Alert.alert("Tu as perdu toutes tes vies, reviens demain !");
+			dispatch(restartCurrentQuestionIndexState());
+			navigationHome.dispatch(
+				CommonActions.reset({
+					index: 1,
+					routes: [
+						{
+							name: "Game",
+						},
+					],
+				}),
+			);
+		}
+	}, [currentIndexQuestionDisplay, lives]);
+
 	const handleNextQuestion = () => {
-		setColorSelectedOption(Color.PRIMARY);
 		setTitleButton(Content.VALIDATE);
-		setColorTitleButton(Color.RED_LIGHT);
+		setColorBgButton(Color.PRIMARY);
+		setColorShadowButton(Color.SECONDARY);
 		setIsDisabled(false);
 
 		// Isn't the last question
@@ -41,73 +86,74 @@ const GameQuiz = ({ route }: RouteGameQuizProps) => {
 			dispatch(incrementCurrentQuestionIndexState());
 		}
 
+		setCurrentIndexQuestionDisplay(prevCurrentIndexQuestionDisplay => prevCurrentIndexQuestionDisplay + 1);
 		setSelectedOption(null);
 	};
 
 	const handleCheckAnswer = () => {
 		setIsDisabled(true);
 		if (selectedOption !== currentQuestion.correctAnswer) {
-			setColorSelectedOption(Color.RED_LIGHT);
-			setTitleButton(Content.INCORRECT);
-			setColorTitleButton(Color.PRIMARY);
-			// dispatch(decrementLife());
+			setTitleButton(Content.AGREED);
+			setColorBgButton(Color.RED_BRIGHT_LIGHT);
+			setColorShadowButton(Color.RED_BRIGHT_DARK);
+			dispatch(decrementLife());
 		} else {
-			setTitleButton(Content.CORRECT);
-			// setScore(prevScore => prevScore + 1);
+			setTitleButton(Content.CONTINUE);
+			setScore(prevScore => prevScore + 1);
 		}
 	};
 
 	return (
-		<View className={`bg-[${Color.WHITE}] h-full`}>
-			<View className="h-32">
-				<SafeAreaView>
-					<GameQuizHeaderComponent />
-				</SafeAreaView>
-			</View>
-			<View className="">
-				<View className="mx-1">
-					<Text className={`${FontSize.TEXT_XL} font-bold`}>{currentQuestion.question}</Text>
-					<View className="w-24 h-[1] my-2" style={{ backgroundColor: Color.PRIMARY }} />
-				</View>
-				<View className="flex-2">
-					<GameAnswerComponent
-						currentQuestion={currentQuestion}
-						onPress={handleAnswer}
-						selectedOption={selectedOption}
-						colorSelectedOption={colorSelectedOption}
-						isDisabled={isDisabled}
-					/>
-					{/*{titleButton === Content.CORRECT && (*/}
-					{/*	<GameSnackBarComponent*/}
-					{/*		bg="#CBFCCA"*/}
-					{/*		height={160}*/}
-					{/*		title="Super !"*/}
-					{/*		icon="check-circle"*/}
-					{/*		colorIcon={Color.PRIMARY}*/}
-					{/*	/>*/}
-					{/*)}*/}
-					{/*{titleButton === Content.INCORRECT && (*/}
-					{/*	<GameSnackBarComponent*/}
-					{/*		bg="#FDCACA"*/}
-					{/*		height={220}*/}
-					{/*		title="Incorrect"*/}
-					{/*		icon="times-circle"*/}
-					{/*		colorIcon={Color.RED_LIGHT}*/}
-					{/*		correctAnswer={currentQuestion.correctAnswer}*/}
-					{/*	/>*/}
-					{/*)}*/}
-					<View className="mx-1">
-						<ButtonComponent
-							onPress={titleButton === Content.VALIDATE ? handleCheckAnswer : handleNextQuestion}
-							content={titleButton}
-							disabled={!selectedOption}
-							bg={colorTitleButton}
-							width="w-full"
+		<SafeAreaView className={`bg-[${Color.WHITE}]`}>
+			<View className="h-full">
+				<GameQuizHeaderComponent currentStep={currentQuestionIndex + 1} totalStep={questions.length} />
+				<View className="flex-1 justify-between">
+					<View className=" mx-2 px-1">
+						<Text className={`${FontSize.TEXT_XL} font-bold`}>{currentQuestion.question}</Text>
+						<View className="w-24 h-[1] my-2" style={{ backgroundColor: Color.PRIMARY }} />
+					</View>
+					<View>
+						<GameAnswerComponent
+							currentQuestion={currentQuestion}
+							onPress={handleAnswer}
+							selectedOption={selectedOption}
+							isDisabled={isDisabled}
 						/>
+						{titleButton === Content.CONTINUE && (
+							<GameSnackBarComponent
+								bg={Color.GREEN_OPACITY}
+								height={160}
+								title={Content.SUPER}
+								icon="check-circle"
+								colorIcon={Color.PRIMARY}
+								colorContent={Color.PRIMARY}
+							/>
+						)}
+						{titleButton === Content.AGREED && (
+							<GameSnackBarComponent
+								bg={Color.RED_OPACITY}
+								height={220}
+								title={Content.INCORRECT}
+								icon="times-circle"
+								colorIcon={Color.RED}
+								colorContent={Color.RED}
+								correctAnswer={currentQuestion.correctAnswer}
+							/>
+						)}
+						<View className="mx-3 mt-4" style={{ zIndex: 2 }}>
+							<ButtonComponent
+								onPress={titleButton === Content.VALIDATE ? handleCheckAnswer : handleNextQuestion}
+								content={titleButton}
+								disabled={!selectedOption}
+								bg={colorBgButton}
+								shadowColor={colorShadowButton}
+								width="w-full"
+							/>
+						</View>
 					</View>
 				</View>
 			</View>
-		</View>
+		</SafeAreaView>
 	);
 };
 

@@ -6,15 +6,23 @@ import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp } from "../../navigation/AppNavigator";
 import { Color } from "../../base/constant";
+import { useAppSelector } from "../../store/hooks";
 
-const GameQuizHeaderComponent = () => {
+export type GameQuizHeaderComponentProps = {
+	currentStep: number;
+	totalStep: number;
+};
+
+const GameQuizHeaderComponent = ({ currentStep, totalStep }: GameQuizHeaderComponentProps) => {
 	const navigation = useNavigation<MyNavigationProp>();
 
+	const lives = useAppSelector(state => state.lives.value);
+
 	return (
-		<View className="flex-row items-center justify-between m-3">
+		<View className="flex-row items-center justify-between m-4">
 			<AntDesign name="close" size={30} color={Color.GREY} onPress={() => navigation.goBack()} />
-			<ProgressBar currentStep={1} totalStep={4} width={240} />
-			<LifeComponent nb={5} />
+			<ProgressBar currentStep={currentStep} totalStep={totalStep} width={240} />
+			<LifeComponent nb={lives} />
 		</View>
 	);
 };

@@ -5,6 +5,7 @@ import React from "react";
 import { quizModulesState } from "../../store/features/QuizModules/QuizModulesSlices";
 import LifeComponent from "../../base/Life";
 import GemComponent from "../../base/Gem";
+import { useAppSelector } from "../../store/hooks";
 
 interface GameHeaderComponentProps {
 	onPress: () => void;
@@ -12,11 +13,13 @@ interface GameHeaderComponentProps {
 }
 
 const GameHeaderComponent = ({ onPress, module }: GameHeaderComponentProps) => {
+	const lives = useAppSelector(state => state.lives.value);
+
 	return (
 		<View className="my-2 justify-center">
 			<View className="flex-row justify-between w-full">
 				<GemComponent nb={1250} />
-				<LifeComponent nb={5} />
+				<LifeComponent nb={lives} />
 			</View>
 			<View className="items-center my-3">
 				<ModuleGame

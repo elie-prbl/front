@@ -1,34 +1,40 @@
-import { Text, TouchableOpacity, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { quizQuestionsState } from "../../store/features/QuizQuestions/QuizQuestionsSlices";
 import React from "react";
-import { Color } from "../../base/constant";
+import { Color, FontSize } from "../../base/constant";
 
 interface GameAnswerComponentProps {
 	currentQuestion: quizQuestionsState;
 	onPress: (params: string) => void;
 	selectedOption: string | null;
-	colorSelectedOption?: string;
 	isDisabled: boolean;
 }
 
-const GameAnswerComponent = ({
-	currentQuestion,
-	onPress,
-	selectedOption,
-	colorSelectedOption,
-	isDisabled,
-}: GameAnswerComponentProps) => {
+const GameAnswerComponent = ({ currentQuestion, onPress, selectedOption, isDisabled }: GameAnswerComponentProps) => {
 	return (
-		<View className="flex-row flex-wrap">
+		<View className="flex-row flex-wrap mx-2">
 			{currentQuestion.body.map((option, index) => (
 				<View className="w-1/2 p-1" key={index}>
-					<TouchableOpacity
-						disabled={isDisabled}
-						className="w-100 h-36 rounded-md justify-center px-4"
-						onPress={() => onPress(option)}
-						style={{ backgroundColor: selectedOption === option ? `${colorSelectedOption}` : "#CDCCCC" }}>
-						<Text className="text-center text-xl text-[#FFFFFF]">{option}</Text>
-					</TouchableOpacity>
+					<Pressable disabled={isDisabled} onPress={() => onPress(option)}>
+						<View
+							className="rounded-lg"
+							style={{
+								backgroundColor: selectedOption === option ? Color.BLUE_DARK : Color.GREY,
+								borderColor: selectedOption === option ? Color.BLUE_DARK : Color.GREY,
+								borderWidth: 1,
+								height: 135,
+							}}>
+							<View
+								className="rounded-lg justify-center"
+								style={{
+									zIndex: 1,
+									backgroundColor: selectedOption === option ? Color.BLUE_LIGHT : Color.WHITE,
+									height: 130,
+								}}>
+								<Text className={`text-center p-3 ${FontSize.TEXT_LG}`}>{option}</Text>
+							</View>
+						</View>
+					</Pressable>
 				</View>
 			))}
 		</View>

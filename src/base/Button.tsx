@@ -26,7 +26,7 @@ const ButtonComponent = ({
 	width = "w-11/12",
 }: ButtonComponentProps) => {
 	return (
-		<TouchableOpacity className={width} onPress={onPress} disabled={disabled} style={{ zIndex: 2 }}>
+		<TouchableOpacity className={width} onPress={onPress} disabled={disabled}>
 			<View
 				className="rounded-lg h-12"
 				style={{

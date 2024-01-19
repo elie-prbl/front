@@ -11,7 +11,7 @@ const LifeComponent = ({ nb }: LifeComponentProps) => {
 	return (
 		<View className="flex-row items-center">
 			<Life />
-			<Text className={`${FontSize.TEXT_XL} ml-1 font-bold`} style={{ color: Color.RED_LIGHT }}>
+			<Text className={`${FontSize.TEXT_XL} ml-1 font-bold`} style={{ color: Color.RED_PALE_LIGHT }}>
 				{nb}
 			</Text>
 		</View>
