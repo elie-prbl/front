@@ -22,9 +22,9 @@ const GameQuiz = ({ route }: RouteGameQuizProps) => {
 	const navigationScore = useNavigation<NavigationGameScoreProps>();
 
 	const quizzes: quizState[] | null = useAppSelector(state => state.quiz.quiz);
-	const currentQuiz: quizState | null = quizzes![qid];
+	const currentQuiz: quizState | null = quizzes?.find(q => q.id === qid) ?? null;
 	const currentQuestionIndex: number = useAppSelector(state => state.currentQuestionIndex.value);
-	const currentQuestion = currentQuiz.questions[currentQuestionIndex];
+	const currentQuestion = currentQuiz!.questions[currentQuestionIndex];
 	const [currentIndexQuestionDisplay, setCurrentIndexQuestionDisplay] = useState(0);
 
 	const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -42,7 +42,7 @@ const GameQuiz = ({ route }: RouteGameQuizProps) => {
 	};
 
 	useEffect(() => {
-		if (currentIndexQuestionDisplay === currentQuiz.questions.length) {
+		if (currentIndexQuestionDisplay === currentQuiz!.questions.length) {
 			dispatch(restartCurrentQuestionIndexState());
 			navigationScore.dispatch(
 				CommonActions.reset({
@@ -53,7 +53,7 @@ const GameQuiz = ({ route }: RouteGameQuizProps) => {
 							params: {
 								qid,
 								score,
-								nbQuestion: currentQuiz.questions.length,
+								nbQuestion: currentQuiz!.questions.length,
 							},
 						},
 					],
@@ -83,7 +83,7 @@ const GameQuiz = ({ route }: RouteGameQuizProps) => {
 		setIsDisabled(false);
 
 		// Isn't the last question
-		if (currentQuestionIndex < currentQuiz.questions.length - 1) {
+		if (currentQuestionIndex < currentQuiz!.questions.length - 1) {
 			dispatch(incrementCurrentQuestionIndexState());
 		}
 
@@ -107,7 +107,7 @@ const GameQuiz = ({ route }: RouteGameQuizProps) => {
 	return (
 		<SafeAreaView className={`bg-[${Color.WHITE}]`}>
 			<View className="h-full">
-				<GameQuizHeaderComponent currentStep={currentQuestionIndex + 1} totalStep={currentQuiz.questions.length} />
+				<GameQuizHeaderComponent currentStep={currentQuestionIndex + 1} totalStep={currentQuiz!.questions.length} />
 				<View className="flex-1 justify-between">
 					<View className=" mx-2 px-1">
 						<Text className={`${FontSize.TEXT_XL} font-bold`}>{currentQuestion.question}</Text>
