@@ -72,4 +72,8 @@ export class FontSize {
 	static TEXT_LG: string = "text-lg";
 }
 
-export class Url {}
+export class Url {
+	static IP: string = "192.168.1.33";
+	static LOCALHOST: string = "localhost";
+	static GAME_QUIZ: string = `http://${Url.IP}:8080/api/v1/games/quiz`;
+}

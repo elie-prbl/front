@@ -7,21 +7,10 @@ import Game from "../views/game/Game";
 import Shop from "../views/Shop";
 import Map from "../views/Map";
 import Quest from "../views/Quest";
-import { useAppSelector } from "../store/hooks";
-import { useNavigation } from "@react-navigation/core";
-import { MyNavigationProp } from "./AppNavigator";
-import GameHeaderComponent from "../components/game/GameHeaderComponent";
 
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
-	const navigation = useNavigation<MyNavigationProp>();
-	const module = useAppSelector(state => state.quizModules.modules[0]);
-
-	const handleGameModule = () => {
-		navigation.navigate("GameModule");
-	};
-
 	return (
 		<Tab.Navigator
 			screenOptions={{
@@ -42,9 +31,10 @@ const TabNavigator = () => {
 				options={{
 					tabBarShowLabel: false,
 					tabBarIcon: ({ color }) => <Ionicons name="game-controller-outline" size={24} color={color} />,
-					headerTitle: () => <GameHeaderComponent onPress={handleGameModule} module={module} />,
+					headerShown: false,
+					headerTransparent: true,
 					headerStyle: {
-						height: 220,
+						backgroundColor: Color.WHITE,
 					},
 				}}
 			/>

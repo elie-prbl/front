@@ -2,31 +2,21 @@ import { createSlice } from "@reduxjs/toolkit";
 import { getQuizModules } from "./QuizModulesThunk";
 
 export interface quizModulesState {
-	tid: number;
+	id: number;
 	name: string;
 	description: string;
+	quizzes: [];
 }
 
 const initialState = {
-	modules: [
-		{
-			tid: 0,
-			name: "Tri des déchets",
-			description: "Apprendre à mieux trier !",
-		},
-		{
-			tid: 1,
-			name: "Transport",
-			description: "Apprendre à moins polluer !",
-		},
-	] as quizModulesState[],
+	modules: null as null | quizModulesState[],
 	isLoading: false,
 	error: null as null | unknown,
 	isModified: false,
 };
 
 export const quizModulesSlice = createSlice({
-	name: "quiz",
+	name: "quizModules",
 	initialState,
 	reducers: {},
 	extraReducers: builder => {

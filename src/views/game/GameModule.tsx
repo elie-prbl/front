@@ -7,7 +7,7 @@ import { View, FlatList } from "react-native";
 import { quizModulesState } from "../../store/features/QuizModules/QuizModulesSlices";
 
 const GameModule = () => {
-	const modules: quizModulesState[] = useAppSelector(state => state.quizModules.modules);
+	const modules: quizModulesState[] | null = useAppSelector(state => state.quizModules.modules);
 
 	const renderItem = ({ item }: { item: quizModulesState }) => (
 		<View className="items-center mx-4 my-2">
@@ -22,7 +22,7 @@ const GameModule = () => {
 
 	return (
 		<Layout>
-			<FlatList data={modules} renderItem={renderItem} keyExtractor={item => item.tid.toString()} />
+			<FlatList data={modules} renderItem={renderItem} keyExtractor={item => item.id.toString()} />
 		</Layout>
 	);
 };

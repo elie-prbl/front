@@ -1,13 +1,16 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-export const getQuizModules = createAsyncThunk("getQuiz", async (_, { rejectWithValue }) => {
-	const response = await fetch(`https://dog.ceo/api/breeds/image/random`, {
-		method: "GET",
-		headers: {
-			"Content-Type": "application/json",
-		},
-	});
+import { Url } from "../../../base/constant";
+export const getQuizModules = createAsyncThunk("getQuizModules", async (_, { rejectWithValue }) => {
 	try {
-		return await response.json();
+		const response = await fetch(Url.GAME_QUIZ, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
+
+		const res = await response.json();
+		return res[0]["data"]["topic"];
 	} catch (err) {
 		return rejectWithValue(`network error: ${err}`);
 	}

@@ -1,6 +1,6 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Layout from "../../base/Layout";
-import { FlatList, Text, View } from "react-native";
+import { ActivityIndicator, FlatList, Text, View } from "react-native";
 import { useAppSelector } from "../../store/hooks";
 import { quizState } from "../../store/features/Quiz/QuizSlices";
 import CircleComponent from "../../base/Circle";
@@ -9,17 +9,42 @@ import { Color, Content, FontSize } from "../../base/constant";
 import ButtonComponent from "../../base/Button";
 import { ListItem } from "@rneui/themed";
 import { useNavigation } from "@react-navigation/core";
-import { NavigationGameQuizProps } from "../../navigation/AppNavigator";
+import { MyNavigationProp, NavigationGameQuizProps } from "../../navigation/AppNavigator";
+import GameHeaderComponent from "../../components/game/GameHeaderComponent";
+import { getQuizModules } from "../../store/features/QuizModules/QuizModulesThunk";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store/store";
 
 const Game = () => {
-	const navigation = useNavigation<NavigationGameQuizProps>();
+	const navigationGameQuiz = useNavigation<NavigationGameQuizProps>();
+	const navigationGameModule = useNavigation<MyNavigationProp>();
+	const dispatch = useDispatch<AppDispatch>();
+
+	const { modules, isLoading } = useAppSelector(state => state.quizModules);
+
 	const quiz: quizState[] = useAppSelector(state => state.quiz.quiz);
 	const [selectedItem, setSelectedItem] = useState<quizState | null>(null);
 	const [expandedItem, setExpandedItem] = useState<number | null>(null);
 
 	const handleGoingToGame = useCallback((qid: number) => {
-		navigation.navigate("GameQuiz", { qid });
+		navigationGameQuiz.navigate("GameQuiz", { qid });
 	}, []);
+
+	const handleGameModule = () => {
+		navigationGameModule.navigate("GameModule");
+	};
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				await dispatch(getQuizModules());
+			} catch (error) {
+				console.error("Error fetching quiz modules:", error);
+			}
+		};
+
+		fetchData();
+	}, [dispatch]);
 
 	const renderItem = ({ item }: { item: quizState }) => (
 		<ListItem.Accordion
@@ -62,9 +87,20 @@ const Game = () => {
 	);
 
 	return (
-		<Layout>
-			<FlatList data={quiz} renderItem={renderItem} keyExtractor={item => item.qid.toString()} />
-		</Layout>
+		<>
+			{isLoading ? (
+				<Layout>
+					<ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center h-full" />
+				</Layout>
+			) : (
+				<>
+					<GameHeaderComponent onPress={handleGameModule} module={modules![0]} />
+					<Layout>
+						<FlatList data={quiz} renderItem={renderItem} keyExtractor={item => item.qid.toString()} />
+					</Layout>
+				</>
+			)}
+		</>
 	);
 };
 
