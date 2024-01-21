@@ -4,7 +4,6 @@ import { MyNavigationProp, NavigationGameScoreProps, RouteGameQuizProps } from "
 import GameQuizHeaderComponent from "../../components/game/GameQuizHeaderComponent";
 import { Color, Content, FontSize } from "../../base/constant";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { quizQuestionsState } from "../../store/features/QuizQuestions/QuizQuestionsSlices";
 import GameAnswerComponent from "../../components/game/GameAnswerComponent";
 import GameSnackBarComponent from "../../components/game/GameSnackBarComponent";
 import ButtonComponent from "../../base/Button";
@@ -14,6 +13,7 @@ import {
 } from "../../store/features/QuizQuestions/CurrentQuestionIndexSlices";
 import { decrementLife } from "../../store/features/Lives/LivesSlices";
 import { CommonActions, useNavigation } from "@react-navigation/core";
+import { quizState } from "../../store/features/Quiz/QuizSlices";
 
 const GameQuiz = ({ route }: RouteGameQuizProps) => {
 	const { qid } = route.params;
@@ -21,9 +21,10 @@ const GameQuiz = ({ route }: RouteGameQuizProps) => {
 	const navigationHome = useNavigation<MyNavigationProp>();
 	const navigationScore = useNavigation<NavigationGameScoreProps>();
 
-	const questions: quizQuestionsState[] = useAppSelector(state => state.quizQuestions.questions);
+	const quizzes: quizState[] | null = useAppSelector(state => state.quiz.quiz);
+	const currentQuiz: quizState | null = quizzes![qid];
 	const currentQuestionIndex: number = useAppSelector(state => state.currentQuestionIndex.value);
-	const currentQuestion = questions[currentQuestionIndex];
+	const currentQuestion = currentQuiz.questions[currentQuestionIndex];
 	const [currentIndexQuestionDisplay, setCurrentIndexQuestionDisplay] = useState(0);
 
 	const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -41,7 +42,7 @@ const GameQuiz = ({ route }: RouteGameQuizProps) => {
 	};
 
 	useEffect(() => {
-		if (currentIndexQuestionDisplay === questions.length) {
+		if (currentIndexQuestionDisplay === currentQuiz.questions.length) {
 			dispatch(restartCurrentQuestionIndexState());
 			navigationScore.dispatch(
 				CommonActions.reset({
@@ -52,7 +53,7 @@ const GameQuiz = ({ route }: RouteGameQuizProps) => {
 							params: {
 								qid,
 								score,
-								nbQuestion: questions.length,
+								nbQuestion: currentQuiz.questions.length,
 							},
 						},
 					],
@@ -82,7 +83,7 @@ const GameQuiz = ({ route }: RouteGameQuizProps) => {
 		setIsDisabled(false);
 
 		// Isn't the last question
-		if (currentQuestionIndex < questions.length - 1) {
+		if (currentQuestionIndex < currentQuiz.questions.length - 1) {
 			dispatch(incrementCurrentQuestionIndexState());
 		}
 
@@ -92,7 +93,7 @@ const GameQuiz = ({ route }: RouteGameQuizProps) => {
 
 	const handleCheckAnswer = () => {
 		setIsDisabled(true);
-		if (selectedOption !== currentQuestion.correctAnswer) {
+		if (selectedOption !== currentQuestion.good_answer) {
 			setTitleButton(Content.AGREED);
 			setColorBgButton(Color.RED_BRIGHT_LIGHT);
 			setColorShadowButton(Color.RED_BRIGHT_DARK);
@@ -106,7 +107,7 @@ const GameQuiz = ({ route }: RouteGameQuizProps) => {
 	return (
 		<SafeAreaView className={`bg-[${Color.WHITE}]`}>
 			<View className="h-full">
-				<GameQuizHeaderComponent currentStep={currentQuestionIndex + 1} totalStep={questions.length} />
+				<GameQuizHeaderComponent currentStep={currentQuestionIndex + 1} totalStep={currentQuiz.questions.length} />
 				<View className="flex-1 justify-between">
 					<View className=" mx-2 px-1">
 						<Text className={`${FontSize.TEXT_XL} font-bold`}>{currentQuestion.question}</Text>
@@ -137,7 +138,7 @@ const GameQuiz = ({ route }: RouteGameQuizProps) => {
 								icon="times-circle"
 								colorIcon={Color.RED}
 								colorContent={Color.RED}
-								correctAnswer={currentQuestion.correctAnswer}
+								correctAnswer={currentQuestion.good_answer}
 							/>
 						)}
 						<View className="mx-3 mt-4" style={{ zIndex: 2 }}>

@@ -2,14 +2,18 @@ import { createSlice } from "@reduxjs/toolkit";
 import { getQuizModules } from "./QuizModulesThunk";
 
 export interface quizModulesState {
+	quiz_id: number;
+	topics: topic[];
+}
+
+export interface topic {
 	id: number;
 	name: string;
 	description: string;
-	quizzes: [];
 }
 
 const initialState = {
-	modules: null as null | quizModulesState[],
+	modules: null as null | quizModulesState,
 	isLoading: false,
 	error: null as null | unknown,
 	isModified: false,

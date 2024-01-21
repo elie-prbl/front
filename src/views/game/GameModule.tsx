@@ -4,12 +4,12 @@ import { useAppSelector } from "../../store/hooks";
 import ModuleGame from "../../base/ModuleGame";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { View, FlatList } from "react-native";
-import { quizModulesState } from "../../store/features/QuizModules/QuizModulesSlices";
+import { quizModulesState, topic } from "../../store/features/QuizModules/QuizModulesSlices";
 
 const GameModule = () => {
-	const modules: quizModulesState[] | null = useAppSelector(state => state.quizModules.modules);
+	const modules: quizModulesState | null = useAppSelector(state => state.quizModules.modules);
 
-	const renderItem = ({ item }: { item: quizModulesState }) => (
+	const renderItem = ({ item }: { item: topic }) => (
 		<View className="items-center mx-4 my-2">
 			<ModuleGame
 				onPress={() => {}}
@@ -22,7 +22,7 @@ const GameModule = () => {
 
 	return (
 		<Layout>
-			<FlatList data={modules} renderItem={renderItem} keyExtractor={item => item.id.toString()} />
+			{modules && <FlatList data={modules.topics} renderItem={renderItem} keyExtractor={item => item.id.toString()} />}
 		</Layout>
 	);
 };

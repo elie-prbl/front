@@ -2,7 +2,7 @@ import { SafeAreaView, View } from "react-native";
 import ModuleGame from "../../base/ModuleGame";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React from "react";
-import { quizModulesState } from "../../store/features/QuizModules/QuizModulesSlices";
+import { topic } from "../../store/features/QuizModules/QuizModulesSlices";
 import LifeComponent from "../../base/Life";
 import GemComponent from "../../base/Gem";
 import { useAppSelector } from "../../store/hooks";
@@ -10,10 +10,10 @@ import { Color } from "../../base/constant";
 
 interface GameHeaderComponentProps {
 	onPress: () => void;
-	module: quizModulesState;
+	topic: topic;
 }
 
-const GameHeaderComponent = ({ onPress, module }: GameHeaderComponentProps) => {
+const GameHeaderComponent = ({ onPress, topic }: GameHeaderComponentProps) => {
 	const lives = useAppSelector(state => state.lives.value);
 
 	return (
@@ -26,8 +26,8 @@ const GameHeaderComponent = ({ onPress, module }: GameHeaderComponentProps) => {
 				<View className="items-center my-3">
 					<ModuleGame
 						onPress={onPress}
-						title={module.name}
-						description={module.description}
+						title={topic.name}
+						description={topic.description}
 						icon={<MaterialCommunityIcons name="notebook-multiple" size={24} color="white" />}
 					/>
 				</View>

@@ -14,6 +14,7 @@ import GameHeaderComponent from "../../components/game/GameHeaderComponent";
 import { getQuizModules } from "../../store/features/QuizModules/QuizModulesThunk";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
+import { getQuiz } from "../../store/features/Quiz/QuizThunk";
 
 const Game = () => {
 	const navigationGameQuiz = useNavigation<NavigationGameQuizProps>();
@@ -22,7 +23,7 @@ const Game = () => {
 
 	const { modules, isLoading } = useAppSelector(state => state.quizModules);
 
-	const quiz: quizState[] = useAppSelector(state => state.quiz.quiz);
+	const quiz: quizState[] | null = useAppSelector(state => state.quiz.quiz);
 	const [selectedItem, setSelectedItem] = useState<quizState | null>(null);
 	const [expandedItem, setExpandedItem] = useState<number | null>(null);
 
@@ -46,6 +47,16 @@ const Game = () => {
 		fetchData();
 	}, [dispatch]);
 
+	useEffect(() => {
+		try {
+			if (modules) {
+				dispatch(getQuiz({ id: modules.quiz_id, topic_id: modules.topics[0].id }));
+			}
+		} catch (error) {
+			console.error("Error fetching quiz :", error);
+		}
+	}, [dispatch, modules]);
+
 	const renderItem = ({ item }: { item: quizState }) => (
 		<ListItem.Accordion
 			content={
@@ -59,7 +70,7 @@ const Game = () => {
 							classNameView="w-24 h-24"
 							onPress={() => {
 								setSelectedItem(item);
-								setExpandedItem(prev => (prev === item.qid ? null : item.qid));
+								setExpandedItem(prev => (prev === item.id ? null : item.id));
 							}}
 						/>
 					</ListItem.Content>
@@ -67,14 +78,14 @@ const Game = () => {
 			}
 			noIcon
 			containerStyle={{ backgroundColor: "transparent", justifyContent: "center" }}
-			isExpanded={expandedItem === item.qid}>
+			isExpanded={expandedItem === item.id}>
 			<View className="mx-8 items-center">
 				<View className="w-full p-4 rounded-lg" style={{ backgroundColor: Color.PRIMARY }}>
 					<Text className={`mb-3 font-bold ${FontSize.TEXT_LG}`} style={{ color: Color.WHITE }}>
 						{selectedItem?.title}
 					</Text>
 					<ButtonComponent
-						onPress={() => handleGoingToGame(item.qid)}
+						onPress={() => handleGoingToGame(item.id)}
 						content={Content.START}
 						width="w-full"
 						bg={Color.WHITE}
@@ -86,20 +97,19 @@ const Game = () => {
 		</ListItem.Accordion>
 	);
 
+	if (isLoading)
+		return (
+			<Layout>
+				<ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center h-full" />
+			</Layout>
+		);
+
 	return (
 		<>
-			{isLoading ? (
-				<Layout>
-					<ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center h-full" />
-				</Layout>
-			) : (
-				<>
-					<GameHeaderComponent onPress={handleGameModule} module={modules![0]} />
-					<Layout>
-						<FlatList data={quiz} renderItem={renderItem} keyExtractor={item => item.qid.toString()} />
-					</Layout>
-				</>
-			)}
+			{modules && <GameHeaderComponent onPress={handleGameModule} topic={modules!.topics[0]} />}
+			<Layout>
+				<FlatList data={quiz} renderItem={renderItem} keyExtractor={item => item.id.toString()} />
+			</Layout>
 		</>
 	);
 };

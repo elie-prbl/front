@@ -1,11 +1,21 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-export const getQuiz = createAsyncThunk("getQuiz", async (_, { rejectWithValue }) => {
-	const response = await fetch(`https://dog.ceo/api/breeds/image/random`, {
-		method: "GET",
-		headers: {
-			"Content-Type": "application/json",
+import { Url } from "../../../base/constant";
+
+export interface getQuizParams {
+	id: number;
+	topic_id: number;
+}
+
+export const getQuiz = createAsyncThunk("getQuiz", async (getQuizParam: getQuizParams, { rejectWithValue }) => {
+	const response = await fetch(
+		`${Url.BASE_URL_API}games/quiz/${getQuizParam.id}/data?topic_id=${getQuizParam.topic_id}`,
+		{
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+			},
 		},
-	});
+	);
 	try {
 		return await response.json();
 	} catch (err) {

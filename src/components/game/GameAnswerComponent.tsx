@@ -13,7 +13,7 @@ interface GameAnswerComponentProps {
 const GameAnswerComponent = ({ currentQuestion, onPress, selectedOption, isDisabled }: GameAnswerComponentProps) => {
 	return (
 		<View className="flex-row flex-wrap mx-2">
-			{currentQuestion.body.map((option, index) => (
+			{currentQuestion.answers.map((option, index) => (
 				<View className="w-1/2 p-1" key={index}>
 					<Pressable disabled={isDisabled} onPress={() => onPress(option)}>
 						<View
