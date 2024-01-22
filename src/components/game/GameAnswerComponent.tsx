@@ -19,8 +19,8 @@ const GameAnswerComponent = ({ currentQuestion, onPress, selectedOption, isDisab
 						<View
 							className="rounded-lg"
 							style={{
-								backgroundColor: selectedOption === option ? Color.BLUE_DARK : Color.GREY,
-								borderColor: selectedOption === option ? Color.BLUE_DARK : Color.GREY,
+								backgroundColor: selectedOption === option ? Color.BLUE_PALE_DARK : Color.GREY,
+								borderColor: selectedOption === option ? Color.BLUE_PALE_DARK : Color.GREY,
 								borderWidth: 1,
 								height: 135,
 							}}>
@@ -28,7 +28,7 @@ const GameAnswerComponent = ({ currentQuestion, onPress, selectedOption, isDisab
 								className="rounded-lg justify-center"
 								style={{
 									zIndex: 1,
-									backgroundColor: selectedOption === option ? Color.BLUE_LIGHT : Color.WHITE,
+									backgroundColor: selectedOption === option ? Color.BLUE_PALE_LIGHT : Color.WHITE,
 									height: 130,
 								}}>
 								<Text className={`text-center p-3 ${FontSize.TEXT_LG}`}>{option}</Text>

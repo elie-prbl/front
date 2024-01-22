@@ -15,8 +15,10 @@ export class Color {
 	static PINK_DARK: string = "#D36CC1";
 	static CYAN_LIGHT: string = "#00CD9C";
 	static CYAN_DARK: string = "#00A47D";
-	static BLUE_DARK: string = "#85D8FF";
-	static BLUE_LIGHT: string = "#DCF1FF";
+	static BLUE_PALE_DARK: string = "#85D8FF";
+	static BLUE_PALE_LIGHT: string = "#DCF1FF";
+	static BLUE_BRIGHT_DARK: string = "#0C71CF";
+	static BLUE_BRIGHT_LIGHT: string = "#01B3FF";
 	static RED_BRIGHT_LIGHT: string = "#FF4343";
 	static RED_BRIGHT_DARK: string = "#BC0D0D";
 	static RED: string = "#EF0C0C";
@@ -65,6 +67,9 @@ export class Content {
 	static AGREED = "D'accord";
 	static INCORRECT = "Incorrect";
 	static SUPER = "Super !";
+	static LESSON_FINISHED: string = "Leçon terminée !";
+	static SUCCESS: string = "Réussite";
+	static PRECISION: string = "Précision";
 }
 
 export class FontSize {

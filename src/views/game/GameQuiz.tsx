@@ -53,7 +53,7 @@ const GameQuiz = ({ route }: RouteGameQuizProps) => {
 							params: {
 								qid,
 								score,
-								nbQuestion: currentQuiz!.questions.length,
+								nbQuestions: currentQuiz!.questions.length,
 							},
 						},
 					],
