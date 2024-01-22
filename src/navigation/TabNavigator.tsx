@@ -34,6 +34,17 @@ const TabNavigator = () => {
 				name="Home"
 				component={Home}
 				options={{
+					headerRight: () => (
+						<Ionicons
+							size={30}
+							style={{ marginRight: 10 }} // Ajoute une marge de 10 sur tous les côtés
+							name="person-circle-outline"
+							onPress={() => {
+								navigation.navigate("Profil");
+							}}
+						/>
+					),
+					headerShown: true,
 					tabBarShowLabel: false,
 					tabBarIcon: ({ color }) => <AntDesign name="home" size={24} color={color} />,
 				}}

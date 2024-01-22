@@ -3,7 +3,7 @@ import { Pressable, Text, View } from "react-native";
 import { Color, FontSize } from "./constant";
 
 interface BoxComponentProps {
-	title: string;
+	title: string | undefined;
 	itemRight?: string | ReactElement;
 	height?: string;
 	children: any;

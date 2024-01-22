@@ -26,6 +26,7 @@ const Home = () => {
 	const navigation = useNavigation<MyNavigationProp>();
 	const position = useSelector((state: RootState) => state.position.position);
 	const quests = useSelector((state: RootState) => state.quests.quests);
+	const user = useSelector((state: RootState) => state.user.user);
 
 	useEffect(() => {
 		getTheCurrentPosition().then(location => {
@@ -44,7 +45,7 @@ const Home = () => {
 					<QuestComponent quest={quests.filter(q => q.difficulty === Difficulty.INTERMEDIATE)[0]} img={<Circle1 />} />
 					<QuestComponent quest={quests.filter(q => q.difficulty === Difficulty.ADVANCED)[0]} img={<Circle1 />} />
 				</BoxComponent>
-				<BoxComponent title={Content.SHOP} itemRight="1224 pts" height="h-1/5">
+				<BoxComponent title={Content.SHOP} itemRight={`${user?.rubis} rubis`} height="h-1/5">
 					<ShopHomeComponent />
 				</BoxComponent>
 				<BoxComponent title={Content.GAME}>

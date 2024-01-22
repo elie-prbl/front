@@ -6,6 +6,7 @@ export class Color {
 	static GREY: string = "#CDCCCC";
 	static BLACK: string = "#000000";
 	static GOLD: string = "#FDE404";
+	static YELLOW: string = "#FFD900";
 	static PURPLE_LIGHT: string = "#CE82FF";
 	static PURPLE_DARK: string = "#A568CC";
 	static RED_LIGHT: string = "#FA6C6C";
@@ -14,6 +15,7 @@ export class Color {
 	static PINK_DARK: string = "#D36CC1";
 	static CYAN_LIGHT: string = "#00CD9C";
 	static CYAN_DARK: string = "#00A47D";
+	static BLUE: string = "#54B7FF";
 }
 
 export class Content {
@@ -46,6 +48,7 @@ export class Content {
 	static GAME: string = "Jeu";
 	static MAP: string = "Map";
 	static EVENT: string = "Évènement";
+	static PROFIL: string = "Profil";
 
 	//Shop
 	static SHOP_PERSONALISATION = "Personnalisation";
@@ -59,6 +62,12 @@ export class Content {
 	//Game
 	static CHOOSE_MODULE = "Choisissez un module";
 	static START = "Commencer";
+
+	//Dashboard
+	static QUIZZ = "Quizzs réussi";
+	static XP = "Total xp";
+	static DISTANCE = "Km parcouru";
+	static PRECISION = "Précisions";
 }
 
 export class FontSize {

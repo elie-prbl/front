@@ -13,6 +13,7 @@ import GameModule from "../views/game/GameModule";
 import { Content } from "../base/constant";
 import Map from "../views/Map";
 import Shop from "../views/Shop";
+import Dashboard from "../views/user/Dashboard";
 
 export type StackParamList = {
 	TabNav: undefined;
@@ -24,6 +25,7 @@ export type StackParamList = {
 	Map: undefined;
 	GameModule: undefined;
 	Shop: undefined;
+	Profil: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -78,6 +80,14 @@ const AppNavigator = (): JSX.Element => {
 				/>
 				<Stack.Screen name="Map" component={Map} options={{ headerShown: false }} />
 				<Stack.Screen name="Shop" component={Shop} options={{ headerShown: false }} />
+				<Stack.Screen
+					name="Profil"
+					component={Dashboard}
+					options={{
+						headerShown: true,
+						headerTransparent: false,
+					}}
+				/>
 			</Stack.Navigator>
 		</>
 	);
