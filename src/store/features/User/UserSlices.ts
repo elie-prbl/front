@@ -9,10 +9,26 @@ export interface userState {
 	password: string;
 	rubis: number;
 	xp: number;
+	createdAt?: string;
+	quizzWin?: number;
+	distanceTraveled?: number;
+	accuracy?: number;
 }
 
 const initialState = {
-	user: null as null | userState,
+	user: {
+		id: 1,
+		uid: 1232,
+		username: "Robin Littière",
+		email: "litiere.rob@gmail.com",
+		password: "",
+		rubis: 0,
+		xp: 0,
+		createdAt: "Novembre 2023",
+		quizzWin: 0,
+		distanceTraveled: 0,
+		accuracy: 0,
+	} as userState,
 	isLoading: false,
 	error: null as null | unknown,
 	isModified: false,

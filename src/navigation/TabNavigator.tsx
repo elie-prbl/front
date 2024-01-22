@@ -11,7 +11,7 @@ import { Text, View } from "react-native";
 import ElieHeader from "../svg/ElieHeader";
 import { useAppSelector } from "../store/hooks";
 import { useNavigation } from "@react-navigation/core";
-import { MyNavigationProp, StackParamList } from "./AppNavigator";
+import { MyNavigationProp } from "./AppNavigator";
 import GameHeaderComponent from "../components/game/GameHeaderComponent";
 
 const Tab = createBottomTabNavigator();

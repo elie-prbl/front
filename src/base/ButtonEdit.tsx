@@ -1,5 +1,5 @@
-import React, { ReactElement } from "react";
-import { GestureResponderEvent, TouchableOpacity, Text, View } from "react-native";
+import React from "react";
+import { GestureResponderEvent, TouchableOpacity } from "react-native";
 import { Color } from "./constant";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -18,7 +18,7 @@ const ButtonEditComponent = ({
 }: ButtonEditComponentProps) => {
 	return (
 		<TouchableOpacity className={width} onPress={onPress} disabled={disabled}>
-			<Ionicons name={"create-outline"} size={20} color={buttonColor} />
+			<Ionicons name="create-outline" size={20} color={buttonColor} />
 		</TouchableOpacity>
 	);
 };
