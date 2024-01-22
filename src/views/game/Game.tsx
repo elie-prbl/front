@@ -21,7 +21,7 @@ const Game = () => {
 	const navigationGameModule = useNavigation<MyNavigationProp>();
 	const dispatch = useDispatch<AppDispatch>();
 
-	const { modules, isLoading } = useAppSelector(state => state.quizModules);
+	const { modules, isLoading, error } = useAppSelector(state => state.quizModules);
 
 	const quiz: quizState[] | null = useAppSelector(state => state.quiz.quiz);
 	const [selectedItem, setSelectedItem] = useState<quizState | null>(null);
@@ -101,6 +101,16 @@ const Game = () => {
 		return (
 			<Layout>
 				<ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center h-full" />
+			</Layout>
+		);
+
+	if (error)
+		return (
+			<Layout>
+				<View className="h-full justify-center">
+					<Text className="text-center font-bold">Erreur lors du chargement.</Text>
+					<Text className="text-center font-bold">Revenez plus tard.</Text>
+				</View>
 			</Layout>
 		);
 
