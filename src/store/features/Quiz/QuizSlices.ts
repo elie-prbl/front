@@ -11,8 +11,8 @@ export interface quizState {
 
 const initialState = {
 	quiz: null as null | quizState[],
-	isLoading: false,
-	error: null as null | unknown,
+	isLoadingQuiz: false,
+	errorQuiz: null as null | unknown,
 	isModified: false,
 };
 
@@ -23,15 +23,15 @@ export const quizSlice = createSlice({
 	extraReducers: builder => {
 		builder
 			.addCase(getQuiz.pending, (state, action) => {
-				state.isLoading = true;
+				state.isLoadingQuiz = true;
 			})
 			.addCase(getQuiz.fulfilled, (state, action) => {
 				state.quiz = action.payload;
-				state.isLoading = false;
+				state.isLoadingQuiz = false;
 			})
 			.addCase(getQuiz.rejected, (state, action) => {
-				state.isLoading = false;
-				state.error = action.payload;
+				state.isLoadingQuiz = false;
+				state.errorQuiz = action.payload;
 				state.isModified = false;
 			});
 	},

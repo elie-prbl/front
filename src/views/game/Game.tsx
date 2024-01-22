@@ -9,21 +9,25 @@ import { Color, Content, FontSize } from "../../base/constant";
 import ButtonComponent from "../../base/Button";
 import { ListItem } from "@rneui/themed";
 import { useNavigation } from "@react-navigation/core";
-import { MyNavigationProp, NavigationGameQuizProps } from "../../navigation/AppNavigator";
+import { MyNavigationProp, NavigationGameQuizProps, RouteGameProps } from "../../navigation/AppNavigator";
 import GameHeaderComponent from "../../components/game/GameHeaderComponent";
 import { getQuizModules } from "../../store/features/QuizModules/QuizModulesThunk";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
 import { getQuiz } from "../../store/features/Quiz/QuizThunk";
+import { topic } from "../../store/features/QuizModules/QuizModulesSlices";
 
-const Game = () => {
+const Game = ({ route }: RouteGameProps) => {
+	const { selectedModuleId } = route.params || {};
+
 	const navigationGameQuiz = useNavigation<NavigationGameQuizProps>();
 	const navigationGameModule = useNavigation<MyNavigationProp>();
 	const dispatch = useDispatch<AppDispatch>();
 
 	const { modules, isLoading, error } = useAppSelector(state => state.quizModules);
+	const [selectedModule, setSelectedModule] = useState<topic | undefined>();
 
-	const quiz: quizState[] | null = useAppSelector(state => state.quiz.quiz);
+	const { quiz, isLoadingQuiz, errorQuiz } = useAppSelector(state => state.quiz);
 	const [selectedItem, setSelectedItem] = useState<quizState | null>(null);
 	const [expandedItem, setExpandedItem] = useState<number | null>(null);
 
@@ -50,12 +54,22 @@ const Game = () => {
 	useEffect(() => {
 		try {
 			if (modules) {
-				dispatch(getQuiz({ id: modules.quiz_id, topic_id: modules.topics[0].id }));
+				setSelectedModule(modules.topics.find(module => module.id === selectedModuleId) ?? modules.topics[0]);
 			}
 		} catch (error) {
 			console.error("Error fetching quiz :", error);
 		}
-	}, [dispatch, modules]);
+	}, [dispatch, modules, selectedModuleId]);
+
+	useEffect(() => {
+		try {
+			if (modules && selectedModule) {
+				dispatch(getQuiz({ id: modules.quiz_id, topic_id: selectedModule!.id }));
+			}
+		} catch (error) {
+			console.error("Error fetching quiz :", error);
+		}
+	}, [dispatch, selectedModule]);
 
 	const renderItem = ({ item }: { item: quizState }) => (
 		<ListItem.Accordion
@@ -97,14 +111,14 @@ const Game = () => {
 		</ListItem.Accordion>
 	);
 
-	if (isLoading)
+	if (isLoading || isLoadingQuiz)
 		return (
 			<Layout>
 				<ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center h-full" />
 			</Layout>
 		);
 
-	if (error)
+	if (error || errorQuiz)
 		return (
 			<Layout>
 				<View className="h-full justify-center">
@@ -116,7 +130,7 @@ const Game = () => {
 
 	return (
 		<>
-			{modules && <GameHeaderComponent onPress={handleGameModule} topic={modules!.topics[0]} />}
+			{selectedModule && <GameHeaderComponent onPress={handleGameModule} topic={selectedModule} />}
 			<Layout>
 				<FlatList data={quiz} renderItem={renderItem} keyExtractor={item => item.id.toString()} />
 			</Layout>

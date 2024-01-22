@@ -14,6 +14,7 @@ import { Content } from "../base/constant";
 import Map from "../views/Map";
 import GameQuiz from "../views/game/GameQuiz";
 import GameScore from "../views/game/GameScore";
+import Game from "../views/game/Game";
 
 export type StackParamList = {
 	TabNav: undefined;
@@ -23,6 +24,7 @@ export type StackParamList = {
 	SignUp3: undefined;
 	Home: undefined;
 	Map: undefined;
+	Game: { selectedModuleId: number };
 	GameModule: undefined;
 	GameQuiz: { qid: number };
 	GameScore: { qid: number; score: number; nbQuestions: number };
@@ -42,6 +44,9 @@ export type NavigationSignUp2Props = NativeStackNavigationProp<StackParamList, "
 
 export type RouteHomeProps = NativeStackScreenProps<StackParamList, "Home">;
 export type NavigationHomeProps = NativeStackNavigationProp<StackParamList, "Home">;
+
+export type RouteGameProps = NativeStackScreenProps<StackParamList, "Game">;
+export type NavigationGameProps = NativeStackNavigationProp<StackParamList, "Game">;
 
 export type RouteGameQuizProps = NativeStackScreenProps<StackParamList, "GameQuiz">;
 export type NavigationGameQuizProps = NativeStackNavigationProp<StackParamList, "GameQuiz">;
@@ -85,6 +90,7 @@ const AppNavigator = (): JSX.Element => {
 					options={{ presentation: "modal", headerTitle: Content.CHOOSE_MODULE }}
 				/>
 				<Stack.Screen name="Map" component={Map} options={{ headerShown: false }} />
+				<Stack.Screen name="Game" component={Game} options={{ headerShown: false }} />
 				<Stack.Screen name="GameQuiz" component={GameQuiz} options={{ headerShown: false }} />
 				<Stack.Screen name="GameScore" component={GameScore} options={{ headerShown: false }} />
 			</Stack.Navigator>
