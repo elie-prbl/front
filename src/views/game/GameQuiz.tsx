@@ -14,6 +14,8 @@ import {
 import { decrementLife } from "../../store/features/Lives/LivesSlices";
 import { CommonActions, useNavigation } from "@react-navigation/core";
 import { quizState } from "../../store/features/Quiz/QuizSlices";
+import {restartCurrentQuizModule} from "../../store/features/QuizModules/CurrentQuizModuleSlice";
+import {restartCurrentQuiz} from "../../store/features/Quiz/CurrentQuizSlice";
 
 const GameQuiz = () => {
 	const dispatch = useAppDispatch();
@@ -61,6 +63,8 @@ const GameQuiz = () => {
 		if (lives === 0) {
 			Alert.alert("Tu as perdu toutes tes vies, reviens demain !");
 			dispatch(restartCurrentQuestionIndexState());
+			dispatch(restartCurrentQuizModule());
+			dispatch(restartCurrentQuiz());
 			navigation.navigate("TabNav", {
 				screen: "Game",
 			});
