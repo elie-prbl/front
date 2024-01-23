@@ -15,7 +15,9 @@ const GameModule = () => {
 	const dispatch = useAppDispatch();
 	const handleModuleSelection = (moduleId: number) => {
 		dispatch(updateCurrentQuizModule(moduleId));
-		navigation.navigate("Game");
+		navigation.navigate("TabNav", {
+			screen: "Game",
+		});
 	};
 
 	const renderItem = ({ item }: { item: topic }) => (
