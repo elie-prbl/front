@@ -9,6 +9,7 @@ export enum Difficulty {
 
 export enum QuestsType {
 	QUIZ = "QUIZ",
+	QUIZWON = "QUIZWON",
 	CONNECTION = "CONNECTION",
 	SCAN = "SCAN",
 	EVENT = "EVENT",
@@ -20,6 +21,7 @@ export interface QuestState {
 	qtid: string;
 	difficulty: Difficulty;
 	done_condition: any;
+	progress: number;
 }
 
 const initialState = {
@@ -27,26 +29,29 @@ const initialState = {
 		{
 			qeid: 2,
 			name: "Joue à 1 quiz",
-			xp: 100,
+			xp: 10,
 			qtid: QuestsType.QUIZ,
 			difficulty: Difficulty.BEGINNER,
 			done_condition: 1,
+			progress: 0,
 		},
 		{
 			qeid: 3,
 			name: "Gagne 1 quiz",
-			xp: 200,
-			qtid: QuestsType.QUIZ,
+			xp: 20,
+			qtid: QuestsType.QUIZWON,
 			difficulty: Difficulty.INTERMEDIATE,
 			done_condition: 1,
+			progress: 0,
 		},
 		{
 			qeid: 5,
 			name: "Gagne 3 quiz",
-			xp: 300,
-			qtid: QuestsType.QUIZ,
+			xp: 50,
+			qtid: QuestsType.QUIZWON,
 			difficulty: Difficulty.ADVANCED,
 			done_condition: 3,
+			progress: 0,
 		},
 	],
 	isLoading: false,
@@ -57,7 +62,22 @@ const initialState = {
 export const getQuestsSlice = createSlice({
 	name: "getQuests",
 	initialState,
-	reducers: {},
+	reducers: {
+		updateQuestsQuiz: state => {
+			state.quests.map(q => {
+				if (q.qtid === QuestsType.QUIZ) {
+					q.progress += 1;
+				}
+			});
+		},
+		updateQuestsQuizWon: state => {
+			state.quests.map(q => {
+				if (q.qtid === QuestsType.QUIZWON || q.qtid === QuestsType.QUIZ) {
+					q.progress += 1;
+				}
+			});
+		},
+	},
 	extraReducers: builder => {
 		builder
 			.addCase(getQuests.pending, (state, action) => {
@@ -74,5 +94,6 @@ export const getQuestsSlice = createSlice({
 			});
 	},
 });
+export const { updateQuestsQuiz, updateQuestsQuizWon } = getQuestsSlice.actions;
 
 export default getQuestsSlice.reducer;
