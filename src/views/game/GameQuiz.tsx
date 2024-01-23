@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Alert, SafeAreaView, Text, View } from "react-native";
-import { MyNavigationProp, NavigationGameScoreProps, RouteGameQuizProps } from "../../navigation/AppNavigator";
+import { NavigationGameScoreProps } from "../../navigation/AppNavigator";
 import GameQuizHeaderComponent from "../../components/game/GameQuizHeaderComponent";
 import { Color, Content, FontSize } from "../../base/constant";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -15,12 +15,11 @@ import { decrementLife } from "../../store/features/Lives/LivesSlices";
 import { CommonActions, useNavigation } from "@react-navigation/core";
 import { quizState } from "../../store/features/Quiz/QuizSlices";
 
-const GameQuiz = ({ route }: RouteGameQuizProps) => {
-	const { qid } = route.params;
+const GameQuiz = () => {
 	const dispatch = useAppDispatch();
-	const navigationHome = useNavigation<MyNavigationProp>();
-	const navigationScore = useNavigation<NavigationGameScoreProps>();
+	const navigation = useNavigation<NavigationGameScoreProps>();
 
+	const qid = useAppSelector(state => state.currentQuiz.value);
 	const quizzes: quizState[] | null = useAppSelector(state => state.quiz.quiz);
 	const currentQuiz: quizState | null = quizzes?.find(q => q.id === qid) ?? null;
 	const currentQuestionIndex: number = useAppSelector(state => state.currentQuestionIndex.value);
@@ -44,14 +43,13 @@ const GameQuiz = ({ route }: RouteGameQuizProps) => {
 	useEffect(() => {
 		if (currentIndexQuestionDisplay === currentQuiz!.questions.length) {
 			dispatch(restartCurrentQuestionIndexState());
-			navigationScore.dispatch(
+			navigation.dispatch(
 				CommonActions.reset({
 					index: 1,
 					routes: [
 						{
 							name: "GameScore",
 							params: {
-								qid,
 								score,
 								nbQuestions: currentQuiz!.questions.length,
 							},
@@ -63,16 +61,9 @@ const GameQuiz = ({ route }: RouteGameQuizProps) => {
 		if (lives === 0) {
 			Alert.alert("Tu as perdu toutes tes vies, reviens demain !");
 			dispatch(restartCurrentQuestionIndexState());
-			navigationHome.dispatch(
-				CommonActions.reset({
-					index: 1,
-					routes: [
-						{
-							name: "Game",
-						},
-					],
-				}),
-			);
+			navigation.navigate("TabNav", {
+				screen: "Game",
+			});
 		}
 	}, [currentIndexQuestionDisplay, lives]);
 

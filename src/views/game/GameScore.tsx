@@ -4,20 +4,23 @@ import { Text, View } from "react-native";
 import { Color, Content, FontSize } from "../../base/constant";
 import GameScoreComponent from "../../components/game/GameScoreComponent";
 import ButtonComponent from "../../base/Button";
-import { CommonActions, useNavigation } from "@react-navigation/core";
-import { NavigationGameProps, RouteGameScoreProps } from "../../navigation/AppNavigator";
+import { useNavigation } from "@react-navigation/core";
+import { MyNavigationProp, RouteGameScoreProps } from "../../navigation/AppNavigator";
+import { useAppDispatch } from "../../store/hooks";
+import { restartCurrentQuizModule } from "../../store/features/QuizModules/CurrentQuizModuleSlice";
+import { restartCurrentQuiz } from "../../store/features/Quiz/CurrentQuizSlice";
 
 const GameScore = ({ route }: RouteGameScoreProps) => {
 	const { score, nbQuestions } = route.params;
-	const navigation = useNavigation<NavigationGameProps>();
+	const navigation = useNavigation<MyNavigationProp>();
+	const dispatch = useAppDispatch();
 
 	const handleResetHome = () => {
-		navigation.dispatch(
-			CommonActions.reset({
-				index: 1,
-				routes: [{ name: "Game" }],
-			}),
-		);
+		dispatch(restartCurrentQuizModule());
+		dispatch(restartCurrentQuiz());
+		navigation.navigate("TabNav", {
+			screen: "Game",
+		});
 	};
 
 	return (

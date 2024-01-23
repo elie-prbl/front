@@ -19,17 +19,17 @@ import Shop from "../views/Shop";
 import Dashboard from "../views/user/Dashboard";
 
 export type StackParamList = {
-	TabNav: undefined;
+	TabNav: { screen: string };
 	Login: undefined;
 	SignUp1: undefined;
 	SignUp2: undefined;
 	SignUp3: undefined;
 	Home: undefined;
 	Map: undefined;
-	Game: { selectedModuleId: number };
+	Game: undefined;
 	GameModule: undefined;
-	GameQuiz: { qid: number };
-	GameScore: { qid: number; score: number; nbQuestions: number };
+	GameQuiz: undefined;
+	GameScore: { score: number; nbQuestions: number };
 	Shop: undefined;
 	Profile: undefined;
 };
@@ -45,15 +45,6 @@ export type NavigationSignUp1Props = NativeStackNavigationProp<StackParamList, "
 
 export type RouteSignUp2Props = NativeStackScreenProps<StackParamList, "SignUp2">;
 export type NavigationSignUp2Props = NativeStackNavigationProp<StackParamList, "SignUp2">;
-
-export type RouteHomeProps = NativeStackScreenProps<StackParamList, "Home">;
-export type NavigationHomeProps = NativeStackNavigationProp<StackParamList, "Home">;
-
-export type RouteGameProps = NativeStackScreenProps<StackParamList, "Game">;
-export type NavigationGameProps = NativeStackNavigationProp<StackParamList, "Game">;
-
-export type RouteGameQuizProps = NativeStackScreenProps<StackParamList, "GameQuiz">;
-export type NavigationGameQuizProps = NativeStackNavigationProp<StackParamList, "GameQuiz">;
 
 export type RouteGameScoreProps = NativeStackScreenProps<StackParamList, "GameScore">;
 export type NavigationGameScoreProps = NativeStackNavigationProp<StackParamList, "GameScore">;

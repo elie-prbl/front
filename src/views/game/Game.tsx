@@ -9,21 +9,19 @@ import { Color, Content, FontSize } from "../../base/constant";
 import ButtonComponent from "../../base/Button";
 import { ListItem } from "@rneui/themed";
 import { useNavigation } from "@react-navigation/core";
-import { MyNavigationProp, NavigationGameQuizProps, RouteGameProps } from "../../navigation/AppNavigator";
+import { MyNavigationProp } from "../../navigation/AppNavigator";
 import GameHeaderComponent from "../../components/game/GameHeaderComponent";
 import { getQuizModules } from "../../store/features/QuizModules/QuizModulesThunk";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
 import { getQuiz } from "../../store/features/Quiz/QuizThunk";
 import { topic } from "../../store/features/QuizModules/QuizModulesSlices";
+import { updateCurrentQuiz } from "../../store/features/Quiz/CurrentQuizSlice";
 
-const Game = ({ route }: RouteGameProps) => {
-	const { selectedModuleId } = route.params || {};
-
-	const navigationGameQuiz = useNavigation<NavigationGameQuizProps>();
-	const navigationGameModule = useNavigation<MyNavigationProp>();
+const Game = () => {
+	const navigation = useNavigation<MyNavigationProp>();
 	const dispatch = useDispatch<AppDispatch>();
-
+	const selectedModuleId = useAppSelector(state => state.currentQuizModule.value);
 	const { modules, isLoading, error } = useAppSelector(state => state.quizModules);
 	const [selectedModule, setSelectedModule] = useState<topic | undefined>();
 
@@ -32,11 +30,12 @@ const Game = ({ route }: RouteGameProps) => {
 	const [expandedItem, setExpandedItem] = useState<number | null>(null);
 
 	const handleGoingToGame = useCallback((qid: number) => {
-		navigationGameQuiz.navigate("GameQuiz", { qid });
+		dispatch(updateCurrentQuiz(qid));
+		navigation.navigate("GameQuiz");
 	}, []);
 
 	const handleGameModule = () => {
-		navigationGameModule.navigate("GameModule");
+		navigation.navigate("GameModule");
 	};
 
 	useEffect(() => {
