@@ -31,7 +31,7 @@ export type StackParamList = {
 	GameQuiz: { qid: number };
 	GameScore: { qid: number; score: number; nbQuestions: number };
 	Shop: undefined;
-	Profil: undefined;
+	Profile: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -99,7 +99,7 @@ const AppNavigator = (): JSX.Element => {
 				<Stack.Screen name="GameScore" component={GameScore} options={{ headerShown: false }} />
 				<Stack.Screen name="Shop" component={Shop} options={{ headerShown: false }} />
 				<Stack.Screen
-					name="Profil"
+					name="Profile"
 					component={Dashboard}
 					options={{
 						headerShown: true,

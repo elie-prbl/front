@@ -8,7 +8,7 @@ import { CommonActions, useNavigation } from "@react-navigation/core";
 import { NavigationGameProps, RouteGameScoreProps } from "../../navigation/AppNavigator";
 
 const GameScore = ({ route }: RouteGameScoreProps) => {
-	const { score, nbQuestions, qid } = route.params;
+	const { score, nbQuestions } = route.params;
 	const navigation = useNavigation<NavigationGameProps>();
 
 	const handleResetHome = () => {
@@ -29,7 +29,7 @@ const GameScore = ({ route }: RouteGameScoreProps) => {
 						bg={Color.GOLD}
 						ml="ml-4"
 						mr="mr-2"
-						title={Content.SUCCESS}
+						title={Content.SUCCESSFUL}
 						colorSubTitle={Color.GOLD}
 						icon="crown"
 						score={`${score} / ${nbQuestions}`}

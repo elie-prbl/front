@@ -60,30 +60,39 @@ export class Content {
 	static PROFIL: string = "Profil";
 
 	//Shop
-	static SHOP_PERSONALISATION = "Personnalisation";
-	static SHOP_POWER_UP = "Power Up";
+	static SHOP_PERSONALISATION: string = "Personnalisation";
+	static SHOP_POWER_UP: string = "Power Up";
 
 	//Quest
-	static SUCCESS = "Succès";
-	static SHOP_TITLE = "Dépenser ces points";
-	static SHOP_DESCRIPTION = "Go à la boutique !";
+	static SUCCESS: string = "Succès";
+	static SHOP_TITLE: string = "Dépenser ces points";
+	static SHOP_DESCRIPTION: string = "Go à la boutique !";
 
 	//Game
-	static CHOOSE_MODULE = "Choisissez un module";
-	static START = "Commencer";
-	static VALIDATE = "Valider";
-	static AGREED = "D'accord";
-	static INCORRECT = "Incorrect";
-	static SUPER = "Super !";
+	static CHOOSE_MODULE: string = "Choisissez un module";
+	static START: string = "Commencer";
+	static VALIDATE: string = "Valider";
+	static AGREED: string = "D'accord";
+	static INCORRECT: string = "Incorrect";
+	static SUPER: string = "Super !";
 	static LESSON_FINISHED: string = "Leçon terminée !";
-	static SUCCESS: string = "Réussite";
+	static SUCCESSFUL: string = "Réussite";
 	static PRECISION: string = "Précision";
 
 	//Dashboard
-	static QUIZZ = "Quizzs réussi";
-	static XP = "Total xp";
-	static DISTANCE = "Km parcouru";
-	static PRECISION = "Précisions";
+	static STATISTICS: string = "Statistiques";
+	static LEVEL: string = "Niveau";
+	static QUIZZ: string = "Quizs réussis";
+	static XP: string = "Total xp";
+	static DISTANCE: string = "Km parcourus";
+
+	//Elie
+	static ELIE: string = "Elie";
+	static ELIE_PIRATE: string = "Elie Pirate";
+	static ELIE_PIRATE_DESCRIPTION: string = "Personnaliser votre Elie pour partir à la découverte de nouveaux quiz !";
+	static ELIE_CYBORG: string = "Elie Cyborg";
+	static ELIE_CYBORG_DESCRIPTION: string =
+		"Elie devient un cyber compagnon près à vous accompagner dans tous vos quiz !";
 }
 
 export class FontSize {
@@ -92,6 +101,7 @@ export class FontSize {
 }
 
 export class Url {
+	// Commande pour récupérer l'ip dans le termainal : ipconfig getifaddr en0
 	static IP: string = "192.168.1.33";
 	static LOCALHOST: string = "localhost";
 	static BASE_URL_API: string = `http://${Url.IP}:8080/api/v1/`;

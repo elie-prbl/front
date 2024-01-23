@@ -19,7 +19,7 @@ const StatDashboardComponent = () => {
 			</View>
 			<View className="flex-row justify-between">
 				<BoxStat
-					color={Color.RED_LIGHT}
+					color={Color.RED_BRIGHT_DARK}
 					result={user?.distanceTraveled}
 					resultType={Content.DISTANCE}
 					icon={<Goal />}
