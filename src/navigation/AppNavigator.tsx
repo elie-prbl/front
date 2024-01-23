@@ -15,6 +15,8 @@ import Map from "../views/Map";
 import GameQuiz from "../views/game/GameQuiz";
 import GameScore from "../views/game/GameScore";
 import Game from "../views/game/Game";
+import Shop from "../views/Shop";
+import Dashboard from "../views/user/Dashboard";
 
 export type StackParamList = {
 	TabNav: undefined;
@@ -28,6 +30,8 @@ export type StackParamList = {
 	GameModule: undefined;
 	GameQuiz: { qid: number };
 	GameScore: { qid: number; score: number; nbQuestions: number };
+	Shop: undefined;
+	Profil: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -93,6 +97,15 @@ const AppNavigator = (): JSX.Element => {
 				<Stack.Screen name="Game" component={Game} options={{ headerShown: false }} />
 				<Stack.Screen name="GameQuiz" component={GameQuiz} options={{ headerShown: false }} />
 				<Stack.Screen name="GameScore" component={GameScore} options={{ headerShown: false }} />
+				<Stack.Screen name="Shop" component={Shop} options={{ headerShown: false }} />
+				<Stack.Screen
+					name="Profil"
+					component={Dashboard}
+					options={{
+						headerShown: true,
+						headerTransparent: false,
+					}}
+				/>
 			</Stack.Navigator>
 		</>
 	);

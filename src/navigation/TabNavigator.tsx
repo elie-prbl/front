@@ -7,10 +7,18 @@ import Game from "../views/game/Game";
 import Shop from "../views/Shop";
 import Map from "../views/Map";
 import Quest from "../views/Quest";
+import { Text, View } from "react-native";
+import ElieHeader from "../svg/ElieHeader";
+import { useAppSelector } from "../store/hooks";
+import { useNavigation } from "@react-navigation/core";
+import { MyNavigationProp } from "./AppNavigator";
+import GameHeaderComponent from "../components/game/GameHeaderComponent";
 
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
+	const navigation = useNavigation<MyNavigationProp>();
+
 	return (
 		<Tab.Navigator
 			screenOptions={{
@@ -21,6 +29,17 @@ const TabNavigator = () => {
 				name="Home"
 				component={Home}
 				options={{
+					headerRight: () => (
+						<Ionicons
+							size={30}
+							style={{ marginRight: 10 }} // Ajoute une marge de 10 sur tous les côtés
+							name="person-circle-outline"
+							onPress={() => {
+								navigation.navigate("Profil");
+							}}
+						/>
+					),
+					headerShown: true,
 					tabBarShowLabel: false,
 					tabBarIcon: ({ color }) => <AntDesign name="home" size={24} color={color} />,
 				}}
@@ -60,6 +79,20 @@ const TabNavigator = () => {
 				options={{
 					tabBarShowLabel: false,
 					tabBarIcon: ({ color }) => <Feather name="list" size={24} color={color} />,
+					headerTitle: () => (
+						<View className="my-2">
+							<Text className="font-bold text-lg text-center mb-2">Quêtes</Text>
+							<View>
+								<Text className="w-10/12 mb-2">
+									Visualises la progression de tes quêtes et dépenses tes points gagnés !
+								</Text>
+								<ElieHeader />
+							</View>
+						</View>
+					),
+					headerStyle: {
+						height: 130,
+					},
 				}}
 			/>
 		</Tab.Navigator>
