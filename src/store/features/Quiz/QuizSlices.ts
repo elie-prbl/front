@@ -1,48 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getQuiz } from "./QuizThunk";
+import { quizQuestionsState } from "../QuizQuestions/QuizQuestionsSlices";
 
 export interface quizState {
-	qid: number;
-	tid: number;
+	id: number;
 	title: string;
-	level: string;
+	topic: string;
+	questions: quizQuestionsState[];
 }
 
 const initialState = {
-	quiz: [
-		{
-			qid: 0,
-			tid: 1,
-			title: "Quiz n°1",
-			level: "",
-		},
-		{
-			qid: 1,
-			tid: 1,
-			title: "Quiz n°2",
-			level: "",
-		},
-		{
-			qid: 2,
-			tid: 1,
-			title: "Quiz n°3",
-			level: "",
-		},
-		{
-			qid: 3,
-			tid: 1,
-			title: "Quiz n°4",
-			level: "",
-		},
-		{
-			qid: 4,
-			tid: 1,
-			title: "Quiz n°5",
-			level: "",
-		},
-	],
-	isLoading: false,
-	error: null as null | unknown,
+	quiz: null as null | quizState[],
+	isLoadingQuiz: false,
+	errorQuiz: null as null | unknown,
 	isModified: false,
 };
 
@@ -53,15 +23,15 @@ export const quizSlice = createSlice({
 	extraReducers: builder => {
 		builder
 			.addCase(getQuiz.pending, (state, action) => {
-				state.isLoading = true;
+				state.isLoadingQuiz = true;
 			})
 			.addCase(getQuiz.fulfilled, (state, action) => {
 				state.quiz = action.payload;
-				state.isLoading = false;
+				state.isLoadingQuiz = false;
 			})
 			.addCase(getQuiz.rejected, (state, action) => {
-				state.isLoading = false;
-				state.error = action.payload;
+				state.isLoadingQuiz = false;
+				state.errorQuiz = action.payload;
 				state.isModified = false;
 			});
 	},

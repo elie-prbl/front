@@ -3,6 +3,7 @@ import { View } from "react-native";
 import ElieCyborg from "../../svg/ElieCyborg";
 import EliePirate from "../../svg/EliePirate";
 import ElieDetail from "../../base/ElieDetail";
+import { Content } from "../../base/constant";
 
 interface CustomizeDashboardComponentProps {
 	title?: string;
@@ -13,16 +14,8 @@ interface CustomizeDashboardComponentProps {
 const CustomizeDashboardComponent = ({ elie }: CustomizeDashboardComponentProps) => {
 	return (
 		<View>
-			<ElieDetail
-				elie={<EliePirate />}
-				title="Elie Pirate"
-				detail="Personnaliser votre Ellie pour partir à la découverte de nouveaux quizz !!"
-			/>
-			<ElieDetail
-				elie={<ElieCyborg />}
-				title="Elie Cyborg"
-				detail="Ellie deviens un cyber compagnon près à vous accompagner dans tout vos quizz"
-			/>
+			<ElieDetail elie={<EliePirate />} title={Content.ELIE_PIRATE} detail={Content.ELIE_PIRATE_DESCRIPTION} />
+			<ElieDetail elie={<ElieCyborg />} title={Content.ELIE_CYBORG} detail={Content.ELIE_CYBORG_DESCRIPTION} />
 		</View>
 	);
 };

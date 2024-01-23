@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Layout from "../../base/Layout";
-import { FlatList, Text, View } from "react-native";
+import { ActivityIndicator, FlatList, Text, View } from "react-native";
 import { useAppSelector } from "../../store/hooks";
 import { quizState } from "../../store/features/Quiz/QuizSlices";
 import CircleComponent from "../../base/Circle";
@@ -8,11 +8,67 @@ import Game1 from "../../svg/Game1";
 import { Color, Content, FontSize } from "../../base/constant";
 import ButtonComponent from "../../base/Button";
 import { ListItem } from "@rneui/themed";
+import { useNavigation } from "@react-navigation/core";
+import { MyNavigationProp } from "../../navigation/AppNavigator";
+import GameHeaderComponent from "../../components/game/GameHeaderComponent";
+import { getQuizModules } from "../../store/features/QuizModules/QuizModulesThunk";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store/store";
+import { getQuiz } from "../../store/features/Quiz/QuizThunk";
+import { topic } from "../../store/features/QuizModules/QuizModulesSlices";
+import { updateCurrentQuiz } from "../../store/features/Quiz/CurrentQuizSlice";
 
 const Game = () => {
-	const quiz: quizState[] = useAppSelector(state => state.quiz.quiz);
+	const navigation = useNavigation<MyNavigationProp>();
+	const dispatch = useDispatch<AppDispatch>();
+	const selectedModuleId = useAppSelector(state => state.currentQuizModule.value);
+	const { modules, isLoading, error } = useAppSelector(state => state.quizModules);
+	const [selectedModule, setSelectedModule] = useState<topic | undefined>();
+
+	const { quiz, isLoadingQuiz, errorQuiz } = useAppSelector(state => state.quiz);
 	const [selectedItem, setSelectedItem] = useState<quizState | null>(null);
 	const [expandedItem, setExpandedItem] = useState<number | null>(null);
+
+	const handleGoingToGame = useCallback((qid: number) => {
+		dispatch(updateCurrentQuiz(qid));
+		navigation.navigate("GameQuiz");
+	}, []);
+
+	const handleGameModule = () => {
+		navigation.navigate("GameModule");
+	};
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				await dispatch(getQuizModules());
+			} catch (error) {
+				console.error("Error fetching quiz modules:", error);
+			}
+		};
+
+		fetchData();
+	}, [dispatch]);
+
+	useEffect(() => {
+		try {
+			if (modules) {
+				setSelectedModule(modules.topics.find(module => module.id === selectedModuleId) ?? modules.topics[0]);
+			}
+		} catch (error) {
+			console.error("Error fetching quiz :", error);
+		}
+	}, [dispatch, modules, selectedModuleId]);
+
+	useEffect(() => {
+		try {
+			if (modules && selectedModule) {
+				dispatch(getQuiz({ id: modules.quiz_id, topic_id: selectedModule!.id }));
+			}
+		} catch (error) {
+			console.error("Error fetching quiz :", error);
+		}
+	}, [dispatch, selectedModule]);
 
 	const renderItem = ({ item }: { item: quizState }) => (
 		<ListItem.Accordion
@@ -27,7 +83,7 @@ const Game = () => {
 							classNameView="w-24 h-24"
 							onPress={() => {
 								setSelectedItem(item);
-								setExpandedItem(prev => (prev === item.qid ? null : item.qid));
+								setExpandedItem(prev => (prev === item.id ? null : item.id));
 							}}
 						/>
 					</ListItem.Content>
@@ -35,14 +91,14 @@ const Game = () => {
 			}
 			noIcon
 			containerStyle={{ backgroundColor: "transparent", justifyContent: "center" }}
-			isExpanded={expandedItem === item.qid}>
+			isExpanded={expandedItem === item.id}>
 			<View className="mx-8 items-center">
 				<View className="w-full p-4 rounded-lg" style={{ backgroundColor: Color.PRIMARY }}>
 					<Text className={`mb-3 font-bold ${FontSize.TEXT_LG}`} style={{ color: Color.WHITE }}>
 						{selectedItem?.title}
 					</Text>
 					<ButtonComponent
-						onPress={() => {}}
+						onPress={() => handleGoingToGame(item.id)}
 						content={Content.START}
 						width="w-full"
 						bg={Color.WHITE}
@@ -54,10 +110,30 @@ const Game = () => {
 		</ListItem.Accordion>
 	);
 
+	if (isLoading || isLoadingQuiz)
+		return (
+			<Layout>
+				<ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center h-full" />
+			</Layout>
+		);
+
+	if (error || errorQuiz)
+		return (
+			<Layout>
+				<View className="h-full justify-center">
+					<Text className="text-center font-bold">Erreur lors du chargement.</Text>
+					<Text className="text-center font-bold">Revenez plus tard.</Text>
+				</View>
+			</Layout>
+		);
+
 	return (
-		<Layout>
-			<FlatList data={quiz} renderItem={renderItem} keyExtractor={item => item.qid.toString()} />
-		</Layout>
+		<>
+			{selectedModule && <GameHeaderComponent onPress={handleGameModule} topic={selectedModule} />}
+			<Layout>
+				<FlatList data={quiz} renderItem={renderItem} keyExtractor={item => item.id.toString()} />
+			</Layout>
+		</>
 	);
 };
 

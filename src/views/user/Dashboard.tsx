@@ -7,6 +7,7 @@ import CustomizeDashboardComponent from "../../components/dashboard/CustomizeDas
 import Layout from "../../base/Layout";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+import { Content } from "../../base/constant";
 
 const Dashboard = () => {
 	const user = useSelector((state: RootState) => state.user.user);
@@ -16,10 +17,10 @@ const Dashboard = () => {
 				<BoxComponent title={user?.username}>
 					<UserDashboardComponent />
 				</BoxComponent>
-				<BoxComponent title="Statistiques">
+				<BoxComponent title={Content.STATISTICS}>
 					<StatDashboardComponent />
 				</BoxComponent>
-				<BoxComponent title="Elie">
+				<BoxComponent title={Content.ELIE}>
 					<CustomizeDashboardComponent elie="" />
 				</BoxComponent>
 			</ScrollView>

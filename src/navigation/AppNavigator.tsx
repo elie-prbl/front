@@ -12,20 +12,26 @@ import TabNavigator from "./TabNavigator";
 import GameModule from "../views/game/GameModule";
 import { Content } from "../base/constant";
 import Map from "../views/Map";
+import GameQuiz from "../views/game/GameQuiz";
+import GameScore from "../views/game/GameScore";
+import Game from "../views/game/Game";
 import Shop from "../views/Shop";
 import Dashboard from "../views/user/Dashboard";
 
 export type StackParamList = {
-	TabNav: undefined;
+	TabNav: { screen: string };
 	Login: undefined;
 	SignUp1: undefined;
 	SignUp2: undefined;
 	SignUp3: undefined;
 	Home: undefined;
 	Map: undefined;
+	Game: undefined;
 	GameModule: undefined;
+	GameQuiz: undefined;
+	GameScore: { score: number; nbQuestions: number };
 	Shop: undefined;
-	Profil: undefined;
+	Profile: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -40,8 +46,8 @@ export type NavigationSignUp1Props = NativeStackNavigationProp<StackParamList, "
 export type RouteSignUp2Props = NativeStackScreenProps<StackParamList, "SignUp2">;
 export type NavigationSignUp2Props = NativeStackNavigationProp<StackParamList, "SignUp2">;
 
-export type RouteHomeProps = NativeStackScreenProps<StackParamList, "Home">;
-export type NavigationHomeProps = NativeStackNavigationProp<StackParamList, "Home">;
+export type RouteGameScoreProps = NativeStackScreenProps<StackParamList, "GameScore">;
+export type NavigationGameScoreProps = NativeStackNavigationProp<StackParamList, "GameScore">;
 
 const AuthStack = () => {
 	return (
@@ -79,9 +85,12 @@ const AppNavigator = (): JSX.Element => {
 					options={{ presentation: "modal", headerTitle: Content.CHOOSE_MODULE }}
 				/>
 				<Stack.Screen name="Map" component={Map} options={{ headerShown: false }} />
+				<Stack.Screen name="Game" component={Game} options={{ headerShown: false }} />
+				<Stack.Screen name="GameQuiz" component={GameQuiz} options={{ headerShown: false }} />
+				<Stack.Screen name="GameScore" component={GameScore} options={{ headerShown: false }} />
 				<Stack.Screen name="Shop" component={Shop} options={{ headerShown: false }} />
 				<Stack.Screen
-					name="Profil"
+					name="Profile"
 					component={Dashboard}
 					options={{
 						headerShown: true,

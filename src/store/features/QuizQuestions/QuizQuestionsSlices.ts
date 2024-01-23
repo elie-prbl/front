@@ -2,14 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 import { getQuizQuestions } from "./QuizQuestionsThunk";
 
 export interface quizQuestionsState {
-	qquid: number;
-	qid: number;
-	body: number;
-	isCorrectAnswer: string;
+	question: string;
+	answers: string[];
+	good_answer: string;
 }
 
 const initialState = {
-	quiz: null as null | quizQuestionsState,
+	questions: null as null | quizQuestionsState[],
 	isLoading: false,
 	error: null as null | unknown,
 	isModified: false,
@@ -25,7 +24,7 @@ export const quizQuestionsSlice = createSlice({
 				state.isLoading = true;
 			})
 			.addCase(getQuizQuestions.fulfilled, (state, action) => {
-				state.quiz = action.payload;
+				state.questions = action.payload;
 				state.isLoading = false;
 			})
 			.addCase(getQuizQuestions.rejected, (state, action) => {
