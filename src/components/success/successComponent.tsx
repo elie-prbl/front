@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Text, View } from "react-native";
 import ProgressBar from "../../base/ProgressBar";
 import { successState } from "../../store/features/Success/SuccessSlices";
@@ -12,8 +12,6 @@ export type successProps = {
 };
 
 const SuccessComponent = ({ success }: successProps) => {
-	const [currentStep, setCurrentStep] = useState<number>(0);
-
 	const SwitchImg = (name: string) => {
 		switch (name) {
 			case "Gamer":
@@ -33,9 +31,9 @@ const SuccessComponent = ({ success }: successProps) => {
 			<View className="h-full w-9/12">
 				<Text className="mb-2 font-semibold">{success?.name}</Text>
 				<View className="flex flex-row items-stretch justify-between rounded-lg">
-					<ProgressBar currentStep={0} totalStep={success?.done_condition} width={200} />
+					<ProgressBar currentStep={success?.progress} totalStep={success?.done_condition} width={200} />
 					<Text>
-						{currentStep} / {success?.done_condition}
+						{success?.progress} / {success?.done_condition}
 					</Text>
 				</View>
 				<Text className="mt-2"> {success?.description} </Text>

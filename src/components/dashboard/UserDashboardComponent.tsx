@@ -19,7 +19,7 @@ const UserDashboardComponent = () => {
 				<View className="flex-row justify-between items-center">
 					<View className="flex-row gap-5 items-center">
 						<Ionicons name="time" size={20} />
-						<Text>{user?.createdAt}</Text>
+						<Text>Inscrit depuis le 10 novembre 2023</Text>
 					</View>
 					<Ionicons name="create-outline" size={20} />
 				</View>

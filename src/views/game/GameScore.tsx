@@ -7,19 +7,37 @@ import ButtonComponent from "../../base/Button";
 import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp, RouteGameScoreProps } from "../../navigation/AppNavigator";
 import { useAppDispatch } from "../../store/hooks";
-import { restartCurrentQuizModule } from "../../store/features/QuizModules/CurrentQuizModuleSlice";
 import { restartCurrentQuiz } from "../../store/features/Quiz/CurrentQuizSlice";
+import { updateQuestsQuiz, updateQuestsQuizWon } from "../../store/features/Quests/QuestsSlices";
+import { updateUserQuizWon, updateUserXp } from "../../store/features/User/UserSlices";
+import { updateSuccessQuiz, updateSuccessQuizWon } from "../../store/features/Success/SuccessSlices";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 const GameScore = ({ route }: RouteGameScoreProps) => {
 	const { score, nbQuestions } = route.params;
 	const navigation = useNavigation<MyNavigationProp>();
 	const dispatch = useAppDispatch();
+	const quests = useSelector((state: RootState) => state.quests.quests);
+	const quizWon = score === nbQuestions;
 
 	const handleResetHome = () => {
-		dispatch(restartCurrentQuizModule());
 		dispatch(restartCurrentQuiz());
 		navigation.navigate("TabNav", {
 			screen: "Game",
+		});
+		if (quizWon) {
+			dispatch(updateQuestsQuizWon());
+			dispatch(updateSuccessQuizWon());
+			dispatch(updateUserQuizWon());
+		} else {
+			dispatch(updateSuccessQuiz());
+			dispatch(updateQuestsQuiz());
+		}
+		quests.map(quest => {
+			if (quest.progress === quest.done_condition) {
+				dispatch(updateUserXp(quest.xp));
+			}
 		});
 	};
 

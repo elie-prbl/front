@@ -24,7 +24,12 @@ const StatDashboardComponent = () => {
 					resultType={Content.DISTANCE}
 					icon={<Goal />}
 				/>
-				<BoxStat color={Color.PRIMARY} result={user?.accuracy} resultType={Content.PRECISION} icon={<Target />} />
+				<BoxStat
+					color={Color.PRIMARY}
+					result={user?.currency_amount}
+					resultType={Content.PRECISION}
+					icon={<Target />}
+				/>
 			</View>
 		</View>
 	);

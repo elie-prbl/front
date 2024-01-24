@@ -37,15 +37,21 @@ const Home = () => {
 		});
 	}, []);
 
+	const handleNavigateToGame = () => {
+		navigation.navigate("TabNav", {
+			screen: "Game",
+		});
+	};
+
 	return (
 		<Layout>
 			<ScrollView showsVerticalScrollIndicator={false}>
-				<BoxComponent title={Content.DAILY_QUEST}>
+				<BoxComponent title={Content.DAILY_QUEST} onPress={handleNavigateToGame}>
 					<QuestComponent quest={quests.filter(q => q.difficulty === Difficulty.BEGINNER)[0]} img={<Circle1 />} />
 					<QuestComponent quest={quests.filter(q => q.difficulty === Difficulty.INTERMEDIATE)[0]} img={<Circle1 />} />
 					<QuestComponent quest={quests.filter(q => q.difficulty === Difficulty.ADVANCED)[0]} img={<Circle1 />} />
 				</BoxComponent>
-				<BoxComponent title={Content.SHOP} itemRight={`${user?.rubis} rubis`} height="h-1/5">
+				<BoxComponent title={Content.SHOP} itemRight={`${user?.currency_amount} rubis`} height="h-1/5">
 					<ShopHomeComponent />
 				</BoxComponent>
 				<BoxComponent title={Content.GAME}>
