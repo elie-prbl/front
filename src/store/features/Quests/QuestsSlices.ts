@@ -1,59 +1,40 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getQuests } from "./QuestsThunk";
+import { getDailyQuests } from "./QuestsThunk";
 
 export enum Difficulty {
-	BEGINNER = "BEGINNER",
-	INTERMEDIATE = "INTERMEDIATE",
-	ADVANCED = "ADVANCED",
+	BEGINNER = "easy",
+	INTERMEDIATE = "intermediate",
+	ADVANCED = "advanced",
 }
 
 export enum QuestsType {
-	QUIZ = "QUIZ",
-	QUIZWON = "QUIZWON",
-	CONNECTION = "CONNECTION",
-	SCAN = "SCAN",
+	QUIZ = "Quiz",
+	QUIZWON = "QuizWon",
+	CONNECTION = "Connection",
+	GAMES = "Games",
 	EVENT = "EVENT",
 }
+
+export interface QuestTypeI {
+	id: number;
+	type: QuestsType;
+}
 export interface QuestState {
-	qeid: number;
-	name: string;
+	id: number;
+	quest_type_id: number;
+	quest_type: QuestTypeI;
 	xp: number;
-	qtid: string;
 	difficulty: Difficulty;
+	name: string;
 	done_condition: any;
 	progress: number;
+	currency_reward: number;
+	createdAt?: string;
+	updatedAt?: string;
 }
 
 const initialState = {
-	quests: [
-		{
-			qeid: 2,
-			name: "Joue à 1 quiz",
-			xp: 10,
-			qtid: QuestsType.QUIZ,
-			difficulty: Difficulty.BEGINNER,
-			done_condition: 1,
-			progress: 0,
-		},
-		{
-			qeid: 3,
-			name: "Gagne 1 quiz",
-			xp: 20,
-			qtid: QuestsType.QUIZWON,
-			difficulty: Difficulty.INTERMEDIATE,
-			done_condition: 1,
-			progress: 0,
-		},
-		{
-			qeid: 5,
-			name: "Gagne 3 quiz",
-			xp: 50,
-			qtid: QuestsType.QUIZWON,
-			difficulty: Difficulty.ADVANCED,
-			done_condition: 3,
-			progress: 0,
-		},
-	],
+	quests: [] as QuestState[],
 	isLoading: false,
 	error: null as null | unknown,
 	isModified: false,
@@ -65,14 +46,14 @@ export const getQuestsSlice = createSlice({
 	reducers: {
 		updateQuestsQuiz: state => {
 			state.quests.map(q => {
-				if (q.qtid === QuestsType.QUIZ) {
+				if (q.quest_type_id === 8) {
 					q.progress += 1;
 				}
 			});
 		},
 		updateQuestsQuizWon: state => {
 			state.quests.map(q => {
-				if (q.qtid === QuestsType.QUIZWON || q.qtid === QuestsType.QUIZ) {
+				if (q.quest_type_id === 9 || q.quest_type_id === 8) {
 					q.progress += 1;
 				}
 			});
@@ -80,14 +61,14 @@ export const getQuestsSlice = createSlice({
 	},
 	extraReducers: builder => {
 		builder
-			.addCase(getQuests.pending, (state, action) => {
+			.addCase(getDailyQuests.pending, (state, action) => {
 				state.isLoading = true;
 			})
-			.addCase(getQuests.fulfilled, (state, action) => {
+			.addCase(getDailyQuests.fulfilled, (state, action) => {
 				state.quests = action.payload;
 				state.isLoading = false;
 			})
-			.addCase(getQuests.rejected, (state, action) => {
+			.addCase(getDailyQuests.rejected, (state, action) => {
 				state.isLoading = false;
 				state.error = action.payload;
 				state.isModified = false;

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import { ScrollView, Text } from "react-native";
+import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 import BoxComponent from "../base/Box";
-import { Content } from "../base/constant";
+import { Color, Content } from "../base/constant";
 import QuestComponent from "../components/quest/QuestComponent";
 import ShopHomeComponent from "../components/shop/ShopHomeComponent";
 import GameHomeComponent from "../components/game/GameHomeComponent";
@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import Layout from "../base/Layout";
 import Circle1 from "../svg/Circle1";
-import { Difficulty } from "../store/features/Quests/QuestsSlices";
+import { getDailyQuests } from "../store/features/Quests/QuestsThunk";
 
 export enum ContentHome {
 	MAP = "Map",
@@ -25,7 +25,7 @@ const Home = () => {
 	const dispatch = useAppDispatch();
 	const navigation = useNavigation<MyNavigationProp>();
 	const position = useSelector((state: RootState) => state.position.position);
-	const quests = useSelector((state: RootState) => state.quests.quests);
+	const { quests, isLoading, error } = useSelector((state: RootState) => state.quests);
 	const user = useSelector((state: RootState) => state.user.user);
 
 	useEffect(() => {
@@ -37,19 +37,43 @@ const Home = () => {
 		});
 	}, []);
 
+	useEffect(() => {
+		dispatch(getDailyQuests());
+	}, [dispatch]);
+
 	const handleNavigateToGame = () => {
 		navigation.navigate("TabNav", {
 			screen: "Game",
 		});
 	};
 
+	const questsMapping = quests.map((q, index) => {
+		console.log("home", q.progress);
+		return <QuestComponent key={index} quest={q} img={<Circle1 />} />;
+	});
+
+	if (isLoading)
+		return (
+			<Layout>
+				<ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center h-full" />
+			</Layout>
+		);
+
+	if (error)
+		return (
+			<Layout>
+				<View className="h-full justify-center">
+					<Text className="text-center font-bold">Erreur lors du chargement.</Text>
+					<Text className="text-center font-bold">Revenez plus tard.</Text>
+				</View>
+			</Layout>
+		);
+
 	return (
 		<Layout>
 			<ScrollView showsVerticalScrollIndicator={false}>
 				<BoxComponent title={Content.DAILY_QUEST} onPress={handleNavigateToGame}>
-					<QuestComponent quest={quests.filter(q => q.difficulty === Difficulty.BEGINNER)[0]} img={<Circle1 />} />
-					<QuestComponent quest={quests.filter(q => q.difficulty === Difficulty.INTERMEDIATE)[0]} img={<Circle1 />} />
-					<QuestComponent quest={quests.filter(q => q.difficulty === Difficulty.ADVANCED)[0]} img={<Circle1 />} />
+					{questsMapping}
 				</BoxComponent>
 				<BoxComponent title={Content.SHOP} itemRight={`${user?.currency_amount} rubis`} height="h-1/5">
 					<ShopHomeComponent />
