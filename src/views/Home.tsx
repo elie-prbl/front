@@ -16,9 +16,12 @@ import { RootState } from "../store/store";
 import Layout from "../base/Layout";
 import Circle1 from "../svg/Circle1";
 import { Difficulty } from "../store/features/Quests/QuestsSlices";
+import GemComponent from "../base/Gem";
 
 export enum ContentHome {
 	MAP = "Map",
+	GAME = "Game",
+	SHOP = "Shop",
 }
 
 const Home = () => {
@@ -37,24 +40,22 @@ const Home = () => {
 		});
 	}, []);
 
-	const handleNavigateToGame = () => {
-		navigation.navigate("TabNav", {
-			screen: "Game",
-		});
-	};
-
 	return (
 		<Layout>
 			<ScrollView showsVerticalScrollIndicator={false}>
-				<BoxComponent title={Content.DAILY_QUEST} onPress={handleNavigateToGame}>
+				<BoxComponent title={Content.DAILY_QUEST} onPress={() => navigation.navigate(ContentHome.GAME)}>
 					<QuestComponent quest={quests.filter(q => q.difficulty === Difficulty.BEGINNER)[0]} img={<Circle1 />} />
 					<QuestComponent quest={quests.filter(q => q.difficulty === Difficulty.INTERMEDIATE)[0]} img={<Circle1 />} />
 					<QuestComponent quest={quests.filter(q => q.difficulty === Difficulty.ADVANCED)[0]} img={<Circle1 />} />
 				</BoxComponent>
-				<BoxComponent title={Content.SHOP} itemRight={`${user?.currency_amount} rubis`} height="h-1/5">
+				<BoxComponent
+					title={Content.SHOP}
+					itemRight={<GemComponent nb={user?.currency_amount} />}
+					height="h-40"
+					onPress={() => navigation.navigate(ContentHome.SHOP)}>
 					<ShopHomeComponent />
 				</BoxComponent>
-				<BoxComponent title={Content.GAME}>
+				<BoxComponent title={Content.GAME} onPress={() => navigation.navigate(ContentHome.GAME)}>
 					<GameHomeComponent nextQuiz="" />
 				</BoxComponent>
 				<BoxComponent title={Content.MAP} height="h-48" onPress={() => navigation.navigate(ContentHome.MAP)}>
@@ -71,7 +72,7 @@ const Home = () => {
 					/>
 				</BoxComponent>
 				<BoxComponent title={Content.EVENT} height="h-24">
-					<Text />
+					<Text>Fonctionnalité à découvrir prochainement !</Text>
 				</BoxComponent>
 			</ScrollView>
 		</Layout>
