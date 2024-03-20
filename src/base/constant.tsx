@@ -62,6 +62,11 @@ export class Content {
 	//Shop
 	static SHOP_PERSONALISATION: string = "Personnalisation";
 	static SHOP_POWER_UP: string = "Power Up";
+	static SHOP_POWER_UP_LIFE_TITLE: string = "5 cœurs";
+	static SHOP_POWER_UP_LIFE_DESCRIPTION: string = "Vous permet de récuperer de la vie pour jouer aux quiz";
+	static SHOP_POWER_UP_BOOST_TITLE: string = "Boost";
+	static SHOP_POWER_UP_BOOST_DESCRIPTION: string =
+		"Vous permet de réaliser des quiz pendant 20 minutes sans perdre de vie";
 
 	//Quest
 	static SUCCESS: string = "Succès";
@@ -93,6 +98,8 @@ export class Content {
 	static ELIE_CYBORG: string = "Elie Cyborg";
 	static ELIE_CYBORG_DESCRIPTION: string =
 		"Elie devient un cyber compagnon près à vous accompagner dans tous vos quiz !";
+	static ELIE_GOLD: string = "Elie Gold";
+	static ELIE_GOLD_DESCRIPTION: string = "Prenez la route de la richesse avec Ellie Gold !";
 }
 
 export class FontSize {
@@ -102,7 +109,7 @@ export class FontSize {
 
 export class Url {
 	// Commande pour récupérer l'ip dans le termainal : ipconfig getifaddr en0
-	static IP: string = "192.168.1.33";
+	static IP: string = "10.49.34.133";
 	static LOCALHOST: string = "localhost";
 	static BASE_URL_API: string = `http://${Url.IP}:8080/api/v1/`;
 }
