@@ -30,7 +30,6 @@ class WebSocketSingleton {
 
 		this.ws.onmessage = event => {
 			console.log("Received message:", event.data);
-			// Insérez votre logique de traitement des messages ici
 		};
 	}
 
