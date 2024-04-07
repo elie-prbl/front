@@ -132,6 +132,9 @@ const Game = () => {
 			{selectedModule && <GameHeaderComponent onPress={handleGameModule} topic={selectedModule} />}
 			<Layout>
 				<FlatList data={quiz} renderItem={renderItem} keyExtractor={item => item.id.toString()} />
+				<View className="items-center mb-2">
+					<ButtonComponent onPress={() => navigation.navigate("GameMatchMaking")} content="Dual quiz" />
+				</View>
 			</Layout>
 		</>
 	);
