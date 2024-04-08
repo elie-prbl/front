@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../base/Layout";
 import GameHeaderGemLifeComponent from "../../components/game/GameHeaderGemLifeComponent";
 import { SafeAreaView, Text, View, Platform, ActivityIndicator } from "react-native";
@@ -7,12 +7,12 @@ import BoxComponent from "../../base/Box";
 import WebSocketSingleton from "../../websocket/WebSocketSingleton";
 
 const GameMatchMaking = () => {
-	const [isLoading, setIsLoading] = React.useState(false);
-	const [error, setError] = React.useState(false);
+	let uuid = "";
+
+	const [isLoading, setIsLoading] = useState(true);
+	const [error, setError] = useState(false);
 
 	useEffect(() => {
-		let uuid = "";
-
 		// Utilisation de Platform pour faker mes deux utilisateurs
 		// Pour avoir deux urls différentes pour le match making
 		if (Platform.OS === "ios") {
@@ -26,7 +26,7 @@ const GameMatchMaking = () => {
 		const ws = wsSingleton.getWebSocket(webSocketUrl);
 
 		ws.onmessage = event => {
-			console.log("Received message:", event.data);
+			console.log("Game match making message:", event.data);
 			const data = JSON.parse(event.data.toString());
 			if (data.type.toLowerCase() === "queue") {
 				setIsLoading(true);
