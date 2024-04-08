@@ -39,8 +39,10 @@ const GameMatchMaking = () => {
 			setError(true);
 		};
 
-		return () => {};
-	}, []);
+		return () => {
+			ws.close();
+		};
+	}, [uuid]);
 
 	if (error)
 		return (

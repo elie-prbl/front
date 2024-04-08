@@ -34,7 +34,7 @@ class WebSocketSingleton {
 	}
 
 	public getWebSocket(url: string): WebSocketClient {
-		if (!this.ws) {
+		if (!this.ws || this.ws.readyState === WebSocket.CLOSED) {
 			this.connectWebSocket(url);
 		}
 		return this.ws as WebSocketClient;
