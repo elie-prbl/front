@@ -84,6 +84,11 @@ export class Content {
 	static SUCCESSFUL: string = "Réussite";
 	static PRECISION: string = "Précision";
 
+	//Game Multiplayer
+	static MATCH_MAKING: string = "Match making";
+	static WAITING: string = "Recherche d'un joueur...";
+	static MATCH: string = "Match trouvé !";
+
 	//Dashboard
 	static STATISTICS: string = "Statistiques";
 	static LEVEL: string = "Niveau";
@@ -109,7 +114,8 @@ export class FontSize {
 
 export class Url {
 	// Commande pour récupérer l'ip dans le termainal : ipconfig getifaddr en0
-	static IP: string = "10.49.34.133";
+	static IP: string = "192.168.1.133";
 	static LOCALHOST: string = "localhost";
 	static BASE_URL_API: string = `http://${Url.IP}:8080/api/v1/`;
+	static BASE_URL_WS: string = `ws://${Url.IP}:8080/ws`;
 }
