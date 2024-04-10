@@ -100,6 +100,12 @@ export class Content {
 		"Elie devient un cyber compagnon près à vous accompagner dans tous vos quiz !";
 	static ELIE_GOLD: string = "Elie Gold";
 	static ELIE_GOLD_DESCRIPTION: string = "Prenez la route de la richesse avec Ellie Gold !";
+
+
+	//Header
+	static HOMEHEADER: string = "Pour gagner des points réalises des Quêtes ";
+	static QUESTHEADER: string = "Visualises la progression de tes quêtes et dépenses tes points gagnés !";
+	static SHOPHEADER: string = "Ici tu peux dépenser tes rubis ";
 }
 
 export class FontSize {

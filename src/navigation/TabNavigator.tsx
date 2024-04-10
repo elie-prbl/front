@@ -1,6 +1,6 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Color } from "../base/constant";
+import { Color, Content } from "../base/constant";
 import Home from "../views/Home";
 import { AntDesign, Feather, Ionicons } from "@expo/vector-icons";
 import Game from "../views/game/Game";
@@ -11,6 +11,7 @@ import { Text, View } from "react-native";
 import ElieHeader from "../svg/ElieHeader";
 import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp } from "./AppNavigator";
+import Header from "../base/Header";
 
 const Tab = createBottomTabNavigator();
 
@@ -61,6 +62,10 @@ const TabNavigator = () => {
 				options={{
 					tabBarShowLabel: false,
 					tabBarIcon: ({ color }) => <AntDesign name="shoppingcart" size={24} color={color} />,
+					headerTitle: () => <Header headertext={Content.SHOPHEADER} />,
+					headerStyle: {
+						height: 130,
+					},
 				}}
 			/>
 			<Tab.Screen
@@ -77,17 +82,7 @@ const TabNavigator = () => {
 				options={{
 					tabBarShowLabel: false,
 					tabBarIcon: ({ color }) => <Feather name="list" size={24} color={color} />,
-					headerTitle: () => (
-						<View className="my-2">
-							<Text className="font-bold text-lg text-center mb-2">Quêtes</Text>
-							<View>
-								<Text className="w-10/12 mb-2">
-									Visualises la progression de tes quêtes et dépenses tes points gagnés !
-								</Text>
-								<ElieHeader />
-							</View>
-						</View>
-					),
+					headerTitle: () => <Header headertext={Content.QUESTHEADER} />,
 					headerStyle: {
 						height: 130,
 					},
