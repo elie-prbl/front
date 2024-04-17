@@ -5,7 +5,7 @@ import { Content } from "../base/constant";
 import QuestComponent from "../components/quest/QuestComponent";
 import ShopHomeComponent from "../components/shop/ShopHomeComponent";
 import GameHomeComponent from "../components/game/GameHomeComponent";
-import { useAppDispatch } from "../store/hooks";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { setPosition } from "../store/features/Position/PositionSlices";
 import { getTheCurrentPosition } from "../utils";
 import MapView from "react-native-maps";
@@ -17,6 +17,7 @@ import Layout from "../base/Layout";
 import Circle1 from "../svg/Circle1";
 import { Difficulty } from "../store/features/Quests/QuestsSlices";
 import GemComponent from "../base/Gem";
+import { getUser } from "../store/features/User/UserThunk";
 
 export enum ContentHome {
 	MAP = "Map",
@@ -29,7 +30,7 @@ const Home = () => {
 	const navigation = useNavigation<MyNavigationProp>();
 	const position = useSelector((state: RootState) => state.position.position);
 	const quests = useSelector((state: RootState) => state.quests.quests);
-	const user = useSelector((state: RootState) => state.user.user);
+	const { user, isLoading, error } = useAppSelector((state: RootState) => state.user);
 
 	useEffect(() => {
 		getTheCurrentPosition().then(location => {
@@ -39,6 +40,18 @@ const Home = () => {
 			}
 		});
 	}, []);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				await dispatch(getUser());
+			} catch (error) {
+				console.error("Error get user:", error);
+			}
+		};
+
+		fetchData();
+	}, [dispatch]);
 
 	return (
 		<Layout>

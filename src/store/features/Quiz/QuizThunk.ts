@@ -8,7 +8,7 @@ export interface getQuizParams {
 
 export const getQuiz = createAsyncThunk("getQuiz", async (getQuizParam: getQuizParams, { rejectWithValue }) => {
 	const response = await fetch(
-		`${Url.BASE_URL_API}games/quiz/${getQuizParam.id}/data?topic_id=${getQuizParam.topic_id}`,
+		`${Url.BASE_URL_API}/games/quiz/${getQuizParam.id}/data?topic_id=${getQuizParam.topic_id}`,
 		{
 			method: "GET",
 			headers: {

@@ -17,7 +17,7 @@ const BoxComponent = ({ title, height, children, itemRight, onPress }: BoxCompon
 			style={{ backgroundColor: Color.WHITE }}
 			className={`${height} mx-2 my-1.5 p-4 rounded-lg`}>
 			<View className="mb-2 flex-row justify-between">
-				<Text className={FontSize.TEXT_XL}>{title}</Text>
+				<Text className={`${FontSize.TEXT_XL} font-medium`}>{title}</Text>
 				{typeof itemRight === "string" ? (
 					<Text className={FontSize.TEXT_XL}>{itemRight}</Text>
 				) : (

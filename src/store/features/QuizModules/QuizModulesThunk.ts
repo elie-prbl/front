@@ -4,7 +4,7 @@ import { topic } from "./QuizModulesSlices";
 
 export const getQuizModules = createAsyncThunk("getQuizModules", async (_, { rejectWithValue }) => {
 	try {
-		const response = await fetch(`${Url.BASE_URL_API}games/quiz`, {
+		const response = await fetch(`${Url.BASE_URL_API}/games/quiz`, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",

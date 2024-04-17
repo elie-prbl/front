@@ -21,7 +21,7 @@ const Dashboard = () => {
 					<StatDashboardComponent />
 				</BoxComponent>
 				<BoxComponent title={Content.ELIE}>
-					<CustomizeDashboardComponent elie="" />
+					<CustomizeDashboardComponent />
 				</BoxComponent>
 			</ScrollView>
 		</Layout>

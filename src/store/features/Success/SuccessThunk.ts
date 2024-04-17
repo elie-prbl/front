@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { Url } from "../../../base/constant";
 export const getSuccess = createAsyncThunk("getSuccess", async (_, { rejectWithValue }) => {
-	const response = await fetch(`https://dog.ceo/api/breeds/image/random`, {
+	const response = await fetch(`${Url.BASE_URL_API}/successes/user?user_id=27`, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",

@@ -4,7 +4,7 @@ import { Color, FontSize } from "./constant";
 import React from "react";
 
 interface GemComponentProps {
-	nb: number;
+	nb?: number;
 }
 
 const GemComponent = ({ nb }: GemComponentProps) => {
