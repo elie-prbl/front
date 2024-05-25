@@ -2,7 +2,7 @@ import React from "react";
 import { SvgXml } from "react-native-svg";
 
 export default function ElieHeader() {
-	const svg = `<svg width="50" height="50" viewBox="0 0 58 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+	const svg = `<svg width="50" height="50" viewBox="0 0 58 31" fill="none" xmlns="http://www.w3.org/2000/svg">
 		<path d="M10.4104 27.8025C1.86261 19.2492 4.28676 12.9674 5.98568 10.6933C11.0602 15.3274 16.4477 16.8007 18.5071 16.9581L16.2556 20.1412L10.6598 28.0521C18.8613 36.2631 14.0132 31.6266 10.5245 28.2434L10.6598 28.0521C10.578 27.9702 10.4949 27.887 10.4104 27.8025Z" fill="#58CC02"/>
 		<path d="M44.385 19.5807C47.7144 7.95573 42.6737 3.41633 39.9603 2.4715C37.7687 8.98477 33.771 12.8853 32.046 14.0214L35.5584 15.7137L44.2879 19.9199C41.0955 31.0776 43.0879 24.672 44.4991 20.0216L44.2879 19.9199C44.3198 19.8086 44.3521 19.6955 44.385 19.5807Z" fill="#58CC02"/>
 		<path d="M44.2159 20.1889C47.8904 8.27711 42.852 3.74652 40.3758 2.45807C39.2763 1.98968 40.742 2.97158 40.9574 4.70696C41.3874 8.17117 38.8216 12.3004 37.837 15.1582L44.2159 20.1889Z" fill="white"/>
@@ -22,7 +22,7 @@ export default function ElieHeader() {
 		<path d="M47.3492 45.001H32.0242C34.0804 41.2837 37.1092 39.5009 39.9682 39.5009C42.825 39.5009 45.6671 41.2812 47.3492 45.001Z" fill="#58CC02" stroke="white"/>
 	</svg>`;
 
-	const Svg = () => <SvgXml xml={svg} className="w-full absolute right-0" />;
+	const Svg = () => <SvgXml xml={svg} className="absolute right-0 bottom-0" />;
 
 	return <Svg />;
 }

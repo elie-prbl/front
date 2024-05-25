@@ -44,12 +44,12 @@ const Quest = () => {
 			<ScrollView showsVerticalScrollIndicator={false}>
 				<ModuleGame
 					onPress={() => navigation.navigate(ContentQuest.SHOP)}
-					title={Content.SHOP_TITLE}
+					title={Content.SPEND_SHOP}
 					bg={Color.CYAN_LIGHT}
 					shadowColor={Color.CYAN_DARK}
 					borderColor={Color.CYAN_DARK}
 					width="w-[95%] self-center mt-2"
-					description={Content.SHOP_DESCRIPTION}
+					description={Content.GO_SHOP}
 					icon={<Entypo name="shop" size={24} color="white" />}
 				/>
 				<BoxComponent title={Content.DAILY_QUEST}>
