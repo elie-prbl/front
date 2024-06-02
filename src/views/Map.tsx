@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import MapView, { Region } from "react-native-maps";
+import React, { useEffect, useRef } from "react";
+import MapView from "react-native-maps";
 import { Pressable } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
@@ -8,14 +8,15 @@ import Layout from "../base/Layout";
 
 const Map = () => {
 	const position = useSelector((state: RootState) => state.position.position);
-	const [currentRegion, setCurrentRegion] = useState<Region | undefined>(undefined);
+	const mapRef = useRef<MapView>(null);
+
 	const setTheCurrentPosition = () => {
-		if (position) {
-			setCurrentRegion({
+		if (position && mapRef.current) {
+			mapRef.current.animateToRegion({
 				latitude: position.latitude,
 				longitude: position.longitude,
-				latitudeDelta: 0.0922,
-				longitudeDelta: 0.0421,
+				latitudeDelta: 0.06,
+				longitudeDelta: 0.04,
 			});
 		}
 	};
@@ -27,10 +28,19 @@ const Map = () => {
 	return (
 		<Layout>
 			<MapView
+				ref={mapRef}
 				className="w-full h-full"
-				region={currentRegion}
+				initialRegion={
+					position
+						? {
+								latitude: position.latitude,
+								longitude: position.longitude,
+								latitudeDelta: 0.06,
+								longitudeDelta: 0.04,
+						  }
+						: undefined
+				}
 				showsUserLocation
-				onRegionChange={region => setCurrentRegion(region)}
 			/>
 			<Pressable
 				onPress={() => setTheCurrentPosition()}
