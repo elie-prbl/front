@@ -12,6 +12,7 @@ import ElieHeader from "../svg/ElieHeader";
 import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp } from "./AppNavigator";
 import Header from "../base/Header";
+import { black } from "colorette";
 
 const Tab = createBottomTabNavigator();
 
@@ -38,7 +39,12 @@ const TabNavigator = () => {
 							}}
 						/>
 					),
+					headerStyle: {
+						height: 130,
+						backgroundColor: "#f4511e",
+					},
 					headerShown: true,
+					headerTitle: () => <Header headertext={Content.SHOPHEADER} />,
 					tabBarShowLabel: false,
 					tabBarIcon: ({ color }) => <AntDesign name="home" size={24} color={color} />,
 				}}
@@ -62,7 +68,7 @@ const TabNavigator = () => {
 				options={{
 					tabBarShowLabel: false,
 					tabBarIcon: ({ color }) => <AntDesign name="shoppingcart" size={24} color={color} />,
-					headerTitle: () => <Header headertext={Content.SHOPHEADER} />,
+
 					headerStyle: {
 						height: 130,
 					},

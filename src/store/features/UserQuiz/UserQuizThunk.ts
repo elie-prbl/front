@@ -1,8 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Url } from "../../../base/constant";
 
-export const getUserQuiz = createAsyncThunk("getUserQuiz", async (_, { rejectWithValue }) => {
-	const response = await fetch(`${Url.BASE_URL_API}games/quiz`, {
+export const getUserQuiz = createAsyncThunk("getUserQuiz", async (userId, { rejectWithValue }) => {
+	const response = await fetch(`${Url.BASE_URL_API}games/quiz/${userId}`, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",
@@ -16,7 +16,7 @@ export const getUserQuiz = createAsyncThunk("getUserQuiz", async (_, { rejectWit
 });
 
 export const submitUserQuiz = createAsyncThunk("submitUserQuiz", async (quizData, { rejectWithValue }) => {
-	const response = await fetch(`${Url.BASE_URL_API}games/quiz`, {
+	const response = await fetch(`${Url.BASE_URL_API}games/quiz/user`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",

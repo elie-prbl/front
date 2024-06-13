@@ -8,10 +8,10 @@ interface Props {
 
 const Header = ({ headertext }: Props) => {
 	return (
-		<View className="my-2">
+		<View className="mx-1 my-2 bg-black">
 			<Text className="font-bold text-lg text-center mb-2">Quêtes</Text>
 			<View>
-				<Text className="w-11/12 mb-1">
+				<Text className=" mb-2">
 					{headertext}
 				</Text>
 				<ElieHeader />
