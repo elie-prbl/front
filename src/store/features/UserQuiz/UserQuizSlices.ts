@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getUserQuiz, submitUserQuiz } from "./UserQuizThunk"; // Assurez-vous d'importer correctement les thunks.
+import { getUserQuiz, submitUserQuiz } from "./UserQuizThunk";
 
 export interface UserQuizState {
-	quizzes: any[]; // Définissez un type plus précis selon votre structure de données.
+	quizzes: any[];
 	isLoading: boolean;
 	error: null | string;
 	isModified: boolean;
