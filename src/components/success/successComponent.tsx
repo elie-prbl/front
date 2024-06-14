@@ -14,33 +14,35 @@ export type successProps = {
 const SuccessComponent = ({ success }: successProps) => {
 	const SwitchImg = (name: string) => {
 		switch (name) {
-			case "Gamer":
+			case "level":
 				return <SuccessQuiz />;
-			case "Elien":
+			case "login":
 				return <SuccessConnection />;
-			case "Winner":
+			case "quiz_complete":
 				return <SuccessQuizWin />;
+			case "avatar":
+				return <SuccessConnection />;
 			default:
 				console.log(`error to load success image`);
 		}
 	};
 
 	return (
-		<View className="flex-row h-28 my-3">
-			{SwitchImg(success?.name)}
-			<View className="h-full w-9/12">
-				<Text className="mb-2 font-semibold">{success?.name}</Text>
-				<View className="flex flex-row items-stretch justify-between rounded-lg">
-					<ProgressBar currentStep={success?.progress} totalStep={success?.done_condition} width={200} />
+		<View className="flex-row w-full my-2 h-28">
+			{SwitchImg(success?.success.tags)}
+			<View className="flex-col flex-1">
+				<Text className="font-semibold">{success?.success.name}</Text>
+				<View className="flex-row justify-between mt-2 w-full">
+					<ProgressBar currentStep={success?.progression} totalStep={success?.success.done_condition} width={200} />
 					<Text>
-						{success?.progress} / {success?.done_condition}
+						{success?.progression} / {success?.success.done_condition}
 					</Text>
 				</View>
-				<Text className="mt-2"> {success?.description} </Text>
-				<View className="flex-row justify-between mt-2">
-					<Text className="mt-1"> + {success?.xp} xp </Text>
-					<View className="flex-row items-start">
-						<Text className="mt-1"> + {success?.rubis} </Text>
+				<Text className="mt-3">Récompenses :</Text>
+				<View className="flex-row justify-between">
+					<Text className="mt-1">+ {success?.success.xp} xp</Text>
+					<View className="flex-row items-center">
+						<Text className="mt-1 mr-1">+ {success?.success.currency_reward}</Text>
 						<Gem />
 					</View>
 				</View>

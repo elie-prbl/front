@@ -3,10 +3,8 @@ import ModuleGame from "../../base/ModuleGame";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React from "react";
 import { topic } from "../../store/features/QuizModules/QuizModulesSlices";
-import LifeComponent from "../../base/Life";
-import GemComponent from "../../base/Gem";
-import { useAppSelector } from "../../store/hooks";
 import { Color } from "../../base/constant";
+import GameHeaderGemLifeComponent from "./GameHeaderGemLifeComponent";
 
 interface GameHeaderComponentProps {
 	onPress: () => void;
@@ -14,16 +12,10 @@ interface GameHeaderComponentProps {
 }
 
 const GameHeaderComponent = ({ onPress, topic }: GameHeaderComponentProps) => {
-	const lives = useAppSelector(state => state.lives.value);
-	const user = useAppSelector(state => state.user.user);
-
 	return (
 		<SafeAreaView style={{ backgroundColor: Color.WHITE }}>
 			<View className="my-2 mx-4 justify-center">
-				<View className="flex-row justify-between w-full">
-					<GemComponent nb={user?.currency_amount} />
-					<LifeComponent nb={lives} />
-				</View>
+				<GameHeaderGemLifeComponent />
 				<View className="items-center my-3">
 					<ModuleGame
 						onPress={onPress}

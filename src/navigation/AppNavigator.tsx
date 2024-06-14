@@ -17,6 +17,7 @@ import GameScore from "../views/game/GameScore";
 import Game from "../views/game/Game";
 import Shop from "../views/Shop";
 import Dashboard from "../views/user/Dashboard";
+import GameMatchMaking from "../views/game/GameMatchMaking";
 
 export type StackParamList = {
 	TabNav: { screen: string };
@@ -32,6 +33,7 @@ export type StackParamList = {
 	GameScore: { score: number; nbQuestions: number };
 	Shop: undefined;
 	Profile: undefined;
+	GameMatchMaking: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -97,6 +99,7 @@ const AppNavigator = (): JSX.Element => {
 						headerTransparent: false,
 					}}
 				/>
+				<Stack.Screen name="GameMatchMaking" component={GameMatchMaking} options={{ headerShown: false }} />
 			</Stack.Navigator>
 		</>
 	);

@@ -14,16 +14,11 @@ const StatDashboardComponent = () => {
 	return (
 		<View>
 			<View className="flex-row justify-between mb-4">
-				<BoxStat color={Color.GOLD} result={user?.quizzWin} resultType={Content.QUIZZ} icon={<Crown />} />
-				<BoxStat color={Color.YELLOW} result={user?.xp} resultType={Content.XP} icon={<Flash />} />
+				<BoxStat color={Color.GOLD} result={0} resultType={Content.QUIZZ} icon={<Crown />} />
+				<BoxStat color={Color.PURPLE_DARK} result={user?.xp} resultType={Content.XP} icon={<Flash />} />
 			</View>
 			<View className="flex-row justify-between">
-				<BoxStat
-					color={Color.RED_BRIGHT_DARK}
-					result={user?.distanceTraveled}
-					resultType={Content.DISTANCE}
-					icon={<Goal />}
-				/>
+				<BoxStat color={Color.RED} result={0} resultType={Content.DISTANCE} icon={<Goal />} />
 				<BoxStat
 					color={Color.PRIMARY}
 					result={user?.currency_amount}

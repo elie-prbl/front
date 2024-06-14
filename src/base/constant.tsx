@@ -52,6 +52,8 @@ export class Content {
 	static ELIE_SIGNUP_3: string = "Bien joué ! Tu as fini ton inscription.";
 
 	//Home
+	static HOME_TITLE: string = "Bonjour";
+	static HOME_DESCRIPTION: string = "Pour gagner des points réalises des quêtes !";
 	static DAILY_QUEST: string = "Quêtes du jour";
 	static SHOP: string = "Boutique";
 	static GAME: string = "Jeu";
@@ -60,6 +62,8 @@ export class Content {
 	static PROFIL: string = "Profil";
 
 	//Shop
+	static SHOP_TITLE: string = "Boutique";
+	static SHOP_DESCRIPTION: string = "Ici tu peux dépenser tes rubis !";
 	static SHOP_PERSONALISATION: string = "Personnalisation";
 	static SHOP_POWER_UP: string = "Power Up";
 	static SHOP_POWER_UP_LIFE_TITLE: string = "5 cœurs";
@@ -69,9 +73,11 @@ export class Content {
 		"Vous permet de réaliser des quiz pendant 20 minutes sans perdre de vie";
 
 	//Quest
+	static QUEST_TITLE: string = "Quête";
+	static QUEST_DESCRIPTION: string = "Visualises la progression de tes quêtes !";
 	static SUCCESS: string = "Succès";
-	static SHOP_TITLE: string = "Dépenser ces points";
-	static SHOP_DESCRIPTION: string = "Go à la boutique !";
+	static SPEND_SHOP: string = "Dépenser ces points";
+	static GO_SHOP: string = "Go à la boutique !";
 
 	//Game
 	static CHOOSE_MODULE: string = "Choisissez un module";
@@ -83,6 +89,11 @@ export class Content {
 	static LESSON_FINISHED: string = "Leçon terminée !";
 	static SUCCESSFUL: string = "Réussite";
 	static PRECISION: string = "Précision";
+
+	//Game Multiplayer
+	static MATCH_MAKING: string = "Match making";
+	static WAITING: string = "Recherche d'un joueur...";
+	static MATCH: string = "Match trouvé !";
 
 	//Dashboard
 	static STATISTICS: string = "Statistiques";
@@ -101,11 +112,9 @@ export class Content {
 	static ELIE_GOLD: string = "Elie Gold";
 	static ELIE_GOLD_DESCRIPTION: string = "Prenez la route de la richesse avec Ellie Gold !";
 
-
-	//Header
-	static HOMEHEADER: string = "Pour gagner des points réalises des Quêtes ";
-	static QUESTHEADER: string = "Visualises la progression de tes quêtes et dépenses tes points gagnés !";
-	static SHOPHEADER: string = "Ici tu peux dépenser tes rubis ";
+	//Map
+	static MAP_TITLE: string = "Carte";
+	static MAP_DESCRIPTION: string = "Visualises la carte des lieux de ton choix !";
 }
 
 export class FontSize {
@@ -115,7 +124,8 @@ export class FontSize {
 
 export class Url {
 	// Commande pour récupérer l'ip dans le termainal : ipconfig getifaddr en0
-	static IP: string = "192.168.1.122";
+	static IP: string = "192.168.1.133";
 	static LOCALHOST: string = "localhost";
-	static BASE_URL_API: string = `http://${Url.IP}:8080/api/v1/`;
+	static BASE_URL_API: string = `http://${Url.IP}:8080/api/v1`;
+	static BASE_URL_WS: string = `ws://${Url.IP}:8080/ws`;
 }
