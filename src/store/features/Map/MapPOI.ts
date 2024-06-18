@@ -5,12 +5,16 @@ export class Place {
 	name: string = "";
 	latitude: number = 0;
 	longitude: number = 0;
+	road: string = "";
+	town: string = "";
 
-	constructor(id: number, name: string, latitude: number, longitude: number) {
+	constructor(id: number, name: string, latitude: number, longitude: number, road: string, town: string) {
 		this.id = id;
 		this.name = name;
 		this.latitude = latitude;
 		this.longitude = longitude;
+		this.road = road;
+		this.town = town;
 	}
 }
 
@@ -46,9 +50,11 @@ export const getPlaces = async (currentMapView: Region) => {
 				const placeName = await getPlaceName(element.lat, element.lon);
 				const newPlace = new Place(
 					element.id,
-					placeName.name || placeName.display_name || "-",
+					placeName.name || placeName.display_name.split(", ")[1] || "-",
 					element.lat,
 					element.lon,
+					placeName.address.road || "",
+					placeName.address.town || "",
 				);
 				places.push(newPlace);
 			}
