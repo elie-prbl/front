@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import MapView, { Callout, Marker, Region } from "react-native-maps";
+import React, { useEffect, useRef, useState } from "react";
+import MapView, { Marker, Region } from "react-native-maps";
 import { Pressable, Text, View } from "react-native";
 import Toast, { ToastOptions } from "react-native-root-toast";
-import { Feather } from "@expo/vector-icons";
+import { Feather, FontAwesome6 } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import Layout from "../base/Layout";
@@ -80,8 +80,7 @@ const Map = () => {
 				longitudeDelta: 0.04,
 			};
 			mapRef.current.animateToRegion(currentRegion);
-			setSelectedPlace(null);
-			bottomSheetRef.current?.close();
+			handleCloseBottomSheet();
 		}
 	};
 
@@ -101,10 +100,30 @@ const Map = () => {
 		})();
 	}, [position]);
 
-	const handleMarkerPress = useCallback((place: Place) => {
+	const handleMarkerPress = (place: Place) => {
 		setSelectedPlace(place);
 		bottomSheetRef.current?.snapToIndex(0);
-	}, []);
+	};
+
+	const handleCloseBottomSheet = () => {
+		setSelectedPlace(null);
+		bottomSheetRef.current?.close();
+	};
+
+	const renderCustomMarker = (place: Place) => {
+		const isSelected = selectedPlace?.id === place.id;
+
+		return (
+			<View className="items-center">
+				<FontAwesome6 name="map-pin" size={isSelected ? 30 : 20} color={Color.RED_BRIGHT_LIGHT} />
+				{isSelected && (
+					<View className="p-1" style={{ width: 100 }}>
+						<Text className="text-center font-bold flex-wrap">{place.name}</Text>
+					</View>
+				)}
+			</View>
+		);
+	};
 
 	return (
 		<Layout>
@@ -123,9 +142,7 @@ const Map = () => {
 							longitude: place.longitude,
 						}}
 						onPress={() => handleMarkerPress(place)}>
-						<Callout>
-							<Text>{place.name}</Text>
-						</Callout>
+						{renderCustomMarker(place)}
 					</Marker>
 				))}
 			</MapView>
@@ -136,9 +153,12 @@ const Map = () => {
 			</Pressable>
 			<BottomSheet ref={bottomSheetRef} index={-1} snapPoints={["20%"]}>
 				<View className="p-4">
+					<Pressable onPress={handleCloseBottomSheet} className="absolute top-2 right-2 p-2 rounded-full z-10">
+						<Feather name="x-circle" size={24} color={Color.GREY} />
+					</Pressable>
 					{selectedPlace && (
 						<View>
-							<Text className="font-bold text-lg">{selectedPlace.name}</Text>
+							<Text className="font-bold text-xl mb-1">{selectedPlace.name}</Text>
 							<Text>
 								{selectedPlace.road} - {selectedPlace.town}
 							</Text>
