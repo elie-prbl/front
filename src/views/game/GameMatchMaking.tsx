@@ -4,7 +4,9 @@ import GameHeaderGemLifeComponent from "../../components/game/GameHeaderGemLifeC
 import { SafeAreaView, Text, View, Platform, ActivityIndicator } from "react-native";
 import { Color, Content, Url } from "../../base/constant";
 import BoxComponent from "../../base/Box";
-import WebSocketSingleton from "../../websocket/WebSocketSingleton";
+import { useNavigation } from "@react-navigation/core";
+import { NavigationGameDualQuizProps } from "../../navigation/AppNavigator";
+import { w3cwebsocket as WebSocketClient } from "websocket";
 
 enum MatchMakingStatus {
 	InQueue,
@@ -12,37 +14,44 @@ enum MatchMakingStatus {
 }
 
 const GameMatchMaking = () => {
-	let uuid = "";
-
+	const navigation = useNavigation<NavigationGameDualQuizProps>();
+	const [uuid, setUuid] = useState("");
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState(false);
 
 	useEffect(() => {
 		// Utilisation de Platform pour faker mes deux utilisateurs
 		// Pour avoir deux urls différentes pour le match making
-		if (Platform.OS === "ios") {
-			uuid = "1";
-		} else if (Platform.OS === "android") {
-			uuid = "2";
-		}
+		setUuid(Platform.OS === "ios" ? "1" : "2");
+	}, []);
 
-		const wsSingleton = WebSocketSingleton.getInstance();
-		const webSocketUrl = `${Url.BASE_URL_WS}/matchmaking/1/${uuid}`;
-		const ws = wsSingleton.getWebSocket(webSocketUrl);
+	useEffect(() => {
+		if (!uuid) return;
+
+		const ws = new WebSocketClient(`${Url.BASE_URL_WS}/matchmaking/1/${uuid}`);
+
+		ws.onopen = () => {
+			console.log("Game MatchMaking connected");
+		};
 
 		ws.onmessage = event => {
-			console.log("Game match making message:", event.data);
 			const data = JSON.parse(event.data.toString());
-			console.log(data.type);
+			console.log(data);
 			if (data.status === MatchMakingStatus.InQueue) {
 				setIsLoading(true);
 			} else if (data.status === MatchMakingStatus.Matched) {
 				setIsLoading(false);
+				ws.close();
+				navigation.navigate("GameDualQuiz", { roomId: data.room_id });
 			}
 		};
 
 		ws.onerror = () => {
 			setError(true);
+		};
+
+		ws.onclose = () => {
+			console.log("Game MatchMaking closed");
 		};
 
 		return () => {
