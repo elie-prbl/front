@@ -6,6 +6,11 @@ import { Color, Content, Url } from "../../base/constant";
 import BoxComponent from "../../base/Box";
 import WebSocketSingleton from "../../websocket/WebSocketSingleton";
 
+enum MatchMakingStatus {
+	InQueue,
+	Matched,
+}
+
 const GameMatchMaking = () => {
 	let uuid = "";
 
@@ -28,9 +33,10 @@ const GameMatchMaking = () => {
 		ws.onmessage = event => {
 			console.log("Game match making message:", event.data);
 			const data = JSON.parse(event.data.toString());
-			if (data.type.toLowerCase() === "queue") {
+			console.log(data.type);
+			if (data.status === MatchMakingStatus.InQueue) {
 				setIsLoading(true);
-			} else if (data.type.toLowerCase() === "match") {
+			} else if (data.status === MatchMakingStatus.Matched) {
 				setIsLoading(false);
 			}
 		};
