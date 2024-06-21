@@ -2,9 +2,10 @@ import { Pressable, Text, View } from "react-native";
 import { quizQuestionsState } from "../../store/features/QuizQuestions/QuizQuestionsSlices";
 import React from "react";
 import { Color, FontSize } from "../../base/constant";
+import { Questions } from "../../views/game/GameDualQuiz";
 
 interface GameAnswerComponentProps {
-	currentQuestion: quizQuestionsState;
+	currentQuestion: quizQuestionsState | Questions;
 	onPress: (params: string) => void;
 	selectedOption: string | null;
 	isDisabled: boolean;
