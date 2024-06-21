@@ -1,21 +1,24 @@
 import React, { useEffect, useRef, useState } from "react";
 import MapView, { Marker, Region } from "react-native-maps";
-import { Pressable } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import Toast, { ToastOptions } from "react-native-root-toast";
-import { Feather } from "@expo/vector-icons";
+import { Feather, FontAwesome6 } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import Layout from "../base/Layout";
 import { getPlaces } from "../store/features/Map/MapPOI";
 import { useDebounce } from "../hooks/useDebounce";
-import { Color } from "../base/constant";
+import { Color, Content } from "../base/constant";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import BottomSheet from "@gorhom/bottom-sheet";
 
 interface Place {
 	id: number;
 	name: string;
 	latitude: number;
 	longitude: number;
+	road: string;
+	town: string;
 }
 
 const TOAST_OPTIONS: ToastOptions = {
@@ -35,27 +38,29 @@ const TOAST_OPTIONS: ToastOptions = {
 const Map = () => {
 	const position = useSelector((state: RootState) => state.position.position);
 	const mapRef = useRef<MapView>(null);
+	const bottomSheetRef = useRef<BottomSheet>(null);
 	const [initialRegion, setInitialRegion] = useState<Region>();
 	const [places, setPlaces] = useState<Place[]>([]);
+	const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
 	const tabBarHeight = useBottomTabBarHeight();
 
 	const showToast = (message: string) => {
 		return Toast.show(message, {
 			...TOAST_OPTIONS,
-			position: Toast.positions.BOTTOM - tabBarHeight,
+			position: selectedPlace ? Toast.positions.BOTTOM - tabBarHeight * 2.5 : Toast.positions.BOTTOM - tabBarHeight,
 		});
 	};
 
 	const fetchPlaces = async (region: Region) => {
 		try {
 			if (region) {
-				const toast = showToast("Chargement des lieux...");
+				const toast = showToast(Content.LOAD_POI);
 				const places = await getPlaces(region);
 				setPlaces(places);
 				Toast.hide(toast);
 			}
 		} catch (error) {
-			showToast("Erreur lors de la récupération des lieux");
+			showToast(Content.LOAD_POI_ERROR);
 			console.error("Error fetching places :", error);
 		}
 	};
@@ -66,7 +71,7 @@ const Map = () => {
 		await debouncedFetchPlaces(region);
 	};
 
-	const setTheCurrentPosition = async () => {
+	const setTheCurrentPosition = () => {
 		if (position && mapRef.current) {
 			const currentRegion = {
 				latitude: position.latitude,
@@ -75,7 +80,7 @@ const Map = () => {
 				longitudeDelta: 0.04,
 			};
 			mapRef.current.animateToRegion(currentRegion);
-			await fetchPlaces(currentRegion);
+			handleCloseBottomSheet();
 		}
 	};
 
@@ -89,10 +94,36 @@ const Map = () => {
 					longitudeDelta: 0.04,
 				};
 				setInitialRegion(initialRegion);
-				await setTheCurrentPosition();
+				setTheCurrentPosition();
+				await handleRegionChangeComplete(initialRegion);
 			}
 		})();
 	}, [position]);
+
+	const handleMarkerPress = (place: Place) => {
+		setSelectedPlace(place);
+		bottomSheetRef.current?.snapToIndex(0);
+	};
+
+	const handleCloseBottomSheet = () => {
+		setSelectedPlace(null);
+		bottomSheetRef.current?.close();
+	};
+
+	const renderCustomMarker = (place: Place) => {
+		const isSelected = selectedPlace?.id === place.id;
+
+		return (
+			<View className="items-center">
+				<FontAwesome6 name="map-pin" size={isSelected ? 30 : 20} color={Color.RED_BRIGHT_LIGHT} />
+				{isSelected && (
+					<View className="p-1" style={{ width: 100 }}>
+						<Text className="text-center font-bold flex-wrap">{place.name}</Text>
+					</View>
+				)}
+			</View>
+		);
+	};
 
 	return (
 		<Layout>
@@ -101,6 +132,7 @@ const Map = () => {
 				className="w-full h-full"
 				initialRegion={position ? initialRegion : undefined}
 				showsUserLocation
+				showsCompass={false}
 				onRegionChangeComplete={handleRegionChangeComplete}>
 				{places.map(place => (
 					<Marker
@@ -109,15 +141,31 @@ const Map = () => {
 							latitude: place.latitude,
 							longitude: place.longitude,
 						}}
-						title={place.name}
-					/>
+						onPress={() => handleMarkerPress(place)}>
+						{renderCustomMarker(place)}
+					</Marker>
 				))}
 			</MapView>
 			<Pressable
 				onPress={() => setTheCurrentPosition()}
-				className="absolute bottom-5 right-5 bg-[#FFFFFF] p-3 rounded-full">
+				className="absolute top-2 right-2 bg-[#FFFFFF] p-3 rounded-full">
 				<Feather name="crosshair" size={26} color="black" />
 			</Pressable>
+			<BottomSheet ref={bottomSheetRef} index={-1} snapPoints={["20%"]}>
+				<View className="p-4">
+					<Pressable onPress={handleCloseBottomSheet} className="absolute top-2 right-2 p-2 rounded-full z-10">
+						<Feather name="x-circle" size={24} color={Color.GREY} />
+					</Pressable>
+					{selectedPlace && (
+						<View>
+							<Text className="font-bold text-xl mb-1">{selectedPlace.name}</Text>
+							<Text>
+								{selectedPlace.road} - {selectedPlace.town}
+							</Text>
+						</View>
+					)}
+				</View>
+			</BottomSheet>
 		</Layout>
 	);
 };

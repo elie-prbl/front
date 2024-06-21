@@ -115,6 +115,8 @@ export class Content {
 	//Map
 	static MAP_TITLE: string = "Carte";
 	static MAP_DESCRIPTION: string = "Visualises la carte des lieux de ton choix !";
+	static LOAD_POI: string = "Chargement des lieux...";
+	static LOAD_POI_ERROR: string = "Erreur lors de la récupération des lieux";
 }
 
 export class FontSize {
