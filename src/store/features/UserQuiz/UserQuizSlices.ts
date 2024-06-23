@@ -1,15 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getUserQuiz, submitUserQuiz } from "./UserQuizThunk";
 
+export interface UserQuiz {
+	id: number;
+	user_id: number;
+	quiz_id: string;
+}
+
 export interface UserQuizState {
-	quizzes: any[];
+	userQuiz: UserQuiz[];
 	isLoading: boolean;
 	error: null | string;
 	isModified: boolean;
 }
 
 const initialState: UserQuizState = {
-	quizzes: [],
+	userQuiz: [],
 	isLoading: false,
 	error: null,
 	isModified: false,
@@ -27,7 +33,7 @@ export const userQuizSlice = createSlice({
 				state.isLoading = true;
 			})
 			.addCase(getUserQuiz.fulfilled, (state, action) => {
-				state.quizzes = action.payload;
+				state.userQuiz = action.payload;
 				state.isLoading = false;
 				state.error = null;
 			})

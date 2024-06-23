@@ -16,6 +16,7 @@ import { CommonActions, useNavigation } from "@react-navigation/core";
 import { quizState } from "../../store/features/Quiz/QuizSlices";
 import { restartCurrentQuizModule } from "../../store/features/QuizModules/CurrentQuizModuleSlice";
 import { restartCurrentQuiz } from "../../store/features/Quiz/CurrentQuizSlice";
+import { submitUserQuiz } from "../../store/features/UserQuiz/UserQuizThunk";
 
 const GameQuiz = () => {
 	const dispatch = useAppDispatch();
@@ -44,21 +45,29 @@ const GameQuiz = () => {
 
 	useEffect(() => {
 		if (currentIndexQuestionDisplay === currentQuiz!.questions.length) {
-			dispatch(restartCurrentQuestionIndexState());
-			navigation.dispatch(
-				CommonActions.reset({
-					index: 1,
-					routes: [
-						{
-							name: "GameScore",
-							params: {
-								score,
-								nbQuestions: currentQuiz!.questions.length,
+			const quizData = {
+				// user_uuid: uid,
+				user_uuid: "c0bf4924-e82b-4bcb-8a06-31443d3a7f4h",
+				quiz_id: String(qid),
+			};
+
+			dispatch(submitUserQuiz(quizData)).then(() => {
+				dispatch(restartCurrentQuestionIndexState());
+				navigation.dispatch(
+					CommonActions.reset({
+						index: 1,
+						routes: [
+							{
+								name: "GameScore",
+								params: {
+									score,
+									nbQuestions: currentQuiz!.questions.length,
+								},
 							},
-						},
-					],
-				}),
-			);
+						],
+					}),
+				);
+			});
 		}
 		if (lives === 0) {
 			Alert.alert("Tu as perdu toutes tes vies, reviens demain !");
