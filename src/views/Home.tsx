@@ -44,7 +44,9 @@ const Home = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				await dispatch(getUser());
+				if (user?.uuid) {
+					await dispatch(getUser(user.uuid));
+				}
 			} catch (error) {
 				console.error("Error get user:", error);
 			}

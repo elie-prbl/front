@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
 	NativeStackNavigationProp,
 	createNativeStackNavigator,
@@ -18,6 +18,8 @@ import Game from "../views/game/Game";
 import Shop from "../views/Shop";
 import Dashboard from "../views/user/Dashboard";
 import GameMatchMaking from "../views/game/GameMatchMaking";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
 
 export type StackParamList = {
 	TabNav: { screen: string };
@@ -39,15 +41,6 @@ export type StackParamList = {
 const Stack = createNativeStackNavigator<StackParamList>();
 export type MyNavigationProp = NativeStackNavigationProp<StackParamList>;
 
-export type RouteLoginProps = NativeStackScreenProps<StackParamList, "Login">;
-export type NavigationLoginProps = NativeStackNavigationProp<StackParamList, "Login">;
-
-export type RouteSignUp1Props = NativeStackScreenProps<StackParamList, "SignUp1">;
-export type NavigationSignUp1Props = NativeStackNavigationProp<StackParamList, "SignUp1">;
-
-export type RouteSignUp2Props = NativeStackScreenProps<StackParamList, "SignUp2">;
-export type NavigationSignUp2Props = NativeStackNavigationProp<StackParamList, "SignUp2">;
-
 export type RouteGameScoreProps = NativeStackScreenProps<StackParamList, "GameScore">;
 export type NavigationGameScoreProps = NativeStackNavigationProp<StackParamList, "GameScore">;
 
@@ -67,7 +60,7 @@ const AuthStack = () => {
 };
 
 const AppNavigator = (): JSX.Element => {
-	const [isLoggedIn, setLoggedIn] = useState(true);
+	const isLoggedIn = useSelector((state: RootState) => state.user.user !== null);
 
 	if (!isLoggedIn) {
 		return <AuthStack />;
