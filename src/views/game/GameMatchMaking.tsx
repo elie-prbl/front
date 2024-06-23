@@ -80,7 +80,7 @@ const GameMatchMaking = () => {
 				<BoxComponent title={Content.MATCH_MAKING.toUpperCase()}>
 					{isLoading ? (
 						<>
-							<Text className="text-center font-bold my-3">{Content.WAITING}</Text>
+							<Text className="text-center font-bold my-3">{Content.WAITING_PLAYER}</Text>
 							<ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center my-5" />
 						</>
 					) : (
