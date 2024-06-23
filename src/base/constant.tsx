@@ -94,6 +94,8 @@ export class Content {
 	static MATCH_MAKING: string = "Match making";
 	static WAITING_PLAYER: string = "Recherche d'un joueur...";
 	static MATCH: string = "Match trouvé !";
+	static WAITING_ANSWER_PLAYER: string = "En attente de votre adversaire...";
+	static ANSWER_PLAYER: string = "Votre adversaire a répondu !";
 
 	//Dashboard
 	static STATISTICS: string = "Statistiques";
