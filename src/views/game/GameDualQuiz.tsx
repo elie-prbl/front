@@ -58,6 +58,7 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 	const [ws, setWs] = useState<WebSocketClient>();
 	const [currentQuestion, setCurrentQuestion] = useState<Questions>();
 	const [selectedOption, setSelectedOption] = useState<string | null>(null);
+	const [answerValidated, setAnswerValidated] = useState(false);
 	const [isDisabled, setIsDisabled] = useState(false);
 	const [error, setError] = useState(false);
 
@@ -119,6 +120,7 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 	const handleAnswer = (selectedOption: string) => {
 		setSelectedOption(selectedOption);
 		setIsDisabled(true);
+		setAnswerValidated(true);
 
 		const choice = dualQuizData?.quiz_data.questions[dualQuizData?.current_question].answers.findIndex(
 			answer => answer === selectedOption,
@@ -171,6 +173,8 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 									onPress={handleAnswer}
 									selectedOption={selectedOption}
 									isDisabled={isDisabled}
+									answerValidated={answerValidated}
+									correctAnswer={currentQuestion.good_answer}
 								/>
 							</View>
 						</View>
