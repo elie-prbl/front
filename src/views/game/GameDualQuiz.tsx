@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../base/Layout";
-import { ActivityIndicator, Platform, Text, View } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 import { NavigationGameDualQuizScoreProps, RouteGameDualQuizProps } from "../../navigation/AppNavigator";
 import { Color, Content, Url } from "../../base/constant";
 import { w3cwebsocket as WebSocketClient } from "websocket";
@@ -10,6 +10,8 @@ import { AntDesign, FontAwesome6 } from "@expo/vector-icons";
 import ModuleGameDualQuiz from "../../base/ModuleGameDualQuiz";
 import GameAnswerComponent from "../../components/game/GameAnswerComponent";
 import { useNavigation } from "@react-navigation/core";
+import { useAppSelector } from "../../store/hooks";
+import { RootState } from "../../store/store";
 
 export interface Questions {
 	question: string;
@@ -53,7 +55,7 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 	const { roomId } = route.params;
 
 	const navigation = useNavigation<NavigationGameDualQuizScoreProps>();
-	const [uuid, setUuid] = useState("");
+	const { user } = useAppSelector((state: RootState) => state.user);
 	const [dualQuizData, setDualQuizData] = useState<DualQuizData | null>(null);
 	const [ws, setWs] = useState<WebSocketClient>();
 	const [currentQuestion, setCurrentQuestion] = useState<Questions>();
@@ -65,15 +67,9 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 	const [error, setError] = useState(false);
 
 	useEffect(() => {
-		// Utilisation de Platform pour faker mes deux utilisateurs
-		// Pour avoir deux urls différentes pour le match making
-		setUuid(Platform.OS === "ios" ? "1" : "2");
-	}, []);
+		if (!user?.uuid) return;
 
-	useEffect(() => {
-		if (!uuid) return;
-
-		const ws = new WebSocketClient(`${Url.BASE_URL_WS}/dualquiz/${roomId}/${uuid}`);
+		const ws = new WebSocketClient(`${Url.BASE_URL_WS}/dualquiz/${roomId}/${user.uuid}`);
 
 		ws.onopen = () => {
 			console.log("Game DualQuiz connected");
@@ -90,7 +86,7 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 						break;
 					case DualQuizType.DualQuizAnswer:
 						console.log("Answer data:", data);
-						if (data.client_uuid === uuid) {
+						if (data.client_uuid === user.uuid) {
 							setInfos(Content.WAITING_ANSWER_PLAYER);
 						} else {
 							setInfos(Content.ANSWER_PLAYER);
@@ -119,7 +115,7 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 		return () => {
 			ws.close();
 		};
-	}, [uuid]);
+	}, [user?.uuid]);
 
 	const handleDualQuiz = (data: any) => {
 		switch (data.status) {
@@ -144,9 +140,9 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 				setTimeout(() => {
 					navigation.navigate("GameDualQuizScore", {
 						// TODO : Fix le cas d'égalité
-						isWinner: data.winner.UserUuid === uuid,
-						myScore: data.winner.UserUuid === uuid ? data.winner.Score : data.loser.Score,
-						scorePlayer: data.winner.UserUuid === uuid ? data.loser.Score : data.winner.Score,
+						isWinner: data.winner.UserUuid === user?.uuid,
+						myScore: data.winner.UserUuid === user?.uuid ? data.winner.Score : data.loser.Score,
+						scorePlayer: data.winner.UserUuid === user?.uuid ? data.loser.Score : data.winner.Score,
 						// TODO : Fix le nombre de questions total
 						nbQuestions: 0,
 					});

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../base/Layout";
 import GameHeaderGemLifeComponent from "../../components/game/GameHeaderGemLifeComponent";
-import { SafeAreaView, Text, View, Platform, ActivityIndicator } from "react-native";
+import { SafeAreaView, Text, View, ActivityIndicator } from "react-native";
 import { Color, Content, Url } from "../../base/constant";
 import BoxComponent from "../../base/Box";
 import { useNavigation } from "@react-navigation/core";
 import { NavigationGameDualQuizProps } from "../../navigation/AppNavigator";
 import { w3cwebsocket as WebSocketClient } from "websocket";
+import { useAppSelector } from "../../store/hooks";
+import { RootState } from "../../store/store";
 
 enum MatchMakingStatus {
 	InQueue,
@@ -15,20 +17,14 @@ enum MatchMakingStatus {
 
 const GameMatchMaking = () => {
 	const navigation = useNavigation<NavigationGameDualQuizProps>();
-	const [uuid, setUuid] = useState("");
+	const { user } = useAppSelector((state: RootState) => state.user);
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState(false);
 
 	useEffect(() => {
-		// Utilisation de Platform pour faker mes deux utilisateurs
-		// Pour avoir deux urls différentes pour le match making
-		setUuid(Platform.OS === "ios" ? "1" : "2");
-	}, []);
+		if (!user?.uuid) return;
 
-	useEffect(() => {
-		if (!uuid) return;
-
-		const ws = new WebSocketClient(`${Url.BASE_URL_WS}/matchmaking/1/${uuid}`);
+		const ws = new WebSocketClient(`${Url.BASE_URL_WS}/matchmaking/1/${user.uuid}`);
 
 		ws.onopen = () => {
 			console.log("Game MatchMaking connected");
@@ -59,7 +55,7 @@ const GameMatchMaking = () => {
 		return () => {
 			ws.close();
 		};
-	}, [uuid]);
+	}, [user?.uuid]);
 
 	if (error)
 		return (
