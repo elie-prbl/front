@@ -1,13 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getUser } from "./UserThunk";
+import { getUser, loginUser } from "./UserThunk";
 
-export enum nameLevelType {
-	BASIC = "Basic",
-	INTERMEDIATE = "intermediate",
-	ADVANCED = "advanced",
-}
-
-export interface level {
+export interface Level {
 	id: number;
 	name: string;
 	nextLevelXpRequirement: number;
@@ -15,10 +9,10 @@ export interface level {
 	currencyWon: number;
 }
 
-export interface userState {
+export interface UserState {
 	uuid: string;
 	lid: number;
-	level: level;
+	Level: Level;
 	email: string;
 	username: string;
 	UserQuests: any[];
@@ -27,7 +21,7 @@ export interface userState {
 }
 
 const initialState = {
-	user: null as null | userState,
+	user: null as null | UserState,
 	isLoading: false,
 	error: null as null | unknown,
 	isModified: false,
@@ -58,6 +52,18 @@ export const userSlice = createSlice({
 				state.isLoading = false;
 			})
 			.addCase(getUser.rejected, (state, action) => {
+				state.isLoading = false;
+				state.error = action.payload;
+				state.isModified = false;
+			})
+			.addCase(loginUser.pending, (state, action) => {
+				state.isLoading = true;
+			})
+			.addCase(loginUser.fulfilled, (state, action) => {
+				state.user = action.payload;
+				state.isLoading = false;
+			})
+			.addCase(loginUser.rejected, (state, action) => {
 				state.isLoading = false;
 				state.error = action.payload;
 				state.isModified = false;

@@ -100,7 +100,7 @@ export class Content {
 	static LEVEL: string = "Niveau";
 	static QUIZZ: string = "Quizs réussis";
 	static XP: string = "Total xp";
-	static DISTANCE: string = "Km parcourus";
+	static GEMS: string = "Total gems";
 
 	//Elie
 	static ELIE: string = "Elie";
