@@ -12,52 +12,14 @@ import GameAnswerComponent from "../../components/game/GameAnswerComponent";
 import { useNavigation } from "@react-navigation/core";
 import { useAppSelector } from "../../store/hooks";
 import { RootState } from "../../store/store";
-
-export interface Questions {
-	question: string;
-	good_answer: string;
-	answers: string[];
-}
-
-interface QuizData {
-	id: number;
-	topic: string;
-	questions: Questions[];
-	title: string;
-	current_question: number;
-}
-
-interface DualQuizData {
-	type: number;
-	type_message: string;
-	status: number;
-	status_message: string;
-	room_id: number;
-	quiz_data: QuizData;
-	current_question: number;
-	timer: number;
-}
-
-enum DualQuizType {
-	DualQuiz,
-	DualQuizAnswer,
-}
-
-enum DualQuizStatus {
-	GameStarting,
-	GamePending,
-	GameFinished,
-	GameRoundStarting,
-	GameRoundFinished,
-}
+import { DualQuizData, DualQuizStatus, DualQuizType, Questions } from "../../store/interface/dualquiz";
 
 const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 	const { roomId } = route.params;
-
 	const navigation = useNavigation<NavigationGameDualQuizScoreProps>();
 	const { user } = useAppSelector((state: RootState) => state.user);
-	const [dualQuizData, setDualQuizData] = useState<DualQuizData | null>(null);
 	const [ws, setWs] = useState<WebSocketClient>();
+	const [dualQuizData, setDualQuizData] = useState<DualQuizData | null>(null);
 	const [currentQuestion, setCurrentQuestion] = useState<Questions>();
 	const [totalQuestions, setTotalQuestions] = useState(0);
 	const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -152,7 +114,7 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 				break;
 			case DualQuizStatus.GameRoundFinished:
 				console.log("Round is finished = ", data);
-				setInfos("La prochaine question va débuter !");
+				setInfos(Content.NEXT_QUESTION);
 				break;
 			default:
 				console.log("Unknown status:", data);
@@ -172,6 +134,7 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 			const message = {
 				type: "Answer",
 				choice,
+				timestamp: new Date().getTime(),
 			};
 			ws.send(JSON.stringify(message));
 		} else {

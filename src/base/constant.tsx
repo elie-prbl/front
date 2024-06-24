@@ -96,6 +96,8 @@ export class Content {
 	static MATCH: string = "Match trouvé !";
 	static WAITING_ANSWER_PLAYER: string = "En attente de votre adversaire...";
 	static ANSWER_PLAYER: string = "Votre adversaire a répondu !";
+	static ELAPSED_TIME: string = "Dommage, le temps est écoulé pour cette question !";
+	static NEXT_QUESTION: string = "La prochaine question va débuter !";
 
 	//Dashboard
 	static STATISTICS: string = "Statistiques";
