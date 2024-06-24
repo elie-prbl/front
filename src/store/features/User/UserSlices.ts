@@ -12,7 +12,7 @@ export interface Level {
 export interface UserState {
 	uuid: string;
 	lid: number;
-	level: Level;
+	Level: Level;
 	email: string;
 	username: string;
 	UserQuests: any[];

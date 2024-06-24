@@ -8,13 +8,14 @@ import Layout from "../../base/Layout";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { Content } from "../../base/constant";
+import { Ionicons } from "@expo/vector-icons";
 
 const Dashboard = () => {
 	const user = useSelector((state: RootState) => state.user.user);
 	return (
 		<Layout>
 			<ScrollView>
-				<BoxComponent title={user?.username}>
+				<BoxComponent title={user?.username} itemRight={<Ionicons name="person-circle-outline" size={40} />}>
 					<UserDashboardComponent />
 				</BoxComponent>
 				<BoxComponent title={Content.STATISTICS}>
