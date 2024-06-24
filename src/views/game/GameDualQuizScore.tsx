@@ -10,7 +10,7 @@ import { useAppDispatch } from "../../store/hooks";
 import { restartCurrentQuiz } from "../../store/features/Quiz/CurrentQuizSlice";
 
 const GameDualQuizScore = ({ route }: RouteGameDualQuizScoreProps) => {
-	const { isWinner, myScore, scorePlayer, nbQuestions } = route.params;
+	const { isDraw, isWinner, myScore, scorePlayer, nbQuestions } = route.params;
 	const navigation = useNavigation<MyNavigationProp>();
 	const dispatch = useAppDispatch();
 
@@ -25,7 +25,7 @@ const GameDualQuizScore = ({ route }: RouteGameDualQuizScoreProps) => {
 		<Layout>
 			<View className="h-full justify-around items-center">
 				<Text className={`font-bold ${FontSize.TEXT_XL}`}>{Content.LESSON_FINISHED}</Text>
-				{isWinner ? <Text>Vous avez gagné</Text> : <Text>Vous avez perdu</Text>}
+				{isDraw ? <Text>Égalité !</Text> : isWinner ? <Text>Vous avez gagné</Text> : <Text>Vous avez perdu</Text>}
 				<View>
 					<Text className="m-4">Mon score</Text>
 					<View className="flex-wrap flex-row justify-center">

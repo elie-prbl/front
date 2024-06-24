@@ -139,12 +139,11 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 
 				setTimeout(() => {
 					navigation.navigate("GameDualQuizScore", {
-						// TODO : Fix le cas d'égalité
+						isDraw: data.is_draw,
 						isWinner: data.winner.UserUuid === user?.uuid,
 						myScore: data.winner.UserUuid === user?.uuid ? data.winner.Score : data.loser.Score,
 						scorePlayer: data.winner.UserUuid === user?.uuid ? data.loser.Score : data.winner.Score,
-						// TODO : Fix le nombre de questions total
-						nbQuestions: 0,
+						nbQuestions: data.quiz_total_questions,
 					});
 				}, 1000);
 				break;

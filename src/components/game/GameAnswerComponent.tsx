@@ -10,7 +10,7 @@ interface GameAnswerComponentProps {
 	selectedOption: string | null;
 	isDisabled: boolean;
 	answerValidated: boolean;
-	correctAnswer: string | number | null;
+	correctAnswer: string | null;
 }
 
 const GameAnswerComponent = ({

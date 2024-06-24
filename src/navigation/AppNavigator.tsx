@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
 	NativeStackNavigationProp,
 	createNativeStackNavigator,
@@ -36,7 +36,7 @@ export type StackParamList = {
 	GameQuiz: undefined;
 	GameScore: { score: number; nbQuestions: number };
 	GameDualQuiz: { roomId: number };
-	GameDualQuizScore: { isWinner: boolean; myScore: number; scorePlayer: number; nbQuestions: number };
+	GameDualQuizScore: { isDraw: boolean; isWinner: boolean; myScore: number; scorePlayer: number; nbQuestions: number };
 	Shop: undefined;
 	Profile: undefined;
 	GameMatchMaking: undefined;
