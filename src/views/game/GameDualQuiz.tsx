@@ -9,7 +9,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { AntDesign, FontAwesome6 } from "@expo/vector-icons";
 import ModuleGameDualQuiz from "../../base/ModuleGameDualQuiz";
 import GameAnswerComponent from "../../components/game/GameAnswerComponent";
-import { useNavigation } from "@react-navigation/core";
+import { CommonActions, useNavigation } from "@react-navigation/core";
 import { useAppSelector } from "../../store/hooks";
 import { RootState } from "../../store/store";
 import { DualQuizData, DualQuizStatus, DualQuizType, Questions } from "../../store/interface/dualquiz";
@@ -100,13 +100,23 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 				console.log("Game is finished = ", data);
 
 				setTimeout(() => {
-					navigation.navigate("GameDualQuizScore", {
-						isDraw: data.is_draw,
-						isWinner: data.winner.UserUuid === user?.uuid,
-						myScore: data.winner.UserUuid === user?.uuid ? data.winner.Score : data.loser.Score,
-						scorePlayer: data.winner.UserUuid === user?.uuid ? data.loser.Score : data.winner.Score,
-						nbQuestions: data.quiz_total_questions,
-					});
+					navigation.dispatch(
+						CommonActions.reset({
+							index: 1,
+							routes: [
+								{
+									name: "GameDualQuizScore",
+									params: {
+										isDraw: data.is_draw,
+										isWinner: data.winner.UserUuid === user?.uuid,
+										myScore: data.winner.UserUuid === user?.uuid ? data.winner.Score : data.loser.Score,
+										scorePlayer: data.winner.UserUuid === user?.uuid ? data.loser.Score : data.winner.Score,
+										nbQuestions: data.quiz_total_questions,
+									},
+								},
+							],
+						}),
+					);
 				}, 1000);
 				break;
 			case DualQuizStatus.GameRoundStarting:

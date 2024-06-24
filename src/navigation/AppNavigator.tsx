@@ -93,8 +93,16 @@ const AppNavigator = (): JSX.Element => {
 				<Stack.Screen name="Game" component={Game} options={{ headerShown: false }} />
 				<Stack.Screen name="GameQuiz" component={GameQuiz} options={{ headerShown: false }} />
 				<Stack.Screen name="GameDualQuiz" component={GameDualQuiz} options={{ headerShown: false }} />
-				<Stack.Screen name="GameDualQuizScore" component={GameDualQuizScore} options={{ headerShown: false }} />
-				<Stack.Screen name="GameScore" component={GameScore} options={{ headerShown: false }} />
+				<Stack.Screen
+					name="GameDualQuizScore"
+					component={GameDualQuizScore}
+					options={{ headerShown: true, headerTransparent: false, headerTitle: Content.SCORE }}
+				/>
+				<Stack.Screen
+					name="GameScore"
+					component={GameScore}
+					options={{ headerShown: true, headerTransparent: false, headerTitle: Content.SCORE }}
+				/>
 				<Stack.Screen name="Shop" component={Shop} options={{ headerShown: false }} />
 				<Stack.Screen
 					name="Profile"
@@ -102,6 +110,7 @@ const AppNavigator = (): JSX.Element => {
 					options={{
 						headerShown: true,
 						headerTransparent: false,
+						headerTitle: Content.PROFILE,
 					}}
 				/>
 				<Stack.Screen name="GameMatchMaking" component={GameMatchMaking} options={{ headerShown: false }} />
