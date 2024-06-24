@@ -17,7 +17,8 @@ import { AppDispatch } from "../../store/store";
 import { getQuiz } from "../../store/features/Quiz/QuizThunk";
 import { topic } from "../../store/features/QuizModules/QuizModulesSlices";
 import { updateCurrentQuiz } from "../../store/features/Quiz/CurrentQuizSlice";
-import {getUserQuiz} from "../../store/features/UserQuiz/UserQuizThunk";
+import { getUserQuiz } from "../../store/features/UserQuiz/UserQuizThunk";
+
 
 const Game = () => {
 	const navigation = useNavigation<MyNavigationProp>();
@@ -30,6 +31,7 @@ const Game = () => {
 	const [selectedItem, setSelectedItem] = useState<quizState | null>(null);
 	const [expandedItem, setExpandedItem] = useState<number | null>(null);
 	const [completedQuizzes, setCompletedQuizzes] = useState<number[]>([]);
+
 	const userId = "6";
 
 	const handleGoingToGame = useCallback((qid: number) => {
@@ -76,8 +78,8 @@ const Game = () => {
 	useEffect(() => {
 		const fetchCompletedQuizzes = async () => {
 			try {
-				const response = await dispatch(getUserQuiz()).unwrap();
-				setCompletedQuizzes(response ? response.quizId : []);
+				const response = await dispatch(getUserQuiz(userId)).unwrap();
+				setCompletedQuizzes(response ? response : []);
 			} catch (error) {
 				console.error("Error fetching user quizzes:", error);
 			}
@@ -88,7 +90,14 @@ const Game = () => {
 		}
 	}, [dispatch, userId]);
 
+	useEffect(() => {
+		if (userId) {
+			dispatch(getUserQuiz(userId));
+		}
+	}, [dispatch, userId]);
+
 	const renderItem = ({ item }: { item: quizState }) => (
+
 		<ListItem.Accordion
 			content={
 				<View className="items-center">
@@ -96,7 +105,7 @@ const Game = () => {
 						<CircleComponent
 							img={<Game1 />}
 							isDisabled={false}
-							isDone={completedQuizzes ? completedQuizzes.includes(item.id) : false}
+							isDone={completedQuizzes.includes(item.id)}
 							classNamePressable="w-28 h-28"
 							classNameView="w-24 h-24"
 							onPress={() => {
