@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../base/Layout";
 import { ActivityIndicator, Platform, Text, View } from "react-native";
-import { RouteGameDualQuizProps } from "../../navigation/AppNavigator";
+import { NavigationGameDualQuizScoreProps, RouteGameDualQuizProps } from "../../navigation/AppNavigator";
 import { Color, Content, Url } from "../../base/constant";
 import { w3cwebsocket as WebSocketClient } from "websocket";
 import ProgressBar from "../../base/ProgressBar";
@@ -9,6 +9,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { AntDesign, FontAwesome6 } from "@expo/vector-icons";
 import ModuleGameDualQuiz from "../../base/ModuleGameDualQuiz";
 import GameAnswerComponent from "../../components/game/GameAnswerComponent";
+import { useNavigation } from "@react-navigation/core";
 
 export interface Questions {
 	question: string;
@@ -51,6 +52,7 @@ enum DualQuizStatus {
 const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 	const { roomId } = route.params;
 
+	const navigation = useNavigation<NavigationGameDualQuizScoreProps>();
 	const [uuid, setUuid] = useState("");
 	const [dualQuizData, setDualQuizData] = useState<DualQuizData | null>(null);
 	const [ws, setWs] = useState<WebSocketClient>();
@@ -79,8 +81,8 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 
 		ws.onmessage = event => {
 			try {
-				setInfos("");
 				const data = JSON.parse(event.data.toString());
+				setInfos("");
 
 				switch (data.type) {
 					case DualQuizType.DualQuiz:
@@ -123,25 +125,39 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 		switch (data.status) {
 			case DualQuizStatus.GameStarting:
 				console.log("Game starting = ", data);
+
+				setSelectedOption(null);
+				setIsDisabled(false);
+				setAnswerValidated(false);
+
 				data.quiz_data = JSON.parse(data.quiz_data);
 				setDualQuizData(data);
 				setCurrentQuestion(data.quiz_data.questions[data.current_question]);
 				setTotalQuestions(data.quiz_data.questions.length);
 				break;
 			case DualQuizStatus.GamePending:
-				console.log("Game is pending");
+				console.log("Game is pending = ", data);
 				break;
 			case DualQuizStatus.GameFinished:
-				console.log("Game is finished");
+				console.log("Game is finished = ", data);
+
+				setTimeout(() => {
+					navigation.navigate("GameDualQuizScore", {
+						// TODO : Fix le cas d'égalité
+						isWinner: data.winner.UserUuid === uuid,
+						myScore: data.winner.UserUuid === uuid ? data.winner.Score : data.loser.Score,
+						scorePlayer: data.winner.UserUuid === uuid ? data.loser.Score : data.winner.Score,
+						// TODO : Fix le nombre de questions total
+						nbQuestions: 0,
+					});
+				}, 1000);
 				break;
 			case DualQuizStatus.GameRoundStarting:
 				console.log("Round is starting = ", data);
 				break;
 			case DualQuizStatus.GameRoundFinished:
 				console.log("Round is finished = ", data);
-				setSelectedOption(null);
-				setIsDisabled(false);
-				setAnswerValidated(false);
+				setInfos("La prochaine question va débuter !");
 				break;
 			default:
 				console.log("Unknown status:", data);

@@ -42,7 +42,9 @@ const GameMatchMaking = () => {
 			} else if (data.status === MatchMakingStatus.Matched) {
 				setIsLoading(false);
 				ws.close();
-				navigation.navigate("GameDualQuiz", { roomId: data.room_id });
+				setTimeout(() => {
+					navigation.navigate("GameDualQuiz", { roomId: data.room_id });
+				}, 2000);
 			}
 		};
 

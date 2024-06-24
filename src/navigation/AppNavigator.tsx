@@ -19,6 +19,7 @@ import Shop from "../views/Shop";
 import Dashboard from "../views/user/Dashboard";
 import GameMatchMaking from "../views/game/GameMatchMaking";
 import GameDualQuiz from "../views/game/GameDualQuiz";
+import GameDualQuizScore from "../views/game/GameDualQuizScore";
 
 export type StackParamList = {
 	TabNav: { screen: string };
@@ -31,8 +32,9 @@ export type StackParamList = {
 	Game: undefined;
 	GameModule: undefined;
 	GameQuiz: undefined;
-	GameDualQuiz: { roomId: number };
 	GameScore: { score: number; nbQuestions: number };
+	GameDualQuiz: { roomId: number };
+	GameDualQuizScore: { isWinner: boolean; myScore: number; scorePlayer: number; nbQuestions: number };
 	Shop: undefined;
 	Profile: undefined;
 	GameMatchMaking: undefined;
@@ -55,6 +57,9 @@ export type NavigationGameScoreProps = NativeStackNavigationProp<StackParamList,
 
 export type RouteGameDualQuizProps = NativeStackScreenProps<StackParamList, "GameDualQuiz">;
 export type NavigationGameDualQuizProps = NativeStackNavigationProp<StackParamList, "GameDualQuiz">;
+
+export type RouteGameDualQuizScoreProps = NativeStackScreenProps<StackParamList, "GameDualQuizScore">;
+export type NavigationGameDualQuizScoreProps = NativeStackNavigationProp<StackParamList, "GameDualQuizScore">;
 
 const AuthStack = () => {
 	return (
@@ -95,6 +100,7 @@ const AppNavigator = (): JSX.Element => {
 				<Stack.Screen name="Game" component={Game} options={{ headerShown: false }} />
 				<Stack.Screen name="GameQuiz" component={GameQuiz} options={{ headerShown: false }} />
 				<Stack.Screen name="GameDualQuiz" component={GameDualQuiz} options={{ headerShown: false }} />
+				<Stack.Screen name="GameDualQuizScore" component={GameDualQuizScore} options={{ headerShown: false }} />
 				<Stack.Screen name="GameScore" component={GameScore} options={{ headerShown: false }} />
 				<Stack.Screen name="Shop" component={Shop} options={{ headerShown: false }} />
 				<Stack.Screen
