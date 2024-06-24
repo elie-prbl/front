@@ -4,27 +4,37 @@ import { Color, Content } from "../../base/constant";
 import ButtonComponent from "../../base/Button";
 import TextInputComponent from "../../base/TextInput";
 import { useNavigation } from "@react-navigation/core";
-import { NavigationHomeProps, NavigationSignUp1Props } from "../../navigation/AppNavigator";
+import { MyNavigationProp } from "../../navigation/AppNavigator";
+import { loginUser } from "../../store/features/User/UserThunk";
 import SvgConnexion from "../../svg/SvgConnexion";
 import SvgFacebook from "../../svg/SvgFacebook";
 import SvgGoogle from "../../svg/SvgGoogle";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store/store";
 
 const Login = () => {
-	const navigationSignUp1 = useNavigation<NavigationSignUp1Props>();
-	const navigationHome = useNavigation<NavigationHomeProps>();
-	const [email, setEmail] = useState<string>("");
+	const dispatch = useDispatch<AppDispatch>();
+	const navigation = useNavigation<MyNavigationProp>();
+	const [email, setEmail] = useState<string>("robin.penea@gmail.com");
 	const [password, setPassword] = useState<string>("");
+	const [error, setError] = useState<string>("");
 
 	const handleNavigateToSignUp = () => {
-		navigationSignUp1.navigate("SignUp1");
+		navigation.navigate("SignUp1");
 	};
 
-	const handleNavigateHome = () => {
-		navigationHome.navigate("Home");
-		// navigationHome.reset({
-		// 	index: 0,
-		// 	routes: [{ name: "Home" }],
-		// });
+	const handleNavigateHome = async () => {
+		if (!email) {
+			return;
+		}
+
+		try {
+			await dispatch(loginUser({ email })).unwrap();
+			navigation.navigate("TabNav", { screen: "Home" });
+		} catch (error) {
+			console.log("error", error);
+			setError("Mot de passe ou email incorrect.");
+		}
 	};
 
 	return (
@@ -38,7 +48,7 @@ const Login = () => {
 					<TextInputComponent
 						onChangeText={setEmail}
 						label={Content.LABEL_EMAIL}
-						textInput={email}
+						textInput={email.toLowerCase()}
 						placeholder={Content.PLACEHOLDER_EMAIL}
 					/>
 					<TextInputComponent
@@ -50,6 +60,11 @@ const Login = () => {
 					<Text className="underline mt-1">{Content.PASSWORD_FORGET}</Text>
 				</View>
 			</View>
+			{error && (
+				<Text className="text-center font-bold" style={{ color: Color.RED }}>
+					{error}
+				</Text>
+			)}
 			<View>
 				<View className="w-full items-center">
 					<ButtonComponent content={Content.LOGIN} onPress={handleNavigateHome} />

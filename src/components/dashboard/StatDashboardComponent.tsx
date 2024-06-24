@@ -4,10 +4,10 @@ import BoxStat from "../../base/BoxStat";
 import { Color, Content } from "../../base/constant";
 import Crown from "../../svg/Crown";
 import Flash from "../../svg/Flash";
-import Goal from "../../svg/Goal";
 import Target from "../../svg/Target";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+import Gem from "../../svg/Gem";
 
 const StatDashboardComponent = () => {
 	const user = useSelector((state: RootState) => state.user.user);
@@ -18,13 +18,13 @@ const StatDashboardComponent = () => {
 				<BoxStat color={Color.PURPLE_DARK} result={user?.xp} resultType={Content.XP} icon={<Flash />} />
 			</View>
 			<View className="flex-row justify-between">
-				<BoxStat color={Color.RED} result={0} resultType={Content.DISTANCE} icon={<Goal />} />
 				<BoxStat
 					color={Color.PRIMARY}
 					result={user?.currency_amount}
-					resultType={Content.PRECISION}
-					icon={<Target />}
+					resultType={Content.GEMS}
+					icon={<Gem width={40} height={50} />}
 				/>
+				<BoxStat color={Color.RED} result={user?.Level.level_number} resultType={Content.LEVEL} icon={<Target />} />
 			</View>
 		</View>
 	);
