@@ -40,7 +40,11 @@ const SuccessComponent = ({ userSuccess }: successProps) => {
 			<View className="flex-col flex-1">
 				<Text className="font-semibold">{userSuccess?.success.name}</Text>
 				<View className="flex-row justify-between mt-2 w-full">
-					<ProgressBar currentStep={userSuccess?.progression} totalStep={userSuccess?.success.done_condition} width={200} />
+					<ProgressBar
+						currentStep={userSuccess?.progression}
+						totalStep={userSuccess?.success.done_condition}
+						width={200}
+					/>
 					<Text>
 						{userSuccess?.progression} / {userSuccess?.success.done_condition}
 					</Text>
