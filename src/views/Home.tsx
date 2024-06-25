@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { ScrollView, Text } from "react-native";
+import { ActivityIndicator, ScrollView, Text } from "react-native";
 import BoxComponent from "../base/Box";
 import { Content } from "../base/constant";
 import QuestComponent from "../components/quest/QuestComponent";
@@ -15,9 +15,9 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import Layout from "../base/Layout";
 import Circle1 from "../svg/Circle1";
-import { Difficulty } from "../store/features/Quests/QuestsSlices";
 import GemComponent from "../base/Gem";
 import { getUser } from "../store/features/User/UserThunk";
+import { getUserQuests } from "../store/features/UserQuests/UserQuestsThunk";
 import { getUserQuiz } from "../store/features/UserQuiz/UserQuizThunk";
 
 export enum ContentHome {
@@ -30,9 +30,9 @@ const Home = () => {
 	const dispatch = useAppDispatch();
 	const navigation = useNavigation<MyNavigationProp>();
 	const position = useSelector((state: RootState) => state.position.position);
-	const quests = useSelector((state: RootState) => state.quests.quests);
-	const { user } = useAppSelector((state: RootState) => state.user);
 	const [nextQuiz, setNextQuiz] = React.useState<string>("");
+	const { userQuests } = useSelector((state: RootState) => state.userQuests);
+	const { user, isLoading } = useAppSelector((state: RootState) => state.user);
 
 	useEffect(() => {
 		getTheCurrentPosition().then(location => {
@@ -59,26 +59,35 @@ const Home = () => {
 	}, [dispatch, user!.uuid]);
 
 	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				if (user?.uuid) {
-					await dispatch(getUser(user.uuid));
-				}
-			} catch (error) {
-				console.error("Error get user:", error);
-			}
-		};
-
 		fetchData();
 	}, [dispatch]);
+
+	const fetchData = async () => {
+		try {
+			if (user?.uuid) {
+				await dispatch(getUser(user.uuid));
+				await dispatch(getUserQuests(user.id));
+			}
+		} catch (error) {
+			console.error("Error get user:", error);
+		}
+	};
+
+	if (isLoading) {
+		return (
+			<Layout>
+				<ActivityIndicator />
+			</Layout>
+		);
+	}
 
 	return (
 		<Layout>
 			<ScrollView showsVerticalScrollIndicator={false}>
 				<BoxComponent title={Content.DAILY_QUEST} onPress={() => navigation.navigate(ContentHome.GAME)}>
-					<QuestComponent quest={quests.filter(q => q.difficulty === Difficulty.BEGINNER)[0]} img={<Circle1 />} />
-					<QuestComponent quest={quests.filter(q => q.difficulty === Difficulty.INTERMEDIATE)[0]} img={<Circle1 />} />
-					<QuestComponent quest={quests.filter(q => q.difficulty === Difficulty.ADVANCED)[0]} img={<Circle1 />} />
+					{userQuests.map(userQuest => (
+						<QuestComponent key={userQuest.id} userQuest={userQuest} img={<Circle1 />} />
+					))}
 				</BoxComponent>
 				<BoxComponent
 					title={Content.SHOP}

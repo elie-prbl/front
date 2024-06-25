@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp, RouteGameScoreProps } from "../../navigation/AppNavigator";
 import { useAppDispatch } from "../../store/hooks";
 import { restartCurrentQuiz } from "../../store/features/Quiz/CurrentQuizSlice";
-import { updateQuestsQuiz, updateQuestsQuizWon } from "../../store/features/Quests/QuestsSlices";
+import { updateQuestsQuiz, updateQuestsQuizWon } from "../../store/features/UserQuests/UserQuestsSlices";
 import { updateUserQuizWon, updateUserXp } from "../../store/features/User/UserSlices";
 import { updateSuccessQuiz, updateSuccessQuizWon } from "../../store/features/Success/SuccessSlices";
 import { useSelector } from "react-redux";

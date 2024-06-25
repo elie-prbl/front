@@ -15,7 +15,7 @@ import { AppDispatch } from "../../store/store";
 const Login = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const navigation = useNavigation<MyNavigationProp>();
-	const [email, setEmail] = useState<string>("robin.penea@gmail.com");
+	const [email, setEmail] = useState<string>("bbr@mail.com");
 	const [password, setPassword] = useState<string>("");
 	const [error, setError] = useState<string>("");
 

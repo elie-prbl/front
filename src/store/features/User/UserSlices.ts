@@ -11,6 +11,7 @@ export interface Level {
 
 export interface UserState {
 	uuid: string;
+	id: number;
 	lid: number;
 	Level: Level;
 	email: string;
