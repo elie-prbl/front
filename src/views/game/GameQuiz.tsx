@@ -17,6 +17,8 @@ import { restartCurrentQuizModule } from "../../store/features/QuizModules/Curre
 import { restartCurrentQuiz } from "../../store/features/Quiz/CurrentQuizSlice";
 import Planet from "../../svg/Planet";
 import { submitUserQuiz } from "../../store/features/UserQuiz/UserQuizThunk";
+import {RootState} from "../../store/store";
+import {getUser} from "../../store/features/User/UserThunk";
 
 const GameQuiz = () => {
 	const dispatch = useAppDispatch();
@@ -39,15 +41,32 @@ const GameQuiz = () => {
 	const lives = useAppSelector(state => state.lives.value);
 	const [score, setScore] = useState(0);
 
+	const { user, isLoading, error } = useAppSelector((state: RootState) => state.user);
+
 	const handleAnswer = (selectedOption: string) => {
 		setSelectedOption(selectedOption);
 	};
 
 	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				if (user?.uuid) {
+					await dispatch(getUser(user.uuid));
+				}
+			} catch (error) {
+				console.error("Error get user:", error);
+			}
+		};
+		console.log("userId", user?.uuid);
+
+		fetchData();
+	}, [dispatch]);
+
+	useEffect(() => {
 		if (currentIndexQuestionDisplay === currentQuiz!.questions.length) {
 			const quizData = {
 				// user_uuid: uid,
-				user_uuid: "c0bf4924-e82b-4bcb-8a06-31443d3a7f4h",
+				user_uuid: user!.uuid,
 				quiz_id: String(qid),
 			};
 

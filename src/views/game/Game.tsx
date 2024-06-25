@@ -13,12 +13,12 @@ import { MyNavigationProp } from "../../navigation/AppNavigator";
 import GameHeaderComponent from "../../components/game/GameHeaderComponent";
 import { getQuizModules } from "../../store/features/QuizModules/QuizModulesThunk";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../store/store";
+import { AppDispatch, RootState } from "../../store/store";
 import { getQuiz } from "../../store/features/Quiz/QuizThunk";
 import { topic } from "../../store/features/QuizModules/QuizModulesSlices";
 import { updateCurrentQuiz } from "../../store/features/Quiz/CurrentQuizSlice";
 import { getUserQuiz } from "../../store/features/UserQuiz/UserQuizThunk";
-
+import { getUser } from "../../store/features/User/UserThunk";
 
 const Game = () => {
 	const navigation = useNavigation<MyNavigationProp>();
@@ -32,8 +32,7 @@ const Game = () => {
 	const [expandedItem, setExpandedItem] = useState<number | null>(null);
 	const [completedQuizzes, setCompletedQuizzes] = useState<number[]>([]);
 	const [nextQuiz, setNextQuiz] = useState<number>(1);
-
-	const userId = "6";
+	const { user } = useAppSelector((state: RootState) => state.user);
 
 	const handleGoingToGame = useCallback((qid: number) => {
 		dispatch(updateCurrentQuiz(qid));
@@ -43,6 +42,21 @@ const Game = () => {
 	const handleGameModule = () => {
 		navigation.navigate("GameModule");
 	};
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				if (user?.uuid) {
+					await dispatch(getUser(user.uuid));
+				}
+			} catch (error) {
+				console.error("Error get user:", error);
+			}
+		};
+		console.log("userId", user?.uuid);
+
+		fetchData();
+	}, [dispatch]);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -79,24 +93,26 @@ const Game = () => {
 	useEffect(() => {
 		const fetchCompletedQuizzes = async () => {
 			try {
-				const response = await dispatch(getUserQuiz(userId)).unwrap();
+				const response = await dispatch(getUserQuiz(user!.uuid)).unwrap();
 				setCompletedQuizzes(response.quizIds ? response.quizIds : []);
 				setNextQuiz(response.nextQuiz.id ? response.nextQuiz.id : []);
+				console.log("response", response.nextQuiz.id);
+				console.log("response", response.quizIds);
 			} catch (error) {
 				console.error("Error fetching user quizzes:", error);
 			}
 		};
 
-		if (userId) {
+		if (user!.uuid) {
 			fetchCompletedQuizzes();
 		}
-	}, [dispatch, userId]);
+	}, [dispatch, user!.uuid]);
 
 	useEffect(() => {
-		if (userId) {
-			dispatch(getUserQuiz(userId));
+		if (user!.uuid) {
+			dispatch(getUserQuiz(user!.uuid));
 		}
-	}, [dispatch, userId]);
+	}, [dispatch, user!.uuid]);
 
 	const renderItem = ({ item }: { item: quizState }) => (
 		<ListItem.Accordion
