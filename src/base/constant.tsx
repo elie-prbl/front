@@ -89,13 +89,22 @@ export class Content {
 	static LESSON_FINISHED: string = "Leçon terminée !";
 	static SUCCESSFUL: string = "Réussite";
 	static PRECISION: string = "Précision";
+	static SCORE: string = "Score";
 
 	//Game Multiplayer
-	static MATCH_MAKING: string = "Match making";
-	static WAITING: string = "Recherche d'un joueur...";
+	static MATCH_MAKING: string = "Matchmaking";
+	static WAITING_PLAYER: string = "Recherche d'un joueur...";
 	static MATCH: string = "Match trouvé !";
+	static WAITING_ANSWER_PLAYER: string = "En attente de";
+	static ANSWER_PLAYER: string = "a répondu !";
+	static ELAPSED_TIME: string = "Dommage, le temps est écoulé pour cette question !";
+	static NEXT_QUESTION: string = "La prochaine question va débuter !";
+	static DRAW: string = "Égalité !";
+	static WINNER: string = "Vous avez gagné !";
+	static LOSER: string = "Vous avez perdu !";
 
 	//Dashboard
+	static PROFILE: string = "Profil";
 	static STATISTICS: string = "Statistiques";
 	static LEVEL: string = "Niveau";
 	static QUIZZ: string = "Quizs réussis";

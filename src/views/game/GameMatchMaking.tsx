@@ -1,37 +1,50 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../base/Layout";
 import GameHeaderGemLifeComponent from "../../components/game/GameHeaderGemLifeComponent";
-import { SafeAreaView, Text, View, Platform, ActivityIndicator } from "react-native";
+import { SafeAreaView, Text, View, ActivityIndicator } from "react-native";
 import { Color, Content, Url } from "../../base/constant";
-import BoxComponent from "../../base/Box";
-import WebSocketSingleton from "../../websocket/WebSocketSingleton";
+import { useNavigation } from "@react-navigation/core";
+import { NavigationGameDualQuizProps } from "../../navigation/AppNavigator";
+import { w3cwebsocket as WebSocketClient } from "websocket";
+import { useAppSelector } from "../../store/hooks";
+import { RootState } from "../../store/store";
+import { getUserOpponent } from "../../store/features/User/UserOpponent";
+import BoxMatchMakingComponent from "../../base/BoxMatchMaking";
+
+enum MatchMakingStatus {
+	InQueue,
+	Matched,
+}
 
 const GameMatchMaking = () => {
-	let uuid = "";
-
+	const navigation = useNavigation<NavigationGameDualQuizProps>();
+	const { user } = useAppSelector((state: RootState) => state.user);
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState(false);
+	const [nameOpponent, setNameOpponent] = useState<string | null>(null);
 
 	useEffect(() => {
-		// Utilisation de Platform pour faker mes deux utilisateurs
-		// Pour avoir deux urls différentes pour le match making
-		if (Platform.OS === "ios") {
-			uuid = "1";
-		} else if (Platform.OS === "android") {
-			uuid = "2";
-		}
+		if (!user?.uuid) return;
 
-		const wsSingleton = WebSocketSingleton.getInstance();
-		const webSocketUrl = `${Url.BASE_URL_WS}/matchmaking/1/${uuid}`;
-		const ws = wsSingleton.getWebSocket(webSocketUrl);
+		const ws = new WebSocketClient(`${Url.BASE_URL_WS}/matchmaking/1/${user.uuid}`);
 
-		ws.onmessage = event => {
-			console.log("Game match making message:", event.data);
+		ws.onopen = () => {
+			console.log("Game MatchMaking connected");
+		};
+
+		ws.onmessage = async event => {
 			const data = JSON.parse(event.data.toString());
-			if (data.type.toLowerCase() === "queue") {
+			console.log(data);
+			if (data.status === MatchMakingStatus.InQueue) {
 				setIsLoading(true);
-			} else if (data.type.toLowerCase() === "match") {
+			} else if (data.status === MatchMakingStatus.Matched) {
 				setIsLoading(false);
+				const opponent = await getUserOpponent(data.opponent_uuid);
+				setNameOpponent(opponent.username);
+				ws.close();
+				setTimeout(() => {
+					navigation.navigate("GameDualQuiz", { roomId: data.room_id, nameOpponent: opponent.username });
+				}, 2000);
 			}
 		};
 
@@ -39,10 +52,14 @@ const GameMatchMaking = () => {
 			setError(true);
 		};
 
+		ws.onclose = () => {
+			console.log("Game MatchMaking closed");
+		};
+
 		return () => {
 			ws.close();
 		};
-	}, [uuid]);
+	}, [user?.uuid]);
 
 	if (error)
 		return (
@@ -54,6 +71,31 @@ const GameMatchMaking = () => {
 			</Layout>
 		);
 
+	if (isLoading) {
+		return (
+			<>
+				<SafeAreaView style={{ backgroundColor: Color.WHITE }}>
+					<View className="my-2 mx-4 justify-center">
+						<GameHeaderGemLifeComponent />
+					</View>
+				</SafeAreaView>
+				<Layout>
+					<View className="h-full justify-center">
+						<BoxMatchMakingComponent>
+							<Text className="text-center text-5xl font-bold" style={{ color: Color.PRIMARY }}>
+								{Content.MATCH_MAKING}
+							</Text>
+							<Text className="text-center text-xl font-bold mt-1 mb-6" style={{ color: Color.PRIMARY }}>
+								{Content.WAITING_PLAYER}
+							</Text>
+							<ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center" />
+						</BoxMatchMakingComponent>
+					</View>
+				</Layout>
+			</>
+		);
+	}
+
 	return (
 		<>
 			<SafeAreaView style={{ backgroundColor: Color.WHITE }}>
@@ -62,16 +104,25 @@ const GameMatchMaking = () => {
 				</View>
 			</SafeAreaView>
 			<Layout>
-				<BoxComponent title={Content.MATCH_MAKING.toUpperCase()}>
-					{isLoading ? (
-						<>
-							<Text className="text-center font-bold my-3">{Content.WAITING}</Text>
-							<ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center my-5" />
-						</>
-					) : (
-						<Text className="text-center font-bold my-3">{Content.MATCH}</Text>
-					)}
-				</BoxComponent>
+				<View className="h-full justify-center">
+					<BoxMatchMakingComponent>
+						<Text className="font-bold mb-4 text-3xl" style={{ color: Color.PRIMARY }}>
+							{user?.username}
+						</Text>
+						<View className="flex-row items-center my-7">
+							<View style={{ flex: 1, height: 2, backgroundColor: "black" }} />
+							<View>
+								<Text className="text-3xl" style={{ width: 100, textAlign: "center" }}>
+									VS
+								</Text>
+							</View>
+							<View style={{ flex: 1, height: 2, backgroundColor: "black" }} />
+						</View>
+						<Text className="text-right font-bold mt-4 text-3xl" style={{ color: Color.PRIMARY }}>
+							{nameOpponent}
+						</Text>
+					</BoxMatchMakingComponent>
+				</View>
 			</Layout>
 		</>
 	);

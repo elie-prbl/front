@@ -2,41 +2,83 @@ import { Pressable, Text, View } from "react-native";
 import { quizQuestionsState } from "../../store/features/QuizQuestions/QuizQuestionsSlices";
 import React from "react";
 import { Color, FontSize } from "../../base/constant";
+import { Questions } from "../../store/interface/dualquiz";
 
 interface GameAnswerComponentProps {
-	currentQuestion: quizQuestionsState;
+	currentQuestion: quizQuestionsState | Questions;
 	onPress: (params: string) => void;
 	selectedOption: string | null;
 	isDisabled: boolean;
+	answerValidated: boolean;
+	correctAnswer: string | null;
 }
 
-const GameAnswerComponent = ({ currentQuestion, onPress, selectedOption, isDisabled }: GameAnswerComponentProps) => {
+const GameAnswerComponent = ({
+	currentQuestion,
+	onPress,
+	selectedOption,
+	isDisabled,
+	answerValidated,
+	correctAnswer,
+}: GameAnswerComponentProps) => {
+	const getOptionStyles = (option: string) => {
+		let backgroundColor = Color.GREY;
+		let borderColor = Color.GREY;
+		let innerBackgroundColor = Color.WHITE;
+		let colorText = Color.BLACK;
+
+		if (answerValidated) {
+			if (option === correctAnswer) {
+				backgroundColor = Color.SECONDARY;
+				borderColor = Color.SECONDARY;
+				innerBackgroundColor = Color.PRIMARY;
+				colorText = Color.WHITE;
+			} else if (option === selectedOption) {
+				backgroundColor = Color.RED_BRIGHT_DARK;
+				borderColor = Color.RED_BRIGHT_DARK;
+				innerBackgroundColor = Color.RED_BRIGHT_LIGHT;
+				colorText = Color.WHITE;
+			}
+		} else if (option === selectedOption) {
+			backgroundColor = Color.BLUE_PALE_DARK;
+			borderColor = Color.BLUE_PALE_DARK;
+			innerBackgroundColor = Color.BLUE_PALE_LIGHT;
+		}
+
+		return { backgroundColor, borderColor, innerBackgroundColor, colorText };
+	};
+
 	return (
 		<View className="flex-row flex-wrap mx-2">
-			{currentQuestion.answers.map((option, index) => (
-				<View className="w-1/2 p-1" key={index}>
-					<Pressable disabled={isDisabled} onPress={() => onPress(option)}>
-						<View
-							className="rounded-lg"
-							style={{
-								backgroundColor: selectedOption === option ? Color.BLUE_PALE_DARK : Color.GREY,
-								borderColor: selectedOption === option ? Color.BLUE_PALE_DARK : Color.GREY,
-								borderWidth: 1,
-								height: 135,
-							}}>
+			{currentQuestion.answers.map((option, index) => {
+				const { backgroundColor, borderColor, innerBackgroundColor, colorText } = getOptionStyles(option);
+				return (
+					<View className="w-1/2 p-1" key={index}>
+						<Pressable disabled={isDisabled} onPress={() => onPress(option)}>
 							<View
-								className="rounded-lg justify-center"
+								className="rounded-lg"
 								style={{
-									zIndex: 1,
-									backgroundColor: selectedOption === option ? Color.BLUE_PALE_LIGHT : Color.WHITE,
-									height: 130,
+									backgroundColor,
+									borderColor,
+									borderWidth: 1,
+									height: 135,
 								}}>
-								<Text className={`text-center p-3 ${FontSize.TEXT_LG}`}>{option}</Text>
+								<View
+									className="rounded-lg justify-center"
+									style={{
+										zIndex: 1,
+										backgroundColor: innerBackgroundColor,
+										height: 130,
+									}}>
+									<Text className={`text-center p-3 ${FontSize.TEXT_LG}`} style={{ color: colorText }}>
+										{option}
+									</Text>
+								</View>
 							</View>
-						</View>
-					</Pressable>
-				</View>
-			))}
+						</Pressable>
+					</View>
+				);
+			})}
 		</View>
 	);
 };
