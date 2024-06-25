@@ -15,6 +15,7 @@ import { CommonActions, useNavigation } from "@react-navigation/core";
 import { quizState } from "../../store/features/Quiz/QuizSlices";
 import { restartCurrentQuizModule } from "../../store/features/QuizModules/CurrentQuizModuleSlice";
 import { restartCurrentQuiz } from "../../store/features/Quiz/CurrentQuizSlice";
+import Planet from "../../svg/Planet";
 
 const GameQuiz = () => {
 	const dispatch = useAppDispatch();
@@ -105,6 +106,9 @@ const GameQuiz = () => {
 					<View className=" mx-2 px-1">
 						<Text className={`${FontSize.TEXT_XL} font-bold`}>{currentQuestion.question}</Text>
 						<View className="w-24 h-[1] my-2" style={{ backgroundColor: Color.PRIMARY }} />
+					</View>
+					<View className="flex-1">
+						<Planet />
 					</View>
 					<View>
 						<GameAnswerComponent
