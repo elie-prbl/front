@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { ActivityIndicator, ScrollView, Text } from "react-native";
 import BoxComponent from "../base/Box";
-import { Content } from "../base/constant";
+import { Color, Content } from "../base/constant";
 import QuestComponent from "../components/quest/QuestComponent";
 import ShopHomeComponent from "../components/shop/ShopHomeComponent";
 import GameHomeComponent from "../components/game/GameHomeComponent";
@@ -30,8 +30,8 @@ const Home = () => {
 	const dispatch = useAppDispatch();
 	const navigation = useNavigation<MyNavigationProp>();
 	const position = useSelector((state: RootState) => state.position.position);
+	const { userQuests, isLoadingUserQuest } = useSelector((state: RootState) => state.userQuests);
 	const [nextQuiz, setNextQuiz] = React.useState<string>("");
-	const { userQuests } = useSelector((state: RootState) => state.userQuests);
 	const { user, isLoading } = useAppSelector((state: RootState) => state.user);
 
 	useEffect(() => {
@@ -85,9 +85,11 @@ const Home = () => {
 		<Layout>
 			<ScrollView showsVerticalScrollIndicator={false}>
 				<BoxComponent title={Content.DAILY_QUEST} onPress={() => navigation.navigate(ContentHome.GAME)}>
-					{userQuests.map(userQuest => (
-						<QuestComponent key={userQuest.id} userQuest={userQuest} img={<Circle1 />} />
-					))}
+					{isLoadingUserQuest ? (
+						<ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center" />
+					) : (
+						userQuests.map(userQuest => <QuestComponent key={userQuest.id} userQuest={userQuest} img={<Circle1 />} />)
+					)}
 				</BoxComponent>
 				<BoxComponent
 					title={Content.SHOP}

@@ -21,7 +21,7 @@ export enum ContentQuest {
 
 const Quest = () => {
 	const dispatch = useAppDispatch();
-	const userQuests = useSelector((state: RootState) => state.userQuests.userQuests);
+	const { userQuests, isLoadingUserQuest } = useSelector((state: RootState) => state.userQuests);
 	// const success = useSelector((state: RootState) => state.success.success);
 	const navigation = useNavigation<MyNavigationProp>();
 	const { success, isLoading } = useAppSelector((state: RootState) => state.success);
@@ -51,11 +51,15 @@ const Quest = () => {
 					description={Content.GO_SHOP}
 					icon={<Entypo name="shop" size={24} color="white" />}
 				/>
-				<BoxComponent title={Content.DAILY_QUEST}>
-					{userQuests.map(userQuest => (
-						<QuestComponent key={userQuest.id} userQuest={userQuest} img={<Circle1 />} />
-					))}
-				</BoxComponent>
+				{isLoadingUserQuest ? (
+					<ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center" />
+				) : (
+					<BoxComponent title={Content.DAILY_QUEST}>
+						{userQuests.map(userQuest => (
+							<QuestComponent key={userQuest.id} userQuest={userQuest} img={<Circle1 />} />
+						))}
+					</BoxComponent>
+				)}
 				{isLoading ? (
 					<ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center" />
 				) : (

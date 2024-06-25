@@ -43,7 +43,7 @@ export interface UserQuest {
 
 const initialState = {
 	userQuests: [] as UserQuest[],
-	isLoading: false,
+	isLoadingUserQuest: false,
 	error: null as string | null | unknown,
 	isModified: false,
 };
@@ -55,14 +55,14 @@ export const getUserQuestsSlice = createSlice({
 	extraReducers: builder => {
 		builder
 			.addCase(getUserQuests.pending, (state, action) => {
-				state.isLoading = true;
+				state.isLoadingUserQuest = true;
 			})
 			.addCase(getUserQuests.fulfilled, (state, action) => {
 				state.userQuests = action.payload;
-				state.isLoading = false;
+				state.isLoadingUserQuest = false;
 			})
 			.addCase(getUserQuests.rejected, (state, action) => {
-				state.isLoading = false;
+				state.isLoadingUserQuest = false;
 				state.error = action.payload;
 				state.isModified = false;
 			});
