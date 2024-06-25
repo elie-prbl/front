@@ -35,7 +35,7 @@ export type StackParamList = {
 	GameModule: undefined;
 	GameQuiz: undefined;
 	GameScore: { score: number; nbQuestions: number };
-	GameDualQuiz: { roomId: number };
+	GameDualQuiz: { roomId: number; nameOpponent: string };
 	GameDualQuizScore: { isDraw: boolean; isWinner: boolean; myScore: number; scorePlayer: number; nbQuestions: number };
 	Shop: undefined;
 	Profile: undefined;

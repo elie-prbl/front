@@ -95,8 +95,8 @@ export class Content {
 	static MATCH_MAKING: string = "Matchmaking";
 	static WAITING_PLAYER: string = "Recherche d'un joueur...";
 	static MATCH: string = "Match trouvé !";
-	static WAITING_ANSWER_PLAYER: string = "En attente de votre adversaire...";
-	static ANSWER_PLAYER: string = "Votre adversaire a répondu !";
+	static WAITING_ANSWER_PLAYER: string = "En attente de";
+	static ANSWER_PLAYER: string = "a répondu !";
 	static ELAPSED_TIME: string = "Dommage, le temps est écoulé pour cette question !";
 	static NEXT_QUESTION: string = "La prochaine question va débuter !";
 	static DRAW: string = "Égalité !";

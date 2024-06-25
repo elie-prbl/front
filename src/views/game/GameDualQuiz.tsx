@@ -13,9 +13,10 @@ import { CommonActions, useNavigation } from "@react-navigation/core";
 import { useAppSelector } from "../../store/hooks";
 import { RootState } from "../../store/store";
 import { DualQuizData, DualQuizStatus, DualQuizType, Questions } from "../../store/interface/dualquiz";
+import Elie from "../../svg/Elie";
 
 const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
-	const { roomId } = route.params;
+	const { roomId, nameOpponent } = route.params;
 	const navigation = useNavigation<NavigationGameDualQuizScoreProps>();
 	const { user } = useAppSelector((state: RootState) => state.user);
 	const [ws, setWs] = useState<WebSocketClient>();
@@ -49,9 +50,9 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 					case DualQuizType.DualQuizAnswer:
 						console.log("Answer data:", data);
 						if (data.client_uuid === user.uuid) {
-							setInfos(Content.WAITING_ANSWER_PLAYER);
+							setInfos(`${Content.WAITING_ANSWER_PLAYER} ${nameOpponent}...`);
 						} else {
-							setInfos(Content.ANSWER_PLAYER);
+							setInfos(`${nameOpponent} ${Content.ANSWER_PLAYER}`);
 						}
 						break;
 					default:
@@ -183,7 +184,12 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 								<View className="w-24 h-[1] my-2" style={{ backgroundColor: Color.PRIMARY }} />
 							</View>
 							<View>
-								{infos && <Text className="mx-4 mb-4 text-center">{infos}</Text>}
+								{infos && (
+									<View className="flex-row items-end justify-center mx-4 mb-6">
+										<Elie />
+										<Text className="text-base ml-3">{infos}</Text>
+									</View>
+								)}
 								<GameAnswerComponent
 									currentQuestion={currentQuestion}
 									onPress={handleAnswer}

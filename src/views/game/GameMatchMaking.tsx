@@ -43,7 +43,7 @@ const GameMatchMaking = () => {
 				setNameOpponent(opponent.username);
 				ws.close();
 				setTimeout(() => {
-					navigation.navigate("GameDualQuiz", { roomId: data.room_id });
+					navigation.navigate("GameDualQuiz", { roomId: data.room_id, nameOpponent: opponent.username });
 				}, 2000);
 			}
 		};
