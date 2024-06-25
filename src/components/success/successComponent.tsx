@@ -1,27 +1,34 @@
 import React from "react";
 import { Text, View } from "react-native";
 import ProgressBar from "../../base/ProgressBar";
-import { successState } from "../../store/features/Success/SuccessSlices";
+import { userSuccessState } from "../../store/features/UserSuccesses/UserSuccessesSlices";
 import Gem from "../../svg/Gem";
 import SuccessQuiz from "../../svg/SuccessQuiz";
 import SuccessQuizWin from "../../svg/SuccessQuizWin";
 import SuccessConnection from "../../svg/SuccessConnection";
+import { TagName } from "../../store/features/UserQuests/UserQuestsSlices";
 
 export type successProps = {
-	success: successState;
+	userSuccess: userSuccessState;
 };
 
-const SuccessComponent = ({ success }: successProps) => {
-	const SwitchImg = (name: string) => {
+const SuccessComponent = ({ userSuccess }: successProps) => {
+	const SwitchImg = (name: TagName) => {
 		switch (name) {
-			case "level":
+			case TagName.PlayQuizTag:
 				return <SuccessQuiz />;
-			case "login":
+			case TagName.ConnectionTag:
 				return <SuccessConnection />;
-			case "quiz_complete":
+			case TagName.WonQuizTag:
 				return <SuccessQuizWin />;
-			case "avatar":
+			case TagName.AvatarTag:
 				return <SuccessConnection />;
+			case TagName.LevelTag:
+				return <SuccessQuizWin />;
+			case TagName.PlayGameTag:
+				return <SuccessQuiz />;
+			case TagName.WonGameTag:
+				return <SuccessQuizWin />;
 			default:
 				console.log(`error to load success image`);
 		}
@@ -29,20 +36,20 @@ const SuccessComponent = ({ success }: successProps) => {
 
 	return (
 		<View className="flex-row w-full my-2 h-28">
-			{SwitchImg(success?.success.tags)}
+			{SwitchImg(userSuccess?.success.tag.name)}
 			<View className="flex-col flex-1">
-				<Text className="font-semibold">{success?.success.name}</Text>
+				<Text className="font-semibold">{userSuccess?.success.name}</Text>
 				<View className="flex-row justify-between mt-2 w-full">
-					<ProgressBar currentStep={success?.progression} totalStep={success?.success.done_condition} width={200} />
+					<ProgressBar currentStep={userSuccess?.progression} totalStep={userSuccess?.success.done_condition} width={200} />
 					<Text>
-						{success?.progression} / {success?.success.done_condition}
+						{userSuccess?.progression} / {userSuccess?.success.done_condition}
 					</Text>
 				</View>
 				<Text className="mt-3">Récompenses :</Text>
 				<View className="flex-row justify-between">
-					<Text className="mt-1">+ {success?.success.xp} xp</Text>
+					<Text className="mt-1">+ {userSuccess?.success.xp} xp</Text>
 					<View className="flex-row items-center">
-						<Text className="mt-1 mr-1">+ {success?.success.currency_reward}</Text>
+						<Text className="mt-1 mr-1">+ {userSuccess?.success.currency_reward}</Text>
 						<Gem />
 					</View>
 				</View>

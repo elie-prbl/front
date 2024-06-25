@@ -13,7 +13,7 @@ import { Entypo } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp } from "../navigation/AppNavigator";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { getSuccess } from "../store/features/Success/SuccessThunk";
+import { getUserSuccesses } from "../store/features/UserSuccesses/UserSuccessesThunk";
 
 export enum ContentQuest {
 	SHOP = "Shop",
@@ -24,19 +24,22 @@ const Quest = () => {
 	const { userQuests, isLoadingUserQuest } = useSelector((state: RootState) => state.userQuests);
 	// const success = useSelector((state: RootState) => state.success.success);
 	const navigation = useNavigation<MyNavigationProp>();
-	const { success, isLoading } = useAppSelector((state: RootState) => state.success);
+	const { userSuccesses, isLoadingUserSuccesses } = useAppSelector((state: RootState) => state.userSuccesses);
+	const user = useAppSelector((state: RootState) => state.user.user);
 
 	useEffect(() => {
-		const fetchData = async () => {
+		fetchData();
+	}, [dispatch]);
+
+	const fetchData = async () => {
+		if (user?.id) {
 			try {
-				await dispatch(getSuccess());
+				await dispatch(getUserSuccesses(user.id));
 			} catch (error) {
 				console.error("Error get user:", error);
 			}
-		};
-
-		fetchData();
-	}, [dispatch]);
+		}
+	};
 
 	return (
 		<Layout>
@@ -60,14 +63,14 @@ const Quest = () => {
 						))}
 					</BoxComponent>
 				)}
-				{isLoading ? (
+				{isLoadingUserSuccesses ? (
 					<ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center" />
 				) : (
 					<BoxComponent title={Content.SUCCESS}>
-						{success?.map((s, index) => {
+						{userSuccesses?.map((s, index) => {
 							return (
 								<View key={index}>
-									<SuccessComponent success={s} />
+									<SuccessComponent userSuccess={s} />
 								</View>
 							);
 						})}

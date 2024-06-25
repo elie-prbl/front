@@ -10,7 +10,7 @@ import { useAppDispatch } from "../../store/hooks";
 import { restartCurrentQuiz } from "../../store/features/Quiz/CurrentQuizSlice";
 import { updateQuestsQuiz, updateQuestsQuizWon } from "../../store/features/UserQuests/UserQuestsSlices";
 import { updateUserQuizWon, updateUserXp } from "../../store/features/User/UserSlices";
-import { updateSuccessQuiz, updateSuccessQuizWon } from "../../store/features/Success/SuccessSlices";
+import { updateSuccessQuiz, updateSuccessQuizWon } from "../../store/features/UserSuccesses/UserSuccessesSlices";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import Planet from "../../svg/Planet";

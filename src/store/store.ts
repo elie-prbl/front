@@ -7,7 +7,7 @@ import currentQuestionIndexReducer from "./features/QuizQuestions/CurrentQuestio
 import currentQuizModuleReducer from "./features/QuizModules/CurrentQuizModuleSlice";
 import currentQuizReducer from "./features/Quiz/CurrentQuizSlice";
 import livesReducer from "./features/Lives/LivesSlices";
-import successReducer from "./features/Success/SuccessSlices";
+import userSuccessesReducer from "./features/UserSuccesses/UserSuccessesSlices";
 import userQuestsReducer from "./features/UserQuests/UserQuestsSlices";
 import rewardsReducer from "./features/Rewards/RewardsSlices";
 import positionReducer from "./features/Position/PositionSlices";
@@ -21,7 +21,7 @@ const rootReducer = combineReducers({
 	currentQuizModule: currentQuizModuleReducer,
 	currentQuiz: currentQuizReducer,
 	lives: livesReducer,
-	success: successReducer,
+	userSuccesses: userSuccessesReducer,
 	userQuests: userQuestsReducer,
 	rewards: rewardsReducer,
 	position: positionReducer,

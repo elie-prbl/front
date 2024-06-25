@@ -10,7 +10,6 @@ export type questProps = {
 };
 
 const QuestComponent = ({ userQuest, img }: questProps) => {
-	console.log("userQuest", userQuest);
 	return (
 		<View className="justify-center flex-1">
 			<View className="flex-row w-full items-center my-2">
