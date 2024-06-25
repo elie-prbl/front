@@ -92,7 +92,7 @@ export class Content {
 	static SCORE: string = "Score";
 
 	//Game Multiplayer
-	static MATCH_MAKING: string = "Match making";
+	static MATCH_MAKING: string = "Matchmaking";
 	static WAITING_PLAYER: string = "Recherche d'un joueur...";
 	static MATCH: string = "Match trouvé !";
 	static WAITING_ANSWER_PLAYER: string = "En attente de votre adversaire...";

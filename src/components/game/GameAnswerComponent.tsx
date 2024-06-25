@@ -2,7 +2,7 @@ import { Pressable, Text, View } from "react-native";
 import { quizQuestionsState } from "../../store/features/QuizQuestions/QuizQuestionsSlices";
 import React from "react";
 import { Color, FontSize } from "../../base/constant";
-import { Questions } from "../../views/game/GameDualQuiz";
+import { Questions } from "../../store/interface/dualquiz";
 
 interface GameAnswerComponentProps {
 	currentQuestion: quizQuestionsState | Questions;
