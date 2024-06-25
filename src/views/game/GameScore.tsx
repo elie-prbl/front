@@ -1,7 +1,7 @@
 import React from "react";
-import Layout from "../../base/Layout";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Text, View } from "react-native";
-import { Color, Content, FontSize } from "../../base/constant";
+import { Color, Content } from "../../base/constant";
 import GameScoreComponent from "../../components/game/GameScoreComponent";
 import ButtonComponent from "../../base/Button";
 import { useNavigation } from "@react-navigation/core";
@@ -13,6 +13,7 @@ import { updateUserQuizWon, updateUserXp } from "../../store/features/User/UserS
 import { updateSuccessQuiz, updateSuccessQuizWon } from "../../store/features/Success/SuccessSlices";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+import Planet from "../../svg/Planet";
 
 const GameScore = ({ route }: RouteGameScoreProps) => {
 	const { score, nbQuestions } = route.params;
@@ -42,13 +43,15 @@ const GameScore = ({ route }: RouteGameScoreProps) => {
 	};
 
 	return (
-		<Layout>
-			<View className="h-full justify-around items-center">
-				<Text className={`font-bold ${FontSize.TEXT_XL}`}>{Content.LESSON_FINISHED}</Text>
+		<SafeAreaView style={{ backgroundColor: Color.WHITE }}>
+			<View className="h-full justify-between mx-4">
+				<View className="h-1/2">
+					<Planet />
+				</View>
+				<Text className="font-bold text-2xl text-center">{Content.LESSON_FINISHED}</Text>
 				<View className="flex-wrap flex-row justify-center">
 					<GameScoreComponent
 						bg={Color.GOLD}
-						ml="ml-4"
 						mr="mr-2"
 						title={Content.SUCCESSFUL}
 						colorSubTitle={Color.GOLD}
@@ -57,7 +60,6 @@ const GameScore = ({ route }: RouteGameScoreProps) => {
 					/>
 					<GameScoreComponent
 						bg={Color.PRIMARY}
-						mr="mr-4"
 						ml="ml-2"
 						title={Content.PRECISION}
 						colorSubTitle={Color.PRIMARY}
@@ -70,9 +72,10 @@ const GameScore = ({ route }: RouteGameScoreProps) => {
 					bg={Color.BLUE_BRIGHT_LIGHT}
 					shadowColor={Color.BLUE_BRIGHT_DARK}
 					content={Content.CONTINUE}
+					width="w-full"
 				/>
 			</View>
-		</Layout>
+		</SafeAreaView>
 	);
 };
 

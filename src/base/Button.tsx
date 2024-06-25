@@ -34,9 +34,11 @@ const ButtonComponent = ({
 					borderColor,
 					borderWidth,
 				}}>
-				<View className="rounded-lg h-11" style={{ zIndex: 1, backgroundColor: disabled ? Color.GREY : `${bg}` }}>
+				<View
+					className="rounded-lg h-11 justify-center"
+					style={{ zIndex: 1, backgroundColor: disabled ? Color.GREY : `${bg}` }}>
 					{typeof content === "string" ? (
-						<Text className="text-center font-bold text-xl py-3" style={{ color: textColor }}>
+						<Text className="text-center font-bold text-xl" style={{ color: textColor }}>
 							{content}
 						</Text>
 					) : (

@@ -5,7 +5,6 @@ import GameQuizHeaderComponent from "../../components/game/GameQuizHeaderCompone
 import { Color, Content, FontSize } from "../../base/constant";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import GameAnswerComponent from "../../components/game/GameAnswerComponent";
-import GameSnackBarComponent from "../../components/game/GameSnackBarComponent";
 import ButtonComponent from "../../base/Button";
 import {
 	incrementCurrentQuestionIndexState,
@@ -16,6 +15,7 @@ import { CommonActions, useNavigation } from "@react-navigation/core";
 import { quizState } from "../../store/features/Quiz/QuizSlices";
 import { restartCurrentQuizModule } from "../../store/features/QuizModules/CurrentQuizModuleSlice";
 import { restartCurrentQuiz } from "../../store/features/Quiz/CurrentQuizSlice";
+import Planet from "../../svg/Planet";
 import { submitUserQuiz } from "../../store/features/UserQuiz/UserQuizThunk";
 
 const GameQuiz = () => {
@@ -97,13 +97,12 @@ const GameQuiz = () => {
 
 	const handleCheckAnswer = () => {
 		setIsDisabled(true);
+		setTitleButton(Content.CONTINUE);
 		if (selectedOption !== currentQuestion.good_answer) {
-			setTitleButton(Content.AGREED);
 			setColorBgButton(Color.RED_BRIGHT_LIGHT);
 			setColorShadowButton(Color.RED_BRIGHT_DARK);
 			dispatch(decrementLife());
 		} else {
-			setTitleButton(Content.CONTINUE);
 			setScore(prevScore => prevScore + 1);
 		}
 	};
@@ -117,34 +116,18 @@ const GameQuiz = () => {
 						<Text className={`${FontSize.TEXT_XL} font-bold`}>{currentQuestion.question}</Text>
 						<View className="w-24 h-[1] my-2" style={{ backgroundColor: Color.PRIMARY }} />
 					</View>
+					<View className="flex-1">
+						<Planet />
+					</View>
 					<View>
 						<GameAnswerComponent
 							currentQuestion={currentQuestion}
 							onPress={handleAnswer}
 							selectedOption={selectedOption}
 							isDisabled={isDisabled}
+							answerValidated={titleButton === Content.CONTINUE}
+							correctAnswer={currentQuestion.good_answer}
 						/>
-						{titleButton === Content.CONTINUE && (
-							<GameSnackBarComponent
-								bg={Color.GREEN_OPACITY}
-								height={160}
-								title={Content.SUPER}
-								icon="check-circle"
-								colorIcon={Color.PRIMARY}
-								colorContent={Color.PRIMARY}
-							/>
-						)}
-						{titleButton === Content.AGREED && (
-							<GameSnackBarComponent
-								bg={Color.RED_OPACITY}
-								height={220}
-								title={Content.INCORRECT}
-								icon="times-circle"
-								colorIcon={Color.RED}
-								colorContent={Color.RED}
-								correctAnswer={currentQuestion.good_answer}
-							/>
-						)}
 						<View className="mx-3 mt-4" style={{ zIndex: 2 }}>
 							<ButtonComponent
 								onPress={titleButton === Content.VALIDATE ? handleCheckAnswer : handleNextQuestion}
