@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Layout from "../../base/Layout";
 import GameHeaderGemLifeComponent from "../../components/game/GameHeaderGemLifeComponent";
 import { SafeAreaView, Text, View, ActivityIndicator } from "react-native";
@@ -23,45 +23,38 @@ const GameMatchMaking = () => {
 	const [error, setError] = useState(false);
 	const [nameOpponent, setNameOpponent] = useState<string | null>(null);
 
+	const handleWebSocketMessage = useCallback(async (event: any) => {
+		const data = JSON.parse(event.data.toString());
+		console.log(data);
+
+		if (data.status === MatchMakingStatus.InQueue) {
+			setIsLoading(true);
+		} else if (data.status === MatchMakingStatus.Matched) {
+			setIsLoading(false);
+			const opponent = await getUserOpponent(data.opponent_uuid);
+			setNameOpponent(opponent.username);
+			setTimeout(() => {
+				navigation.navigate("GameDualQuiz", { roomId: data.room_id, nameOpponent: opponent.username });
+			}, 2000);
+		}
+	}, []);
+
 	useEffect(() => {
 		if (!user?.uuid) return;
 
 		const ws = new WebSocketClient(`${Url.BASE_URL_WS}/matchmaking/1/${user.uuid}`);
 
-		ws.onopen = () => {
-			console.log("Game MatchMaking connected");
-		};
-
-		ws.onmessage = async event => {
-			const data = JSON.parse(event.data.toString());
-			console.log(data);
-			if (data.status === MatchMakingStatus.InQueue) {
-				setIsLoading(true);
-			} else if (data.status === MatchMakingStatus.Matched) {
-				setIsLoading(false);
-				const opponent = await getUserOpponent(data.opponent_uuid);
-				setNameOpponent(opponent.username);
-				ws.close();
-				setTimeout(() => {
-					navigation.navigate("GameDualQuiz", { roomId: data.room_id, nameOpponent: opponent.username });
-				}, 2000);
-			}
-		};
-
-		ws.onerror = () => {
-			setError(true);
-		};
-
-		ws.onclose = () => {
-			console.log("Game MatchMaking closed");
-		};
+		ws.onopen = () => console.log("Game MatchMaking connected");
+		ws.onmessage = handleWebSocketMessage;
+		ws.onerror = () => setError(true);
+		ws.onclose = () => console.log("Game MatchMaking closed");
 
 		return () => {
 			ws.close();
 		};
-	}, [user?.uuid]);
+	}, [user?.uuid, handleWebSocketMessage]);
 
-	if (error)
+	if (error) {
 		return (
 			<Layout>
 				<View className="h-full justify-center">
@@ -70,61 +63,49 @@ const GameMatchMaking = () => {
 				</View>
 			</Layout>
 		);
-
-	if (isLoading) {
-		return (
-			<>
-				<SafeAreaView style={{ backgroundColor: Color.WHITE }}>
-					<View className="my-2 mx-4 justify-center">
-						<GameHeaderGemLifeComponent />
-					</View>
-				</SafeAreaView>
-				<Layout>
-					<View className="h-full justify-center">
-						<BoxMatchMakingComponent>
-							<Text className="text-center text-5xl font-bold" style={{ color: Color.PRIMARY }}>
-								{Content.MATCH_MAKING}
-							</Text>
-							<Text className="text-center text-xl font-bold mt-1 mb-6" style={{ color: Color.PRIMARY }}>
-								{Content.WAITING_PLAYER}
-							</Text>
-							<ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center" />
-						</BoxMatchMakingComponent>
-					</View>
-				</Layout>
-			</>
-		);
 	}
 
 	return (
-		<>
-			<SafeAreaView style={{ backgroundColor: Color.WHITE }}>
+		<SafeAreaView style={{ backgroundColor: Color.WHITE }}>
+			<View className="h-full justify-center">
 				<View className="my-2 mx-4 justify-center">
 					<GameHeaderGemLifeComponent />
 				</View>
-			</SafeAreaView>
-			<Layout>
-				<View className="h-full justify-center">
-					<BoxMatchMakingComponent>
-						<Text className="font-bold mb-4 text-3xl" style={{ color: Color.PRIMARY }}>
-							{user?.username}
-						</Text>
-						<View className="flex-row items-center my-7">
-							<View style={{ flex: 1, height: 2, backgroundColor: "black" }} />
-							<View>
-								<Text className="text-3xl" style={{ width: 100, textAlign: "center" }}>
-									VS
+				<Layout>
+					<View className="h-full justify-center">
+						{isLoading ? (
+							<BoxMatchMakingComponent>
+								<Text className="text-center text-5xl font-bold" style={{ color: Color.PRIMARY }}>
+									{Content.MATCH_MAKING}
 								</Text>
-							</View>
-							<View style={{ flex: 1, height: 2, backgroundColor: "black" }} />
-						</View>
-						<Text className="text-right font-bold mt-4 text-3xl" style={{ color: Color.PRIMARY }}>
-							{nameOpponent}
-						</Text>
-					</BoxMatchMakingComponent>
-				</View>
-			</Layout>
-		</>
+								<Text className="text-center text-xl font-bold mt-1 mb-6" style={{ color: Color.PRIMARY }}>
+									{Content.WAITING_PLAYER}
+								</Text>
+								<ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center" />
+							</BoxMatchMakingComponent>
+						) : (
+							<BoxMatchMakingComponent>
+								<Text className="font-bold mb-4 text-3xl" style={{ color: Color.PRIMARY }}>
+									{user?.username}
+								</Text>
+								<View className="flex-row items-center my-7">
+									<View style={{ flex: 1, height: 2, backgroundColor: "black" }} />
+									<View>
+										<Text className="text-3xl" style={{ width: 100, textAlign: "center" }}>
+											VS
+										</Text>
+									</View>
+									<View style={{ flex: 1, height: 2, backgroundColor: "black" }} />
+								</View>
+								<Text className="text-right font-bold mt-4 text-3xl" style={{ color: Color.PRIMARY }}>
+									{nameOpponent}
+								</Text>
+							</BoxMatchMakingComponent>
+						)}
+					</View>
+				</Layout>
+			</View>
+		</SafeAreaView>
 	);
 };
 
