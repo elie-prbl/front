@@ -16,7 +16,7 @@ export const getUserQuiz = createAsyncThunk("getUserQuiz", async (userId: string
 
 	try {
 		const data = await response.json();
-		return data.quizId;
+		return data;
 	} catch (err) {
 		return rejectWithValue(`network error GET UserQuizz: ${err}`);
 	}

@@ -31,6 +31,7 @@ const Game = () => {
 	const [selectedItem, setSelectedItem] = useState<quizState | null>(null);
 	const [expandedItem, setExpandedItem] = useState<number | null>(null);
 	const [completedQuizzes, setCompletedQuizzes] = useState<number[]>([]);
+	const [nextQuiz, setNextQuiz] = useState<number>(1);
 
 	const userId = "6";
 
@@ -79,7 +80,8 @@ const Game = () => {
 		const fetchCompletedQuizzes = async () => {
 			try {
 				const response = await dispatch(getUserQuiz(userId)).unwrap();
-				setCompletedQuizzes(response ? response : []);
+				setCompletedQuizzes(response.quizIds ? response.quizIds : []);
+				setNextQuiz(response.nextQuiz.id ? response.nextQuiz.id : []);
 			} catch (error) {
 				console.error("Error fetching user quizzes:", error);
 			}
@@ -97,15 +99,17 @@ const Game = () => {
 	}, [dispatch, userId]);
 
 	const renderItem = ({ item }: { item: quizState }) => (
-
 		<ListItem.Accordion
 			content={
 				<View className="items-center">
 					<ListItem.Content>
 						<CircleComponent
 							img={<Game1 />}
-							isDisabled={false}
-							isDone={completedQuizzes.includes(item.id)}
+							// @ts-ignore
+							isDisabled={!completedQuizzes.includes(item.id.toString()) && item.id !== nextQuiz}
+							// @ts-ignore
+							isDone={completedQuizzes.includes(item.id.toString())}
+							isNext={item.id === nextQuiz}
 							classNamePressable="w-28 h-28"
 							classNameView="w-24 h-24"
 							onPress={() => {

@@ -18,11 +18,20 @@ import Circle1 from "../svg/Circle1";
 import { Difficulty } from "../store/features/Quests/QuestsSlices";
 import GemComponent from "../base/Gem";
 import { getUser } from "../store/features/User/UserThunk";
+import { getQuizModules } from "../store/features/QuizModules/QuizModulesThunk";
+import { getUserQuiz } from "../store/features/UserQuiz/UserQuizThunk";
 
 export enum ContentHome {
 	MAP = "Map",
 	GAME = "Game",
 	SHOP = "Shop",
+}
+
+interface quiz {
+	id: number;
+	questions: [];
+	title: string;
+	topic: string;
 }
 
 const Home = () => {
@@ -31,15 +40,23 @@ const Home = () => {
 	const position = useSelector((state: RootState) => state.position.position);
 	const quests = useSelector((state: RootState) => state.quests.quests);
 	const { user, isLoading, error } = useAppSelector((state: RootState) => state.user);
+	const [nextQuizzes, setNextQuizzes] = React.useState<string[]>([]);
+	const userId = "6";
 
 	useEffect(() => {
-		getTheCurrentPosition().then(location => {
-			if (location) {
-				const { latitude, longitude } = location.coords;
-				dispatch(setPosition({ latitude, longitude }));
+		const fetchCompletedQuizzes = async () => {
+			try {
+				const response = await dispatch(getUserQuiz(userId)).unwrap();
+				setNextQuizzes(response.nextQuiz.title ? response.nextQuiz.title : []);
+			} catch (error) {
+				console.error("Error fetching user quizzes:", error);
 			}
-		});
-	}, []);
+		};
+
+		if (userId) {
+			fetchCompletedQuizzes();
+		}
+	}, [dispatch, userId]);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -54,6 +71,8 @@ const Home = () => {
 
 		fetchData();
 	}, [dispatch]);
+
+	useEffect(() => {}, []);
 
 	return (
 		<Layout>
@@ -71,7 +90,7 @@ const Home = () => {
 					<ShopHomeComponent />
 				</BoxComponent>
 				<BoxComponent title={Content.GAME} onPress={() => navigation.navigate(ContentHome.GAME)}>
-					<GameHomeComponent nextQuiz="" />
+					<GameHomeComponent nextQuiz={nextQuizzes} />
 				</BoxComponent>
 				<BoxComponent title={Content.MAP} height="h-48" onPress={() => navigation.navigate(ContentHome.MAP)}>
 					<MapView
