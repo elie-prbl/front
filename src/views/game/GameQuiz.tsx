@@ -18,7 +18,6 @@ import { restartCurrentQuiz } from "../../store/features/Quiz/CurrentQuizSlice";
 import Planet from "../../svg/Planet";
 import { submitUserQuiz } from "../../store/features/UserQuiz/UserQuizThunk";
 import { RootState } from "../../store/store";
-import { getUser } from "../../store/features/User/UserThunk";
 
 const GameQuiz = () => {
 	const dispatch = useAppDispatch();
@@ -41,7 +40,7 @@ const GameQuiz = () => {
 	const lives = useAppSelector(state => state.lives.value);
 	const [score, setScore] = useState(0);
 
-	const { user, isLoading, error } = useAppSelector((state: RootState) => state.user);
+	const { user } = useAppSelector((state: RootState) => state.user);
 
 	const handleAnswer = (selectedOption: string) => {
 		setSelectedOption(selectedOption);
@@ -50,7 +49,6 @@ const GameQuiz = () => {
 	useEffect(() => {
 		if (currentIndexQuestionDisplay === currentQuiz!.questions.length) {
 			const quizData = {
-				// user_uuid: uid,
 				user_uuid: user!.uuid,
 				quiz_id: String(qid),
 			};

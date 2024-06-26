@@ -18,7 +18,6 @@ import Circle1 from "../svg/Circle1";
 import { Difficulty } from "../store/features/Quests/QuestsSlices";
 import GemComponent from "../base/Gem";
 import { getUser } from "../store/features/User/UserThunk";
-import { getQuizModules } from "../store/features/QuizModules/QuizModulesThunk";
 import { getUserQuiz } from "../store/features/UserQuiz/UserQuizThunk";
 
 export enum ContentHome {
@@ -27,20 +26,14 @@ export enum ContentHome {
 	SHOP = "Shop",
 }
 
-interface quiz {
-	id: number;
-	questions: [];
-	title: string;
-	topic: string;
-}
-
 const Home = () => {
 	const dispatch = useAppDispatch();
 	const navigation = useNavigation<MyNavigationProp>();
 	const position = useSelector((state: RootState) => state.position.position);
 	const quests = useSelector((state: RootState) => state.quests.quests);
-	const { user, isLoading, error } = useAppSelector((state: RootState) => state.user);
+	const { user } = useAppSelector((state: RootState) => state.user);
 	const [nextQuiz, setNextQuiz] = React.useState<string>("");
+
 	useEffect(() => {
 		getTheCurrentPosition().then(location => {
 			if (location) {
@@ -78,8 +71,6 @@ const Home = () => {
 
 		fetchData();
 	}, [dispatch]);
-
-	useEffect(() => {}, []);
 
 	return (
 		<Layout>

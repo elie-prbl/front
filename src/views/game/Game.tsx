@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Layout from "../../base/Layout";
-import {ActivityIndicator, Alert, FlatList, Text, View} from "react-native";
+import { ActivityIndicator, Alert, FlatList, Text, View } from "react-native";
 import { useAppSelector } from "../../store/hooks";
 import { quizState } from "../../store/features/Quiz/QuizSlices";
 import CircleComponent from "../../base/Circle";
@@ -16,11 +16,8 @@ import { useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { getQuiz } from "../../store/features/Quiz/QuizThunk";
 import { topic } from "../../store/features/QuizModules/QuizModulesSlices";
-import {restartCurrentQuiz, updateCurrentQuiz} from "../../store/features/Quiz/CurrentQuizSlice";
+import { updateCurrentQuiz } from "../../store/features/Quiz/CurrentQuizSlice";
 import { getUserQuiz } from "../../store/features/UserQuiz/UserQuizThunk";
-import { getUser } from "../../store/features/User/UserThunk";
-import {restartCurrentQuestionIndexState} from "../../store/features/QuizQuestions/CurrentQuestionIndexSlices";
-import {restartCurrentQuizModule} from "../../store/features/QuizModules/CurrentQuizModuleSlice";
 
 const Game = () => {
 	const navigation = useNavigation<MyNavigationProp>();
@@ -37,7 +34,6 @@ const Game = () => {
 	const { user } = useAppSelector((state: RootState) => state.user);
 	const lives = useAppSelector(state => state.lives.value);
 
-
 	const handleGoingToGame = useCallback((qid: number) => {
 		dispatch(updateCurrentQuiz(qid));
 		navigation.navigate("GameQuiz");
@@ -46,7 +42,6 @@ const Game = () => {
 	const handleGameModule = () => {
 		navigation.navigate("GameModule");
 	};
-
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -86,8 +81,6 @@ const Game = () => {
 				const response = await dispatch(getUserQuiz(user!.uuid)).unwrap();
 				setCompletedQuizzes(response.quizIds ? response.quizIds : []);
 				setNextQuiz(response.nextQuiz.id ? response.nextQuiz.id : []);
-				console.log("response", response.nextQuiz.id);
-				console.log("response", response.quizIds);
 			} catch (error) {
 				console.error("Error fetching user quizzes:", error);
 			}
@@ -101,7 +94,6 @@ const Game = () => {
 	useEffect(() => {
 		if (lives === 0) {
 			Alert.alert("Tu as perdu toutes tes vies, pour ce quiz retente ta chance !");
-
 		}
 	}, []);
 

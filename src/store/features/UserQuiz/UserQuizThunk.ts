@@ -6,7 +6,7 @@ interface QuizData {
 	quiz_id: string;
 }
 
-export const getUserQuiz = createAsyncThunk("getUserQuiz", async (userUuid: string , { rejectWithValue }) => {
+export const getUserQuiz = createAsyncThunk("getUserQuiz", async (userUuid: string, { rejectWithValue }) => {
 	const response = await fetch(`${Url.BASE_URL_API}/games/quiz/${userUuid}`, {
 		method: "GET",
 		headers: {
@@ -15,8 +15,7 @@ export const getUserQuiz = createAsyncThunk("getUserQuiz", async (userUuid: stri
 	});
 
 	try {
-		const data = await response.json();
-		return data;
+		return await response.json();
 	} catch (err) {
 		return rejectWithValue(`network error GET UserQuizz: ${err}`);
 	}
