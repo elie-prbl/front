@@ -66,7 +66,7 @@ const Home = () => {
 		try {
 			if (user?.uuid) {
 				await dispatch(getUser(user.uuid));
-				await dispatch(getUserQuests(user.id));
+				await dispatch(getUserQuests(user.uuid));
 			}
 		} catch (error) {
 			console.error("Error get user:", error);

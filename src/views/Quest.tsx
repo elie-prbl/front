@@ -22,7 +22,6 @@ export enum ContentQuest {
 const Quest = () => {
 	const dispatch = useAppDispatch();
 	const { userQuests, isLoadingUserQuest } = useSelector((state: RootState) => state.userQuests);
-	// const success = useSelector((state: RootState) => state.success.success);
 	const navigation = useNavigation<MyNavigationProp>();
 	const { userSuccesses, isLoadingUserSuccesses } = useAppSelector((state: RootState) => state.userSuccesses);
 	const user = useAppSelector((state: RootState) => state.user.user);
@@ -32,9 +31,9 @@ const Quest = () => {
 	}, [dispatch]);
 
 	const fetchData = async () => {
-		if (user?.id) {
+		if (user?.uuid) {
 			try {
-				await dispatch(getUserSuccesses(user.id));
+				await dispatch(getUserSuccesses(user.uuid));
 			} catch (error) {
 				console.error("Error get user:", error);
 			}

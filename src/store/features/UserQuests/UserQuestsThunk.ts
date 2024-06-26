@@ -6,8 +6,8 @@ export interface updateUserQuestReq {
 	quest_id: number;
 }
 
-export const getUserQuests = createAsyncThunk("getQuests", async (id: number, { rejectWithValue }) => {
-	const response = await fetch(`${Url.BASE_URL_API}/quests/userQuests?user_id=${id}`, {
+export const getUserQuests = createAsyncThunk("getQuests", async (user_uuid: string, { rejectWithValue }) => {
+	const response = await fetch(`${Url.BASE_URL_API}/quests/userQuests?user_uuid=${user_uuid}`, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",
