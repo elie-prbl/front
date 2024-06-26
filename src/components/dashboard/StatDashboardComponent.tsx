@@ -20,7 +20,9 @@ const StatDashboardComponent = () => {
 		const fetchCompletedQuizzes = async () => {
 			try {
 				const response = await dispatch(getUserQuiz(user!.uuid)).unwrap();
-				setQuizzes(response.quizIds.length);
+				if (response.quizIds !== null) {
+					setQuizzes(response.quizIds.length);
+				}
 			} catch (error) {
 				console.error("Error fetching user quizzes:", error);
 			}
