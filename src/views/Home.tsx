@@ -41,22 +41,21 @@ const Home = () => {
 	const quests = useSelector((state: RootState) => state.quests.quests);
 	const { user, isLoading, error } = useAppSelector((state: RootState) => state.user);
 	const [nextQuizzes, setNextQuizzes] = React.useState<string[]>([]);
-	const userId = "6";
 
 	useEffect(() => {
 		const fetchCompletedQuizzes = async () => {
 			try {
-				const response = await dispatch(getUserQuiz(userId)).unwrap();
+				const response = await dispatch(getUserQuiz(user!.uuid)).unwrap();
 				setNextQuizzes(response.nextQuiz.title ? response.nextQuiz.title : []);
 			} catch (error) {
 				console.error("Error fetching user quizzes:", error);
 			}
 		};
 
-		if (userId) {
+		if (user!.uuid) {
 			fetchCompletedQuizzes();
 		}
-	}, [dispatch, userId]);
+	}, [dispatch, user!.uuid]);
 
 	useEffect(() => {
 		const fetchData = async () => {
