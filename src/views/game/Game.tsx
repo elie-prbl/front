@@ -78,9 +78,11 @@ const Game = () => {
 	useEffect(() => {
 		const fetchCompletedQuizzes = async () => {
 			try {
-				const response = await dispatch(getUserQuiz(user!.uuid)).unwrap();
-				setCompletedQuizzes(response.quizIds ? response.quizIds : []);
-				setNextQuiz(response.nextQuiz.id ? response.nextQuiz.id : []);
+				if (user?.uuid) {
+					const response = await dispatch(getUserQuiz(user.uuid)).unwrap();
+					setCompletedQuizzes(response.quizIds ? response.quizIds : []);
+					setNextQuiz(response.nextQuiz.id ? response.nextQuiz.id : []);
+				}
 			} catch (error) {
 				console.error("Error fetching user quizzes:", error);
 			}

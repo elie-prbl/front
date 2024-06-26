@@ -90,6 +90,7 @@ export class Content {
 	static SUCCESSFUL: string = "Réussite";
 	static PRECISION: string = "Précision";
 	static SCORE: string = "Score";
+	static LOST_LIVES: string = "Tu as perdu toutes tes vies pour ce quiz, retentes ta chance !";
 
 	//Game Multiplayer
 	static MATCH_MAKING: string = "Matchmaking";

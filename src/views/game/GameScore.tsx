@@ -44,14 +44,16 @@ const GameScore = ({ route }: RouteGameScoreProps) => {
 	}, [userQuests]);
 
 	const handleResetHome = () => {
-		if (quizWon && user) {
-			retrieveUserQuestsWinGames.forEach(userQuest => {
-				dispatch(updateUserQuest({ user_uuid: user.uuid, quest_id: userQuest.quest_id }));
-			});
-		} else if (user) {
-			retrieveUserQuestsPlayGames.forEach(userQuest => {
-				dispatch(updateUserQuest({ user_uuid: user.uuid, quest_id: userQuest.quest_id }));
-			});
+		if (user?.uuid) {
+			if (quizWon) {
+				retrieveUserQuestsWinGames.forEach(userQuest => {
+					dispatch(updateUserQuest({ user_uuid: user.uuid, quest_id: userQuest.quest_id }));
+				});
+			} else {
+				retrieveUserQuestsPlayGames.forEach(userQuest => {
+					dispatch(updateUserQuest({ user_uuid: user.uuid, quest_id: userQuest.quest_id }));
+				});
+			}
 		}
 	};
 
