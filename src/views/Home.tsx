@@ -73,10 +73,10 @@ const Home = () => {
 		}
 	};
 
-	if (isLoading) {
+	if (isLoading || isLoadingUserQuest) {
 		return (
 			<Layout>
-				<ActivityIndicator />
+				<ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center h-full" />
 			</Layout>
 		);
 	}
@@ -85,7 +85,6 @@ const Home = () => {
 		<Layout>
 			<ScrollView showsVerticalScrollIndicator={false}>
 				<BoxComponent title={Content.DAILY_QUEST} onPress={() => navigation.navigate(ContentHome.GAME)}>
-					{isLoadingUserQuest && <ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center" />}
 					{Array.isArray(userQuests) &&
 						userQuests.map(userQuest => <QuestComponent key={userQuest.id} userQuest={userQuest} img={<Circle1 />} />)}
 				</BoxComponent>

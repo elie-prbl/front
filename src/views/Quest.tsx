@@ -40,6 +40,14 @@ const Quest = () => {
 		}
 	};
 
+	if (isLoadingUserQuest || isLoadingUserSuccesses) {
+		return (
+			<Layout>
+				<ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center h-full" />
+			</Layout>
+		);
+	}
+
 	return (
 		<Layout>
 			<ScrollView showsVerticalScrollIndicator={false}>
@@ -54,23 +62,18 @@ const Quest = () => {
 					icon={<Entypo name="shop" size={24} color="white" />}
 				/>
 				<BoxComponent title={Content.DAILY_QUEST}>
-					{isLoadingUserQuest && <ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center" />}
 					{Array.isArray(userQuests) &&
 						userQuests.map(userQuest => <QuestComponent key={userQuest.id} userQuest={userQuest} img={<Circle1 />} />)}
 				</BoxComponent>
-				{isLoadingUserSuccesses ? (
-					<ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center" />
-				) : (
-					<BoxComponent title={Content.SUCCESS}>
-						{userSuccesses?.map((s, index) => {
-							return (
-								<View key={index}>
-									<SuccessComponent userSuccess={s} />
-								</View>
-							);
-						})}
-					</BoxComponent>
-				)}
+				<BoxComponent title={Content.SUCCESS}>
+					{userSuccesses?.map((s, index) => {
+						return (
+							<View key={index}>
+								<SuccessComponent userSuccess={s} />
+							</View>
+						);
+					})}
+				</BoxComponent>
 			</ScrollView>
 		</Layout>
 	);
