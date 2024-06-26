@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
-import { ActivityIndicator, Text, View } from "react-native";
+import { ActivityIndicator, Text, View, Animated, Easing } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AntDesign, FontAwesome6 } from "@expo/vector-icons";
 import { CommonActions, useNavigation } from "@react-navigation/core";
@@ -29,11 +29,10 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 	const [infos, setInfos] = useState<string>("");
 	const [isDisabled, setIsDisabled] = useState(false);
 	const [error, setError] = useState(false);
-	const [timer, setTimer] = useState(10);
 	const isTimeElapsed = useRef(false);
-	const timerRef = useRef<NodeJS.Timeout | null>(null);
 	const lastQuestion = useRef<boolean>(false);
 	const userHasAnswered = useRef(false);
+	const [progress] = useState(new Animated.Value(1));
 
 	const handleWebSocketMessage = useCallback((event: any) => {
 		try {
@@ -75,31 +74,26 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 
 	useEffect(() => {
 		if (currentQuestion) {
-			setTimer(10);
 			isTimeElapsed.current = false;
 
-			if (timerRef.current) {
-				clearInterval(timerRef.current);
-			}
-
-			timerRef.current = setInterval(() => {
-				setTimer(prevTimer => {
-					if (prevTimer === 1) {
-						clearInterval(timerRef.current!);
-						setIsDisabled(true);
-						setAnswerValidated(true);
-						isTimeElapsed.current = true;
-						handleAnswer(currentQuestion.good_answer);
-					}
-					return prevTimer - 1;
-				});
-			}, 1000);
+			progress.setValue(1);
+			Animated.timing(progress, {
+				toValue: 0,
+				duration: 10000,
+				easing: Easing.linear,
+				useNativeDriver: false,
+			}).start(({ finished }) => {
+				if (finished) {
+					setIsDisabled(true);
+					setAnswerValidated(true);
+					isTimeElapsed.current = true;
+					handleAnswer(currentQuestion.good_answer);
+				}
+			});
 		}
 
 		return () => {
-			if (timerRef.current) {
-				clearInterval(timerRef.current);
-			}
+			progress.setValue(1);
 		};
 	}, [currentQuestion]);
 
@@ -191,9 +185,7 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 		setIsDisabled(true);
 		setAnswerValidated(true);
 
-		if (timerRef.current) {
-			clearInterval(timerRef.current);
-		}
+		progress.stopAnimation();
 
 		const choice = dualQuizData?.quiz_data.questions[dualQuizData?.current_question].answers.findIndex(
 			answer => answer === selectedOption,
@@ -256,8 +248,18 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 									answerValidated={answerValidated}
 									correctAnswer={currentQuestion.good_answer}
 								/>
+								<View className="mx-4 mt-6">
+									<View className="rounded-lg h-4" style={{ backgroundColor: Color.GREY }}>
+										<Animated.View
+											className="rounded-lg h-4"
+											style={{
+												backgroundColor: Color.BLUE_BRIGHT_LIGHT,
+												width: progress.interpolate({ inputRange: [0, 1], outputRange: ["0%", "100%"] }),
+											}}
+										/>
+									</View>
+								</View>
 							</View>
-							<Text className="text-center my-4">Temps restant: {timer} secondes</Text>
 						</View>
 					</>
 				)}
