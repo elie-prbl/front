@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getUserQuests } from "./UserQuestsThunk";
+import { getUserQuests, updateUserQuest } from "./UserQuestsThunk";
 
 export enum Difficulty {
 	BEGINNER = "easy",
@@ -56,12 +56,28 @@ export const getUserQuestsSlice = createSlice({
 		builder
 			.addCase(getUserQuests.pending, (state, action) => {
 				state.isLoadingUserQuest = true;
+				state.isModified = false;
 			})
 			.addCase(getUserQuests.fulfilled, (state, action) => {
 				state.userQuests = action.payload;
 				state.isLoadingUserQuest = false;
+				state.isModified = false;
 			})
 			.addCase(getUserQuests.rejected, (state, action) => {
+				state.isLoadingUserQuest = false;
+				state.error = action.payload;
+				state.isModified = false;
+			})
+			.addCase(updateUserQuest.pending, (state, action) => {
+				state.isLoadingUserQuest = true;
+				state.isModified = false;
+			})
+			.addCase(updateUserQuest.fulfilled, (state, action) => {
+				state.userQuests = action.payload;
+				state.isLoadingUserQuest = false;
+				state.isModified = true;
+			})
+			.addCase(updateUserQuest.rejected, (state, action) => {
 				state.isLoadingUserQuest = false;
 				state.error = action.payload;
 				state.isModified = false;

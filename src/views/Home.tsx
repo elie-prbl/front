@@ -85,11 +85,9 @@ const Home = () => {
 		<Layout>
 			<ScrollView showsVerticalScrollIndicator={false}>
 				<BoxComponent title={Content.DAILY_QUEST} onPress={() => navigation.navigate(ContentHome.GAME)}>
-					{isLoadingUserQuest ? (
-						<ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center" />
-					) : (
-						userQuests.map(userQuest => <QuestComponent key={userQuest.id} userQuest={userQuest} img={<Circle1 />} />)
-					)}
+					{isLoadingUserQuest && <ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center" />}
+					{Array.isArray(userQuests) &&
+						userQuests.map(userQuest => <QuestComponent key={userQuest.id} userQuest={userQuest} img={<Circle1 />} />)}
 				</BoxComponent>
 				<BoxComponent
 					title={Content.SHOP}

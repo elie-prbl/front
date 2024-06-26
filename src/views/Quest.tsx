@@ -54,15 +54,11 @@ const Quest = () => {
 					description={Content.GO_SHOP}
 					icon={<Entypo name="shop" size={24} color="white" />}
 				/>
-				{isLoadingUserQuest ? (
-					<ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center" />
-				) : (
-					<BoxComponent title={Content.DAILY_QUEST}>
-						{userQuests.map(userQuest => (
-							<QuestComponent key={userQuest.id} userQuest={userQuest} img={<Circle1 />} />
-						))}
-					</BoxComponent>
-				)}
+				<BoxComponent title={Content.DAILY_QUEST}>
+					{isLoadingUserQuest && <ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center" />}
+					{Array.isArray(userQuests) &&
+						userQuests.map(userQuest => <QuestComponent key={userQuest.id} userQuest={userQuest} img={<Circle1 />} />)}
+				</BoxComponent>
 				{isLoadingUserSuccesses ? (
 					<ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center" />
 				) : (

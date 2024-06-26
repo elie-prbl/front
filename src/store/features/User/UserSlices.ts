@@ -31,18 +31,7 @@ const initialState = {
 export const userSlice = createSlice({
 	name: "user",
 	initialState,
-	reducers: {
-		updateUserXp: (state, action) => {
-			// if (state.user) {
-			// 	state.user.xp += action.payload;
-			// }
-		},
-		updateUserQuizWon: state => {
-			// if (state.user) {
-			// 	state.user.quizzWin += 1;
-			// }
-		},
-	},
+	reducers: {},
 	extraReducers: builder => {
 		builder
 			.addCase(getUser.pending, (state, action) => {
@@ -71,7 +60,5 @@ export const userSlice = createSlice({
 			});
 	},
 });
-
-export const { updateUserXp, updateUserQuizWon } = userSlice.actions;
 
 export default userSlice.reducer;
