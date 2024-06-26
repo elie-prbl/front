@@ -6,6 +6,7 @@ interface CircleComponentProps {
 	img: ReactElement;
 	isDisabled: boolean;
 	isDone: boolean;
+	isNext: boolean;
 	onPress?: () => void;
 	classNamePressable?: string;
 	classNameView?: string;
@@ -15,6 +16,7 @@ const CircleComponent = ({
 	img,
 	isDisabled,
 	isDone,
+	isNext,
 	onPress,
 	classNamePressable = "h-16 w-16",
 	classNameView = "h-14 w-14",
@@ -30,7 +32,9 @@ const CircleComponent = ({
 						? { backgroundColor: Color.GREY }
 						: isDone
 						? { backgroundColor: Color.PRIMARY }
-						: { backgroundColor: Color.GOLD }
+						: isNext
+						? { backgroundColor: Color.GOLD }
+						: { backgroundColor: Color.GREY }
 				}>
 				<View
 					className={`h-14 w-14 rounded-full justify-center items-center ${classNameView}`}
