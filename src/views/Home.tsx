@@ -40,13 +40,21 @@ const Home = () => {
 	const position = useSelector((state: RootState) => state.position.position);
 	const quests = useSelector((state: RootState) => state.quests.quests);
 	const { user, isLoading, error } = useAppSelector((state: RootState) => state.user);
-	const [nextQuizzes, setNextQuizzes] = React.useState<string[]>([]);
+	const [nextQuiz, setNextQuiz] = React.useState<string>("");
+	useEffect(() => {
+		getTheCurrentPosition().then(location => {
+			if (location) {
+				const { latitude, longitude } = location.coords;
+				dispatch(setPosition({ latitude, longitude }));
+			}
+		});
+	}, []);
 
 	useEffect(() => {
 		const fetchCompletedQuizzes = async () => {
 			try {
 				const response = await dispatch(getUserQuiz(user!.uuid)).unwrap();
-				setNextQuizzes(response.nextQuiz.title ? response.nextQuiz.title : []);
+				setNextQuiz(response.nextQuiz.title ? response.nextQuiz.title : "");
 			} catch (error) {
 				console.error("Error fetching user quizzes:", error);
 			}
@@ -89,7 +97,7 @@ const Home = () => {
 					<ShopHomeComponent />
 				</BoxComponent>
 				<BoxComponent title={Content.GAME} onPress={() => navigation.navigate(ContentHome.GAME)}>
-					<GameHomeComponent nextQuiz={nextQuizzes} />
+					<GameHomeComponent nextQuiz={nextQuiz} />
 				</BoxComponent>
 				<BoxComponent title={Content.MAP} height="h-48" onPress={() => navigation.navigate(ContentHome.MAP)}>
 					<MapView

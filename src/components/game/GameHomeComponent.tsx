@@ -4,7 +4,7 @@ import CircleComponent from "../../base/Circle";
 import Game1 from "../../svg/Game1";
 
 interface GameHomeComponentProps {
-	nextQuiz: string[];
+	nextQuiz: string;
 }
 
 const GameHomeComponent = ({ nextQuiz }: GameHomeComponentProps) => {

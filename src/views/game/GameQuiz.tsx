@@ -17,8 +17,8 @@ import { restartCurrentQuizModule } from "../../store/features/QuizModules/Curre
 import { restartCurrentQuiz } from "../../store/features/Quiz/CurrentQuizSlice";
 import Planet from "../../svg/Planet";
 import { submitUserQuiz } from "../../store/features/UserQuiz/UserQuizThunk";
-import {RootState} from "../../store/store";
-import {getUser} from "../../store/features/User/UserThunk";
+import { RootState } from "../../store/store";
+import { getUser } from "../../store/features/User/UserThunk";
 
 const GameQuiz = () => {
 	const dispatch = useAppDispatch();
@@ -48,21 +48,6 @@ const GameQuiz = () => {
 	};
 
 	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				if (user?.uuid) {
-					await dispatch(getUser(user.uuid));
-				}
-			} catch (error) {
-				console.error("Error get user:", error);
-			}
-		};
-		console.log("userId", user?.uuid);
-
-		fetchData();
-	}, [dispatch]);
-
-	useEffect(() => {
 		if (currentIndexQuestionDisplay === currentQuiz!.questions.length) {
 			const quizData = {
 				// user_uuid: uid,
@@ -89,7 +74,7 @@ const GameQuiz = () => {
 			});
 		}
 		if (lives === 0) {
-			Alert.alert("Tu as perdu toutes tes vies, reviens demain !");
+			Alert.alert("Tu as perdu toutes tes vies, pour ce quiz retente ta chance !");
 			dispatch(restartCurrentQuestionIndexState());
 			dispatch(restartCurrentQuizModule());
 			dispatch(restartCurrentQuiz());

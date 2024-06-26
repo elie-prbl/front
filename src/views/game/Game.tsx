@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Layout from "../../base/Layout";
-import { ActivityIndicator, FlatList, Text, View } from "react-native";
+import {ActivityIndicator, Alert, FlatList, Text, View} from "react-native";
 import { useAppSelector } from "../../store/hooks";
 import { quizState } from "../../store/features/Quiz/QuizSlices";
 import CircleComponent from "../../base/Circle";
@@ -16,9 +16,11 @@ import { useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { getQuiz } from "../../store/features/Quiz/QuizThunk";
 import { topic } from "../../store/features/QuizModules/QuizModulesSlices";
-import { updateCurrentQuiz } from "../../store/features/Quiz/CurrentQuizSlice";
+import {restartCurrentQuiz, updateCurrentQuiz} from "../../store/features/Quiz/CurrentQuizSlice";
 import { getUserQuiz } from "../../store/features/UserQuiz/UserQuizThunk";
 import { getUser } from "../../store/features/User/UserThunk";
+import {restartCurrentQuestionIndexState} from "../../store/features/QuizQuestions/CurrentQuestionIndexSlices";
+import {restartCurrentQuizModule} from "../../store/features/QuizModules/CurrentQuizModuleSlice";
 
 const Game = () => {
 	const navigation = useNavigation<MyNavigationProp>();
@@ -30,9 +32,11 @@ const Game = () => {
 	const { quiz, isLoadingQuiz, errorQuiz } = useAppSelector(state => state.quiz);
 	const [selectedItem, setSelectedItem] = useState<quizState | null>(null);
 	const [expandedItem, setExpandedItem] = useState<number | null>(null);
-	const [completedQuizzes, setCompletedQuizzes] = useState<number[]>([]);
+	const [completedQuizzes, setCompletedQuizzes] = useState<string[]>([]);
 	const [nextQuiz, setNextQuiz] = useState<number>(1);
 	const { user } = useAppSelector((state: RootState) => state.user);
+	const lives = useAppSelector(state => state.lives.value);
+
 
 	const handleGoingToGame = useCallback((qid: number) => {
 		dispatch(updateCurrentQuiz(qid));
@@ -43,20 +47,6 @@ const Game = () => {
 		navigation.navigate("GameModule");
 	};
 
-	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				if (user?.uuid) {
-					await dispatch(getUser(user.uuid));
-				}
-			} catch (error) {
-				console.error("Error get user:", error);
-			}
-		};
-		console.log("userId", user?.uuid);
-
-		fetchData();
-	}, [dispatch]);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -109,10 +99,11 @@ const Game = () => {
 	}, [dispatch, user!.uuid]);
 
 	useEffect(() => {
-		if (user!.uuid) {
-			dispatch(getUserQuiz(user!.uuid));
+		if (lives === 0) {
+			Alert.alert("Tu as perdu toutes tes vies, pour ce quiz retente ta chance !");
+
 		}
-	}, [dispatch, user!.uuid]);
+	}, []);
 
 	const renderItem = ({ item }: { item: quizState }) => (
 		<ListItem.Accordion
@@ -121,9 +112,7 @@ const Game = () => {
 					<ListItem.Content>
 						<CircleComponent
 							img={<Game1 />}
-							// @ts-ignore
 							isDisabled={!completedQuizzes.includes(item.id.toString()) && item.id !== nextQuiz}
-							// @ts-ignore
 							isDone={completedQuizzes.includes(item.id.toString())}
 							isNext={item.id === nextQuiz}
 							classNamePressable="w-28 h-28"
