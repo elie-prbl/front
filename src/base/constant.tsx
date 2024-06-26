@@ -94,11 +94,11 @@ export class Content {
 	//Game Multiplayer
 	static MATCH_MAKING: string = "Matchmaking";
 	static WAITING_PLAYER: string = "Recherche d'un joueur...";
-	static MATCH: string = "Match trouvé !";
 	static WAITING_ANSWER_PLAYER: string = "En attente de";
 	static ANSWER_PLAYER: string = "a répondu !";
 	static ELAPSED_TIME: string = "Dommage, le temps est écoulé pour cette question !";
 	static NEXT_QUESTION: string = "La prochaine question va débuter !";
+	static FINISH_QUIZ: string = "Quiz terminé !";
 	static DRAW: string = "Égalité !";
 	static WINNER: string = "Vous avez gagné !";
 	static LOSER: string = "Vous avez perdu !";

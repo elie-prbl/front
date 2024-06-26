@@ -1,134 +1,182 @@
-import React, { useEffect, useState } from "react";
-import Layout from "../../base/Layout";
-import { ActivityIndicator, Text, View } from "react-native";
-import { NavigationGameDualQuizScoreProps, RouteGameDualQuizProps } from "../../navigation/AppNavigator";
-import { Color, Content, Url } from "../../base/constant";
-import { w3cwebsocket as WebSocketClient } from "websocket";
-import ProgressBar from "../../base/ProgressBar";
+import React, { useEffect, useState, useCallback, useRef } from "react";
+import { ActivityIndicator, Text, View, Animated, Easing } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AntDesign, FontAwesome6 } from "@expo/vector-icons";
-import ModuleGameDualQuiz from "../../base/ModuleGameDualQuiz";
-import GameAnswerComponent from "../../components/game/GameAnswerComponent";
 import { CommonActions, useNavigation } from "@react-navigation/core";
 import { useAppSelector } from "../../store/hooks";
 import { RootState } from "../../store/store";
-import { DualQuizData, DualQuizStatus, DualQuizType, Questions } from "../../store/interface/dualquiz";
+import Layout from "../../base/Layout";
+import ProgressBar from "../../base/ProgressBar";
+import ModuleGameDualQuiz from "../../base/ModuleGameDualQuiz";
+import GameAnswerComponent from "../../components/game/GameAnswerComponent";
 import Elie from "../../svg/Elie";
+import { NavigationGameDualQuizScoreProps, RouteGameDualQuizProps } from "../../navigation/AppNavigator";
+import { Color, Content, Url } from "../../base/constant";
+import { w3cwebsocket as WebSocketClient } from "websocket";
+import { DualQuizData, DualQuizStatus, DualQuizType, Questions } from "../../store/interface/dualquiz";
 
 const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 	const { roomId, nameOpponent } = route.params;
 	const navigation = useNavigation<NavigationGameDualQuizScoreProps>();
 	const { user } = useAppSelector((state: RootState) => state.user);
-	const [ws, setWs] = useState<WebSocketClient>();
+
+	const [ws, setWs] = useState<WebSocketClient | null>(null);
 	const [dualQuizData, setDualQuizData] = useState<DualQuizData | null>(null);
-	const [currentQuestion, setCurrentQuestion] = useState<Questions>();
+	const [currentQuestion, setCurrentQuestion] = useState<Questions | null>(null);
 	const [totalQuestions, setTotalQuestions] = useState(0);
 	const [selectedOption, setSelectedOption] = useState<string | null>(null);
 	const [answerValidated, setAnswerValidated] = useState(false);
 	const [infos, setInfos] = useState<string>("");
 	const [isDisabled, setIsDisabled] = useState(false);
 	const [error, setError] = useState(false);
+	const isTimeElapsed = useRef(false);
+	const lastQuestion = useRef<boolean>(false);
+	const userHasAnswered = useRef(false);
+	const [progress] = useState(new Animated.Value(1));
+
+	const handleWebSocketMessage = useCallback((event: any) => {
+		try {
+			const data = JSON.parse(event.data.toString());
+
+			switch (data.type) {
+				case DualQuizType.DualQuiz:
+					handleDualQuiz(data);
+					break;
+				case DualQuizType.DualQuizAnswer:
+					handleDualQuizAnswer(data);
+					break;
+				default:
+					console.error("Unknown type:", data);
+			}
+		} catch (error) {
+			console.error("Failed to parse data:", error);
+			setError(true);
+			ws?.close();
+		}
+	}, []);
 
 	useEffect(() => {
 		if (!user?.uuid) return;
 
-		const ws = new WebSocketClient(`${Url.BASE_URL_WS}/dualquiz/${roomId}/${user.uuid}`);
+		const wsClient = new WebSocketClient(`${Url.BASE_URL_WS}/dualquiz/${roomId}/${user.uuid}`);
 
-		ws.onopen = () => {
-			console.log("Game DualQuiz connected");
-		};
+		wsClient.onopen = () => console.log("Game DualQuiz connected");
+		wsClient.onmessage = handleWebSocketMessage;
+		wsClient.onerror = () => setError(true);
+		wsClient.onclose = () => console.log("Game DualQuiz closed");
 
-		ws.onmessage = event => {
-			try {
-				const data = JSON.parse(event.data.toString());
-				setInfos("");
-
-				switch (data.type) {
-					case DualQuizType.DualQuiz:
-						handleDualQuiz(data);
-						break;
-					case DualQuizType.DualQuizAnswer:
-						console.log("Answer data:", data);
-						if (data.client_uuid === user.uuid) {
-							setInfos(`${Content.WAITING_ANSWER_PLAYER} ${nameOpponent}...`);
-						} else {
-							setInfos(`${nameOpponent} ${Content.ANSWER_PLAYER}`);
-						}
-						break;
-					default:
-						console.log("Unknown type:", data);
-				}
-			} catch (error) {
-				console.log("Failed to parse data:", error);
-				setError(true);
-				ws.close();
-			}
-		};
-
-		ws.onerror = () => {
-			setError(true);
-		};
-
-		ws.onclose = () => {
-			console.log("Game DualQuiz closed");
-		};
-
-		setWs(ws);
+		setWs(wsClient);
 
 		return () => {
-			ws.close();
+			wsClient.close();
 		};
-	}, [user?.uuid]);
+	}, [user?.uuid, handleWebSocketMessage]);
+
+	useEffect(() => {
+		if (currentQuestion) {
+			isTimeElapsed.current = false;
+
+			progress.setValue(1);
+			Animated.timing(progress, {
+				toValue: 0,
+				duration: 10000,
+				easing: Easing.linear,
+				useNativeDriver: false,
+			}).start(({ finished }) => {
+				if (finished) {
+					setIsDisabled(true);
+					setAnswerValidated(true);
+					isTimeElapsed.current = true;
+					handleAnswer(currentQuestion.good_answer);
+				}
+			});
+		}
+
+		return () => {
+			progress.setValue(1);
+		};
+	}, [currentQuestion]);
 
 	const handleDualQuiz = (data: any) => {
 		switch (data.status) {
 			case DualQuizStatus.GameStarting:
-				console.log("Game starting = ", data);
-
-				setSelectedOption(null);
-				setIsDisabled(false);
-				setAnswerValidated(false);
-
-				data.quiz_data = JSON.parse(data.quiz_data);
-				setDualQuizData(data);
-				setCurrentQuestion(data.quiz_data.questions[data.current_question]);
-				setTotalQuestions(data.quiz_data.questions.length);
+				setInfos("");
+				console.log("Game is starting =", data);
+				setGameStarting(data);
 				break;
 			case DualQuizStatus.GamePending:
-				console.log("Game is pending = ", data);
+				console.log("Game is pending =", data);
 				break;
 			case DualQuizStatus.GameFinished:
-				console.log("Game is finished = ", data);
-
-				setTimeout(() => {
-					navigation.dispatch(
-						CommonActions.reset({
-							index: 1,
-							routes: [
-								{
-									name: "GameDualQuizScore",
-									params: {
-										isDraw: data.is_draw,
-										isWinner: data.winner.UserUuid === user?.uuid,
-										myScore: data.winner.UserUuid === user?.uuid ? data.winner.Score : data.loser.Score,
-										scorePlayer: data.winner.UserUuid === user?.uuid ? data.loser.Score : data.winner.Score,
-										nbQuestions: data.quiz_total_questions,
-									},
-								},
-							],
-						}),
-					);
-				}, 1000);
+				console.log("Game is finished =", data);
+				setInfos(Content.FINISH_QUIZ);
+				handleGameFinished(data);
 				break;
 			case DualQuizStatus.GameRoundStarting:
-				console.log("Round is starting = ", data);
+				console.log("Round is starting =", data);
 				break;
 			case DualQuizStatus.GameRoundFinished:
-				console.log("Round is finished = ", data);
-				setInfos(Content.NEXT_QUESTION);
+				console.log("Round is finished =", data);
+				if (!lastQuestion.current && !isTimeElapsed.current) {
+					setInfos(Content.NEXT_QUESTION);
+				}
 				break;
 			default:
-				console.log("Unknown status:", data);
+				console.error("Unknown status:", data);
+		}
+	};
+
+	const setGameStarting = (data: any) => {
+		setSelectedOption(null);
+		setIsDisabled(false);
+		setAnswerValidated(false);
+		userHasAnswered.current = false;
+
+		data.quiz_data = JSON.parse(data.quiz_data);
+		setDualQuizData(data);
+		setCurrentQuestion(data.quiz_data.questions[data.current_question]);
+		setTotalQuestions(data.quiz_data.questions.length);
+
+		if (data.current_question === data.quiz_data.questions.length - 1) {
+			lastQuestion.current = true;
+		}
+	};
+
+	const handleGameFinished = (data: any) => {
+		setTimeout(() => {
+			navigation.dispatch(
+				CommonActions.reset({
+					index: 1,
+					routes: [
+						{
+							name: "GameDualQuizScore",
+							params: {
+								isDraw: data.is_draw,
+								isWinner: data.winner.UserUuid === user?.uuid,
+								myScore: data.winner.UserUuid === user?.uuid ? data.winner.Score : data.loser.Score,
+								scorePlayer: data.winner.UserUuid === user?.uuid ? data.loser.Score : data.winner.Score,
+								nbQuestions: data.quiz_total_questions,
+							},
+						},
+					],
+				}),
+			);
+		}, 1000);
+	};
+
+	const handleDualQuizAnswer = (data: any) => {
+		console.log("Answer data:", data);
+
+		if (isTimeElapsed.current) {
+			setInfos(Content.ELAPSED_TIME);
+			return;
+		}
+
+		if (data.client_uuid === user?.uuid && !userHasAnswered.current) {
+			setInfos(`${Content.WAITING_ANSWER_PLAYER} ${nameOpponent}...`);
+			userHasAnswered.current = true;
+		} else {
+			setInfos(`${nameOpponent} ${Content.ANSWER_PLAYER}`);
 		}
 	};
 
@@ -136,6 +184,8 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 		setSelectedOption(selectedOption);
 		setIsDisabled(true);
 		setAnswerValidated(true);
+
+		progress.stopAnimation();
 
 		const choice = dualQuizData?.quiz_data.questions[dualQuizData?.current_question].answers.findIndex(
 			answer => answer === selectedOption,
@@ -185,7 +235,7 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 							</View>
 							<View>
 								{infos && (
-									<View className="flex-row items-end justify-center mx-4 mb-6">
+									<View className="items-center justify-center mx-4 mb-6">
 										<Elie />
 										<Text className="text-base ml-3">{infos}</Text>
 									</View>
@@ -198,6 +248,17 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 									answerValidated={answerValidated}
 									correctAnswer={currentQuestion.good_answer}
 								/>
+								<View className="mx-4 mt-6">
+									<View className="rounded-lg h-4" style={{ backgroundColor: Color.GREY }}>
+										<Animated.View
+											className="rounded-lg h-4"
+											style={{
+												backgroundColor: Color.BLUE_BRIGHT_LIGHT,
+												width: progress.interpolate({ inputRange: [0, 1], outputRange: ["0%", "100%"] }),
+											}}
+										/>
+									</View>
+								</View>
 							</View>
 						</View>
 					</>
