@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Url } from "../../../base/constant";
 
 interface QuizData {
-	user_uuid: string | undefined;
+	user_uuid: string;
 	quiz_id: string;
 }
 

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import { ScrollView, Text } from "react-native";
+import { ActivityIndicator, ScrollView, Text } from "react-native";
 import BoxComponent from "../base/Box";
-import { Content } from "../base/constant";
+import { Color, Content } from "../base/constant";
 import QuestComponent from "../components/quest/QuestComponent";
 import ShopHomeComponent from "../components/shop/ShopHomeComponent";
 import GameHomeComponent from "../components/game/GameHomeComponent";
@@ -15,9 +15,9 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import Layout from "../base/Layout";
 import Circle1 from "../svg/Circle1";
-import { Difficulty } from "../store/features/Quests/QuestsSlices";
 import GemComponent from "../base/Gem";
 import { getUser } from "../store/features/User/UserThunk";
+import { getUserQuests } from "../store/features/UserQuests/UserQuestsThunk";
 import { getUserQuiz } from "../store/features/UserQuiz/UserQuizThunk";
 
 export enum ContentHome {
@@ -30,9 +30,9 @@ const Home = () => {
 	const dispatch = useAppDispatch();
 	const navigation = useNavigation<MyNavigationProp>();
 	const position = useSelector((state: RootState) => state.position.position);
-	const quests = useSelector((state: RootState) => state.quests.quests);
-	const { user } = useAppSelector((state: RootState) => state.user);
+	const { userQuests, isLoadingUserQuest } = useSelector((state: RootState) => state.userQuests);
 	const [nextQuiz, setNextQuiz] = React.useState<string>("");
+	const { user, isLoading } = useAppSelector((state: RootState) => state.user);
 
 	useEffect(() => {
 		getTheCurrentPosition().then(location => {
@@ -59,26 +59,34 @@ const Home = () => {
 	}, [dispatch, user!.uuid]);
 
 	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				if (user?.uuid) {
-					await dispatch(getUser(user.uuid));
-				}
-			} catch (error) {
-				console.error("Error get user:", error);
-			}
-		};
-
 		fetchData();
 	}, [dispatch]);
+
+	const fetchData = async () => {
+		try {
+			if (user?.uuid) {
+				await dispatch(getUser(user.uuid));
+				await dispatch(getUserQuests(user.uuid));
+			}
+		} catch (error) {
+			console.error("Error get user:", error);
+		}
+	};
+
+	if (isLoading || isLoadingUserQuest) {
+		return (
+			<Layout>
+				<ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center h-full" />
+			</Layout>
+		);
+	}
 
 	return (
 		<Layout>
 			<ScrollView showsVerticalScrollIndicator={false}>
 				<BoxComponent title={Content.DAILY_QUEST} onPress={() => navigation.navigate(ContentHome.GAME)}>
-					<QuestComponent quest={quests.filter(q => q.difficulty === Difficulty.BEGINNER)[0]} img={<Circle1 />} />
-					<QuestComponent quest={quests.filter(q => q.difficulty === Difficulty.INTERMEDIATE)[0]} img={<Circle1 />} />
-					<QuestComponent quest={quests.filter(q => q.difficulty === Difficulty.ADVANCED)[0]} img={<Circle1 />} />
+					{Array.isArray(userQuests) &&
+						userQuests.map(userQuest => <QuestComponent key={userQuest.id} userQuest={userQuest} img={<Circle1 />} />)}
 				</BoxComponent>
 				<BoxComponent
 					title={Content.SHOP}

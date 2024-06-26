@@ -47,32 +47,36 @@ const GameQuiz = () => {
 	};
 
 	useEffect(() => {
-		if (currentIndexQuestionDisplay === currentQuiz!.questions.length) {
-			const quizData = {
-				user_uuid: user!.uuid,
-				quiz_id: String(qid),
-			};
+		if (currentIndexQuestionDisplay === currentQuiz!.questions.length && user?.uuid) {
+			dispatch(restartCurrentQuestionIndexState());
 
-			dispatch(submitUserQuiz(quizData)).then(() => {
-				dispatch(restartCurrentQuestionIndexState());
-				navigation.dispatch(
-					CommonActions.reset({
-						index: 1,
-						routes: [
-							{
-								name: "GameScore",
-								params: {
-									score,
-									nbQuestions: currentQuiz!.questions.length,
-								},
+			if (score === currentQuiz!.questions.length) {
+				const quizData = {
+					user_uuid: user.uuid,
+					quiz_id: qid.toString(),
+				};
+
+				dispatch(submitUserQuiz(quizData));
+			}
+
+			navigation.dispatch(
+				CommonActions.reset({
+					index: 1,
+					routes: [
+						{
+							name: "GameScore",
+							params: {
+								score,
+								nbQuestions: currentQuiz!.questions.length,
 							},
-						],
-					}),
-				);
-			});
+						},
+					],
+				}),
+			);
 		}
+
 		if (lives === 0) {
-			Alert.alert("Tu as perdu toutes tes vies, pour ce quiz retente ta chance !");
+			Alert.alert(Content.LOST_LIVES);
 			dispatch(restartCurrentQuestionIndexState());
 			dispatch(restartCurrentQuizModule());
 			dispatch(restartCurrentQuiz());

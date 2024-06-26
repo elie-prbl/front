@@ -7,14 +7,13 @@ import QuestComponent from "../components/quest/QuestComponent";
 import Circle1 from "../svg/Circle1";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
-import { Difficulty } from "../store/features/Quests/QuestsSlices";
 import SuccessComponent from "../components/success/successComponent";
 import ModuleGame from "../base/ModuleGame";
 import { Entypo } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp } from "../navigation/AppNavigator";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { getSuccess } from "../store/features/Success/SuccessThunk";
+import { getUserSuccesses } from "../store/features/UserSuccesses/UserSuccessesThunk";
 
 export enum ContentQuest {
 	SHOP = "Shop",
@@ -22,22 +21,32 @@ export enum ContentQuest {
 
 const Quest = () => {
 	const dispatch = useAppDispatch();
-	const quests = useSelector((state: RootState) => state.quests.quests);
-	// const success = useSelector((state: RootState) => state.success.success);
+	const { userQuests, isLoadingUserQuest } = useSelector((state: RootState) => state.userQuests);
 	const navigation = useNavigation<MyNavigationProp>();
-	const { success, isLoading, error } = useAppSelector((state: RootState) => state.success);
+	const { userSuccesses, isLoadingUserSuccesses } = useAppSelector((state: RootState) => state.userSuccesses);
+	const user = useAppSelector((state: RootState) => state.user.user);
 
 	useEffect(() => {
-		const fetchData = async () => {
+		fetchData();
+	}, [dispatch]);
+
+	const fetchData = async () => {
+		if (user?.uuid) {
 			try {
-				await dispatch(getSuccess());
+				await dispatch(getUserSuccesses(user.uuid));
 			} catch (error) {
 				console.error("Error get user:", error);
 			}
-		};
+		}
+	};
 
-		fetchData();
-	}, [dispatch]);
+	if (isLoadingUserQuest || isLoadingUserSuccesses) {
+		return (
+			<Layout>
+				<ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center h-full" />
+			</Layout>
+		);
+	}
 
 	return (
 		<Layout>
@@ -53,23 +62,18 @@ const Quest = () => {
 					icon={<Entypo name="shop" size={24} color="white" />}
 				/>
 				<BoxComponent title={Content.DAILY_QUEST}>
-					<QuestComponent quest={quests.filter(q => q.difficulty === Difficulty.BEGINNER)[0]} img={<Circle1 />} />
-					<QuestComponent quest={quests.filter(q => q.difficulty === Difficulty.INTERMEDIATE)[0]} img={<Circle1 />} />
-					<QuestComponent quest={quests.filter(q => q.difficulty === Difficulty.ADVANCED)[0]} img={<Circle1 />} />
+					{Array.isArray(userQuests) &&
+						userQuests.map(userQuest => <QuestComponent key={userQuest.id} userQuest={userQuest} img={<Circle1 />} />)}
 				</BoxComponent>
-				{isLoading ? (
-					<ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center" />
-				) : (
-					<BoxComponent title={Content.SUCCESS}>
-						{success?.map((s, index) => {
-							return (
-								<View key={index}>
-									<SuccessComponent success={s} />
-								</View>
-							);
-						})}
-					</BoxComponent>
-				)}
+				<BoxComponent title={Content.SUCCESS}>
+					{userSuccesses?.map((s, index) => {
+						return (
+							<View key={index}>
+								<SuccessComponent userSuccess={s} />
+							</View>
+						);
+					})}
+				</BoxComponent>
 			</ScrollView>
 		</Layout>
 	);
