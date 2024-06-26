@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Layout from "../../base/Layout";
-import { ActivityIndicator, FlatList, Text, View } from "react-native";
+import { ActivityIndicator, Alert, FlatList, Text, View } from "react-native";
 import { useAppSelector } from "../../store/hooks";
 import { quizState } from "../../store/features/Quiz/QuizSlices";
 import CircleComponent from "../../base/Circle";
@@ -13,10 +13,11 @@ import { MyNavigationProp } from "../../navigation/AppNavigator";
 import GameHeaderComponent from "../../components/game/GameHeaderComponent";
 import { getQuizModules } from "../../store/features/QuizModules/QuizModulesThunk";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../store/store";
+import { AppDispatch, RootState } from "../../store/store";
 import { getQuiz } from "../../store/features/Quiz/QuizThunk";
 import { topic } from "../../store/features/QuizModules/QuizModulesSlices";
 import { updateCurrentQuiz } from "../../store/features/Quiz/CurrentQuizSlice";
+import { getUserQuiz } from "../../store/features/UserQuiz/UserQuizThunk";
 
 const Game = () => {
 	const navigation = useNavigation<MyNavigationProp>();
@@ -28,6 +29,10 @@ const Game = () => {
 	const { quiz, isLoadingQuiz, errorQuiz } = useAppSelector(state => state.quiz);
 	const [selectedItem, setSelectedItem] = useState<quizState | null>(null);
 	const [expandedItem, setExpandedItem] = useState<number | null>(null);
+	const [completedQuizzes, setCompletedQuizzes] = useState<string[]>([]);
+	const [nextQuiz, setNextQuiz] = useState<number>(1);
+	const { user } = useAppSelector((state: RootState) => state.user);
+	const lives = useAppSelector(state => state.lives.value);
 
 	const handleGoingToGame = useCallback((qid: number) => {
 		dispatch(updateCurrentQuiz(qid));
@@ -70,6 +75,28 @@ const Game = () => {
 		}
 	}, [dispatch, selectedModule]);
 
+	useEffect(() => {
+		const fetchCompletedQuizzes = async () => {
+			try {
+				const response = await dispatch(getUserQuiz(user!.uuid)).unwrap();
+				setCompletedQuizzes(response.quizIds ? response.quizIds : []);
+				setNextQuiz(response.nextQuiz.id ? response.nextQuiz.id : []);
+			} catch (error) {
+				console.error("Error fetching user quizzes:", error);
+			}
+		};
+
+		if (user!.uuid) {
+			fetchCompletedQuizzes();
+		}
+	}, [dispatch, user!.uuid]);
+
+	useEffect(() => {
+		if (lives === 0) {
+			Alert.alert("Tu as perdu toutes tes vies, pour ce quiz retente ta chance !");
+		}
+	}, []);
+
 	const renderItem = ({ item }: { item: quizState }) => (
 		<ListItem.Accordion
 			content={
@@ -77,8 +104,9 @@ const Game = () => {
 					<ListItem.Content>
 						<CircleComponent
 							img={<Game1 />}
-							isDisabled={false}
-							isDone={false}
+							isDisabled={!completedQuizzes.includes(item.id.toString()) && item.id !== nextQuiz}
+							isDone={completedQuizzes.includes(item.id.toString())}
+							isNext={item.id === nextQuiz}
 							classNamePressable="w-28 h-28"
 							classNameView="w-24 h-24"
 							onPress={() => {

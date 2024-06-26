@@ -16,6 +16,8 @@ import { quizState } from "../../store/features/Quiz/QuizSlices";
 import { restartCurrentQuizModule } from "../../store/features/QuizModules/CurrentQuizModuleSlice";
 import { restartCurrentQuiz } from "../../store/features/Quiz/CurrentQuizSlice";
 import Planet from "../../svg/Planet";
+import { submitUserQuiz } from "../../store/features/UserQuiz/UserQuizThunk";
+import { RootState } from "../../store/store";
 
 const GameQuiz = () => {
 	const dispatch = useAppDispatch();
@@ -38,30 +40,39 @@ const GameQuiz = () => {
 	const lives = useAppSelector(state => state.lives.value);
 	const [score, setScore] = useState(0);
 
+	const { user } = useAppSelector((state: RootState) => state.user);
+
 	const handleAnswer = (selectedOption: string) => {
 		setSelectedOption(selectedOption);
 	};
 
 	useEffect(() => {
 		if (currentIndexQuestionDisplay === currentQuiz!.questions.length) {
-			dispatch(restartCurrentQuestionIndexState());
-			navigation.dispatch(
-				CommonActions.reset({
-					index: 1,
-					routes: [
-						{
-							name: "GameScore",
-							params: {
-								score,
-								nbQuestions: currentQuiz!.questions.length,
+			const quizData = {
+				user_uuid: user!.uuid,
+				quiz_id: String(qid),
+			};
+
+			dispatch(submitUserQuiz(quizData)).then(() => {
+				dispatch(restartCurrentQuestionIndexState());
+				navigation.dispatch(
+					CommonActions.reset({
+						index: 1,
+						routes: [
+							{
+								name: "GameScore",
+								params: {
+									score,
+									nbQuestions: currentQuiz!.questions.length,
+								},
 							},
-						},
-					],
-				}),
-			);
+						],
+					}),
+				);
+			});
 		}
 		if (lives === 0) {
-			Alert.alert("Tu as perdu toutes tes vies, reviens demain !");
+			Alert.alert("Tu as perdu toutes tes vies, pour ce quiz retente ta chance !");
 			dispatch(restartCurrentQuestionIndexState());
 			dispatch(restartCurrentQuizModule());
 			dispatch(restartCurrentQuiz());

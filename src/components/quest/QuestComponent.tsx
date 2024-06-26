@@ -13,7 +13,7 @@ const QuestComponent = ({ quest, img }: questProps) => {
 	return (
 		<View className="justify-center flex-1">
 			<View className="flex-row w-full items-center my-2">
-				<CircleComponent img={img} isDisabled={false} isDone={quest?.progress >= quest?.done_condition} />
+				<CircleComponent img={img} isDisabled={false} isDone={quest?.progress >= quest?.done_condition} isNext />
 				<View className="flex-col ml-2 flex-1 justify-center">
 					<Text className="text-md">{quest?.name}</Text>
 					{quest?.progress < quest?.done_condition ? (

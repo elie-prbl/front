@@ -18,6 +18,7 @@ import Circle1 from "../svg/Circle1";
 import { Difficulty } from "../store/features/Quests/QuestsSlices";
 import GemComponent from "../base/Gem";
 import { getUser } from "../store/features/User/UserThunk";
+import { getUserQuiz } from "../store/features/UserQuiz/UserQuizThunk";
 
 export enum ContentHome {
 	MAP = "Map",
@@ -30,7 +31,8 @@ const Home = () => {
 	const navigation = useNavigation<MyNavigationProp>();
 	const position = useSelector((state: RootState) => state.position.position);
 	const quests = useSelector((state: RootState) => state.quests.quests);
-	const { user, isLoading, error } = useAppSelector((state: RootState) => state.user);
+	const { user } = useAppSelector((state: RootState) => state.user);
+	const [nextQuiz, setNextQuiz] = React.useState<string>("");
 
 	useEffect(() => {
 		getTheCurrentPosition().then(location => {
@@ -40,6 +42,21 @@ const Home = () => {
 			}
 		});
 	}, []);
+
+	useEffect(() => {
+		const fetchCompletedQuizzes = async () => {
+			try {
+				const response = await dispatch(getUserQuiz(user!.uuid)).unwrap();
+				setNextQuiz(response.nextQuiz.title ? response.nextQuiz.title : "");
+			} catch (error) {
+				console.error("Error fetching user quizzes:", error);
+			}
+		};
+
+		if (user!.uuid) {
+			fetchCompletedQuizzes();
+		}
+	}, [dispatch, user!.uuid]);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -71,7 +88,7 @@ const Home = () => {
 					<ShopHomeComponent />
 				</BoxComponent>
 				<BoxComponent title={Content.GAME} onPress={() => navigation.navigate(ContentHome.GAME)}>
-					<GameHomeComponent nextQuiz="" />
+					<GameHomeComponent nextQuiz={nextQuiz} />
 				</BoxComponent>
 				<BoxComponent title={Content.MAP} height="h-48" onPress={() => navigation.navigate(ContentHome.MAP)}>
 					<MapView
