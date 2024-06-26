@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { ActivityIndicator, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AntDesign, FontAwesome6 } from "@expo/vector-icons";
@@ -29,11 +29,15 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 	const [infos, setInfos] = useState<string>("");
 	const [isDisabled, setIsDisabled] = useState(false);
 	const [error, setError] = useState(false);
+	const [timer, setTimer] = useState(10);
+	const isTimeElapsed = useRef(false);
+	const timerRef = useRef<NodeJS.Timeout | null>(null);
+	const lastQuestion = useRef<boolean>(false);
+	const userHasAnswered = useRef(false);
 
 	const handleWebSocketMessage = useCallback((event: any) => {
 		try {
 			const data = JSON.parse(event.data.toString());
-			setInfos("");
 
 			switch (data.type) {
 				case DualQuizType.DualQuiz:
@@ -69,15 +73,49 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 		};
 	}, [user?.uuid, handleWebSocketMessage]);
 
+	useEffect(() => {
+		if (currentQuestion) {
+			setTimer(10);
+			isTimeElapsed.current = false;
+
+			if (timerRef.current) {
+				clearInterval(timerRef.current);
+			}
+
+			timerRef.current = setInterval(() => {
+				setTimer(prevTimer => {
+					if (prevTimer === 1) {
+						clearInterval(timerRef.current!);
+						setIsDisabled(true);
+						setAnswerValidated(true);
+						isTimeElapsed.current = true;
+						handleAnswer(currentQuestion.good_answer);
+					}
+					return prevTimer - 1;
+				});
+			}, 1000);
+		}
+
+		return () => {
+			if (timerRef.current) {
+				clearInterval(timerRef.current);
+			}
+		};
+	}, [currentQuestion]);
+
 	const handleDualQuiz = (data: any) => {
 		switch (data.status) {
 			case DualQuizStatus.GameStarting:
+				setInfos("");
+				console.log("Game is starting =", data);
 				setGameStarting(data);
 				break;
 			case DualQuizStatus.GamePending:
 				console.log("Game is pending =", data);
 				break;
 			case DualQuizStatus.GameFinished:
+				console.log("Game is finished =", data);
+				setInfos(Content.FINISH_QUIZ);
 				handleGameFinished(data);
 				break;
 			case DualQuizStatus.GameRoundStarting:
@@ -85,7 +123,9 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 				break;
 			case DualQuizStatus.GameRoundFinished:
 				console.log("Round is finished =", data);
-				setInfos(Content.NEXT_QUESTION);
+				if (!lastQuestion.current && !isTimeElapsed.current) {
+					setInfos(Content.NEXT_QUESTION);
+				}
 				break;
 			default:
 				console.error("Unknown status:", data);
@@ -93,20 +133,22 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 	};
 
 	const setGameStarting = (data: any) => {
-		console.log("Game starting =", data);
-
 		setSelectedOption(null);
 		setIsDisabled(false);
 		setAnswerValidated(false);
+		userHasAnswered.current = false;
 
 		data.quiz_data = JSON.parse(data.quiz_data);
 		setDualQuizData(data);
 		setCurrentQuestion(data.quiz_data.questions[data.current_question]);
 		setTotalQuestions(data.quiz_data.questions.length);
+
+		if (data.current_question === data.quiz_data.questions.length - 1) {
+			lastQuestion.current = true;
+		}
 	};
 
 	const handleGameFinished = (data: any) => {
-		console.log("Game is finished =", data);
 		setTimeout(() => {
 			navigation.dispatch(
 				CommonActions.reset({
@@ -130,8 +172,15 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 
 	const handleDualQuizAnswer = (data: any) => {
 		console.log("Answer data:", data);
-		if (data.client_uuid === user?.uuid) {
+
+		if (isTimeElapsed.current) {
+			setInfos(Content.ELAPSED_TIME);
+			return;
+		}
+
+		if (data.client_uuid === user?.uuid && !userHasAnswered.current) {
 			setInfos(`${Content.WAITING_ANSWER_PLAYER} ${nameOpponent}...`);
+			userHasAnswered.current = true;
 		} else {
 			setInfos(`${nameOpponent} ${Content.ANSWER_PLAYER}`);
 		}
@@ -141,6 +190,10 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 		setSelectedOption(selectedOption);
 		setIsDisabled(true);
 		setAnswerValidated(true);
+
+		if (timerRef.current) {
+			clearInterval(timerRef.current);
+		}
 
 		const choice = dualQuizData?.quiz_data.questions[dualQuizData?.current_question].answers.findIndex(
 			answer => answer === selectedOption,
@@ -190,7 +243,7 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 							</View>
 							<View>
 								{infos && (
-									<View className="flex-row items-end justify-center mx-4 mb-6">
+									<View className="items-center justify-center mx-4 mb-6">
 										<Elie />
 										<Text className="text-base ml-3">{infos}</Text>
 									</View>
@@ -204,6 +257,7 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 									correctAnswer={currentQuestion.good_answer}
 								/>
 							</View>
+							<Text className="text-center my-4">Temps restant: {timer} secondes</Text>
 						</View>
 					</>
 				)}
