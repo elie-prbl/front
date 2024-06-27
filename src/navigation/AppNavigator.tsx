@@ -36,7 +36,14 @@ export type StackParamList = {
 	GameQuiz: undefined;
 	GameScore: { score: number; nbQuestions: number };
 	GameDualQuiz: { roomId: number; nameOpponent: string };
-	GameDualQuizScore: { isDraw: boolean; isWinner: boolean; myScore: number; scorePlayer: number; nbQuestions: number };
+	GameDualQuizScore: {
+		isDraw: boolean;
+		isWinner: boolean;
+		myScore: number;
+		scorePlayer: number;
+		nbQuestions: number;
+		nameOpponent: string;
+	};
 	Shop: undefined;
 	Profile: undefined;
 	GameMatchMaking: undefined;

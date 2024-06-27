@@ -109,6 +109,7 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 				break;
 			case DualQuizStatus.GameFinished:
 				console.log("Game is finished =", data);
+				setInfos("");
 				setInfos(Content.FINISH_QUIZ);
 				handleGameFinished(data);
 				break;
@@ -156,6 +157,7 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 								myScore: data.winner.UserUuid === user?.uuid ? data.winner.Score : data.loser.Score,
 								scorePlayer: data.winner.UserUuid === user?.uuid ? data.loser.Score : data.winner.Score,
 								nbQuestions: data.quiz_total_questions,
+								nameOpponent,
 							},
 						},
 					],
