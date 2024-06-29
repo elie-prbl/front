@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import MapView, { Marker, Region } from "react-native-maps";
 import { Pressable, Text, View } from "react-native";
 import Toast, { ToastOptions } from "react-native-root-toast";
-import { Feather, FontAwesome6 } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import Layout from "../base/Layout";
@@ -11,6 +11,7 @@ import { useDebounce } from "../hooks/useDebounce";
 import { Color, Content } from "../base/constant";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import BottomSheet from "@gorhom/bottom-sheet";
+import Game1 from "../svg/Game1";
 
 interface Place {
 	id: number;
@@ -115,7 +116,9 @@ const Map = () => {
 
 		return (
 			<View className="items-center">
-				<FontAwesome6 name="map-pin" size={isSelected ? 30 : 20} color={Color.RED_BRIGHT_LIGHT} />
+				<View className="flex items-center justify-center border-4 border-white rounded-full w-8 h-8">
+					<Game1 />
+				</View>
 				{isSelected && (
 					<View className="p-1" style={{ width: 100 }}>
 						<Text className="text-center font-bold flex-wrap">{place.name}</Text>
