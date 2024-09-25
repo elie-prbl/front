@@ -94,6 +94,7 @@ const Game = () => {
 	useEffect(() => {
 		if (lives === 0) {
 			Alert.alert("Tu as perdu toutes tes vies, pour ce quiz retente ta chance !");
+			console.log(lives)
 		}
 	}, []);
 
