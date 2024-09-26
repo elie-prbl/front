@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Layout from "../../base/Layout";
-import { ActivityIndicator, Alert, FlatList, Text, View } from "react-native";
+import { ActivityIndicator, FlatList, Text, View } from "react-native";
 import { useAppSelector } from "../../store/hooks";
 import { quizState } from "../../store/features/Quiz/QuizSlices";
 import CircleComponent from "../../base/Circle";
@@ -18,6 +18,7 @@ import { getQuiz } from "../../store/features/Quiz/QuizThunk";
 import { topic } from "../../store/features/QuizModules/QuizModulesSlices";
 import { updateCurrentQuiz } from "../../store/features/Quiz/CurrentQuizSlice";
 import { getUserQuiz } from "../../store/features/UserQuiz/UserQuizThunk";
+import { restartLives } from "../../store/features/Lives/LivesSlices";
 
 const Game = () => {
 	const navigation = useNavigation<MyNavigationProp>();
@@ -95,9 +96,9 @@ const Game = () => {
 
 	useEffect(() => {
 		if (lives === 0) {
-			Alert.alert("Tu as perdu toutes tes vies, pour ce quiz retente ta chance !");
+			dispatch(restartLives());
 		}
-	}, []);
+	}, [lives]);
 
 	const renderItem = ({ item }: { item: quizState }) => (
 		<ListItem.Accordion
