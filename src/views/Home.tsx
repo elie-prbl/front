@@ -19,6 +19,7 @@ import GemComponent from "../base/Gem";
 import { getUser } from "../store/features/User/UserThunk";
 import { getUserQuests } from "../store/features/UserQuests/UserQuestsThunk";
 import { getUserQuiz } from "../store/features/UserQuiz/UserQuizThunk";
+import { getUserSuccesses, updateUserSuccesses } from "../store/features/UserSuccesses/UserSuccessesThunk";
 
 export enum ContentHome {
 	MAP = "Map",
@@ -41,6 +42,12 @@ const Home = () => {
 				dispatch(setPosition({ latitude, longitude }));
 			}
 		});
+	}, []);
+
+	useEffect(() => {
+		if (user?.uuid) {
+			dispatch(getUserSuccesses(user.uuid));
+		}
 	}, []);
 
 	useEffect(() => {

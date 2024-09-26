@@ -13,7 +13,7 @@ export interface Success {
 	tag: Tag;
 }
 
-export interface userSuccessState {
+export interface UserSuccess {
 	id: number;
 	user_id: number;
 	userSuccesses_id: number;
@@ -23,10 +23,10 @@ export interface userSuccessState {
 }
 
 const initialState = {
-	userSuccesses: null as null | userSuccessState[],
+	userSuccesses: null as null | UserSuccess[],
 	isLoadingUserSuccesses: false,
 	error: null as null | unknown,
-	isModified: false,
+	isModifiedUserSuccess: false,
 };
 
 export const userSuccessesSlice = createSlice({
@@ -45,7 +45,7 @@ export const userSuccessesSlice = createSlice({
 			.addCase(getUserSuccesses.rejected, (state, action) => {
 				state.isLoadingUserSuccesses = false;
 				state.error = action.payload;
-				state.isModified = false;
+				state.isModifiedUserSuccess = false;
 			});
 	},
 });
