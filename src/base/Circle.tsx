@@ -4,8 +4,8 @@ import { Color } from "./constant";
 
 interface CircleComponentProps {
 	img: ReactElement;
-	isDisabled: boolean;
-	isDone: boolean;
+	isDisabled: boolean | null;
+	isDone: boolean | null;
 	isNext: boolean;
 	onPress?: () => void;
 	classNamePressable?: string;

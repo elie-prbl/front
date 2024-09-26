@@ -30,10 +30,10 @@ const Game = () => {
 	const { quiz, isLoadingQuiz, errorQuiz } = useAppSelector(state => state.quiz);
 	const [selectedItem, setSelectedItem] = useState<quizState | null>(null);
 	const [expandedItem, setExpandedItem] = useState<number | null>(null);
-	const [completedQuizzes, setCompletedQuizzes] = useState<string[]>([]);
-	const [nextQuiz, setNextQuiz] = useState<number>(1);
 	const { user } = useAppSelector((state: RootState) => state.user);
+	const { userQuiz, isModified } = useAppSelector((state: RootState) => state.userQuiz);
 	const lives = useAppSelector(state => state.lives.value);
+	const [nextQuiz, setNextQuiz] = useState<string>("");
 
 	const handleGoingToGame = useCallback((qid: number) => {
 		dispatch(updateCurrentQuiz(qid));
@@ -45,60 +45,50 @@ const Game = () => {
 	};
 
 	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				await dispatch(getQuizModules());
-			} catch (error) {
-				console.error("Error fetching quiz modules:", error);
-			}
-		};
-
-		fetchData();
+		dispatch(getQuizModules());
 	}, [dispatch]);
 
 	useEffect(() => {
-		try {
-			if (modules) {
-				setSelectedModule(modules.topics.find(module => module.id === selectedModuleId) ?? modules.topics[0]);
-			}
-		} catch (error) {
-			console.error("Error fetching quiz :", error);
+		if (modules) {
+			setSelectedModule(modules.topics.find(module => module.id === selectedModuleId) ?? modules.topics[0]);
 		}
-	}, [dispatch, modules, selectedModuleId]);
+	}, [selectedModuleId]);
 
 	useEffect(() => {
-		try {
-			if (modules && selectedModule) {
-				dispatch(getQuiz({ id: modules.quiz_id, topic_id: selectedModule!.id }));
-			}
-		} catch (error) {
-			console.error("Error fetching quiz :", error);
+		if (user?.uuid) {
+			dispatch(getUserQuiz(user.uuid));
 		}
-	}, [dispatch, selectedModule]);
+	}, [user?.uuid, dispatch]);
 
 	useEffect(() => {
-		const fetchCompletedQuizzes = async () => {
-			try {
-				if (user?.uuid) {
-					const response = await dispatch(getUserQuiz(user.uuid)).unwrap();
-					setCompletedQuizzes(response.quizIds ? response.quizIds : []);
-					setNextQuiz(response.nextQuiz.id ? response.nextQuiz.id : []);
-				}
-			} catch (error) {
-				console.error("Error fetching user quizzes:", error);
-			}
-		};
-
-		if (user!.uuid) {
-			fetchCompletedQuizzes();
+		if (modules && selectedModule) {
+			dispatch(getQuiz({ id: modules.quiz_id, topic_id: selectedModule.id }));
 		}
-	}, [dispatch, user!.uuid]);
+	}, [dispatch, selectedModule, modules]);
 
 	useEffect(() => {
 		if (lives === 0) {
 			dispatch(restartLives());
 		}
-	}, [lives]);
+	}, [lives, dispatch]);
+
+	useEffect(() => {
+		if (quiz) {
+			let nextId = quiz ? quiz?.[0]?.id.toString() : "1";
+
+			if (userQuiz?.quizIds) {
+				for (let i = userQuiz.quizIds.length - 1; i >= 0; i--) {
+					const id = userQuiz.quizIds[i];
+
+					if (id === quiz?.[0].id.toString()) {
+						nextId = (parseInt(id) + 1).toString();
+						break;
+					}
+				}
+			}
+			setNextQuiz(nextId);
+		}
+	}, [selectedModule?.id, quiz, userQuiz, isModified, setNextQuiz]);
 
 	const renderItem = ({ item }: { item: quizState }) => (
 		<ListItem.Accordion
@@ -107,9 +97,14 @@ const Game = () => {
 					<ListItem.Content>
 						<CircleComponent
 							img={<Game1 />}
-							isDisabled={!completedQuizzes.includes(item.id.toString()) && item.id !== nextQuiz}
-							isDone={completedQuizzes.includes(item.id.toString())}
-							isNext={item.id === nextQuiz}
+							isDisabled={
+								userQuiz &&
+								Array.isArray(userQuiz?.quizIds) &&
+								!userQuiz.quizIds.includes(item.id.toString()) &&
+								item.id !== userQuiz?.nextQuiz?.id
+							}
+							isDone={userQuiz && Array.isArray(userQuiz?.quizIds) && userQuiz?.quizIds.includes(item.id.toString())}
+							isNext={nextQuiz === item.id.toString()}
 							classNamePressable="w-28 h-28"
 							classNameView="w-24 h-24"
 							onPress={() => {
