@@ -31,7 +31,7 @@ const Game = () => {
 	const [selectedItem, setSelectedItem] = useState<quizState | null>(null);
 	const [expandedItem, setExpandedItem] = useState<number | null>(null);
 	const { user } = useAppSelector((state: RootState) => state.user);
-	const { userQuiz, isModified } = useAppSelector((state: RootState) => state.userQuiz);
+	const { userQuiz } = useAppSelector((state: RootState) => state.userQuiz);
 	const lives = useAppSelector(state => state.lives.value);
 	const [nextQuiz, setNextQuiz] = useState<string>("");
 
@@ -81,7 +81,7 @@ const Game = () => {
 					const id = userQuiz.quizIds[i];
 
 					if (id === quiz?.[0].id.toString()) {
-						nextId = (parseInt(id) + 1).toString();
+						nextId = (parseInt(id, 10) + 1).toString();
 						break;
 					}
 				}
