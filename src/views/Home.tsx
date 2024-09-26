@@ -19,7 +19,7 @@ import GemComponent from "../base/Gem";
 import { getUser } from "../store/features/User/UserThunk";
 import { getUserQuests } from "../store/features/UserQuests/UserQuestsThunk";
 import { getUserQuiz } from "../store/features/UserQuiz/UserQuizThunk";
-import { getUserSuccesses, updateUserSuccesses } from "../store/features/UserSuccesses/UserSuccessesThunk";
+import { getUserSuccesses } from "../store/features/UserSuccesses/UserSuccessesThunk";
 
 export enum ContentHome {
 	MAP = "Map",
