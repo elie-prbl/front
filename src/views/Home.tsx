@@ -18,6 +18,7 @@ import { getUserQuests } from "../store/features/UserQuests/UserQuestsThunk";
 import { getUserQuiz } from "../store/features/UserQuiz/UserQuizThunk";
 import { useTheme } from "../context/ThemeContext";
 import GuideCompactMap from "../components/guide/GuideCompactMap";
+import { getUserSuccesses, updateUserSuccesses } from "../store/features/UserSuccesses/UserSuccessesThunk";
 
 export enum ContentHome {
 	GUIDE = "Guide",
@@ -33,11 +34,32 @@ const Home = () => {
 	const { user } = useAppSelector((state: RootState) => state.user);
 	const { userQuiz } = useAppSelector((state: RootState) => state.userQuiz);
 	const { themeVariables } = useTheme();
+	const [nextQuiz, setNextQuiz] = React.useState<string>("");
+
 
 	useEffect(() => {
-		(async () => {
-			await fetchData();
-		})();
+		if (user?.uuid) {
+			dispatch(getUserSuccesses(user.uuid));
+		}
+	}, []);
+
+	useEffect(() => {
+		const fetchCompletedQuizzes = async () => {
+			try {
+				const response = await dispatch(getUserQuiz({ user_uuid: user!.uuid, quiz_id: "1" })).unwrap();
+				setNextQuiz(response.nextQuiz.title ? response.nextQuiz.title : "");
+			} catch (error) {
+				console.error("Error fetching user quizzes:", error);
+			}
+		};
+
+		if (user!.uuid) {
+			fetchCompletedQuizzes();
+		}
+	}, [dispatch, user!.uuid]);
+
+	useEffect(() => {
+		fetchData();
 	}, [dispatch]);
 
 	const fetchData = async () => {

@@ -19,25 +19,9 @@ export enum ContentQuest {
 }
 
 const Quest = () => {
-	const dispatch = useAppDispatch();
 	const { userQuests, isLoadingUserQuest } = useSelector((state: RootState) => state.userQuests);
 	const navigation = useNavigation<MyNavigationProp>();
 	const { userSuccesses, isLoadingUserSuccesses } = useAppSelector((state: RootState) => state.userSuccesses);
-	const user = useAppSelector((state: RootState) => state.user.user);
-
-	useEffect(() => {
-		fetchData();
-	}, [dispatch]);
-
-	const fetchData = async () => {
-		if (user?.uuid) {
-			try {
-				await dispatch(getUserSuccesses(user.uuid));
-			} catch (error) {
-				console.error("Error get user:", error);
-			}
-		}
-	};
 
 	if (isLoadingUserQuest || isLoadingUserSuccesses) {
 		return (
