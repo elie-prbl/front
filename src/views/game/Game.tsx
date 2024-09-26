@@ -88,7 +88,7 @@ const Game = () => {
 			}
 			setNextQuiz(nextId);
 		}
-	}, [selectedModule?.id, quiz, userQuiz, isModified, setNextQuiz]);
+	}, [selectedModule?.id, quiz, userQuiz]);
 
 	const renderItem = ({ item }: { item: quizState }) => (
 		<ListItem.Accordion
