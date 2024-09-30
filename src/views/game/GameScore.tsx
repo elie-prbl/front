@@ -4,7 +4,7 @@ import { Text, View } from "react-native";
 import { Color, Content } from "../../base/constant";
 import GameScoreComponent from "../../components/game/GameScoreComponent";
 import ButtonComponent from "../../base/Button";
-import { useNavigation } from "@react-navigation/core";
+import { CommonActions, useNavigation } from "@react-navigation/core";
 import { MyNavigationProp, RouteGameScoreProps } from "../../navigation/AppNavigator";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { restartCurrentQuiz } from "../../store/features/Quiz/CurrentQuizSlice";
@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import Planet from "../../svg/Planet";
 import { updateUserQuest } from "../../store/features/UserQuests/UserQuestsThunk";
-import { UserQuest } from "../../store/features/UserQuests/UserQuestsSlices";
+import { TagName, UserQuest } from "../../store/features/UserQuests/UserQuestsSlices";
 
 const GameScore = ({ route }: RouteGameScoreProps) => {
 	const { score, nbQuestions } = route.params;
@@ -28,15 +28,9 @@ const GameScore = ({ route }: RouteGameScoreProps) => {
 	useEffect(() => {
 		if (Array.isArray(userQuests)) {
 			const winGames = userQuests.filter(
-				userQuest =>
-					userQuest.quest.tag.name === "WonGameTag" ||
-					userQuest.quest.tag.name === "WonQuizTag" ||
-					userQuest.quest.tag.name === "PlayGameTag" ||
-					userQuest.quest.tag.name === "PlayQuizTag",
+				userQuest => userQuest.quest.tag.name === TagName.WinGames || userQuest.quest.tag.name === TagName.PlayGames,
 			);
-			const playGames = userQuests.filter(
-				userQuest => userQuest.quest.tag.name === "PlayGameTag" || userQuest.quest.tag.name === "PlayQuizTag",
-			);
+			const playGames = userQuests.filter(userQuest => userQuest.quest.tag.name === TagName.PlayGames);
 
 			setRetrieveUserQuestsWinGames(winGames);
 			setRetrieveUserQuestsPlayGames(playGames);
@@ -60,11 +54,18 @@ const GameScore = ({ route }: RouteGameScoreProps) => {
 	useEffect(() => {
 		if (isModified) {
 			dispatch(restartCurrentQuiz());
-			navigation.navigate("TabNav", {
-				screen: "Game",
-			});
+			navigation.dispatch(
+				CommonActions.reset({
+					index: 1,
+					routes: [
+						{
+							name: "Game",
+						},
+					],
+				}),
+			);
 		}
-	}, [isModified]);
+	}, [isModified, userQuests]);
 
 	return (
 		<SafeAreaView style={{ backgroundColor: Color.WHITE }}>

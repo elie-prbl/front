@@ -13,7 +13,6 @@ const initialState = {
 	quiz: null as null | quizState[],
 	isLoadingQuiz: false,
 	errorQuiz: null as null | unknown,
-	isModified: false,
 };
 
 export const quizSlice = createSlice({
@@ -32,7 +31,6 @@ export const quizSlice = createSlice({
 			.addCase(getQuiz.rejected, (state, action) => {
 				state.isLoadingQuiz = false;
 				state.errorQuiz = action.payload;
-				state.isModified = false;
 			});
 	},
 });

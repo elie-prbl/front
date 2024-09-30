@@ -31,9 +31,8 @@ const Game = () => {
 	const [selectedItem, setSelectedItem] = useState<quizState | null>(null);
 	const [expandedItem, setExpandedItem] = useState<number | null>(null);
 	const { user } = useAppSelector((state: RootState) => state.user);
-	const { userQuiz } = useAppSelector((state: RootState) => state.userQuiz);
+	const { userQuiz, isLoadingUserQuiz, errorUserQuiz } = useAppSelector((state: RootState) => state.userQuiz);
 	const lives = useAppSelector(state => state.lives.value);
-	const [nextQuiz, setNextQuiz] = useState<string>("");
 
 	const handleGoingToGame = useCallback((qid: number) => {
 		dispatch(updateCurrentQuiz(qid));
@@ -52,43 +51,27 @@ const Game = () => {
 		if (modules) {
 			setSelectedModule(modules.topics.find(module => module.id === selectedModuleId) ?? modules.topics[0]);
 		}
-	}, [selectedModuleId]);
+	}, [modules, selectedModuleId]);
+
+	useEffect(() => {
+		if (modules && selectedModule?.id) {
+			dispatch(getQuiz({ id: modules.quiz_id, topic_id: selectedModule?.id }));
+		}
+	}, [dispatch, selectedModule?.id, modules]);
 
 	useEffect(() => {
 		if (user?.uuid) {
-			dispatch(getUserQuiz(user.uuid));
+			if (quiz && quiz.length > 0) {
+				dispatch(getUserQuiz({ user_uuid: user.uuid, quiz_id: quiz[0].id.toString() }));
+			}
 		}
-	}, [user?.uuid, dispatch]);
-
-	useEffect(() => {
-		if (modules && selectedModule) {
-			dispatch(getQuiz({ id: modules.quiz_id, topic_id: selectedModule.id }));
-		}
-	}, [dispatch, selectedModule, modules]);
+	}, [dispatch, user?.uuid, quiz]);
 
 	useEffect(() => {
 		if (lives === 0) {
 			dispatch(restartLives());
 		}
 	}, [lives, dispatch]);
-
-	useEffect(() => {
-		if (quiz) {
-			let nextId = quiz ? quiz?.[0]?.id.toString() : "1";
-
-			if (userQuiz?.quizIds) {
-				for (let i = userQuiz.quizIds.length - 1; i >= 0; i--) {
-					const id = userQuiz.quizIds[i];
-
-					if (id === quiz?.[0].id.toString()) {
-						nextId = (parseInt(id, 10) + 1).toString();
-						break;
-					}
-				}
-			}
-			setNextQuiz(nextId);
-		}
-	}, [selectedModule?.id, quiz, userQuiz]);
 
 	const renderItem = ({ item }: { item: quizState }) => (
 		<ListItem.Accordion
@@ -104,7 +87,7 @@ const Game = () => {
 								item.id !== userQuiz?.nextQuiz?.id
 							}
 							isDone={userQuiz && Array.isArray(userQuiz?.quizIds) && userQuiz?.quizIds.includes(item.id.toString())}
-							isNext={nextQuiz === item.id.toString()}
+							isNext={userQuiz && userQuiz.nextQuiz.id === item.id}
 							classNamePressable="w-28 h-28"
 							classNameView="w-24 h-24"
 							onPress={() => {
@@ -136,14 +119,14 @@ const Game = () => {
 		</ListItem.Accordion>
 	);
 
-	if (isLoading || isLoadingQuiz)
+	if (isLoading || isLoadingQuiz || isLoadingUserQuiz)
 		return (
 			<Layout>
 				<ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center h-full" />
 			</Layout>
 		);
 
-	if (error || errorQuiz)
+	if (error || errorQuiz || errorUserQuiz)
 		return (
 			<Layout>
 				<View className="h-full justify-center">

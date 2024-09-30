@@ -6,7 +6,7 @@ interface CircleComponentProps {
 	img: ReactElement;
 	isDisabled: boolean | null;
 	isDone: boolean | null;
-	isNext: boolean;
+	isNext: boolean | null;
 	onPress?: () => void;
 	classNamePressable?: string;
 	classNameView?: string;

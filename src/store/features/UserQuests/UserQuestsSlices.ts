@@ -8,13 +8,11 @@ export enum Difficulty {
 }
 
 export enum TagName {
-	PlayQuizTag = "PlayQuizTag",
-	PlayGameTag = "PlayGameTag",
-	WonQuizTag = "WonQuizTag",
-	WonGameTag = "WonGameTag",
-	ConnectionTag = "ConnectionTag",
-	LevelTag = "LevelTag",
-	AvatarTag = "AvatarTag",
+	PlayGames = "PlayGames",
+	WinGames = "WinGames",
+	Connection = "Connection",
+	Level = "Level",
+	Avatar = "Avatar",
 }
 
 export interface Tag {

@@ -15,8 +15,8 @@ export interface userQuiz {
 const initialState = {
 	userQuiz: null as null | userQuiz,
 	isLoadingUserQuiz: false,
-	error: null as null | unknown,
-	isModified: false,
+	errorUserQuiz: null as null | unknown,
+	isModifiedUserQuiz: false,
 };
 
 export const UserQuizSlices = createSlice({
@@ -27,29 +27,31 @@ export const UserQuizSlices = createSlice({
 		builder
 			.addCase(getUserQuiz.pending, (state, action) => {
 				state.isLoadingUserQuiz = true;
+				state.isModifiedUserQuiz = false;
 			})
 			.addCase(getUserQuiz.fulfilled, (state, action) => {
 				state.userQuiz = action.payload;
 				state.isLoadingUserQuiz = false;
-				state.isModified = true;
+				state.isModifiedUserQuiz = true;
 			})
 			.addCase(getUserQuiz.rejected, (state, action) => {
 				state.isLoadingUserQuiz = false;
-				state.error = action.payload;
-				state.isModified = false;
+				state.errorUserQuiz = action.payload;
+				state.isModifiedUserQuiz = false;
 			})
 			.addCase(submitUserQuiz.pending, (state, action) => {
 				state.isLoadingUserQuiz = true;
+				state.isModifiedUserQuiz = false;
 			})
 			.addCase(submitUserQuiz.fulfilled, (state, action) => {
 				state.userQuiz = action.payload;
 				state.isLoadingUserQuiz = false;
-				state.isModified = true;
+				state.isModifiedUserQuiz = true;
 			})
 			.addCase(submitUserQuiz.rejected, (state, action) => {
 				state.isLoadingUserQuiz = false;
-				state.error = action.payload;
-				state.isModified = false;
+				state.errorUserQuiz = action.payload;
+				state.isModifiedUserQuiz = false;
 			});
 	},
 });
