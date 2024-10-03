@@ -4,7 +4,7 @@ import { Text, View } from "react-native";
 import { Color, Content } from "../../base/constant";
 import GameScoreComponent from "../../components/game/GameScoreComponent";
 import ButtonComponent from "../../base/Button";
-import { CommonActions, useNavigation } from "@react-navigation/core";
+import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp, RouteGameScoreProps } from "../../navigation/AppNavigator";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { restartCurrentQuiz } from "../../store/features/Quiz/CurrentQuizSlice";
@@ -54,18 +54,11 @@ const GameScore = ({ route }: RouteGameScoreProps) => {
 	useEffect(() => {
 		if (isModified) {
 			dispatch(restartCurrentQuiz());
-			navigation.dispatch(
-				CommonActions.reset({
-					index: 1,
-					routes: [
-						{
-							name: "Game",
-						},
-					],
-				}),
-			);
+			navigation.navigate("TabNav", {
+				screen: "Game",
+			});
 		}
-	}, [isModified, userQuests]);
+	}, [isModified]);
 
 	return (
 		<SafeAreaView style={{ backgroundColor: Color.WHITE }}>

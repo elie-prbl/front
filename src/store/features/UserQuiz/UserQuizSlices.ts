@@ -28,10 +28,12 @@ export const UserQuizSlices = createSlice({
 			.addCase(getUserQuiz.pending, (state, action) => {
 				state.isLoadingUserQuiz = true;
 				state.isModifiedUserQuiz = false;
+				state.errorUserQuiz = false;
 			})
 			.addCase(getUserQuiz.fulfilled, (state, action) => {
 				state.userQuiz = action.payload;
 				state.isLoadingUserQuiz = false;
+				state.errorUserQuiz = false;
 				state.isModifiedUserQuiz = true;
 			})
 			.addCase(getUserQuiz.rejected, (state, action) => {
@@ -42,11 +44,13 @@ export const UserQuizSlices = createSlice({
 			.addCase(submitUserQuiz.pending, (state, action) => {
 				state.isLoadingUserQuiz = true;
 				state.isModifiedUserQuiz = false;
+				state.errorUserQuiz = false;
 			})
 			.addCase(submitUserQuiz.fulfilled, (state, action) => {
 				state.userQuiz = action.payload;
 				state.isLoadingUserQuiz = false;
 				state.isModifiedUserQuiz = true;
+				state.errorUserQuiz = false;
 			})
 			.addCase(submitUserQuiz.rejected, (state, action) => {
 				state.isLoadingUserQuiz = false;
