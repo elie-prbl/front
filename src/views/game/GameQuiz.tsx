@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Alert, SafeAreaView, Text, View } from "react-native";
-import { NavigationGameScoreProps } from "../../navigation/AppNavigator";
+import { MyNavigationProp, NavigationGameScoreProps } from "../../navigation/AppNavigator";
 import GameQuizHeaderComponent from "../../components/game/GameQuizHeaderComponent";
 import { Color, Content, FontSize } from "../../base/constant";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -13,7 +13,6 @@ import {
 import { decrementLife } from "../../store/features/Lives/LivesSlices";
 import { CommonActions, useNavigation } from "@react-navigation/core";
 import { quizState } from "../../store/features/Quiz/QuizSlices";
-import { restartCurrentQuizModule } from "../../store/features/QuizModules/CurrentQuizModuleSlice";
 import { restartCurrentQuiz } from "../../store/features/Quiz/CurrentQuizSlice";
 import Planet from "../../svg/Planet";
 import { submitUserQuiz } from "../../store/features/UserQuiz/UserQuizThunk";
@@ -22,6 +21,7 @@ import { RootState } from "../../store/store";
 const GameQuiz = () => {
 	const dispatch = useAppDispatch();
 	const navigation = useNavigation<NavigationGameScoreProps>();
+	const navigationToGame = useNavigation<MyNavigationProp>();
 
 	const qid = useAppSelector(state => state.currentQuiz.value);
 	const quizzes: quizState[] | null = useAppSelector(state => state.quiz.quiz);
@@ -74,17 +74,18 @@ const GameQuiz = () => {
 				}),
 			);
 		}
+	}, [currentIndexQuestionDisplay]);
 
+	useEffect(() => {
 		if (lives === 0) {
 			Alert.alert(Content.LOST_LIVES);
 			dispatch(restartCurrentQuestionIndexState());
-			dispatch(restartCurrentQuizModule());
 			dispatch(restartCurrentQuiz());
-			navigation.navigate("TabNav", {
+			navigationToGame.navigate("TabNav", {
 				screen: "Game",
 			});
 		}
-	}, [currentIndexQuestionDisplay, lives]);
+	}, [lives]);
 
 	const handleNextQuestion = () => {
 		setTitleButton(Content.VALIDATE);

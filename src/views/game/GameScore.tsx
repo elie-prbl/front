@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import Planet from "../../svg/Planet";
 import { updateUserQuest } from "../../store/features/UserQuests/UserQuestsThunk";
-import { UserQuest } from "../../store/features/UserQuests/UserQuestsSlices";
+import { TagName, UserQuest } from "../../store/features/UserQuests/UserQuestsSlices";
 
 const GameScore = ({ route }: RouteGameScoreProps) => {
 	const { score, nbQuestions } = route.params;
@@ -28,15 +28,9 @@ const GameScore = ({ route }: RouteGameScoreProps) => {
 	useEffect(() => {
 		if (Array.isArray(userQuests)) {
 			const winGames = userQuests.filter(
-				userQuest =>
-					userQuest.quest.tag.name === "WonGameTag" ||
-					userQuest.quest.tag.name === "WonQuizTag" ||
-					userQuest.quest.tag.name === "PlayGameTag" ||
-					userQuest.quest.tag.name === "PlayQuizTag",
+				userQuest => userQuest.quest.tag.name === TagName.WinGames || userQuest.quest.tag.name === TagName.PlayGames,
 			);
-			const playGames = userQuests.filter(
-				userQuest => userQuest.quest.tag.name === "PlayGameTag" || userQuest.quest.tag.name === "PlayQuizTag",
-			);
+			const playGames = userQuests.filter(userQuest => userQuest.quest.tag.name === TagName.PlayGames);
 
 			setRetrieveUserQuestsWinGames(winGames);
 			setRetrieveUserQuestsPlayGames(playGames);

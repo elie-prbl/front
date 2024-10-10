@@ -31,8 +31,8 @@ const Home = () => {
 	const navigation = useNavigation<MyNavigationProp>();
 	const position = useSelector((state: RootState) => state.position.position);
 	const { userQuests, isLoadingUserQuest } = useSelector((state: RootState) => state.userQuests);
-	const [nextQuiz, setNextQuiz] = React.useState<string>("");
 	const { user, isLoading } = useAppSelector((state: RootState) => state.user);
+	const { userQuiz } = useAppSelector((state: RootState) => state.userQuiz);
 
 	useEffect(() => {
 		getTheCurrentPosition().then(location => {
@@ -44,19 +44,10 @@ const Home = () => {
 	}, []);
 
 	useEffect(() => {
-		const fetchCompletedQuizzes = async () => {
-			try {
-				const response = await dispatch(getUserQuiz(user!.uuid)).unwrap();
-				setNextQuiz(response.nextQuiz.title ? response.nextQuiz.title : "");
-			} catch (error) {
-				console.error("Error fetching user quizzes:", error);
-			}
-		};
-
-		if (user!.uuid) {
-			fetchCompletedQuizzes();
+		if (user?.uuid) {
+			dispatch(getUserQuiz({ user_uuid: user.uuid, quiz_id: "1" }));
 		}
-	}, [dispatch, user!.uuid]);
+	}, [dispatch, user?.uuid]);
 
 	useEffect(() => {
 		fetchData();
@@ -96,7 +87,7 @@ const Home = () => {
 					<ShopHomeComponent />
 				</BoxComponent>
 				<BoxComponent title={Content.GAME} onPress={() => navigation.navigate(ContentHome.GAME)}>
-					<GameHomeComponent nextQuiz={nextQuiz} />
+					<GameHomeComponent nextQuiz={userQuiz?.nextQuiz} />
 				</BoxComponent>
 				<BoxComponent title={Content.MAP} height="h-48" onPress={() => navigation.navigate(ContentHome.MAP)}>
 					<MapView
