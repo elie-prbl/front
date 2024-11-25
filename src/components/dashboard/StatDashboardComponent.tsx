@@ -25,7 +25,12 @@ const StatDashboardComponent = () => {
 	return (
 		<View>
 			<View className="flex-row justify-between mb-4">
-				<BoxStat color={Color.GOLD} result={userQuiz?.quizIds.length} resultType={Content.QUIZZ} icon={<Crown />} />
+				<BoxStat
+					color={Color.GOLD}
+					result={!userQuiz?.quizIds ? 0 : userQuiz?.quizIds.length}
+					resultType={Content.QUIZZ}
+					icon={<Crown />}
+				/>
 				<BoxStat color={Color.PURPLE_DARK} result={user?.xp} resultType={Content.XP} icon={<Flash />} />
 			</View>
 			<View className="flex-row justify-between">
