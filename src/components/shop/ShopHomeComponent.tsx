@@ -11,13 +11,13 @@ const ShopHomeComponent = () => {
 				style={{ borderWidth: 1, borderColor: Color.GREY }}
 				className="rounded-lg flex-1 mr-2 items-center justify-center relative">
 				<EliePirate />
-				<Text className={FontSize.TEXT_LG}>{Content.SHOP_PERSONALISATION}</Text>
+				<Text className={FontSize.TEXT_LG}>{Content.SHOP_AVATAR}</Text>
 			</View>
 			<View
 				style={{ borderWidth: 1, borderColor: Color.GREY }}
 				className="rounded-lg flex-1 ml-2 items-center justify-center">
 				<PowerUp />
-				<Text className={FontSize.TEXT_LG}>{Content.SHOP_POWER_UP}</Text>
+				<Text className={FontSize.TEXT_LG}>{Content.SHOP_THEME}</Text>
 			</View>
 		</View>
 	);
