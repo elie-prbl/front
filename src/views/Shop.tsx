@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Layout from "../base/Layout";
 import BoxComponent from "../base/Box";
 import { Content } from "../base/constant";
-import CustomizationDetailComponent from "../base/PersonnalisationDetail";
+import ShopItemDetails from "../base/ShopItemDetails";
 import { ScrollView } from "react-native";
 import { getShopItems, ShopItem, TypeName } from "../store/features/Shop/ShopThunk";
 import Elie from "../svg/Elie";
@@ -46,7 +46,7 @@ const Shop = () => {
 			<ScrollView showsVerticalScrollIndicator={false}>
 				<BoxComponent title={Content.SHOP_AVATAR}>
 					{avatarItems.map(avatar => (
-						<CustomizationDetailComponent
+						<ShopItemDetails
 							key={avatar.id}
 							name={avatar.name}
 							description={avatar.description}
@@ -57,12 +57,7 @@ const Shop = () => {
 				</BoxComponent>
 				<BoxComponent title={Content.SHOP_THEME}>
 					{themeItems.map(theme => (
-						<CustomizationDetailComponent
-							key={theme.id}
-							name={theme.name}
-							description={theme.description}
-							gem={theme.currency}
-						/>
+						<ShopItemDetails key={theme.id} name={theme.name} description={theme.description} gem={theme.currency} />
 					))}
 				</BoxComponent>
 			</ScrollView>

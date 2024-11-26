@@ -11,7 +11,7 @@ interface CustomizationDetailComponentProps {
 	gem?: number;
 }
 
-const CustomizationDetailComponent = ({ elie, name, description, gem }: CustomizationDetailComponentProps) => {
+const ShopItemDetails = ({ elie, name, description, gem }: CustomizationDetailComponentProps) => {
 	return (
 		<View className="flex-row items-center mb-2">
 			<View className="w-16 h-20 flex-row items-center">{elie}</View>
@@ -30,4 +30,4 @@ const CustomizationDetailComponent = ({ elie, name, description, gem }: Customiz
 	);
 };
 
-export default CustomizationDetailComponent;
+export default ShopItemDetails;

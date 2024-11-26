@@ -3,7 +3,7 @@ import UserDashboardComponent from "../../components/dashboard/UserDashboardComp
 import { ScrollView } from "react-native";
 import BoxComponent from "../../base/Box";
 import StatDashboardComponent from "../../components/dashboard/StatDashboardComponent";
-import CustomizeDashboardComponent from "../../components/dashboard/CustomizeDashboardComponent";
+import ShopItemsDashboardComponent from "../../components/dashboard/ShopItemsDashboardComponent";
 import Layout from "../../base/Layout";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
@@ -22,7 +22,7 @@ const Dashboard = () => {
 					<StatDashboardComponent />
 				</BoxComponent>
 				<BoxComponent title={Content.ELIE}>
-					<CustomizeDashboardComponent />
+					<ShopItemsDashboardComponent />
 				</BoxComponent>
 			</ScrollView>
 		</Layout>
