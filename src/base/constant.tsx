@@ -64,13 +64,8 @@ export class Content {
 	//Shop
 	static SHOP_TITLE: string = "Boutique";
 	static SHOP_DESCRIPTION: string = "Ici tu peux dépenser tes rubis !";
-	static SHOP_PERSONALISATION: string = "Personnalisation";
-	static SHOP_POWER_UP: string = "Power Up";
-	static SHOP_POWER_UP_LIFE_TITLE: string = "5 cœurs";
-	static SHOP_POWER_UP_LIFE_DESCRIPTION: string = "Vous permet de récuperer de la vie pour jouer aux quiz";
-	static SHOP_POWER_UP_BOOST_TITLE: string = "Boost";
-	static SHOP_POWER_UP_BOOST_DESCRIPTION: string =
-		"Vous permet de réaliser des quiz pendant 20 minutes sans perdre de vie";
+	static SHOP_AVATAR: string = "Avatar";
+	static SHOP_THEME: string = "Theme";
 
 	//Quest
 	static QUEST_TITLE: string = "Quête";
@@ -115,12 +110,8 @@ export class Content {
 	//Elie
 	static ELIE: string = "Elie";
 	static ELIE_PIRATE: string = "Elie Pirate";
-	static ELIE_PIRATE_DESCRIPTION: string = "Personnaliser votre Elie pour partir à la découverte de nouveaux quiz !";
-	static ELIE_CYBORG: string = "Elie Cyborg";
-	static ELIE_CYBORG_DESCRIPTION: string =
-		"Elie devient un cyber compagnon près à vous accompagner dans tous vos quiz !";
+	static ELIE_CYBER: string = "Elie Cyber";
 	static ELIE_GOLD: string = "Elie Gold";
-	static ELIE_GOLD_DESCRIPTION: string = "Prenez la route de la richesse avec Ellie Gold !";
 
 	//Map
 	static MAP_TITLE: string = "Carte";
