@@ -1,7 +1,7 @@
 import React from "react";
 import { SvgXml } from "react-native-svg";
 
-export default function ElieCyborg() {
+export default function ElieCyber() {
 	const svg = `<svg width="58" height="53" viewBox="0 0 58 53" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M25.5008 15.5001C21.6673 15.3335 19.0005 14.1659 23.9997 12.4998C30.0004 10.5 25.0003 11.0001 22.5003 11.0001C20.0001 11.0001 17.9998 11.0001 24.5001 7.50006C25.6668 6.83339 27.3001 5.20006 24.5001 4.00006" stroke="black"/>
 <circle cx="22.5" cy="3.00006" r="2.5" fill="url(#paint0_linear_606_2224)"/>
