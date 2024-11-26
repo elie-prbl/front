@@ -10,10 +10,10 @@ interface GemComponentProps {
 const GemComponent = ({ nb }: GemComponentProps) => {
 	return (
 		<View className="flex-row items-start">
-			<Gem />
-			<Text className={`${FontSize.TEXT_XL} ml-1 font-bold`} style={{ color: Color.PRIMARY }}>
+			<Text className={`${FontSize.TEXT_XL} mr-1 font-bold`} style={{ color: Color.PRIMARY }}>
 				{nb}
 			</Text>
+			<Gem />
 		</View>
 	);
 };
