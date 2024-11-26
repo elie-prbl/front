@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import ElieCyborg from "../../svg/ElieCyborg";
+import ElieCyber from "../../svg/ElieCyber";
 import EliePirate from "../../svg/EliePirate";
 import { Content } from "../../base/constant";
 import CustomizationDetailComponent from "../../base/PersonnalisationDetail";
@@ -10,14 +10,10 @@ const CustomizeDashboardComponent = () => {
 		<View>
 			<CustomizationDetailComponent
 				elie={<EliePirate />}
-				title={Content.ELIE_PIRATE}
-				detail={Content.ELIE_PIRATE_DESCRIPTION}
+				name={Content.ELIE_PIRATE}
+				description={Content.ELIE_PIRATE}
 			/>
-			<CustomizationDetailComponent
-				elie={<ElieCyborg />}
-				title={Content.ELIE_CYBORG}
-				detail={Content.ELIE_CYBORG_DESCRIPTION}
-			/>
+			<CustomizationDetailComponent elie={<ElieCyber />} name={Content.ELIE_CYBER} description={Content.ELIE_CYBER} />
 		</View>
 	);
 };
