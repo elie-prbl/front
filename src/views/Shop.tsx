@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../base/Layout";
 import BoxComponent from "../base/Box";
-import { Content } from "../base/constant";
+import { Color, Content } from "../base/constant";
 import ShopItemDetails from "../base/ShopItemDetails";
-import { ScrollView } from "react-native";
+import { ActivityIndicator, ScrollView } from "react-native";
 import { getShopItems, ShopItem, TypeName } from "../store/features/Shop/ShopThunk";
 import Elie from "../svg/Elie";
 import ElieGold from "../svg/ElieGold";
@@ -11,6 +11,7 @@ import ElieCyber from "../svg/ElieCyber";
 import EliePirate from "../svg/EliePirate";
 
 const Shop = () => {
+	const [isLoading, setLoading] = useState<boolean>(true);
 	const [avatarItems, setAvatarItems] = useState<ShopItem[]>([]);
 	const [themeItems, setThemeItems] = useState<ShopItem[]>([]);
 
@@ -24,6 +25,8 @@ const Shop = () => {
 				setThemeItems(themes);
 			} catch (e) {
 				console.log(`error ${e}`);
+			} finally {
+				setLoading(false);
 			}
 		})();
 	}, []);
@@ -40,6 +43,14 @@ const Shop = () => {
 				return <Elie />;
 		}
 	};
+
+	if (isLoading) {
+		return (
+			<Layout>
+				<ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center h-full" />
+			</Layout>
+		);
+	}
 
 	return (
 		<Layout>
