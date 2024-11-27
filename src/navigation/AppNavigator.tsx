@@ -13,7 +13,7 @@ import GameModule from "../views/game/GameModule";
 import { Content } from "../base/constant";
 import Map from "../views/Map";
 import GameQuiz from "../views/game/GameQuiz";
-import GameScore from "../views/game/GameScore";
+import GameQuizScore from "../views/game/GameQuizScore";
 import Game from "../views/game/Game";
 import Shop from "../views/Shop";
 import Dashboard from "../views/user/Dashboard";
@@ -34,7 +34,7 @@ export type StackParamList = {
 	Game: undefined;
 	GameModule: undefined;
 	GameQuiz: undefined;
-	GameScore: { score: number; nbQuestions: number };
+	GameQuizScore: { score: number; nbQuestions: number };
 	GameDualQuiz: { roomId: number; nameOpponent: string };
 	GameDualQuizScore: {
 		isDraw: boolean;
@@ -52,8 +52,8 @@ export type StackParamList = {
 const Stack = createNativeStackNavigator<StackParamList>();
 export type MyNavigationProp = NativeStackNavigationProp<StackParamList>;
 
-export type RouteGameScoreProps = NativeStackScreenProps<StackParamList, "GameScore">;
-export type NavigationGameScoreProps = NativeStackNavigationProp<StackParamList, "GameScore">;
+export type RouteGameScoreProps = NativeStackScreenProps<StackParamList, "GameQuizScore">;
+export type NavigationGameScoreProps = NativeStackNavigationProp<StackParamList, "GameQuizScore">;
 
 export type RouteGameDualQuizProps = NativeStackScreenProps<StackParamList, "GameDualQuiz">;
 export type NavigationGameDualQuizProps = NativeStackNavigationProp<StackParamList, "GameDualQuiz">;
@@ -106,8 +106,8 @@ const AppNavigator = (): JSX.Element => {
 					options={{ headerShown: true, headerTransparent: false, headerTitle: Content.SCORE }}
 				/>
 				<Stack.Screen
-					name="GameScore"
-					component={GameScore}
+					name="GameQuizScore"
+					component={GameQuizScore}
 					options={{ headerShown: true, headerTransparent: false, headerTitle: Content.SCORE }}
 				/>
 				<Stack.Screen name="Shop" component={Shop} options={{ headerShown: false }} />

@@ -14,7 +14,7 @@ import Planet from "../../svg/Planet";
 import { updateUserQuest } from "../../store/features/UserQuests/UserQuestsThunk";
 import { TagName, UserQuest } from "../../store/features/UserQuests/UserQuestsSlices";
 
-const GameScore = ({ route }: RouteGameScoreProps) => {
+const GameQuizScore = ({ route }: RouteGameScoreProps) => {
 	const { score, nbQuestions } = route.params;
 	const navigation = useNavigation<MyNavigationProp>();
 	const dispatch = useAppDispatch();
@@ -97,4 +97,4 @@ const GameScore = ({ route }: RouteGameScoreProps) => {
 	);
 };
 
-export default GameScore;
+export default GameQuizScore;
