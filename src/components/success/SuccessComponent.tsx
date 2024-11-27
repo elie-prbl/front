@@ -15,19 +15,15 @@ export type successProps = {
 const SuccessComponent = ({ userSuccess }: successProps) => {
 	const SwitchImg = (name: TagName) => {
 		switch (name) {
-			case TagName.PlayQuizTag:
-				return <SuccessQuiz />;
-			case TagName.ConnectionTag:
+			case TagName.Connection:
 				return <SuccessConnection />;
-			case TagName.WonQuizTag:
-				return <SuccessQuizWin />;
-			case TagName.AvatarTag:
+			case TagName.Avatar:
 				return <SuccessConnection />;
-			case TagName.LevelTag:
+			case TagName.Level:
 				return <SuccessQuizWin />;
-			case TagName.PlayGameTag:
+			case TagName.PlayGames:
 				return <SuccessQuiz />;
-			case TagName.WonGameTag:
+			case TagName.WinGames:
 				return <SuccessQuizWin />;
 			default:
 				console.log(`error to load success image`);

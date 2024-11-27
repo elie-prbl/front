@@ -7,7 +7,7 @@ import QuestComponent from "../components/quest/QuestComponent";
 import Circle1 from "../svg/Circle1";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
-import SuccessComponent from "../components/success/successComponent";
+import SuccessComponent from "../components/success/SuccessComponent";
 import ModuleGame from "../base/ModuleGame";
 import { Entypo } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
