@@ -4,7 +4,7 @@ import BoxComponent from "../base/Box";
 import { Color, Content } from "../base/constant";
 import ShopItemDetails from "../base/ShopItemDetails";
 import { ActivityIndicator, ScrollView } from "react-native";
-import { getShopItems, ShopItem, TypeName } from "../store/features/Shop/ShopThunk";
+import { getShopItems, ShopItem, TypeName } from "../store/features/Shop/ShopService";
 import Elie from "../svg/Elie";
 import ElieGold from "../svg/ElieGold";
 import ElieCyber from "../svg/ElieCyber";
