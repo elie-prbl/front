@@ -1,15 +1,10 @@
 import React from "react";
-import { View } from "react-native";
-import ElieCyber from "../../svg/ElieCyber";
-import EliePirate from "../../svg/EliePirate";
-import { Content } from "../../base/constant";
-import ShopItemDetails from "../../base/ShopItemDetails";
+import { Text, View } from "react-native";
 
 const ShopItemsDashboardComponent = () => {
 	return (
 		<View>
-			<ShopItemDetails elie={<EliePirate />} name={Content.ELIE_PIRATE} description={Content.ELIE_PIRATE} />
-			<ShopItemDetails elie={<ElieCyber />} name={Content.ELIE_CYBER} description={Content.ELIE_CYBER} />
+			<Text>A faire dans le ticket EQ-127</Text>
 		</View>
 	);
 };

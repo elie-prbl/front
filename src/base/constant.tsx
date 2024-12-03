@@ -66,6 +66,9 @@ export class Content {
 	static SHOP_DESCRIPTION: string = "Ici tu peux dépenser tes rubis !";
 	static SHOP_AVATAR: string = "Avatar";
 	static SHOP_THEME: string = "Theme";
+	static SHOP_GEM: string = "Rubis";
+	static SHOP_GEM_DESCRIPTION: string = "Réalises des quêtes pour gagner plus de rubis !";
+	static COST: string = "Coût";
 
 	//Quest
 	static QUEST_TITLE: string = "Quête";
