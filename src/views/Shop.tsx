@@ -2,18 +2,18 @@ import React, { useEffect, useState } from "react";
 import Layout from "../base/Layout";
 import BoxComponent from "../base/Box";
 import { Color, Content } from "../base/constant";
-import ShopItemDetails from "../base/ShopItemDetails";
-import { ActivityIndicator, ScrollView } from "react-native";
+import ShopItemDetails from "../components/shop/ShopItemDetails";
+import { ActivityIndicator, ScrollView, Text } from "react-native";
 import { getShopItems, ShopItem, TypeName } from "../store/features/Shop/ShopService";
-import Elie from "../svg/Elie";
-import ElieGold from "../svg/ElieGold";
-import ElieCyber from "../svg/ElieCyber";
-import EliePirate from "../svg/EliePirate";
+import { useAppSelector } from "../store/hooks";
+import { RootState } from "../store/store";
+import GemComponent from "../base/Gem";
 
 const Shop = () => {
 	const [isLoading, setLoading] = useState<boolean>(true);
 	const [avatarItems, setAvatarItems] = useState<ShopItem[]>([]);
 	const [themeItems, setThemeItems] = useState<ShopItem[]>([]);
+	const { user } = useAppSelector((state: RootState) => state.user);
 
 	useEffect(() => {
 		(async () => {
@@ -31,19 +31,6 @@ const Shop = () => {
 		})();
 	}, []);
 
-	const buildElie = (name: string) => {
-		switch (name) {
-			case Content.ELIE_GOLD:
-				return <ElieGold />;
-			case Content.ELIE_CYBER:
-				return <ElieCyber />;
-			case Content.ELIE_PIRATE:
-				return <EliePirate />;
-			default:
-				return <Elie />;
-		}
-	};
-
 	if (isLoading) {
 		return (
 			<Layout>
@@ -55,20 +42,19 @@ const Shop = () => {
 	return (
 		<Layout>
 			<ScrollView showsVerticalScrollIndicator={false}>
+				{user && (
+					<BoxComponent title={Content.SHOP_GEM} itemRight={<GemComponent nb={user?.currency_amount} />}>
+						<Text>{Content.SHOP_GEM_DESCRIPTION}</Text>
+					</BoxComponent>
+				)}
 				<BoxComponent title={Content.SHOP_AVATAR}>
 					{avatarItems.map(avatar => (
-						<ShopItemDetails
-							key={avatar.id}
-							name={avatar.name}
-							description={avatar.description}
-							elie={buildElie(avatar.name)}
-							gem={avatar.currency}
-						/>
+						<ShopItemDetails key={avatar.id} shopItem={avatar} />
 					))}
 				</BoxComponent>
 				<BoxComponent title={Content.SHOP_THEME}>
 					{themeItems.map(theme => (
-						<ShopItemDetails key={theme.id} name={theme.name} description={theme.description} gem={theme.currency} />
+						<ShopItemDetails key={theme.id} shopItem={theme} />
 					))}
 				</BoxComponent>
 			</ScrollView>
