@@ -1,4 +1,6 @@
 import { Url } from "../../../base/constant";
+import { ApiError } from "../../../utils/ApiError";
+import { parseErrorMessage } from "../../../utils/parseErrorMessage";
 
 export enum TypeName {
 	AVATAR = "avatar",
@@ -42,4 +44,25 @@ export const getShopItems = async (type?: TypeName) => {
 	});
 
 	return items;
+};
+
+export const purchaseShopItem = async (userUuid: string, shopItemId: number) => {
+	const response = await fetch(`${Url.BASE_URL_API}/shop/items/user`, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			user_uuid: userUuid,
+			shop_item_id: shopItemId,
+		}),
+	});
+
+	const responseData = await response.json();
+
+	if (!response.ok) {
+		throw new ApiError(parseErrorMessage(responseData.message) || "Une erreur est survenue", response.status);
+	}
+
+	return responseData;
 };
