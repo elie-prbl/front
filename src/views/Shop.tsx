@@ -5,15 +5,23 @@ import { Color, Content } from "../base/constant";
 import ShopItemDetails from "../components/shop/ShopItemDetails";
 import { ActivityIndicator, ScrollView, Text } from "react-native";
 import { getShopItems, ShopItem, TypeName } from "../store/features/Shop/ShopService";
-import { useAppSelector } from "../store/hooks";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { RootState } from "../store/store";
 import GemComponent from "../base/Gem";
+import { getUser } from "../store/features/User/UserThunk";
 
 const Shop = () => {
 	const [isLoading, setLoading] = useState<boolean>(true);
 	const [avatarItems, setAvatarItems] = useState<ShopItem[]>([]);
 	const [themeItems, setThemeItems] = useState<ShopItem[]>([]);
+	const dispatch = useAppDispatch();
 	const { user } = useAppSelector((state: RootState) => state.user);
+
+	useEffect(() => {
+		if (user?.uuid) {
+			dispatch(getUser(user.uuid));
+		}
+	}, [dispatch, user]);
 
 	useEffect(() => {
 		setAvatarItems([]);
