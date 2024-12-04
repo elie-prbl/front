@@ -6,11 +6,11 @@ import { ShopItem, TypeName } from "../../store/features/Shop/ShopService";
 import ModalPurchaseItem from "./ModalPurchaseItem";
 import { buildElie } from "../../utils/buildElie";
 
-interface CustomizationDetailComponentProps {
+interface ShopItemDetailsProps {
 	shopItem: ShopItem;
 }
 
-const ShopItemDetails = ({ shopItem }: CustomizationDetailComponentProps) => {
+const ShopItemDetails = ({ shopItem }: ShopItemDetailsProps) => {
 	const [activeModalPurchase, setActiveModalPurchase] = useState(false);
 
 	return (
