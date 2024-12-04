@@ -16,6 +16,9 @@ const Shop = () => {
 	const { user } = useAppSelector((state: RootState) => state.user);
 
 	useEffect(() => {
+		setAvatarItems([]);
+		setThemeItems([]);
+
 		(async () => {
 			try {
 				const avatars = await getShopItems(TypeName.AVATAR);
