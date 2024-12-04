@@ -52,7 +52,5 @@ export const getUserShopItems = async (userUuid: string) => {
 		};
 	});
 
-	console.log(userShopItems);
-
 	return userShopItems;
 };
