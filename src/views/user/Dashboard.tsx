@@ -5,25 +5,20 @@ import BoxComponent from "../../base/Box";
 import StatDashboardComponent from "../../components/dashboard/StatDashboardComponent";
 import ShopItemsDashboardComponent from "../../components/dashboard/ShopItemsDashboardComponent";
 import Layout from "../../base/Layout";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store/store";
 import { Content } from "../../base/constant";
 import { Ionicons } from "@expo/vector-icons";
 
 const Dashboard = () => {
-	const user = useSelector((state: RootState) => state.user.user);
 	return (
 		<Layout>
 			<ScrollView>
-				<BoxComponent title={user?.username} itemRight={<Ionicons name="person-circle-outline" size={40} />}>
+				<BoxComponent title={Content.INFORMATIONS} itemRight={<Ionicons name="person-circle-outline" size={40} />}>
 					<UserDashboardComponent />
 				</BoxComponent>
 				<BoxComponent title={Content.STATISTICS}>
 					<StatDashboardComponent />
 				</BoxComponent>
-				<BoxComponent title={Content.ELIE}>
-					<ShopItemsDashboardComponent />
-				</BoxComponent>
+				<ShopItemsDashboardComponent />
 			</ScrollView>
 		</Layout>
 	);

@@ -105,10 +105,13 @@ export class Content {
 	//Dashboard
 	static PROFILE: string = "Profil";
 	static STATISTICS: string = "Statistiques";
+	static INFORMATIONS: string = "Informations";
 	static LEVEL: string = "Niveau";
 	static QUIZZ: string = "Quizs réussis";
 	static XP: string = "Total xp";
 	static GEMS: string = "Total gems";
+	static NO_AVATAR: string = "Aller dans la boutique pour acheter des avatars !";
+	static NO_THEME: string = "Aller dans la boutique pour acheter des themes !";
 
 	//Elie
 	static ELIE: string = "Elie";
