@@ -18,9 +18,7 @@ const Dashboard = () => {
 				<BoxComponent title={Content.STATISTICS}>
 					<StatDashboardComponent />
 				</BoxComponent>
-				<BoxComponent title={Content.ELIE}>
-					<ShopItemsDashboardComponent />
-				</BoxComponent>
+				<ShopItemsDashboardComponent />
 			</ScrollView>
 		</Layout>
 	);
