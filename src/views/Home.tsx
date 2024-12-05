@@ -6,9 +6,6 @@ import QuestComponent from "../components/quest/QuestComponent";
 import ShopHomeComponent from "../components/shop/ShopHomeComponent";
 import GameHomeComponent from "../components/game/GameHomeComponent";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { setPosition } from "../store/features/Position/PositionSlices";
-import { getTheCurrentPosition } from "../utils";
-import MapView from "react-native-maps";
 import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp } from "../navigation/AppNavigator";
 import { useSelector } from "react-redux";
@@ -19,6 +16,7 @@ import GemComponent from "../base/Gem";
 import { getUser } from "../store/features/User/UserThunk";
 import { getUserQuests } from "../store/features/UserQuests/UserQuestsThunk";
 import { getUserQuiz } from "../store/features/UserQuiz/UserQuizThunk";
+import GuideCompactMap from "../components/guide/GuideCompactMap";
 
 export enum ContentHome {
 	GUIDE = "Guide",
@@ -29,25 +27,9 @@ export enum ContentHome {
 const Home = () => {
 	const dispatch = useAppDispatch();
 	const navigation = useNavigation<MyNavigationProp>();
-	const position = useSelector((state: RootState) => state.position.position);
 	const { userQuests, isLoadingUserQuest } = useSelector((state: RootState) => state.userQuests);
 	const { user, isLoading } = useAppSelector((state: RootState) => state.user);
 	const { userQuiz } = useAppSelector((state: RootState) => state.userQuiz);
-
-	useEffect(() => {
-		getTheCurrentPosition().then(location => {
-			if (location) {
-				const { latitude, longitude } = location.coords;
-				dispatch(setPosition({ latitude, longitude }));
-			}
-		});
-	}, []);
-
-	useEffect(() => {
-		if (user?.uuid) {
-			dispatch(getUserQuiz({ user_uuid: user.uuid, quiz_id: "1" }));
-		}
-	}, [dispatch, user?.uuid]);
 
 	useEffect(() => {
 		(async () => {
@@ -60,6 +42,7 @@ const Home = () => {
 			if (user?.uuid) {
 				await dispatch(getUser(user.uuid));
 				await dispatch(getUserQuests(user.uuid));
+				await dispatch(getUserQuiz({ user_uuid: user.uuid, quiz_id: "1" }));
 			}
 		} catch (error) {
 			console.error("Error get user:", error);
@@ -92,17 +75,7 @@ const Home = () => {
 					<GameHomeComponent nextQuiz={userQuiz?.nextQuiz} />
 				</BoxComponent>
 				<BoxComponent title={Content.MAP} height="h-48" onPress={() => navigation.navigate(ContentHome.GUIDE)}>
-					<MapView
-						className="w-full"
-						style={{ borderRadius: 8, height: "75%" }}
-						region={{
-							latitude: position?.latitude ?? 0,
-							longitude: position?.longitude ?? 0,
-							latitudeDelta: 0.0922,
-							longitudeDelta: 0.0421,
-						}}
-						showsUserLocation
-					/>
+					<GuideCompactMap />
 				</BoxComponent>
 				<BoxComponent title={Content.EVENT} height="h-24">
 					<Text>Fonctionnalité à découvrir prochainement !</Text>
