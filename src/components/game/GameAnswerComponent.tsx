@@ -3,6 +3,7 @@ import { quizQuestionsState } from "../../store/features/QuizQuestions/QuizQuest
 import React from "react";
 import { Color, FontSize } from "../../base/constant";
 import { Questions } from "../../store/interface/dualquiz";
+import { useTheme } from "../../context/ThemeContext";
 
 interface GameAnswerComponentProps {
 	currentQuestion: quizQuestionsState | Questions;
@@ -21,11 +22,12 @@ const GameAnswerComponent = ({
 	answerValidated,
 	correctAnswer,
 }: GameAnswerComponentProps) => {
+	const { themeVariables } = useTheme();
 	const getOptionStyles = (option: string) => {
-		let backgroundColor = Color.GREY;
-		let borderColor = Color.GREY;
-		let innerBackgroundColor = Color.WHITE;
-		let colorText = Color.BLACK;
+		let backgroundColor = themeVariables.background;
+		let borderColor = themeVariables.borderColor;
+		let innerBackgroundColor = themeVariables.background;
+		let colorText = themeVariables.text;
 
 		if (answerValidated) {
 			if (option === correctAnswer) {

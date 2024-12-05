@@ -5,6 +5,7 @@ import Gem from "../../base/Gem";
 import { ShopItem, TypeName } from "../../store/features/Shop/ShopService";
 import ModalPurchaseItem from "./ModalPurchaseItem";
 import { buildElie } from "../../utils/buildElie";
+import { useTheme } from "../../context/ThemeContext";
 
 interface ShopItemDetailsProps {
 	shopItem: ShopItem;
@@ -12,6 +13,7 @@ interface ShopItemDetailsProps {
 
 const ShopItemDetails = ({ shopItem }: ShopItemDetailsProps) => {
 	const [activeModalPurchase, setActiveModalPurchase] = useState(false);
+	const { themeVariables } = useTheme();
 
 	return (
 		<View className="flex-row items-center mb-2">
@@ -19,8 +21,8 @@ const ShopItemDetails = ({ shopItem }: ShopItemDetailsProps) => {
 				{shopItem.type.name === TypeName.AVATAR && buildElie(shopItem.name)}
 			</View>
 			<View className="flex-1 flex-col mx-2">
-				<Text className="font-bold text-lg">{shopItem.name}</Text>
-				<Text>{shopItem.description}</Text>
+				<Text style={{ color: themeVariables.text }} className="font-bold text-lg">{shopItem.name}</Text>
+				<Text style={{ color: themeVariables.text }}>{shopItem.description}</Text>
 			</View>
 			<TouchableOpacity
 				onPress={() => setActiveModalPurchase(true)}

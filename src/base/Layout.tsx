@@ -1,15 +1,17 @@
 import { SafeAreaView } from "react-native";
 import React, { ReactNode } from "react";
-import Background from "../svg/Background";
+import { useBackground } from "../context/BackgroundContext";
 
 interface Props {
 	children: ReactNode;
 }
 
 const Layout = ({ children }: Props) => {
+	const { BackgroundComponent } = useBackground();
+
 	return (
 		<SafeAreaView className="flex-1 p-2">
-			<Background />
+			{BackgroundComponent}
 			{children}
 		</SafeAreaView>
 	);

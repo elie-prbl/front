@@ -27,6 +27,8 @@ export class Color {
 	static RED: string = "#EF0C0C";
 	static RED_OPACITY: string = "#FDCACA";
 	static BLUE: string = "#54B7FF";
+	static DARK_BLUE: string = "#0D0F40";
+
 }
 
 export class Content {
@@ -139,8 +141,8 @@ export class FontSize {
 
 export class Url {
 	// Commande pour récupérer l'ip dans le termainal : ipconfig getifaddr en0
-	static IP: string = "10.49.32.83";
+	static IP: string = "192.168.1.71";
 	static LOCALHOST: string = "localhost";
-	static BASE_URL_API: string = `http://${Url.IP}:8080/api/v1`;
-	static BASE_URL_WS: string = `ws://${Url.IP}:8080/ws`;
+	static BASE_URL_API: string = `http://${Url.IP}:7070/api/v1`;
+	static BASE_URL_WS: string = `ws://${Url.IP}:7070/ws`;
 }

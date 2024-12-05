@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { RootState } from "../store/store";
 import GemComponent from "../base/Gem";
 import { getUser } from "../store/features/User/UserThunk";
+import { useTheme } from "../context/ThemeContext";
 
 const Shop = () => {
 	const [isLoading, setLoading] = useState<boolean>(true);
@@ -17,6 +18,7 @@ const Shop = () => {
 	const dispatch = useAppDispatch();
 	const { user } = useAppSelector((state: RootState) => state.user);
 	const { shop } = useAppSelector((state: RootState) => state.shop);
+	const { themeVariables } = useTheme();
 
 	useEffect(() => {
 		dispatch(getUser(user!.uuid));
@@ -54,7 +56,7 @@ const Shop = () => {
 			<ScrollView showsVerticalScrollIndicator={false}>
 				{user && (
 					<BoxComponent title={Content.SHOP_GEM} itemRight={<GemComponent nb={user?.currency_amount} />}>
-						<Text>{Content.SHOP_GEM_DESCRIPTION}</Text>
+						<Text style={{ color: themeVariables.text }}>{Content.SHOP_GEM_DESCRIPTION}</Text>
 					</BoxComponent>
 				)}
 				<BoxComponent title={Content.SHOP_AVATAR}>

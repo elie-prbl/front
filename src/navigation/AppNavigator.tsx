@@ -22,6 +22,7 @@ import GameDualQuiz from "../views/game/GameDualQuiz";
 import GameDualQuizScore from "../views/game/GameDualQuizScore";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
+import { useTheme } from "../context/ThemeContext";
 
 export type StackParamList = {
 	TabNav: { screen: string };
@@ -78,6 +79,7 @@ const AuthStack = () => {
 
 const AppNavigator = (): JSX.Element => {
 	const isLoggedIn = useSelector((state: RootState) => state.user.user !== null);
+	const { themeVariables } = useTheme();
 
 	if (!isLoggedIn) {
 		return <AuthStack />;
@@ -89,6 +91,9 @@ const AppNavigator = (): JSX.Element => {
 				screenOptions={{
 					headerTransparent: true,
 					headerBackTitleVisible: false,
+					headerStyle: {
+						backgroundColor: themeVariables.background, // Changer la couleur de fond de l'en-tête
+					},
 				}}>
 				<Stack.Screen name="TabNav" component={TabNavigator} options={{ headerShown: false }} />
 				<Stack.Screen

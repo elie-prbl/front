@@ -7,12 +7,17 @@ import { TypeName } from "../../store/features/Shop/ShopService";
 import BoxComponent from "../../base/Box";
 import { Color, Content } from "../../base/constant";
 import UserShopItemDetails from "./UserShopItemDetails";
+import { Button } from "@rneui/base";
+import { useBackground } from "../../context/BackgroundContext";
+import { useTheme } from "../../context/ThemeContext";
 
 const ShopItemsDashboardComponent = () => {
 	const [isLoading, setLoading] = useState<boolean>(true);
 	const { user } = useAppSelector((state: RootState) => state.user);
 	const [avatarItems, setAvatarItems] = useState<UserShopItem[]>([]);
 	const [themeItems, setThemeItems] = useState<UserShopItem[]>([]);
+	const { setBackground } = useBackground();
+	const { theme, setTheme } = useTheme();
 
 	useEffect(() => {
 		setAvatarItems([]);
@@ -62,6 +67,16 @@ const ShopItemsDashboardComponent = () => {
 					<Text>{Content.NO_THEME}</Text>
 				)}
 			</BoxComponent>
+
+			<View>
+				<Button title="Light Background" onPress={() => setBackground("light")} />
+				<Button title="Dark Background" onPress={() => setBackground("dark")} />
+				<Button
+					title={`Passer en mode ${theme === "light" ? "sombre" : "clair"}`}
+					onPress={() => setTheme(theme === "light" ? "dark" : "light")}
+				/>
+			</View>
+
 		</View>
 	);
 };

@@ -13,8 +13,10 @@ import { RootState } from "../store/store";
 import Layout from "../base/Layout";
 import Circle1 from "../svg/Circle1";
 import GemComponent from "../base/Gem";
+import { getUser } from "../store/features/User/UserThunk";
 import { getUserQuests } from "../store/features/UserQuests/UserQuestsThunk";
 import { getUserQuiz } from "../store/features/UserQuiz/UserQuizThunk";
+import { useTheme } from "../context/ThemeContext";
 import GuideCompactMap from "../components/guide/GuideCompactMap";
 
 export enum ContentHome {
@@ -26,9 +28,11 @@ export enum ContentHome {
 const Home = () => {
 	const dispatch = useAppDispatch();
 	const navigation = useNavigation<MyNavigationProp>();
+	const position = useSelector((state: RootState) => state.position.position);
 	const { userQuests, isLoadingUserQuest } = useSelector((state: RootState) => state.userQuests);
 	const { user } = useAppSelector((state: RootState) => state.user);
 	const { userQuiz } = useAppSelector((state: RootState) => state.userQuiz);
+	const { themeVariables } = useTheme();
 
 	useEffect(() => {
 		(async () => {
@@ -39,6 +43,7 @@ const Home = () => {
 	const fetchData = async () => {
 		try {
 			if (user?.uuid) {
+				await dispatch(getUser(user.uuid));
 				await dispatch(getUserQuests(user.uuid));
 				await dispatch(getUserQuiz({ user_uuid: user.uuid, quiz_id: "1" }));
 			}
@@ -50,7 +55,7 @@ const Home = () => {
 	if (isLoadingUserQuest) {
 		return (
 			<Layout>
-				<ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center h-full" />
+				<ActivityIndicator size="large" color={themeVariables.primary} className="justify-center h-full" />
 			</Layout>
 		);
 	}

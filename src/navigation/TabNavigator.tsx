@@ -11,17 +11,23 @@ import { Text, View } from "react-native";
 import ElieHeader from "../svg/ElieHeader";
 import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp } from "./AppNavigator";
+import { useTheme } from "../context/ThemeContext";
 
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
 	const navigation = useNavigation<MyNavigationProp>();
+	const { themeVariables } = useTheme();
 
 	return (
 		<Tab.Navigator
 			screenOptions={{
-				tabBarActiveTintColor: Color.PRIMARY,
-				tabBarInactiveTintColor: Color.BLACK,
+				tabBarActiveTintColor: themeVariables.primary,
+				tabBarInactiveTintColor: themeVariables.text,
+				tabBarStyle: {
+					backgroundColor: themeVariables.background,
+					borderTopWidth: 0,
+				},
 			}}>
 			<Tab.Screen
 				name="Home"
@@ -31,6 +37,7 @@ const TabNavigator = () => {
 					tabBarIcon: ({ color }) => <AntDesign name="home" size={24} color={color} />,
 					headerStyle: {
 						height: 120,
+						backgroundColor: themeVariables.background,
 					},
 					headerTitle: () => (
 						<View className="h-full my-2 flex-row">
@@ -65,7 +72,7 @@ const TabNavigator = () => {
 					headerShown: false,
 					headerTransparent: true,
 					headerStyle: {
-						backgroundColor: Color.WHITE,
+						backgroundColor: themeVariables.background,
 					},
 				}}
 			/>
@@ -77,6 +84,7 @@ const TabNavigator = () => {
 					tabBarIcon: ({ color }) => <AntDesign name="shoppingcart" size={24} color={color} />,
 					headerStyle: {
 						height: 120,
+						backgroundColor: themeVariables.background,
 					},
 					headerTitle: () => (
 						<View className="h-full my-2">
@@ -100,6 +108,7 @@ const TabNavigator = () => {
 					tabBarIcon: ({ color }) => <Ionicons name="map-outline" size={24} color={color} />,
 					headerStyle: {
 						height: 120,
+						backgroundColor: themeVariables.background,
 					},
 					headerTitle: () => (
 						<View className="h-full my-2">
@@ -123,6 +132,7 @@ const TabNavigator = () => {
 					tabBarIcon: ({ color }) => <Feather name="list" size={24} color={color} />,
 					headerStyle: {
 						height: 120,
+						backgroundColor: themeVariables.background,
 					},
 					headerTitle: () => (
 						<View className="h-full my-2">
