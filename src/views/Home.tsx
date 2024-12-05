@@ -21,7 +21,7 @@ import { getUserQuests } from "../store/features/UserQuests/UserQuestsThunk";
 import { getUserQuiz } from "../store/features/UserQuiz/UserQuizThunk";
 
 export enum ContentHome {
-	MAP = "Map",
+	GUIDE = "Guide",
 	GAME = "Game",
 	SHOP = "Shop",
 }
@@ -50,7 +50,9 @@ const Home = () => {
 	}, [dispatch, user?.uuid]);
 
 	useEffect(() => {
-		fetchData();
+		(async () => {
+			await fetchData();
+		})();
 	}, [dispatch]);
 
 	const fetchData = async () => {
@@ -89,7 +91,7 @@ const Home = () => {
 				<BoxComponent title={Content.GAME} onPress={() => navigation.navigate(ContentHome.GAME)}>
 					<GameHomeComponent nextQuiz={userQuiz?.nextQuiz} />
 				</BoxComponent>
-				<BoxComponent title={Content.MAP} height="h-48" onPress={() => navigation.navigate(ContentHome.MAP)}>
+				<BoxComponent title={Content.MAP} height="h-48" onPress={() => navigation.navigate(ContentHome.GUIDE)}>
 					<MapView
 						className="w-full"
 						style={{ borderRadius: 8, height: "75%" }}

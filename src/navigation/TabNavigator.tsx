@@ -5,7 +5,7 @@ import Home from "../views/Home";
 import { AntDesign, Feather, Ionicons } from "@expo/vector-icons";
 import Game from "../views/game/Game";
 import Shop from "../views/Shop";
-import Map from "../views/Map";
+import Guide from "../views/Guide";
 import Quest from "../views/Quest";
 import { Text, View } from "react-native";
 import ElieHeader from "../svg/ElieHeader";
@@ -93,8 +93,8 @@ const TabNavigator = () => {
 				}}
 			/>
 			<Tab.Screen
-				name="Map"
-				component={Map}
+				name="Guide"
+				component={Guide}
 				options={{
 					tabBarShowLabel: false,
 					tabBarIcon: ({ color }) => <Ionicons name="map-outline" size={24} color={color} />,
@@ -104,8 +104,8 @@ const TabNavigator = () => {
 					headerTitle: () => (
 						<View className="h-full my-2">
 							<View className="flex-1 justify-evenly">
-								<Text className="font-bold text-lg text-center">{Content.MAP_TITLE}</Text>
-								<Text className="w-10/12">{Content.MAP_DESCRIPTION}</Text>
+								<Text className="font-bold text-lg text-center">{Content.GUIDE_TITLE}</Text>
+								<Text className="w-10/12">{Content.GUIDE_DESCRIPTION}</Text>
 							</View>
 							<ElieHeader />
 						</View>

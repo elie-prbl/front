@@ -35,7 +35,7 @@ const TOAST_OPTIONS: ToastOptions = {
 	animation: true,
 };
 
-const Map = () => {
+const Guide = () => {
 	const position = useSelector((state: RootState) => state.position.position);
 	const mapRef = useRef<MapView>(null);
 	const bottomSheetRef = useRef<BottomSheet>(null);
@@ -170,4 +170,4 @@ const Map = () => {
 	);
 };
 
-export default Map;
+export default Guide;

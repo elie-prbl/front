@@ -119,9 +119,9 @@ export class Content {
 	static ELIE_CYBER: string = "Elie Cyber";
 	static ELIE_GOLD: string = "Elie Gold";
 
-	//Map
-	static MAP_TITLE: string = "Carte";
-	static MAP_DESCRIPTION: string = "Visualises la carte des lieux de ton choix !";
+	//Guide
+	static GUIDE_TITLE: string = "Guide";
+	static GUIDE_DESCRIPTION: string = "Parcours le guide de l'application !";
 	static LOAD_POI: string = "Chargement des lieux...";
 	static LOAD_POI_ERROR: string = "Erreur lors de la récupération des lieux";
 }
