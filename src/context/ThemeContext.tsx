@@ -1,36 +1,57 @@
-import React, { createContext, useContext, useState, useMemo, ReactNode } from "react";
-import { light, dark } from "../base/Themes"; // Import des thèmes définis
-
-type Theme = "light" | "dark"; // Types de thèmes possibles
+import React, { createContext, useContext, useState, ReactNode, useMemo, useEffect } from "react";
+import { themes, ThemeName } from "../base/Themes";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface ThemeContextType {
-	theme: Theme;
-	themeVariables: typeof light; // Variables du thème actuel
-	setTheme: (theme: Theme) => void;
+	theme: ThemeName;
+	themeVariables: typeof themes["light"]["colors"];
+	BackgroundComponent: React.FC;
+	setTheme: (theme: ThemeName) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-	const [theme, setTheme] = useState<Theme>("light"); // Thème par défaut
+	const [theme, setThemeState] = useState<ThemeName>("light");
 
-	// Choisir dynamiquement les variables du thème en fonction du thème actuel
-	const themeVariables = useMemo(() => {
-		return theme === "light" ? light : dark;
-	}, [theme]);
+	// Charger le thème depuis AsyncStorage
+	useEffect(() => {
+		const loadTheme = async () => {
+			const storedTheme = await AsyncStorage.getItem("app_theme");
+			if (storedTheme && themes[storedTheme as ThemeName]) {
+				setThemeState(storedTheme as ThemeName);
+			}
+		};
+		loadTheme();
+	}, []);
 
-	// Fonction pour changer de thème
-	const changeTheme = (theme: Theme) => {
-		setTheme(theme);
+	// Enregistrer le thème dans AsyncStorage
+	const setTheme = async (newTheme: ThemeName) => {
+		setThemeState(newTheme);
+		await AsyncStorage.setItem("app_theme", newTheme); // Persister le thème
 	};
 
+	const contextValue = useMemo(() => {
+		const { colors, background } = themes[theme];
+		return {
+			theme,
+			themeVariables: colors,
+			BackgroundComponent: background,
+			setTheme,
+		};
+	}, [theme]);
+
 	return (
-		<ThemeContext.Provider value={{ theme, themeVariables, setTheme: changeTheme }}>{children}</ThemeContext.Provider>
+		<ThemeContext.Provider value={contextValue}>
+			{children}
+		</ThemeContext.Provider>
 	);
 };
 
 export const useTheme = () => {
 	const context = useContext(ThemeContext);
-	if (!context) throw new Error("useTheme must be used within ThemeProvider");
+	if (!context) {
+		throw new Error("useTheme must be used within a ThemeProvider");
+	}
 	return context;
 };

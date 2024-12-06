@@ -81,7 +81,7 @@ const Home = () => {
 					<GuideCompactMap />
 				</BoxComponent>
 				<BoxComponent title={Content.EVENT} height="h-24">
-					<Text>Fonctionnalité à découvrir prochainement !</Text>
+					<Text style={{ color: themeVariables.text }}>Fonctionnalité à découvrir prochainement !</Text>
 				</BoxComponent>
 			</ScrollView>
 		</Layout>

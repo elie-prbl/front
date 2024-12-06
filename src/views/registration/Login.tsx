@@ -11,6 +11,7 @@ import SvgFacebook from "../../svg/SvgFacebook";
 import SvgGoogle from "../../svg/SvgGoogle";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
+import { useTheme } from "../../context/ThemeContext";
 
 const Login = () => {
 	const dispatch = useDispatch<AppDispatch>();
@@ -18,6 +19,8 @@ const Login = () => {
 	const [email, setEmail] = useState<string>("barbara@mail.com");
 	const [password, setPassword] = useState<string>("");
 	const [error, setError] = useState<string>("");
+	const { themeVariables } = useTheme();
+
 
 	const handleNavigateToSignUp = () => {
 		navigation.navigate("SignUp1");
@@ -38,11 +41,13 @@ const Login = () => {
 	};
 
 	return (
-		<SafeAreaView style={{ backgroundColor: Color.WHITE }} className="h-full justify-around">
+		<SafeAreaView style={{ backgroundColor: themeVariables.background }} className="h-full justify-around">
 			<View className="h-3/5">
 				<View className="w-full items-center justify-center">
 					<SvgConnexion />
-					<Text className="font-bold text-xl">{Content.ELIE_LOGIN}</Text>
+					<Text style={{ color: themeVariables.text }} className="font-bold text-xl">
+						{Content.ELIE_LOGIN}
+					</Text>
 				</View>
 				<View className="w-full items-center">
 					<TextInputComponent
@@ -57,11 +62,11 @@ const Login = () => {
 						textInput={password}
 						placeholder={Content.PLACEHOLDER_PASSWORD}
 					/>
-					<Text className="underline mt-1">{Content.PASSWORD_FORGET}</Text>
+					<Text style={{ color: themeVariables.text }} className="underline mt-1">{Content.PASSWORD_FORGET}</Text>
 				</View>
 			</View>
 			{error && (
-				<Text className="text-center font-bold" style={{ color: Color.RED }}>
+				<Text className="text-center font-bold" style={{ color: themeVariables.text }}>
 					{error}
 				</Text>
 			)}
@@ -69,8 +74,8 @@ const Login = () => {
 				<View className="w-full items-center">
 					<ButtonComponent content={Content.LOGIN} onPress={handleNavigateHome} />
 					<View className="w-11/12 flex-row justify-center mt-3">
-						<Text>{Content.NO_ACCOUNT}</Text>
-						<Text className="underline" style={{ color: Color.PRIMARY }} onPress={handleNavigateToSignUp}>
+						<Text style={{ color: themeVariables.text }}>{Content.NO_ACCOUNT}</Text>
+						<Text className="underline" style={{ color: themeVariables.text }} onPress={handleNavigateToSignUp}>
 							{Content.NO_ACCOUNT_SIGN_UP}
 						</Text>
 					</View>
@@ -79,7 +84,7 @@ const Login = () => {
 					<View className="flex-row items-center w-8/12 my-7">
 						<View style={{ flex: 1, height: 1, backgroundColor: "black" }} />
 						<View>
-							<Text style={{ width: 50, textAlign: "center" }}>OU</Text>
+							<Text style={{ width: 50, textAlign: "center", color: themeVariables.text }}>OU</Text>
 						</View>
 						<View style={{ flex: 1, height: 1, backgroundColor: "black" }} />
 					</View>

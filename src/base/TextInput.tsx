@@ -1,6 +1,7 @@
 import React from "react";
 import { KeyboardTypeOptions, Text, TextInput, View } from "react-native";
 import { Color } from "./constant";
+import { useTheme } from "../context/ThemeContext";
 
 interface TextInputComponentProps {
 	onChangeText: (text: string) => void;
@@ -17,13 +18,14 @@ const TextInputComponent = ({
 	keyboardType = "default",
 	placeholder,
 }: TextInputComponentProps) => {
+	const { themeVariables } = useTheme();
 	return (
 		<View className="w-11/12 my-2">
 			<Text className="text-lg mb-1">{label}</Text>
-			<View className="rounded-lg h-12" style={{ backgroundColor: Color.PRIMARY }}>
-				<View className="rounded-lg" style={{ zIndex: 1, backgroundColor: Color.WHITE }}>
+			<View className="rounded-lg h-12" style={{ backgroundColor: themeVariables.primary }}>
+				<View className="rounded-lg" style={{ zIndex: 1, backgroundColor: themeVariables.background }}>
 					<TextInput
-						style={{ borderColor: Color.PRIMARY, borderWidth: 1 }}
+						style={{ borderColor: Color.PRIMARY, borderWidth: 1, color: themeVariables.text }}
 						className="px-4 rounded-lg h-11"
 						onChangeText={onChangeText}
 						value={textInput}

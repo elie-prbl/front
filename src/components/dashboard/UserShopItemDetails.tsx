@@ -5,9 +5,11 @@ import { TypeName } from "../../store/features/Shop/ShopService";
 import { buildElie } from "../../utils/buildElie";
 import { UserShopItem } from "../../store/features/UserShop/UserShopService";
 
+
 interface UserShopItemDetailsProps {
 	userShopItem: UserShopItem;
 }
+
 
 const UserShopItemDetails = ({ userShopItem }: UserShopItemDetailsProps) => {
 	return (

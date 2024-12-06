@@ -28,6 +28,9 @@ export class Color {
 	static RED_OPACITY: string = "#FDCACA";
 	static BLUE: string = "#54B7FF";
 	static DARK_BLUE: string = "#0D0F40";
+	static LIGHT_BLUE: string = "#D1EFF7";
+	static SKY: string = "#4FB2D4";
+	static MARINE: string = "#010A5A";
 
 }
 

@@ -10,6 +10,8 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import Toast, { ToastOptions } from "react-native-root-toast";
 import { getPlaces } from "../../store/features/Map/MapPOI";
 import { useDebounce } from "../../hooks/useDebounce";
+import BottomSheet from "@gorhom/bottom-sheet";
+import { useTheme } from "../context/ThemeContext";
 
 interface Place {
 	id: number;
@@ -42,6 +44,7 @@ const GuideFullMap = () => {
 	const [places, setPlaces] = useState<Place[]>([]);
 	const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
 	const tabBarHeight = useBottomTabBarHeight();
+	const { themeVariables } = useTheme();
 
 	const showToast = (message: string) => {
 		return Toast.show(message, {
@@ -157,8 +160,8 @@ const GuideFullMap = () => {
 					</Pressable>
 					{selectedPlace && (
 						<View>
-							<Text className="font-bold text-xl mb-1">{selectedPlace.name}</Text>
-							<Text>
+							<Text style={{ color: themeVariables.text }} className="font-bold text-xl mb-1">{selectedPlace.name}</Text>
+							<Text style={{ color: themeVariables.text }}>
 								{selectedPlace.road} - {selectedPlace.town}
 							</Text>
 						</View>

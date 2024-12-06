@@ -7,17 +7,15 @@ import { TypeName } from "../../store/features/Shop/ShopService";
 import BoxComponent from "../../base/Box";
 import { Color, Content } from "../../base/constant";
 import UserShopItemDetails from "./UserShopItemDetails";
-import { Button } from "@rneui/base";
-import { useBackground } from "../../context/BackgroundContext";
 import { useTheme } from "../../context/ThemeContext";
+import { Button } from "@rneui/base";
 
 const ShopItemsDashboardComponent = () => {
 	const [isLoading, setLoading] = useState<boolean>(true);
 	const { user } = useAppSelector((state: RootState) => state.user);
 	const [avatarItems, setAvatarItems] = useState<UserShopItem[]>([]);
 	const [themeItems, setThemeItems] = useState<UserShopItem[]>([]);
-	const { setBackground } = useBackground();
-	const { theme, setTheme } = useTheme();
+	const { themeVariables, setTheme } = useTheme();
 
 	useEffect(() => {
 		setAvatarItems([]);
@@ -57,26 +55,28 @@ const ShopItemsDashboardComponent = () => {
 				{avatarItems.length > 0 ? (
 					avatarItems.map(avatar => <UserShopItemDetails key={avatar.id} userShopItem={avatar} />)
 				) : (
-					<Text>{Content.NO_AVATAR}</Text>
+					<Text style={{ color: themeVariables.text }}>{Content.NO_AVATAR}</Text>
 				)}
 			</BoxComponent>
 			<BoxComponent title={Content.SHOP_THEME}>
 				{themeItems.length > 0 ? (
 					themeItems.map(theme => <UserShopItemDetails key={theme.id} userShopItem={theme} />)
 				) : (
-					<Text>{Content.NO_THEME}</Text>
+					<Text style={{ color: themeVariables.text }}>{Content.NO_THEME}</Text>
 				)}
 			</BoxComponent>
 
-			<View>
-				<Button title="Light Background" onPress={() => setBackground("light")} />
-				<Button title="Dark Background" onPress={() => setBackground("dark")} />
-				<Button
-					title={`Passer en mode ${theme === "light" ? "sombre" : "clair"}`}
-					onPress={() => setTheme(theme === "light" ? "dark" : "light")}
-				/>
-			</View>
-
+			<BoxComponent title={"Themes"}>
+				<Button onPress={() => setTheme("dark")}>
+					<Text>Dark</Text>
+				</Button>
+				<Button onPress={() => setTheme("light")}>
+					<Text>Light</Text>
+				</Button>
+				<Button onPress={() => setTheme("ice")}>
+					<Text>Ice</Text>
+				</Button>
+			</BoxComponent>
 		</View>
 	);
 };

@@ -43,12 +43,13 @@ const TabNavigator = () => {
 						<View className="h-full my-2 flex-row">
 							<View className="flex-1 justify-evenly">
 								<View className="flex-row justify-between">
-									<Text className="font-bold text-lg">{Content.HOME_TITLE}</Text>
+									<Text style={{ color: themeVariables.text }} className="font-bold text-lg">{Content.HOME_TITLE}</Text>
 								</View>
-								<Text className="w-10/12">{Content.HOME_DESCRIPTION}</Text>
+								<Text style={{ color: themeVariables.text }} className="w-10/12">{Content.HOME_DESCRIPTION}</Text>
 							</View>
 							<View className="justify-center">
 								<Ionicons
+									color={themeVariables.text}
 									size={30}
 									name="person-circle-outline"
 									onPress={() => {
@@ -89,8 +90,8 @@ const TabNavigator = () => {
 					headerTitle: () => (
 						<View className="h-full my-2">
 							<View className="flex-1 justify-evenly">
-								<Text className="font-bold text-lg text-center">{Content.SHOP_TITLE}</Text>
-								<Text className="w-10/12">{Content.SHOP_DESCRIPTION}</Text>
+								<Text style={{ color: themeVariables.text }} className="font-bold text-lg text-center">{Content.SHOP_TITLE}</Text>
+								<Text style={{ color: themeVariables.text }} className="w-10/12">{Content.SHOP_DESCRIPTION}</Text>
 							</View>
 							<ElieHeader />
 						</View>
@@ -113,8 +114,8 @@ const TabNavigator = () => {
 					headerTitle: () => (
 						<View className="h-full my-2">
 							<View className="flex-1 justify-evenly">
-								<Text className="font-bold text-lg text-center">{Content.GUIDE_TITLE}</Text>
-								<Text className="w-10/12">{Content.GUIDE_DESCRIPTION}</Text>
+								<Text style={{ color: themeVariables.text }} className="font-bold text-lg text-center">{Content.GUIDE_TITLE}</Text>
+								<Text style={{ color: themeVariables.text }} className="w-10/12">{Content.GUIDE_DESCRIPTION}</Text>
 							</View>
 							<ElieHeader />
 						</View>
@@ -137,8 +138,8 @@ const TabNavigator = () => {
 					headerTitle: () => (
 						<View className="h-full my-2">
 							<View className="flex-1 justify-evenly">
-								<Text className="font-bold text-lg text-center">{Content.QUEST_TITLE}</Text>
-								<Text className="w-10/12">{Content.QUEST_DESCRIPTION}</Text>
+								<Text style={{ color: themeVariables.text }} className="font-bold text-lg text-center">{Content.QUEST_TITLE}</Text>
+								<Text style={{ color: themeVariables.text }} className="w-10/12">{Content.QUEST_DESCRIPTION}</Text>
 							</View>
 							<ElieHeader />
 						</View>
