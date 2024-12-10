@@ -1,7 +1,7 @@
 import { ActivityIndicator, Alert, Modal, Text, View } from "react-native";
 import { Color, Content } from "../../base/constant";
 import { purchaseShopItem, ShopItem, TypeName } from "../../store/features/Shop/ShopService";
-import React, { useEffect } from "react";
+import React from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { RootState } from "../../store/store";
 import { buildElie } from "../../utils/buildElie";
@@ -17,7 +17,7 @@ interface ModalPurchaseItemProps {
 
 const ModalPurchaseItem = ({ activeModalPurchase, shopItem, onClose }: ModalPurchaseItemProps) => {
 	const { user } = useAppSelector((state: RootState) => state.user);
-	const { shop, isLoading, error } = useAppSelector((state: RootState) => state.shop);
+	const { isLoading, error } = useAppSelector((state: RootState) => state.shop);
 	const dispatch = useAppDispatch();
 
 	const handlePurchaseItem = (item: ShopItem) => {
