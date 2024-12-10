@@ -16,12 +16,11 @@ const Shop = () => {
 	const [themeItems, setThemeItems] = useState<ShopItem[]>([]);
 	const dispatch = useAppDispatch();
 	const { user } = useAppSelector((state: RootState) => state.user);
+	const { shop } = useAppSelector((state: RootState) => state.shop);
 
 	useEffect(() => {
-		if (user?.uuid) {
-			dispatch(getUser(user.uuid));
-		}
-	}, [dispatch, user]);
+		dispatch(getUser(user!.uuid));
+	}, [shop]);
 
 	useEffect(() => {
 		setAvatarItems([]);

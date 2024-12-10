@@ -1,6 +1,5 @@
 import { Url } from "../../../base/constant";
-import { ApiError } from "../../../utils/ApiError";
-import { parseErrorMessage } from "../../../utils/parseErrorMessage";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export enum TypeName {
 	AVATAR = "avatar",
@@ -46,23 +45,27 @@ export const getShopItems = async (type?: TypeName) => {
 	return items;
 };
 
-export const purchaseShopItem = async (userUuid: string, shopItemId: number) => {
-	const response = await fetch(`${Url.BASE_URL_API}/shop/items/user`, {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify({
-			user_uuid: userUuid,
-			shop_item_id: shopItemId,
-		}),
-	});
-
-	const responseData = await response.json();
-
-	if (!response.ok) {
-		throw new ApiError(parseErrorMessage(responseData.message) || "Une erreur est survenue", response.status);
-	}
-
-	return responseData;
-};
+interface PurchaseShopItemI {
+	user_uuid: string;
+	shop_item_id: number;
+}
+export const purchaseShopItem = createAsyncThunk(
+	"Shop",
+	async (purchaseShopItem: PurchaseShopItemI, { rejectWithValue }) => {
+		const response = await fetch(`${Url.BASE_URL_API}/shop/items/user`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				user_uuid: purchaseShopItem.user_uuid,
+				shop_item_id: purchaseShopItem.shop_item_id,
+			}),
+		});
+		try {
+			return await response.json();
+		} catch (err) {
+			return rejectWithValue(`network error: ${err}`);
+		}
+	},
+);
