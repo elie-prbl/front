@@ -7,6 +7,8 @@ import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp } from "../../navigation/AppNavigator";
 import { Color } from "../../base/constant";
 import { useAppSelector } from "../../store/hooks";
+import { backgrounds } from "../../base/Backgrounds";
+import { useTheme } from "../../context/ThemeContext";
 
 export type GameQuizHeaderComponentProps = {
 	currentStep: number;
@@ -15,11 +17,14 @@ export type GameQuizHeaderComponentProps = {
 
 const GameQuizHeaderComponent = ({ currentStep, totalStep }: GameQuizHeaderComponentProps) => {
 	const navigation = useNavigation<MyNavigationProp>();
+	const { themeVariables } = useTheme();
 
 	const lives = useAppSelector(state => state.lives.value);
 
 	return (
-		<View className="flex-row items-center justify-between m-4">
+		<View
+			className="flex-row items-center justify-between m-4 bg-500-sky"
+			style={{ backgroundColor: themeVariables.background }}>
 			<AntDesign name="close" size={30} color={Color.GREY} onPress={() => navigation.goBack()} />
 			<ProgressBar currentStep={currentStep} totalStep={totalStep} width={240} />
 			<LifeComponent nb={lives} />

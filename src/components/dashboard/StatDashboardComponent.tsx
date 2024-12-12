@@ -10,11 +10,13 @@ import { RootState } from "../../store/store";
 import Gem from "../../svg/Gem";
 import { getUserQuiz } from "../../store/features/UserQuiz/UserQuizThunk";
 import { useAppDispatch } from "../../store/hooks";
+import { useTheme } from "../../context/ThemeContext";
 
 const StatDashboardComponent = () => {
 	const dispatch = useAppDispatch();
 	const user = useSelector((state: RootState) => state.user.user);
 	const { userQuiz } = useSelector((state: RootState) => state.userQuiz);
+	const { themeVariables } = useTheme();
 
 	useEffect(() => {
 		if (user?.uuid) {
@@ -35,7 +37,7 @@ const StatDashboardComponent = () => {
 			</View>
 			<View className="flex-row justify-between">
 				<BoxStat
-					color={Color.PRIMARY}
+					color={themeVariables.primary}
 					result={user?.currency_amount}
 					resultType={Content.GEMS}
 					icon={<Gem width={40} height={50} />}

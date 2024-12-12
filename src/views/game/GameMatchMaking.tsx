@@ -10,6 +10,8 @@ import { useAppSelector } from "../../store/hooks";
 import { RootState } from "../../store/store";
 import { getUserOpponent } from "../../store/features/User/UserOpponent";
 import BoxMatchMakingComponent from "../../base/BoxMatchMaking";
+import { useTheme } from "../../context/ThemeContext";
+import TextComponent from "../../base/Text";
 
 enum MatchMakingStatus {
 	InQueue,
@@ -22,6 +24,7 @@ const GameMatchMaking = () => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState(false);
 	const [nameOpponent, setNameOpponent] = useState<string | null>(null);
+	const { themeVariables } = useTheme();
 
 	const handleWebSocketMessage = useCallback(async (event: any) => {
 		const data = JSON.parse(event.data.toString());
@@ -58,15 +61,15 @@ const GameMatchMaking = () => {
 		return (
 			<Layout>
 				<View className="h-full justify-center">
-					<Text className="text-center font-bold">Erreur lors du match making.</Text>
-					<Text className="text-center font-bold">Revenez plus tard.</Text>
+					<TextComponent className="text-center font-bold" content="Erreur lors du match making."/>
+					<TextComponent className="text-center font-bold" content="Revenez plus tard." />
 				</View>
 			</Layout>
 		);
 	}
 
 	return (
-		<SafeAreaView style={{ backgroundColor: Color.WHITE }}>
+		<SafeAreaView style={{ backgroundColor: themeVariables.background }}>
 			<View className="h-full justify-center">
 				<View className="my-2 mx-4 justify-center">
 					<GameHeaderGemLifeComponent />
@@ -75,17 +78,17 @@ const GameMatchMaking = () => {
 					<View className="h-full justify-center">
 						{isLoading ? (
 							<BoxMatchMakingComponent>
-								<Text className="text-center text-5xl font-bold" style={{ color: Color.PRIMARY }}>
+								<Text  className="text-center text-5xl font-bold" style={{ color: themeVariables.primary }}>
 									{Content.MATCH_MAKING}
 								</Text>
-								<Text className="text-center text-xl font-bold mt-1 mb-6" style={{ color: Color.PRIMARY }}>
+								<Text className="text-center text-xl font-bold mt-1 mb-6" style={{ color: themeVariables.primary }}>
 									{Content.WAITING_PLAYER}
 								</Text>
-								<ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center" />
+								<ActivityIndicator size="large" color={themeVariables.primary} className="justify-center" />
 							</BoxMatchMakingComponent>
 						) : (
 							<BoxMatchMakingComponent>
-								<Text className="font-bold mb-4 text-3xl" style={{ color: Color.PRIMARY }}>
+								<Text className="font-bold mb-4 text-3xl" style={{ color: themeVariables.primary }}>
 									{user?.username}
 								</Text>
 								<View className="flex-row items-center my-7">
@@ -97,7 +100,7 @@ const GameMatchMaking = () => {
 									</View>
 									<View style={{ flex: 1, height: 2, backgroundColor: "black" }} />
 								</View>
-								<Text className="text-right font-bold mt-4 text-3xl" style={{ color: Color.PRIMARY }}>
+								<Text className="text-right font-bold mt-4 text-3xl" style={{ color: themeVariables.primary }}>
 									{nameOpponent}
 								</Text>
 							</BoxMatchMakingComponent>

@@ -14,6 +14,7 @@ import { NavigationGameDualQuizScoreProps, RouteGameDualQuizProps } from "../../
 import { Color, Content, Url } from "../../base/constant";
 import { w3cwebsocket as WebSocketClient } from "websocket";
 import { DualQuizData, DualQuizStatus, DualQuizType, Questions } from "../../store/interface/dualquiz";
+import TextComponent from "../../base/Text";
 
 const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 	const { roomId, nameOpponent } = route.params;
@@ -209,8 +210,8 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 		return (
 			<Layout>
 				<View className="h-full justify-center">
-					<Text className="text-center font-bold">Erreur lors du DualQuiz.</Text>
-					<Text className="text-center font-bold">Revenez plus tard.</Text>
+					<TextComponent content={"Erreur lors du DualQuiz."} className="text-center font-bold"/>
+					<TextComponent content={"Revenez plus tard."} className="text-center font-bold" />
 				</View>
 			</Layout>
 		);

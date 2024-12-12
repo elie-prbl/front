@@ -8,6 +8,8 @@ import { buildElie } from "../../utils/buildElie";
 import ButtonComponent from "../../base/Button";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Layout from "../../base/Layout";
+import TextComponent from "../../base/Text";
+import { useTheme } from "../../context/ThemeContext";
 
 interface ModalPurchaseItemProps {
 	activeModalPurchase: boolean;
@@ -19,6 +21,7 @@ const ModalPurchaseItem = ({ activeModalPurchase, shopItem, onClose }: ModalPurc
 	const { user } = useAppSelector((state: RootState) => state.user);
 	const { isLoading, error } = useAppSelector((state: RootState) => state.shop);
 	const dispatch = useAppDispatch();
+	const { themeVariables } = useTheme();
 
 	const handlePurchaseItem = (item: ShopItem) => {
 		dispatch(purchaseShopItem({ user_uuid: user!.uuid, shop_item_id: item.id }));
@@ -40,23 +43,23 @@ const ModalPurchaseItem = ({ activeModalPurchase, shopItem, onClose }: ModalPurc
 				<View
 					className="rounded-xl w-10/12 p-4 justify-evenly"
 					style={{
-						backgroundColor: Color.WHITE,
+						backgroundColor: themeVariables.background,
 						shadowColor: Color.GREY,
 						shadowOffset: { width: 0, height: 4 },
 						shadowOpacity: 0.9,
 						shadowRadius: 15,
 					}}>
 					<View className="items-end">
-						<Ionicons name="close-circle-outline" size={24} color={Color.BLACK} onPress={onClose} />
+						<Ionicons name="close-circle-outline" size={24} color={themeVariables.primary} onPress={onClose} />
 					</View>
 					<View className="w-full h-36 justify-center">
 						{shopItem.type.name === TypeName.AVATAR && buildElie(shopItem.name)}
 					</View>
-					<Text className="text-lg font-bold">{shopItem.name}</Text>
+					<TextComponent content={shopItem.name} className={`text-lg font-bold`} />
 					{shopItem.type.name === TypeName.AVATAR ? (
-						<Text className="my-3">{shopItem.description}</Text>
+						<TextComponent content={shopItem.description} className="my-3" />
 					) : (
-						<Text className="my-3">{shopItem.description}</Text>
+						<TextComponent content={shopItem.description} className="my-3" />
 					)}
 					{error && (
 						<Text className="text-center font-bold mb-3" style={{ color: Color.RED }}>

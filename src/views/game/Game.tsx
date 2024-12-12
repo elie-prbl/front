@@ -20,6 +20,7 @@ import { updateCurrentQuiz } from "../../store/features/Quiz/CurrentQuizSlice";
 import { getUserQuiz } from "../../store/features/UserQuiz/UserQuizThunk";
 import { restartLives } from "../../store/features/Lives/LivesSlices";
 import { useTheme } from "../../context/ThemeContext";
+import TextComponent from "../../base/Text";
 
 const Game = () => {
 	const navigation = useNavigation<MyNavigationProp>();
@@ -104,7 +105,7 @@ const Game = () => {
 			containerStyle={{ backgroundColor: "transparent", justifyContent: "center" }}
 			isExpanded={expandedItem === item.id}>
 			<View className="mx-8 items-center">
-				<View className="w-full p-4 rounded-lg" style={{ backgroundColor: Color.PRIMARY }}>
+				<View className="w-full p-4 rounded-lg" style={{ backgroundColor: themeVariables.primary }}>
 					<Text className={`mb-3 font-bold ${FontSize.TEXT_LG}`} style={{ color: Color.WHITE }}>
 						{selectedItem?.title}
 					</Text>
@@ -124,7 +125,7 @@ const Game = () => {
 	if (isLoading || isLoadingQuiz || isLoadingUserQuiz)
 		return (
 			<Layout>
-				<ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center h-full" />
+				<ActivityIndicator size="large" color={themeVariables.primary} className="justify-center h-full" />
 			</Layout>
 		);
 
@@ -132,8 +133,16 @@ const Game = () => {
 		return (
 			<Layout>
 				<View className="h-full justify-center">
-					<Text style={{ color: themeVariables.text }} className="text-center font-bold">Erreur lors du chargement.</Text>
-					<Text style={{ color: themeVariables.text }} className="text-center font-bold">Revenez plus tard.</Text>
+					<TextComponent
+						content="Erreur lors du chargement."
+						style={{ color: themeVariables.text }}
+						className="text-center font-bold"
+					/>
+					<TextComponent
+						content="Revenez plus tard."
+						style={{ color: themeVariables.text }}
+						className="text-center font-bold"
+					/>
 				</View>
 			</Layout>
 		);

@@ -5,6 +5,7 @@ import React from "react";
 import { topic } from "../../store/features/QuizModules/QuizModulesSlices";
 import { Color } from "../../base/constant";
 import GameHeaderGemLifeComponent from "./GameHeaderGemLifeComponent";
+import { useTheme } from "../../context/ThemeContext";
 
 interface GameHeaderComponentProps {
 	onPress: () => void;
@@ -12,8 +13,9 @@ interface GameHeaderComponentProps {
 }
 
 const GameHeaderComponent = ({ onPress, topic }: GameHeaderComponentProps) => {
+	const { themeVariables } = useTheme();
 	return (
-		<SafeAreaView style={{ backgroundColor: Color.WHITE }}>
+		<SafeAreaView style={{ backgroundColor: themeVariables.background }}>
 			<View className="my-2 mx-4 justify-center">
 				<GameHeaderGemLifeComponent />
 				<View className="items-center my-3">

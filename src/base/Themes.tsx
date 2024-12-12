@@ -3,9 +3,15 @@ import Background from "../svg/Background";
 import BackgroundDark from "../svg/BackgroundDark";
 import BackgroundIce from "../svg/BackgroundIce";
 
+export const themeMapping: Record<string, ThemeName> = {
+	"Theme Dark": "dark",
+	"Theme Green": "light",
+	"Theme Blue": "ice",
+};
+
 export const themes = {
 	light: {
-		colors:{
+		colors: {
 			primary: Color.PRIMARY,
 			secondary: Color.SECONDARY,
 			background: Color.WHITE,
@@ -30,8 +36,8 @@ export const themes = {
 		colors: {
 			primary: Color.SKY,
 			secondary: Color.BLUE_PALE_DARK,
-			background: Color.LIGHT_BLUE,
-			text: Color.MARINE,
+			background: Color.MARINE,
+			text: Color.WHITE,
 			borderColor: Color.GREY,
 		},
 		background: BackgroundIce,

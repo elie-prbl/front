@@ -144,7 +144,7 @@ export class FontSize {
 
 export class Url {
 	// Commande pour récupérer l'ip dans le termainal : ipconfig getifaddr en0
-	static IP: string = "192.168.1.71";
+	static IP: string = "192.168.1.74";
 	static LOCALHOST: string = "localhost";
 	static BASE_URL_API: string = `http://${Url.IP}:7070/api/v1`;
 	static BASE_URL_WS: string = `ws://${Url.IP}:7070/ws`;

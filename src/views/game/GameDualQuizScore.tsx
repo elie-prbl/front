@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { Color, Content } from "../../base/constant";
 import GameScoreComponent from "../../components/game/GameScoreComponent";
 import ButtonComponent from "../../base/Button";
@@ -13,6 +13,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { UserQuest } from "../../store/features/UserQuests/UserQuestsSlices";
 import { updateUserQuest } from "../../store/features/UserQuests/UserQuestsThunk";
+import { useTheme } from "../../context/ThemeContext";
+import TextComponent from "../../base/Text";
 
 const GameDualQuizScore = ({ route }: RouteGameDualQuizScoreProps) => {
 	const { isDraw, isWinner, myScore, scorePlayer, nbQuestions, nameOpponent } = route.params;
@@ -20,6 +22,7 @@ const GameDualQuizScore = ({ route }: RouteGameDualQuizScoreProps) => {
 	const dispatch = useAppDispatch();
 	const user = useAppSelector((state: RootState) => state.user.user);
 	const { userQuests, isModified } = useSelector((state: RootState) => state.userQuests);
+	const { themeVariables } = useTheme();
 
 	const [retrieveUserQuestsWinGames, setRetrieveUserQuestsWinGames] = useState<UserQuest[]>([]);
 	const [retrieveUserQuestsPlayGames, setRetrieveUserQuestsPlayGames] = useState<UserQuest[]>([]);
@@ -66,22 +69,22 @@ const GameDualQuizScore = ({ route }: RouteGameDualQuizScoreProps) => {
 	}, [isModified]);
 
 	return (
-		<SafeAreaView style={{ backgroundColor: Color.WHITE }}>
+		<SafeAreaView style={{ backgroundColor: themeVariables.background }}>
 			<View className="h-full justify-between mx-4">
 				<View className="h-1/2">
 					<Planet />
 				</View>
 				{isDraw ? (
-					<Text className="font-bold text-2xl text-center">{Content.DRAW}</Text>
+					<TextComponent content={Content.DRAW} className="font-bold text-2xl text-center"/>
 				) : isWinner ? (
-					<Text className="font-bold text-2xl text-center">{Content.WINNER}</Text>
+					<TextComponent content={Content.WINNER} className="font-bold text-2xl text-center"/>
 				) : (
-					<Text className="font-bold text-2xl text-center">{Content.LOSER}</Text>
+					<TextComponent content={Content.LOSER} className="font-bold text-2xl text-center" />
 				)}
 				<View>
 					<View className="flex-wrap flex-row my-4">
-						<Text className="text-lg w-1/2 text-center">Vous</Text>
-						<Text className="text-lg w-1/2 text-center">{nameOpponent}</Text>
+						<TextComponent content="Vous" className="text-lg w-1/2 text-center" />
+						<TextComponent content={nameOpponent} className="text-lg w-1/2 text-center" />
 					</View>
 					<View className="flex-wrap flex-row justify-center">
 						<GameScoreComponent

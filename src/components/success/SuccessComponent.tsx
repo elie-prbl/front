@@ -7,6 +7,7 @@ import SuccessQuiz from "../../svg/SuccessQuiz";
 import SuccessQuizWin from "../../svg/SuccessQuizWin";
 import SuccessConnection from "../../svg/SuccessConnection";
 import { TagName } from "../../store/features/UserQuests/UserQuestsSlices";
+import TextComponent from "../../base/Text";
 
 export type successProps = {
 	userSuccess: userSuccessState;
@@ -34,22 +35,20 @@ const SuccessComponent = ({ userSuccess }: successProps) => {
 		<View className="flex-row w-full my-2 h-28">
 			{SwitchImg(userSuccess?.success.tag.name)}
 			<View className="flex-col flex-1">
-				<Text className="font-semibold">{userSuccess?.success.name}</Text>
+				<TextComponent className="font-semibold" content={userSuccess?.success.name}/>
 				<View className="flex-row justify-between mt-2 w-full">
 					<ProgressBar
 						currentStep={userSuccess?.progression}
 						totalStep={userSuccess?.success.done_condition}
 						width={200}
 					/>
-					<Text>
-						{userSuccess?.progression} / {userSuccess?.success.done_condition}
-					</Text>
+					<TextComponent content={userSuccess?.success.done_condition} />
 				</View>
-				<Text className="mt-3">Récompenses :</Text>
+				<TextComponent className="mt-3" content={"Récompenses :"} />
 				<View className="flex-row justify-between">
-					<Text className="mt-1">+ {userSuccess?.success.xp} xp</Text>
+					<TextComponent className="mt-1" content={`+ ${userSuccess?.success.xp}xp`} />
 					<View className="flex-row items-center">
-						<Text className="mt-1 mr-1">+ {userSuccess?.success.currency_reward}</Text>
+						<TextComponent content={`+ ${userSuccess?.success.currency_reward}`} className="mt-1 mr-1"/>
 						<Gem />
 					</View>
 				</View>

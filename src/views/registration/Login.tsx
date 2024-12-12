@@ -12,6 +12,7 @@ import SvgGoogle from "../../svg/SvgGoogle";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
 import { useTheme } from "../../context/ThemeContext";
+import TextComponent from "../../base/Text";
 
 const Login = () => {
 	const dispatch = useDispatch<AppDispatch>();
@@ -20,7 +21,6 @@ const Login = () => {
 	const [password, setPassword] = useState<string>("");
 	const [error, setError] = useState<string>("");
 	const { themeVariables } = useTheme();
-
 
 	const handleNavigateToSignUp = () => {
 		navigation.navigate("SignUp1");
@@ -45,9 +45,7 @@ const Login = () => {
 			<View className="h-3/5">
 				<View className="w-full items-center justify-center">
 					<SvgConnexion />
-					<Text style={{ color: themeVariables.text }} className="font-bold text-xl">
-						{Content.ELIE_LOGIN}
-					</Text>
+					<TextComponent content={Content.ELIE} className="font-bold text-3xl" />
 				</View>
 				<View className="w-full items-center">
 					<TextInputComponent
@@ -62,29 +60,23 @@ const Login = () => {
 						textInput={password}
 						placeholder={Content.PLACEHOLDER_PASSWORD}
 					/>
-					<Text style={{ color: themeVariables.text }} className="underline mt-1">{Content.PASSWORD_FORGET}</Text>
+					<TextComponent content={Content.PASSWORD_FORGET} className="underline mt-1" />
 				</View>
 			</View>
-			{error && (
-				<Text className="text-center font-bold" style={{ color: themeVariables.text }}>
-					{error}
-				</Text>
-			)}
+			{error && <TextComponent content={error} className="text-center font-bold" />}
 			<View>
 				<View className="w-full items-center">
 					<ButtonComponent content={Content.LOGIN} onPress={handleNavigateHome} />
 					<View className="w-11/12 flex-row justify-center mt-3">
-						<Text style={{ color: themeVariables.text }}>{Content.NO_ACCOUNT}</Text>
-						<Text className="underline" style={{ color: themeVariables.text }} onPress={handleNavigateToSignUp}>
-							{Content.NO_ACCOUNT_SIGN_UP}
-						</Text>
+						<TextComponent content={Content.NO_ACCOUNT} />
+						<TextComponent content={Content.SIGN_UP} className="underline" onPress={handleNavigateToSignUp} />
 					</View>
 				</View>
 				<View className="w-full items-center">
 					<View className="flex-row items-center w-8/12 my-7">
 						<View style={{ flex: 1, height: 1, backgroundColor: "black" }} />
 						<View>
-							<Text style={{ width: 50, textAlign: "center", color: themeVariables.text }}>OU</Text>
+							<TextComponent content="OU" className="text-center w-12" />
 						</View>
 						<View style={{ flex: 1, height: 1, backgroundColor: "black" }} />
 					</View>

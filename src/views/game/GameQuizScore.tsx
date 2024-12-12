@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { Color, Content } from "../../base/constant";
 import GameScoreComponent from "../../components/game/GameScoreComponent";
 import ButtonComponent from "../../base/Button";
@@ -13,6 +13,8 @@ import { RootState } from "../../store/store";
 import Planet from "../../svg/Planet";
 import { updateUserQuest } from "../../store/features/UserQuests/UserQuestsThunk";
 import { TagName, UserQuest } from "../../store/features/UserQuests/UserQuestsSlices";
+import TextComponent from "../../base/Text";
+import { useTheme } from "../../context/ThemeContext";
 
 const GameQuizScore = ({ route }: RouteGameScoreProps) => {
 	const { score, nbQuestions } = route.params;
@@ -21,6 +23,7 @@ const GameQuizScore = ({ route }: RouteGameScoreProps) => {
 	const { userQuests, isModified } = useSelector((state: RootState) => state.userQuests);
 	const user = useAppSelector((state: RootState) => state.user.user);
 	const quizWon = score === nbQuestions;
+	const { themeVariables } = useTheme();
 
 	const [retrieveUserQuestsWinGames, setRetrieveUserQuestsWinGames] = useState<UserQuest[]>([]);
 	const [retrieveUserQuestsPlayGames, setRetrieveUserQuestsPlayGames] = useState<UserQuest[]>([]);
@@ -61,12 +64,12 @@ const GameQuizScore = ({ route }: RouteGameScoreProps) => {
 	}, [isModified]);
 
 	return (
-		<SafeAreaView style={{ backgroundColor: Color.WHITE }}>
+		<SafeAreaView style={{ backgroundColor: themeVariables.background }}>
 			<View className="h-full justify-between mx-4">
 				<View className="h-1/2">
 					<Planet />
 				</View>
-				<Text className="font-bold text-2xl text-center">{Content.LESSON_FINISHED}</Text>
+				<TextComponent content={Content.LESSON_FINISHED} className="font-bold text-2xl text-center"/>
 				<View className="flex-wrap flex-row justify-center">
 					<GameScoreComponent
 						bg={Color.GOLD}

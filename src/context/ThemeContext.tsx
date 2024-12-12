@@ -14,7 +14,6 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 	const [theme, setThemeState] = useState<ThemeName>("light");
 
-	// Charger le thème depuis AsyncStorage
 	useEffect(() => {
 		const loadTheme = async () => {
 			const storedTheme = await AsyncStorage.getItem("app_theme");
@@ -25,10 +24,9 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 		loadTheme();
 	}, []);
 
-	// Enregistrer le thème dans AsyncStorage
 	const setTheme = async (newTheme: ThemeName) => {
 		setThemeState(newTheme);
-		await AsyncStorage.setItem("app_theme", newTheme); // Persister le thème
+		await AsyncStorage.setItem("app_theme", newTheme);
 	};
 
 	const contextValue = useMemo(() => {
