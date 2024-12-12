@@ -11,7 +11,7 @@ import SignUp3 from "../views/registration/SignUp3";
 import TabNavigator from "./TabNavigator";
 import GameModule from "../views/game/GameModule";
 import { Content } from "../base/constant";
-import Map from "../views/Map";
+import Guide from "../views/Guide";
 import GameQuiz from "../views/game/GameQuiz";
 import GameQuizScore from "../views/game/GameQuizScore";
 import Game from "../views/game/Game";
@@ -30,7 +30,7 @@ export type StackParamList = {
 	SignUp2: undefined;
 	SignUp3: undefined;
 	Home: undefined;
-	Map: undefined;
+	Guide: undefined;
 	Game: undefined;
 	GameModule: undefined;
 	GameQuiz: undefined;
@@ -96,7 +96,7 @@ const AppNavigator = (): JSX.Element => {
 					component={GameModule}
 					options={{ presentation: "modal", headerTitle: Content.CHOOSE_MODULE }}
 				/>
-				<Stack.Screen name="Map" component={Map} options={{ headerShown: false }} />
+				<Stack.Screen name="Guide" component={Guide} options={{ headerShown: false }} />
 				<Stack.Screen name="Game" component={Game} options={{ headerShown: false }} />
 				<Stack.Screen name="GameQuiz" component={GameQuiz} options={{ headerShown: false }} />
 				<Stack.Screen name="GameDualQuiz" component={GameDualQuiz} options={{ headerShown: false }} />

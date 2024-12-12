@@ -5,6 +5,8 @@ export class Color {
 	static WHITE: string = "#FFFFFF";
 	static WHITE_OPACITY: string = "#FFFFFFBF";
 	static GREY: string = "#CDCCCC";
+	static GREY_LIGHT: string = "#EAEAEA";
+	static GREY_DARK: string = "#D9D9D9";
 	static BLACK: string = "#000000";
 	static GOLD: string = "#FDE404";
 	static YELLOW: string = "#FFD900";
@@ -119,11 +121,15 @@ export class Content {
 	static ELIE_CYBER: string = "Elie Cyber";
 	static ELIE_GOLD: string = "Elie Gold";
 
-	//Map
-	static MAP_TITLE: string = "Carte";
-	static MAP_DESCRIPTION: string = "Visualises la carte des lieux de ton choix !";
+	//Guide
+	static GUIDE_TITLE: string = "Guide";
+	static GUIDE_DESCRIPTION: string = "Parcours le guide de l'application !";
 	static LOAD_POI: string = "Chargement des lieux...";
 	static LOAD_POI_ERROR: string = "Erreur lors de la récupération des lieux";
+	static EVENTS: string = "Évènements";
+	static POI: string = "Points d'intérêts";
+	static NO_EVENT: string = "Aucun évènement à venir pour le moment";
+	static NO_POI: string = "Aucun point d'intérêt à découvrir autour de vous";
 }
 
 export class FontSize {

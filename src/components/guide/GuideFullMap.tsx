@@ -1,16 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
 import MapView, { Marker, Region } from "react-native-maps";
 import { Pressable, Text, View } from "react-native";
-import Toast, { ToastOptions } from "react-native-root-toast";
 import { Feather, FontAwesome6 } from "@expo/vector-icons";
-import { useSelector } from "react-redux";
-import { RootState } from "../store/store";
-import Layout from "../base/Layout";
-import { getPlaces } from "../store/features/Map/MapPOI";
-import { useDebounce } from "../hooks/useDebounce";
-import { Color, Content } from "../base/constant";
-import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import BottomSheet from "@gorhom/bottom-sheet";
+import { Color, Content } from "../../base/constant";
+import React, { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import Toast, { ToastOptions } from "react-native-root-toast";
+import { getPlaces } from "../../store/features/Map/MapPOI";
+import { useDebounce } from "../../hooks/useDebounce";
 
 interface Place {
 	id: number;
@@ -35,7 +34,7 @@ const TOAST_OPTIONS: ToastOptions = {
 	animation: true,
 };
 
-const Map = () => {
+const GuideFullMap = () => {
 	const position = useSelector((state: RootState) => state.position.position);
 	const mapRef = useRef<MapView>(null);
 	const bottomSheetRef = useRef<BottomSheet>(null);
@@ -126,7 +125,7 @@ const Map = () => {
 	};
 
 	return (
-		<Layout>
+		<>
 			<MapView
 				ref={mapRef}
 				className="w-full h-full"
@@ -166,8 +165,8 @@ const Map = () => {
 					)}
 				</View>
 			</BottomSheet>
-		</Layout>
+		</>
 	);
 };
 
-export default Map;
+export default GuideFullMap;
