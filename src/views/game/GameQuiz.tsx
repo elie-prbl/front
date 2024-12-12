@@ -64,7 +64,7 @@ const GameQuiz = () => {
 					index: 1,
 					routes: [
 						{
-							name: "GameScore",
+							name: "GameQuizScore",
 							params: {
 								score,
 								nbQuestions: currentQuiz!.questions.length,

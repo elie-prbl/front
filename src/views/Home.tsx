@@ -13,7 +13,6 @@ import { RootState } from "../store/store";
 import Layout from "../base/Layout";
 import Circle1 from "../svg/Circle1";
 import GemComponent from "../base/Gem";
-import { getUser } from "../store/features/User/UserThunk";
 import { getUserQuests } from "../store/features/UserQuests/UserQuestsThunk";
 import { getUserQuiz } from "../store/features/UserQuiz/UserQuizThunk";
 import GuideCompactMap from "../components/guide/GuideCompactMap";
@@ -28,7 +27,7 @@ const Home = () => {
 	const dispatch = useAppDispatch();
 	const navigation = useNavigation<MyNavigationProp>();
 	const { userQuests, isLoadingUserQuest } = useSelector((state: RootState) => state.userQuests);
-	const { user, isLoading } = useAppSelector((state: RootState) => state.user);
+	const { user } = useAppSelector((state: RootState) => state.user);
 	const { userQuiz } = useAppSelector((state: RootState) => state.userQuiz);
 
 	useEffect(() => {
@@ -40,7 +39,6 @@ const Home = () => {
 	const fetchData = async () => {
 		try {
 			if (user?.uuid) {
-				await dispatch(getUser(user.uuid));
 				await dispatch(getUserQuests(user.uuid));
 				await dispatch(getUserQuiz({ user_uuid: user.uuid, quiz_id: "1" }));
 			}
@@ -49,7 +47,7 @@ const Home = () => {
 		}
 	};
 
-	if (isLoading || isLoadingUserQuest) {
+	if (isLoadingUserQuest) {
 		return (
 			<Layout>
 				<ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center h-full" />
