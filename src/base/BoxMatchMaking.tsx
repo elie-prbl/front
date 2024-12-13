@@ -1,6 +1,5 @@
 import React, { ReactElement } from "react";
 import { View } from "react-native";
-import { Color } from "./constant";
 import { useTheme } from "../context/ThemeContext";
 
 interface BoxComponentProps {
@@ -12,7 +11,9 @@ const BoxMatchMakingComponent = ({ children, height = 250 }: BoxComponentProps) 
 	const { themeVariables } = useTheme();
 	return (
 		<View className="m-4 rounded-lg" style={{ backgroundColor: themeVariables.primary, height }}>
-			<View className="rounded-lg h-11 justify-center p-4" style={{ backgroundColor: themeVariables.background, height: height - 5 }}>
+			<View
+				className="rounded-lg h-11 justify-center p-4"
+				style={{ backgroundColor: themeVariables.background, height: height - 5 }}>
 				{children}
 			</View>
 		</View>

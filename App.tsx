@@ -7,7 +7,6 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ThemeProvider } from "./src/context/ThemeContext";
 
 const App = () => {
-
 	return (
 		<ThemeProvider>
 			<GestureHandlerRootView>

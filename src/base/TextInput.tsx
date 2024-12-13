@@ -1,6 +1,5 @@
 import React from "react";
 import { KeyboardTypeOptions, Text, TextInput, View } from "react-native";
-import { Color } from "./constant";
 import { useTheme } from "../context/ThemeContext";
 
 interface TextInputComponentProps {

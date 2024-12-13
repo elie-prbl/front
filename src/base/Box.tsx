@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
 import { FontSize } from "./constant";
 import { useTheme } from "../context/ThemeContext";
 import TextComponent from "./Text";
@@ -22,7 +22,7 @@ const BoxComponent = ({ title, height, children, itemRight, onPress }: BoxCompon
 			<View className="mb-2 flex-row justify-between ">
 				<TextComponent content={title} className={`${FontSize.TEXT_XL} font-bold`} />
 				{typeof itemRight === "string" ? (
-					<TextComponent content={itemRight} className={`${FontSize.TEXT_XL} font-bold`}/>
+					<TextComponent content={itemRight} className={`${FontSize.TEXT_XL} font-bold`} />
 				) : (
 					<View>{itemRight}</View>
 				)}

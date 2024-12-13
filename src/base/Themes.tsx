@@ -24,10 +24,10 @@ export const themes = {
 	dark: {
 		colors: {
 			primary: Color.PRIMARY,
-			secondary: Color.SECONDARY,
+			secondary: Color.BLACK,
 			background: Color.DARK_BLUE,
 			text: Color.WHITE,
-			borderColor: Color.GREY,
+			borderColor: Color.DARK_BLUE_BORDER,
 		},
 		background: BackgroundDark,
 	},
@@ -38,7 +38,7 @@ export const themes = {
 			secondary: Color.BLUE_PALE_DARK,
 			background: Color.MARINE,
 			text: Color.WHITE,
-			borderColor: Color.GREY,
+			borderColor: Color.DARK_BLUE_BORDER,
 		},
 		background: BackgroundIce,
 	},

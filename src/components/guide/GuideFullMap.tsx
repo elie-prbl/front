@@ -1,7 +1,6 @@
 import MapView, { Marker, Region } from "react-native-maps";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
 import { Feather, FontAwesome6 } from "@expo/vector-icons";
-import BottomSheet from "@gorhom/bottom-sheet";
 import { Color, Content } from "../../base/constant";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
@@ -11,7 +10,8 @@ import Toast, { ToastOptions } from "react-native-root-toast";
 import { getPlaces } from "../../store/features/Map/MapPOI";
 import { useDebounce } from "../../hooks/useDebounce";
 import BottomSheet from "@gorhom/bottom-sheet";
-import { useTheme } from "../context/ThemeContext";
+import { useTheme } from "../../context/ThemeContext";
+import TextComponent from "../../base/Text";
 
 interface Place {
 	id: number;
@@ -120,7 +120,7 @@ const GuideFullMap = () => {
 				<FontAwesome6 name="map-pin" size={isSelected ? 30 : 20} color={Color.RED_BRIGHT_LIGHT} />
 				{isSelected && (
 					<View className="p-1" style={{ width: 100 }}>
-						<Text className="text-center font-bold flex-wrap">{place.name}</Text>
+						<TextComponent content={place.name} className="text-center font-bold flex-wrap" />
 					</View>
 				)}
 			</View>
@@ -160,10 +160,11 @@ const GuideFullMap = () => {
 					</Pressable>
 					{selectedPlace && (
 						<View>
-							<Text style={{ color: themeVariables.text }} className="font-bold text-xl mb-1">{selectedPlace.name}</Text>
-							<Text style={{ color: themeVariables.text }}>
-								{selectedPlace.road} - {selectedPlace.town}
-							</Text>
+							<TextComponent content={selectedPlace.name} className="font-bold text-xl mb-1" />
+							<TextComponent
+								content={`${selectedPlace.road} - ${selectedPlace.town}`}
+								style={{ color: themeVariables.text }}
+							/>
 						</View>
 					)}
 				</View>

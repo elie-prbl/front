@@ -1,6 +1,6 @@
 export class Color {
 	static PRIMARY: string = "#58CC02";
-	static SECONDARY: string = "#48A106";
+	static SECONDARY: string = "#2c6806";
 	static GREEN_OPACITY: string = "#CBFCCA";
 	static WHITE: string = "#FFFFFF";
 	static WHITE_OPACITY: string = "#FFFFFFBF";
@@ -28,6 +28,7 @@ export class Color {
 	static RED_OPACITY: string = "#FDCACA";
 	static BLUE: string = "#54B7FF";
 	static DARK_BLUE: string = "#0D0F40";
+	static DARK_BLUE_BORDER: string = "rgb(63,63,81)";
 	static LIGHT_BLUE: string = "#D1EFF7";
 	static SKY: string = "#4FB2D4";
 	static MARINE: string = "#010A5A";
