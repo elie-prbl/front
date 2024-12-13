@@ -20,9 +20,10 @@ export default function BackgroundIce() {
 			<stop stop-color="#72FF1B" stop-opacity="0.35"/>
 			<stop offset="1" stop-color="#54FC8D" stop-opacity="0"/>
 			</radialGradient>
-			<radialGradient id="paint2_radial_1487_3845" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(306.5 422) rotate(90) scale(152 139.5)">
-			<stop stop-color="#A0FCDD"/>
-			<stop offset="0.065" stop-color="#05FF5A" stop-opacity="0.32725"/>
+			<radialGradient id="paint2_radial_1487_3845" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(306.5 422) rotate(90.2039) scale(140.501 120.421)">
+			<stop stop-color="#A0FCDD" stop-opacity="0.68"/>
+			<stop offset="0.09" stop-color="#A0FCDD" stop-opacity="0.85"/>
+			<stop offset="1" stop-color="#05FF5A" stop-opacity="0"/>
 			</radialGradient>
 			<radialGradient id="paint3_radial_1487_3845" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(306.5 737) rotate(90) scale(107 101.5)">
 			<stop stop-color="#00FFB3" stop-opacity="0.35"/>

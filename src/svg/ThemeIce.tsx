@@ -2,26 +2,13 @@ import React from "react";
 import { SvgXml } from "react-native-svg";
 
 export default function ThemeIce() {
-	const svg = `<svg width="45" height="100" viewBox="0 0 120 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="120" height="100" rx="15" fill="white"/>
-<g filter="url(#filter0_d_1680_3495)">
-<circle cx="35" cy="50" r="25" fill="#010A5A"/>
-<circle cx="60" cy="50" r="25" fill="#4FB2D4"/>
-<circle cx="85" cy="50" r="25" fill="white"/>
-</g>
-<defs>
-<filter id="filter0_d_1680_3495" x="5" y="20" width="110" height="60" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset/>
-<feGaussianBlur stdDeviation="2.5"/>
-<feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1680_3495"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1680_3495" result="shape"/>
-</filter>
-</defs>
+	const svg = `<svg width="45" height="54" viewBox="0 0 104 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M52 27C52 40.8071 40.8071 52 27 52C13.1929 52 2 40.8071 2 27C2 13.1929 13.1929 2 27 2C40.8071 2 52 13.1929 52 27Z" fill="#010A5A"/>
+<path d="M77 27C77 40.8071 65.8071 52 52 52C38.1929 52 27 40.8071 27 27C27 13.1929 38.1929 2 52 2C65.8071 2 77 13.1929 77 27Z" fill="#4FB2D4"/>
+<path d="M102 27C102 40.8071 90.8071 52 77 52C63.1929 52 52 40.8071 52 27C52 13.1929 63.1929 2 77 2C90.8071 2 102 13.1929 102 27Z" fill="white"/>
+<path d="M39.5 4.19643C35.7908 2.1589 31.5308 1 27 1C12.6406 1 1 12.6406 1 27C1 41.3594 12.6406 53 27 53C31.5308 53 35.7908 51.8411 39.5 49.8036C43.2092 51.8411 47.4692 53 52 53C56.5308 53 60.7908 51.8411 64.5 49.8036C68.2092 51.8411 72.4692 53 77 53C91.3594 53 103 41.3594 103 27C103 12.6406 91.3594 1 77 1C72.4692 1 68.2092 2.1589 64.5 4.19643C60.7908 2.1589 56.5308 1 52 1C47.4692 1 43.2092 2.1589 39.5 4.19643Z" stroke="#4FB2D4" stroke-width="2"/>
 </svg>
+
 `;
 
 	const Svg = () => <SvgXml xml={svg} className="absolute" />;

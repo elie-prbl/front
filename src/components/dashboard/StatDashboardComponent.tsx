@@ -37,7 +37,7 @@ const StatDashboardComponent = () => {
 			</View>
 			<View className="flex-row justify-between">
 				<BoxStat
-					color={themeVariables.primary}
+					color={Color.PRIMARY}
 					result={user?.currency_amount}
 					resultType={Content.GEMS}
 					icon={<Gem width={40} height={50} />}
