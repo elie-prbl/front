@@ -3,7 +3,6 @@ import ModuleGame from "../../base/ModuleGame";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React from "react";
 import { topic } from "../../store/features/QuizModules/QuizModulesSlices";
-import { Color } from "../../base/constant";
 import GameHeaderGemLifeComponent from "./GameHeaderGemLifeComponent";
 import { useTheme } from "../../context/ThemeContext";
 

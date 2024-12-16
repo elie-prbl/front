@@ -1,6 +1,6 @@
 export class Color {
 	static PRIMARY: string = "#58CC02";
-	static SECONDARY: string = "#2c6806";
+	static SECONDARY: string = "#48A106";
 	static GREEN_OPACITY: string = "#CBFCCA";
 	static WHITE: string = "#FFFFFF";
 	static WHITE_OPACITY: string = "#FFFFFFBF";

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, Text, View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import { getUserShopItems, UserShopItem } from "../../store/features/UserShop/UserShopService";
 import { useAppSelector } from "../../store/hooks";
 import { RootState } from "../../store/store";
@@ -53,14 +53,14 @@ const ShopItemsDashboardComponent = () => {
 				{avatarItems.length > 0 ? (
 					avatarItems.map(avatar => <UserShopItemDetails key={avatar.id} userShopItem={avatar} />)
 				) : (
-					<TextComponent content={Content.NO_AVATAR}/>
+					<TextComponent content={Content.NO_AVATAR} />
 				)}
 			</BoxComponent>
 			<BoxComponent title={Content.SHOP_THEME}>
 				{themeItems.length > 0 ? (
 					themeItems.map(theme => <UserShopItemDetails key={theme.id} userShopItem={theme} />)
 				) : (
-					<TextComponent content={Content.NO_THEME}/>
+					<TextComponent content={Content.NO_THEME} />
 				)}
 			</BoxComponent>
 		</View>

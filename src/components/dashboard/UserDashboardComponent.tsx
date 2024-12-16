@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";

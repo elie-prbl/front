@@ -5,7 +5,7 @@ import { TypeName } from "../../store/features/Shop/ShopService";
 import { buildElie } from "../../utils/buildElie";
 import { UserShopItem } from "../../store/features/UserShop/UserShopService";
 import { useTheme } from "../../context/ThemeContext";
-import { ThemeName, themeMapping } from "../../base/Themes";
+import { themeMapping } from "../../base/Themes";
 import TextComponent from "../../base/Text";
 import { buildTheme } from "../../utils/buildTheme";
 
@@ -25,16 +25,14 @@ const UserShopItemDetails = ({ userShopItem }: UserShopItemDetailsProps) => {
 					(userShopItem.shop_item.type.name === TypeName.THEME && buildTheme(userShopItem.shop_item.name))}
 			</View>
 			<View className="flex-1 flex-col mx-2">
-				<TextComponent content={userShopItem.shop_item.name} className="font-bold text-lg"/>
+				<TextComponent content={userShopItem.shop_item.name} className="font-bold text-lg" />
 				<TextComponent content={userShopItem.shop_item.description} />
 			</View>
-			{/*TODO : Ici il faudra utiliser le context pour le timing de l'application*/}
 			<TouchableOpacity
 				onPress={() => setTheme(themeName)}
 				className="p-1 rounded"
 				style={{ backgroundColor: Color.GREEN_OPACITY }}>
-				{/*TODO : Changer le text par une icône ou autre */}
-				<Text>Use</Text>
+				<TextComponent content="Use" />
 			</TouchableOpacity>
 		</View>
 	);

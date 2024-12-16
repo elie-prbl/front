@@ -7,7 +7,6 @@ import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp } from "../../navigation/AppNavigator";
 import { Color } from "../../base/constant";
 import { useAppSelector } from "../../store/hooks";
-import { backgrounds } from "../../base/Backgrounds";
 import { useTheme } from "../../context/ThemeContext";
 
 export type GameQuizHeaderComponentProps = {

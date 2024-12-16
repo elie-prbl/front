@@ -10,7 +10,7 @@ import SignUp2 from "../views/registration/SignUp2";
 import SignUp3 from "../views/registration/SignUp3";
 import TabNavigator from "./TabNavigator";
 import GameModule from "../views/game/GameModule";
-import { Content } from "../base/constant";
+import { Color, Content } from "../base/constant";
 import Guide from "../views/Guide";
 import GameQuiz from "../views/game/GameQuiz";
 import GameQuizScore from "../views/game/GameQuizScore";
@@ -99,7 +99,7 @@ const AppNavigator = (): JSX.Element => {
 				<Stack.Screen
 					name="GameModule"
 					component={GameModule}
-					options={{ presentation: "modal", headerTitle: Content.CHOOSE_MODULE }}
+					options={{ presentation: "modal", headerTintColor: Color.WHITE, headerTitle: Content.CHOOSE_MODULE }}
 				/>
 				<Stack.Screen name="Guide" component={Guide} options={{ headerShown: false }} />
 				<Stack.Screen name="Game" component={Game} options={{ headerShown: false }} />

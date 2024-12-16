@@ -1,5 +1,5 @@
-import { Color, Content } from "../../base/constant";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Content } from "../../base/constant";
+import { TouchableOpacity, View } from "react-native";
 import React from "react";
 import { useTheme } from "../../context/ThemeContext";
 import TextComponent from "../../base/Text";

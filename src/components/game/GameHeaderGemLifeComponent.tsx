@@ -3,7 +3,6 @@ import LifeComponent from "../../base/Life";
 import { View } from "react-native";
 import React from "react";
 import { useAppSelector } from "../../store/hooks";
-import { useTheme } from "../../context/ThemeContext";
 
 const GameHeaderGemLifeComponent = () => {
 	const lives = useAppSelector(state => state.lives.value);

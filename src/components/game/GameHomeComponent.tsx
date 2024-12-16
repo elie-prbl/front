@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import CircleComponent from "../../base/Circle";
 import Game1 from "../../svg/Game1";
 import { nextQuiz } from "../../store/features/UserQuiz/UserQuizSlices";
