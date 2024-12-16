@@ -123,6 +123,7 @@ const AppNavigator = (): JSX.Element => {
 						headerShown: true,
 						headerTransparent: false,
 						headerTitle: Content.PROFILE,
+						headerTintColor: Color.WHITE,
 					}}
 				/>
 				<Stack.Screen name="GameMatchMaking" component={GameMatchMaking} options={{ headerShown: false }} />

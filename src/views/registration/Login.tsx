@@ -63,7 +63,7 @@ const Login = () => {
 					<TextComponent content={Content.PASSWORD_FORGET} className="underline mt-1" />
 				</View>
 			</View>
-			{error && <TextComponent content={error} className="text-center font-bold" />}
+			{error && <TextComponent content={error} isError className="text-center font-bold" />}
 			<View>
 				<View className="w-full items-center">
 					<ButtonComponent content={Content.LOGIN} onPress={handleNavigateHome} />
