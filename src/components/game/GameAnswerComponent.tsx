@@ -42,9 +42,10 @@ const GameAnswerComponent = ({
 				colorText = Color.WHITE;
 			}
 		} else if (option === selectedOption) {
-			backgroundColor = themeVariables.primary;
-			borderColor = themeVariables.primary;
-			innerBackgroundColor = themeVariables.secondary;
+			backgroundColor = Color.BLUE_PALE_DARK;
+			borderColor = Color.BLUE_PALE_DARK;
+			innerBackgroundColor = Color.BLUE_PALE_LIGHT;
+			colorText = Color.BLACK;
 		}
 
 		return { backgroundColor, borderColor, innerBackgroundColor, colorText };
