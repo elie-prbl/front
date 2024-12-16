@@ -1,6 +1,6 @@
-import { SafeAreaView, Text, View } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import React, { useState } from "react";
-import { Color, Content } from "../../base/constant";
+import { Content } from "../../base/constant";
 import ButtonComponent from "../../base/Button";
 import TextInputComponent from "../../base/TextInput";
 import { useNavigation } from "@react-navigation/core";
@@ -24,7 +24,7 @@ const SignUp1 = () => {
 		<SafeAreaView style={{ backgroundColor: themeVariables.background }} className="h-full justify-between">
 			<View className="w-full items-center justify-center h-2/5">
 				<SvgSignUp1 />
-				<TextComponent content={Content.ELIE_SIGNUP_1} className={"font-bold text-xl"} />
+				<TextComponent content={Content.ELIE_SIGNUP_1} className="font-bold text-xl" />
 			</View>
 			<View className="w-full items-center h-2/5">
 				<TextInputComponent

@@ -14,7 +14,9 @@ const Dashboard = () => {
 	return (
 		<Layout>
 			<ScrollView>
-				<BoxComponent title={Content.INFORMATIONS} itemRight={<Ionicons name="person-circle-outline" size={40} color={themeVariables.text} />}>
+				<BoxComponent
+					title={Content.INFORMATIONS}
+					itemRight={<Ionicons name="person-circle-outline" size={40} color={themeVariables.text} />}>
 					<UserDashboardComponent />
 				</BoxComponent>
 				<BoxComponent title={Content.STATISTICS}>

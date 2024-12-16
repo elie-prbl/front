@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import React from "react";
 import { Color } from "../../base/constant";
 import { TypeName } from "../../store/features/Shop/ShopService";

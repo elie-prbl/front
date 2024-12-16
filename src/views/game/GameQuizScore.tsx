@@ -69,7 +69,7 @@ const GameQuizScore = ({ route }: RouteGameScoreProps) => {
 				<View className="h-1/2">
 					<Planet />
 				</View>
-				<TextComponent content={Content.LESSON_FINISHED} className="font-bold text-2xl text-center"/>
+				<TextComponent content={Content.LESSON_FINISHED} className="font-bold text-2xl text-center" />
 				<View className="flex-wrap flex-row justify-center">
 					<GameScoreComponent
 						bg={Color.GOLD}

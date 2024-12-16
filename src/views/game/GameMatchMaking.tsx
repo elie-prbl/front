@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import Layout from "../../base/Layout";
 import GameHeaderGemLifeComponent from "../../components/game/GameHeaderGemLifeComponent";
 import { SafeAreaView, Text, View, ActivityIndicator } from "react-native";
-import { Color, Content, Url } from "../../base/constant";
+import { Content, Url } from "../../base/constant";
 import { useNavigation } from "@react-navigation/core";
 import { NavigationGameDualQuizProps } from "../../navigation/AppNavigator";
 import { w3cwebsocket as WebSocketClient } from "websocket";
@@ -61,7 +61,7 @@ const GameMatchMaking = () => {
 		return (
 			<Layout>
 				<View className="h-full justify-center">
-					<TextComponent className="text-center font-bold" content="Erreur lors du match making."/>
+					<TextComponent className="text-center font-bold" content="Erreur lors du match making." />
 					<TextComponent className="text-center font-bold" content="Revenez plus tard." />
 				</View>
 			</Layout>
@@ -78,7 +78,7 @@ const GameMatchMaking = () => {
 					<View className="h-full justify-center">
 						{isLoading ? (
 							<BoxMatchMakingComponent>
-								<Text  className="text-center text-5xl font-bold" style={{ color: themeVariables.primary }}>
+								<Text className="text-center text-5xl font-bold" style={{ color: themeVariables.primary }}>
 									{Content.MATCH_MAKING}
 								</Text>
 								<Text className="text-center text-xl font-bold mt-1 mb-6" style={{ color: themeVariables.primary }}>

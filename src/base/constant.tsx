@@ -32,7 +32,6 @@ export class Color {
 	static LIGHT_BLUE: string = "#D1EFF7";
 	static SKY: string = "#4FB2D4";
 	static MARINE: string = "#010A5A";
-
 }
 
 export class Content {

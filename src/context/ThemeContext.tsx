@@ -4,7 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface ThemeContextType {
 	theme: ThemeName;
-	themeVariables: typeof themes["light"]["colors"];
+	themeVariables: (typeof themes)["light"]["colors"];
 	BackgroundComponent: React.FC;
 	setTheme: (theme: ThemeName) => void;
 }
@@ -39,11 +39,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 		};
 	}, [theme]);
 
-	return (
-		<ThemeContext.Provider value={contextValue}>
-			{children}
-		</ThemeContext.Provider>
-	);
+	return <ThemeContext.Provider value={contextValue}>{children}</ThemeContext.Provider>;
 };
 
 export const useTheme = () => {

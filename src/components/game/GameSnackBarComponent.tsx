@@ -23,7 +23,7 @@ const GameSnackBarComponent = ({
 	colorIcon,
 	colorContent,
 }: GameSnackBarComponentProps) => {
-	const {themeVariables} = useTheme();
+	const { themeVariables } = useTheme();
 
 	return (
 		<View

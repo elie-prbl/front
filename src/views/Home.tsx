@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { ActivityIndicator, ScrollView, Text } from "react-native";
 import BoxComponent from "../base/Box";
-import { Color, Content } from "../base/constant";
+import { Content } from "../base/constant";
 import QuestComponent from "../components/quest/QuestComponent";
 import ShopHomeComponent from "../components/shop/ShopHomeComponent";
 import GameHomeComponent from "../components/game/GameHomeComponent";
@@ -28,7 +28,7 @@ export enum ContentHome {
 const Home = () => {
 	const dispatch = useAppDispatch();
 	const navigation = useNavigation<MyNavigationProp>();
-	const position = useSelector((state: RootState) => state.position.position);
+	useSelector((state: RootState) => state.position.position);
 	const { userQuests, isLoadingUserQuest } = useSelector((state: RootState) => state.userQuests);
 	const { user } = useAppSelector((state: RootState) => state.user);
 	const { userQuiz } = useAppSelector((state: RootState) => state.userQuiz);

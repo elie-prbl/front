@@ -55,7 +55,7 @@ const ModalPurchaseItem = ({ activeModalPurchase, shopItem, onClose }: ModalPurc
 					<View className="w-full h-36 justify-center">
 						{shopItem.type.name === TypeName.AVATAR && buildElie(shopItem.name)}
 					</View>
-					<TextComponent content={shopItem.name} className={`text-lg font-bold`} />
+					<TextComponent content={shopItem.name} className="text-lg font-bold" />
 					{shopItem.type.name === TypeName.AVATAR ? (
 						<TextComponent content={shopItem.description} className="my-3" />
 					) : (

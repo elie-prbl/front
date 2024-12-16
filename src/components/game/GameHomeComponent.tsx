@@ -18,7 +18,7 @@ const GameHomeComponent = ({ nextQuiz }: GameHomeComponentProps) => {
 				<CircleComponent img={<Game1 />} isDisabled={false} isDone={false} isNext />
 				<View className="flex-col ml-2 flex-1 justify-center">
 					<TextComponent content="Continue à t'amuser !" />
-					<TextComponent content={`Prochain quiz : ${nextQuiz?.title}`} style={{ color: themeVariables.text }}/>
+					<TextComponent content={`Prochain quiz : ${nextQuiz?.title}`} style={{ color: themeVariables.text }} />
 				</View>
 			</View>
 		</View>

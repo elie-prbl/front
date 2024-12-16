@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import ProgressBar from "../../base/ProgressBar";
 import { userSuccessState } from "../../store/features/UserSuccesses/UserSuccessesSlices";
 import Gem from "../../svg/Gem";
@@ -35,7 +35,7 @@ const SuccessComponent = ({ userSuccess }: successProps) => {
 		<View className="flex-row w-full my-2 h-28">
 			{SwitchImg(userSuccess?.success.tag.name)}
 			<View className="flex-col flex-1">
-				<TextComponent className="font-semibold" content={userSuccess?.success.name}/>
+				<TextComponent className="font-semibold" content={userSuccess?.success.name} />
 				<View className="flex-row justify-between mt-2 w-full">
 					<ProgressBar
 						currentStep={userSuccess?.progression}
@@ -44,11 +44,11 @@ const SuccessComponent = ({ userSuccess }: successProps) => {
 					/>
 					<TextComponent content={userSuccess?.success.done_condition} />
 				</View>
-				<TextComponent className="mt-3" content={"Récompenses :"} />
+				<TextComponent className="mt-3" content="Récompenses :" />
 				<View className="flex-row justify-between">
 					<TextComponent className="mt-1" content={`+ ${userSuccess?.success.xp}xp`} />
 					<View className="flex-row items-center">
-						<TextComponent content={`+ ${userSuccess?.success.currency_reward}`} className="mt-1 mr-1"/>
+						<TextComponent content={`+ ${userSuccess?.success.currency_reward}`} className="mt-1 mr-1" />
 						<Gem />
 					</View>
 				</View>

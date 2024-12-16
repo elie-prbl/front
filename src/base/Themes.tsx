@@ -18,7 +18,6 @@ export const themes = {
 			text: Color.BLACK,
 			borderColor: Color.GREY,
 			textError: Color.RED,
-
 		},
 		background: Background,
 	},

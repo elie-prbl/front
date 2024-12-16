@@ -75,9 +75,9 @@ const GameDualQuizScore = ({ route }: RouteGameDualQuizScoreProps) => {
 					<Planet />
 				</View>
 				{isDraw ? (
-					<TextComponent content={Content.DRAW} className="font-bold text-2xl text-center"/>
+					<TextComponent content={Content.DRAW} className="font-bold text-2xl text-center" />
 				) : isWinner ? (
-					<TextComponent content={Content.WINNER} className="font-bold text-2xl text-center"/>
+					<TextComponent content={Content.WINNER} className="font-bold text-2xl text-center" />
 				) : (
 					<TextComponent content={Content.LOSER} className="font-bold text-2xl text-center" />
 				)}

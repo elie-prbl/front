@@ -210,8 +210,8 @@ const GameDualQuiz = ({ route }: RouteGameDualQuizProps) => {
 		return (
 			<Layout>
 				<View className="h-full justify-center">
-					<TextComponent content={"Erreur lors du DualQuiz."} className="text-center font-bold"/>
-					<TextComponent content={"Revenez plus tard."} className="text-center font-bold" />
+					<TextComponent content="Erreur lors du DualQuiz." className="text-center font-bold" />
+					<TextComponent content="Revenez plus tard." className="text-center font-bold" />
 				</View>
 			</Layout>
 		);

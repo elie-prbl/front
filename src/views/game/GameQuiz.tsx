@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Alert, SafeAreaView, Text, View } from "react-native";
+import { Alert, SafeAreaView, View } from "react-native";
 import { MyNavigationProp, NavigationGameScoreProps } from "../../navigation/AppNavigator";
 import GameQuizHeaderComponent from "../../components/game/GameQuizHeaderComponent";
 import { Color, Content, FontSize } from "../../base/constant";
@@ -123,7 +123,7 @@ const GameQuiz = () => {
 				<GameQuizHeaderComponent currentStep={currentQuestionIndex + 1} totalStep={currentQuiz!.questions.length} />
 				<View className="flex-1 justify-between">
 					<View className=" mx-2 px-1">
-						<TextComponent content={currentQuestion.question} className={`${FontSize.TEXT_XL} font-bold`}/>
+						<TextComponent content={currentQuestion.question} className={`${FontSize.TEXT_XL} font-bold`} />
 						<View className="w-24 h-[1] my-2" style={{ backgroundColor: themeVariables.background }} />
 					</View>
 					<View className="flex-1">

@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import CircleComponent from "../../base/Circle";
 import ProgressBar from "../../base/ProgressBar";
 import { UserQuest } from "../../store/features/UserQuests/UserQuestsSlices";
