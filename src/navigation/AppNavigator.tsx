@@ -22,6 +22,7 @@ import GameDualQuiz from "../views/game/GameDualQuiz";
 import GameDualQuizScore from "../views/game/GameDualQuizScore";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
+import { useTheme } from "../context/ThemeContext";
 
 export type StackParamList = {
 	TabNav: { screen: string };
@@ -78,6 +79,7 @@ const AuthStack = () => {
 
 const AppNavigator = (): JSX.Element => {
 	const isLoggedIn = useSelector((state: RootState) => state.user.user !== null);
+	const { themeVariables } = useTheme();
 
 	if (!isLoggedIn) {
 		return <AuthStack />;
@@ -89,12 +91,15 @@ const AppNavigator = (): JSX.Element => {
 				screenOptions={{
 					headerTransparent: true,
 					headerBackTitleVisible: false,
+					headerStyle: {
+						backgroundColor: themeVariables.background, // Changer la couleur de fond de l'en-tête
+					},
 				}}>
 				<Stack.Screen name="TabNav" component={TabNavigator} options={{ headerShown: false }} />
 				<Stack.Screen
 					name="GameModule"
 					component={GameModule}
-					options={{ presentation: "modal", headerTitle: Content.CHOOSE_MODULE }}
+					options={{ presentation: "modal", headerTintColor: themeVariables.text, headerTitle: Content.CHOOSE_MODULE }}
 				/>
 				<Stack.Screen name="Guide" component={Guide} options={{ headerShown: false }} />
 				<Stack.Screen name="Game" component={Game} options={{ headerShown: false }} />
@@ -118,6 +123,7 @@ const AppNavigator = (): JSX.Element => {
 						headerShown: true,
 						headerTransparent: false,
 						headerTitle: Content.PROFILE,
+						headerTintColor: themeVariables.text,
 					}}
 				/>
 				<Stack.Screen name="GameMatchMaking" component={GameMatchMaking} options={{ headerShown: false }} />

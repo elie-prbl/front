@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Alert, SafeAreaView, Text, View } from "react-native";
+import { Alert, SafeAreaView, View } from "react-native";
 import { MyNavigationProp, NavigationGameScoreProps } from "../../navigation/AppNavigator";
 import GameQuizHeaderComponent from "../../components/game/GameQuizHeaderComponent";
 import { Color, Content, FontSize } from "../../base/constant";
@@ -17,6 +17,8 @@ import { restartCurrentQuiz } from "../../store/features/Quiz/CurrentQuizSlice";
 import Planet from "../../svg/Planet";
 import { submitUserQuiz } from "../../store/features/UserQuiz/UserQuizThunk";
 import { RootState } from "../../store/store";
+import { useTheme } from "../../context/ThemeContext";
+import TextComponent from "../../base/Text";
 
 const GameQuiz = () => {
 	const dispatch = useAppDispatch();
@@ -36,6 +38,7 @@ const GameQuiz = () => {
 	const [titleButton, setTitleButton] = useState(Content.VALIDATE);
 	const [colorBgButton, setColorBgButton] = useState(Color.PRIMARY);
 	const [colorShadowButton, setColorShadowButton] = useState(Color.SECONDARY);
+	const { themeVariables } = useTheme();
 
 	const lives = useAppSelector(state => state.lives.value);
 	const [score, setScore] = useState(0);
@@ -115,13 +118,13 @@ const GameQuiz = () => {
 	};
 
 	return (
-		<SafeAreaView className={`bg-[${Color.WHITE}]`}>
+		<SafeAreaView style={{ backgroundColor: themeVariables.background }}>
 			<View className="h-full">
 				<GameQuizHeaderComponent currentStep={currentQuestionIndex + 1} totalStep={currentQuiz!.questions.length} />
 				<View className="flex-1 justify-between">
 					<View className=" mx-2 px-1">
-						<Text className={`${FontSize.TEXT_XL} font-bold`}>{currentQuestion.question}</Text>
-						<View className="w-24 h-[1] my-2" style={{ backgroundColor: Color.PRIMARY }} />
+						<TextComponent content={currentQuestion.question} className={`${FontSize.TEXT_XL} font-bold`} />
+						<View className="w-24 h-[1] my-2" style={{ backgroundColor: themeVariables.background }} />
 					</View>
 					<View className="flex-1">
 						<Planet />

@@ -1,8 +1,9 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { Color, Content, FontSize } from "../../base/constant";
 import EliePirate from "../../svg/EliePirate";
 import PowerUp from "../../svg/PowerUp";
+import TextComponent from "../../base/Text";
 
 const ShopHomeComponent = () => {
 	return (
@@ -11,13 +12,13 @@ const ShopHomeComponent = () => {
 				style={{ borderWidth: 1, borderColor: Color.GREY }}
 				className="rounded-lg flex-1 mr-2 items-center justify-center relative">
 				<EliePirate />
-				<Text className={FontSize.TEXT_LG}>{Content.SHOP_AVATAR}</Text>
+				<TextComponent content={Content.SHOP_AVATAR} className={FontSize.TEXT_LG} />
 			</View>
 			<View
 				style={{ borderWidth: 1, borderColor: Color.GREY }}
 				className="rounded-lg flex-1 ml-2 items-center justify-center">
 				<PowerUp />
-				<Text className={FontSize.TEXT_LG}>{Content.SHOP_THEME}</Text>
+				<TextComponent content={Content.SHOP_THEME} className={FontSize.TEXT_LG} />
 			</View>
 		</View>
 	);

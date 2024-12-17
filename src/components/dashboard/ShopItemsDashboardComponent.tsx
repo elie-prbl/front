@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, Text, View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import { getUserShopItems, UserShopItem } from "../../store/features/UserShop/UserShopService";
 import { useAppSelector } from "../../store/hooks";
 import { RootState } from "../../store/store";
@@ -7,6 +7,7 @@ import { TypeName } from "../../store/features/Shop/ShopService";
 import BoxComponent from "../../base/Box";
 import { Color, Content } from "../../base/constant";
 import UserShopItemDetails from "./UserShopItemDetails";
+import TextComponent from "../../base/Text";
 
 const ShopItemsDashboardComponent = () => {
 	const [isLoading, setLoading] = useState<boolean>(true);
@@ -52,14 +53,14 @@ const ShopItemsDashboardComponent = () => {
 				{avatarItems.length > 0 ? (
 					avatarItems.map(avatar => <UserShopItemDetails key={avatar.id} userShopItem={avatar} />)
 				) : (
-					<Text>{Content.NO_AVATAR}</Text>
+					<TextComponent content={Content.NO_AVATAR} />
 				)}
 			</BoxComponent>
 			<BoxComponent title={Content.SHOP_THEME}>
 				{themeItems.length > 0 ? (
 					themeItems.map(theme => <UserShopItemDetails key={theme.id} userShopItem={theme} />)
 				) : (
-					<Text>{Content.NO_THEME}</Text>
+					<TextComponent content={Content.NO_THEME} />
 				)}
 			</BoxComponent>
 		</View>

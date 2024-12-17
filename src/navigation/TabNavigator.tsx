@@ -1,6 +1,6 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Color, Content } from "../base/constant";
+import { Content } from "../base/constant";
 import Home from "../views/Home";
 import { AntDesign, Feather, Ionicons } from "@expo/vector-icons";
 import Game from "../views/game/Game";
@@ -11,17 +11,23 @@ import { Text, View } from "react-native";
 import ElieHeader from "../svg/ElieHeader";
 import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp } from "./AppNavigator";
+import { useTheme } from "../context/ThemeContext";
 
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
 	const navigation = useNavigation<MyNavigationProp>();
+	const { themeVariables } = useTheme();
 
 	return (
 		<Tab.Navigator
 			screenOptions={{
-				tabBarActiveTintColor: Color.PRIMARY,
-				tabBarInactiveTintColor: Color.BLACK,
+				tabBarActiveTintColor: themeVariables.primary,
+				tabBarInactiveTintColor: themeVariables.text,
+				tabBarStyle: {
+					backgroundColor: themeVariables.background,
+					borderTopWidth: 0,
+				},
 			}}>
 			<Tab.Screen
 				name="Home"
@@ -31,17 +37,23 @@ const TabNavigator = () => {
 					tabBarIcon: ({ color }) => <AntDesign name="home" size={24} color={color} />,
 					headerStyle: {
 						height: 120,
+						backgroundColor: themeVariables.background,
 					},
 					headerTitle: () => (
 						<View className="h-full my-2 flex-row">
 							<View className="flex-1 justify-evenly">
 								<View className="flex-row justify-between">
-									<Text className="font-bold text-lg">{Content.HOME_TITLE}</Text>
+									<Text style={{ color: themeVariables.text }} className="font-bold text-lg">
+										{Content.HOME_TITLE}
+									</Text>
 								</View>
-								<Text className="w-10/12">{Content.HOME_DESCRIPTION}</Text>
+								<Text style={{ color: themeVariables.text }} className="w-10/12">
+									{Content.HOME_DESCRIPTION}
+								</Text>
 							</View>
 							<View className="justify-center">
 								<Ionicons
+									color={themeVariables.text}
 									size={30}
 									name="person-circle-outline"
 									onPress={() => {
@@ -65,7 +77,7 @@ const TabNavigator = () => {
 					headerShown: false,
 					headerTransparent: true,
 					headerStyle: {
-						backgroundColor: Color.WHITE,
+						backgroundColor: themeVariables.background,
 					},
 				}}
 			/>
@@ -77,12 +89,17 @@ const TabNavigator = () => {
 					tabBarIcon: ({ color }) => <AntDesign name="shoppingcart" size={24} color={color} />,
 					headerStyle: {
 						height: 120,
+						backgroundColor: themeVariables.background,
 					},
 					headerTitle: () => (
 						<View className="h-full my-2">
 							<View className="flex-1 justify-evenly">
-								<Text className="font-bold text-lg text-center">{Content.SHOP_TITLE}</Text>
-								<Text className="w-10/12">{Content.SHOP_DESCRIPTION}</Text>
+								<Text style={{ color: themeVariables.text }} className="font-bold text-lg text-center">
+									{Content.SHOP_TITLE}
+								</Text>
+								<Text style={{ color: themeVariables.text }} className="w-10/12">
+									{Content.SHOP_DESCRIPTION}
+								</Text>
 							</View>
 							<ElieHeader />
 						</View>
@@ -100,12 +117,17 @@ const TabNavigator = () => {
 					tabBarIcon: ({ color }) => <Ionicons name="map-outline" size={24} color={color} />,
 					headerStyle: {
 						height: 120,
+						backgroundColor: themeVariables.background,
 					},
 					headerTitle: () => (
 						<View className="h-full my-2">
 							<View className="flex-1 justify-evenly">
-								<Text className="font-bold text-lg text-center">{Content.GUIDE_TITLE}</Text>
-								<Text className="w-10/12">{Content.GUIDE_DESCRIPTION}</Text>
+								<Text style={{ color: themeVariables.text }} className="font-bold text-lg text-center">
+									{Content.GUIDE_TITLE}
+								</Text>
+								<Text style={{ color: themeVariables.text }} className="w-10/12">
+									{Content.GUIDE_DESCRIPTION}
+								</Text>
 							</View>
 							<ElieHeader />
 						</View>
@@ -123,12 +145,17 @@ const TabNavigator = () => {
 					tabBarIcon: ({ color }) => <Feather name="list" size={24} color={color} />,
 					headerStyle: {
 						height: 120,
+						backgroundColor: themeVariables.background,
 					},
 					headerTitle: () => (
 						<View className="h-full my-2">
 							<View className="flex-1 justify-evenly">
-								<Text className="font-bold text-lg text-center">{Content.QUEST_TITLE}</Text>
-								<Text className="w-10/12">{Content.QUEST_DESCRIPTION}</Text>
+								<Text style={{ color: themeVariables.text }} className="font-bold text-lg text-center">
+									{Content.QUEST_TITLE}
+								</Text>
+								<Text style={{ color: themeVariables.text }} className="w-10/12">
+									{Content.QUEST_DESCRIPTION}
+								</Text>
 							</View>
 							<ElieHeader />
 						</View>
