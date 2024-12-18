@@ -37,12 +37,6 @@ const Home = () => {
 	const [, setNextQuiz] = React.useState<string>("");
 
 	useEffect(() => {
-		if (user?.uuid) {
-			dispatch(getUserSuccesses(user.uuid));
-		}
-	}, []);
-
-	useEffect(() => {
 		const fetchCompletedQuizzes = async () => {
 			try {
 				const response = await dispatch(getUserQuiz({ user_uuid: user!.uuid, quiz_id: "1" })).unwrap();

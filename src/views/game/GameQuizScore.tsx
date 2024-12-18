@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import { Color, Content } from "../../base/constant";
 import GameScoreComponent from "../../components/game/GameScoreComponent";
 import ButtonComponent from "../../base/Button";
@@ -17,18 +17,20 @@ import TextComponent from "../../base/Text";
 import { useTheme } from "../../context/ThemeContext";
 import { updateUserSuccesses } from "../../store/features/UserSuccesses/UserSuccessesThunk";
 import { UserSuccess } from "../../store/features/UserSuccesses/UserSuccessesSlices";
+import Layout from "../../base/Layout";
 
 const GameQuizScore = ({ route }: RouteGameScoreProps) => {
 	const { score, nbQuestions } = route.params;
 	const navigation = useNavigation<MyNavigationProp>();
 	const dispatch = useAppDispatch();
-	const { userQuests, isModifiedUserQuest } = useSelector((state: RootState) => state.userQuests);
-	const { userSuccesses, isModifiedUserSuccess } = useSelector((state: RootState) => state.userSuccesses);
+	const { userQuests, isModifiedUserQuest, isLoadingUserQuest } = useSelector((state: RootState) => state.userQuests);
+	const { userSuccesses, isModifiedUserSuccess, isLoadingUserSuccesses } = useSelector(
+		(state: RootState) => state.userSuccesses,
+	);
 	const user = useAppSelector((state: RootState) => state.user.user);
 	const { themeVariables } = useTheme();
 	const [retrieveUserQuestByQuiz, setRetrieveUserQuestByQuiz] = useState<UserQuest[] | null>(null);
 	const [retrieveUserSuccessByQuiz, setRetrieveUserSuccessByQuiz] = useState<UserSuccess[] | null>(null);
-	console.log("userSuccesses", userSuccesses);
 
 	useEffect(() => {
 		if (user?.uuid) {
@@ -50,7 +52,8 @@ const GameQuizScore = ({ route }: RouteGameScoreProps) => {
 	useEffect(() => {
 		if (Array.isArray(userQuests)) {
 			const userQuestsByQuiz = userQuests.filter(
-				userQuest => userQuest.category === Category.PlayQuizzes || userQuest.category === Category.WinQuizzes,
+				userQuest =>
+					userQuest.quest.category === Category.PlayQuizzes || userQuest.quest.category === Category.WinQuizzes,
 			);
 			setRetrieveUserQuestByQuiz(userQuestsByQuiz);
 		}
@@ -59,12 +62,14 @@ const GameQuizScore = ({ route }: RouteGameScoreProps) => {
 	const handleResetHome = () => {
 		if (user?.uuid && retrieveUserQuestByQuiz) {
 			retrieveUserQuestByQuiz.forEach(userQuest => {
+				console.log("quest", userQuest.quest_id, user.uuid);
 				dispatch(updateUserQuest({ user_uuid: user.uuid, quest_id: userQuest.quest_id }));
 			});
 		}
 		if (user?.uuid && retrieveUserSuccessByQuiz) {
 			retrieveUserSuccessByQuiz.forEach(userSuccess => {
-				dispatch(updateUserSuccesses({ user_uuid: user.uuid, success_id: userSuccess.userSuccesses_id }));
+				console.log("success", userSuccess.success_id, user.uuid);
+				dispatch(updateUserSuccesses({ user_uuid: user.uuid, success_id: userSuccess.success_id }));
 			});
 		}
 	};
@@ -77,6 +82,14 @@ const GameQuizScore = ({ route }: RouteGameScoreProps) => {
 			});
 		}
 	}, [isModifiedUserQuest, isModifiedUserSuccess]);
+
+	if (isLoadingUserQuest || isLoadingUserSuccesses) {
+		return (
+			<Layout>
+				<ActivityIndicator size="large" color={themeVariables.primary} className="justify-center h-full" />
+			</Layout>
+		);
+	}
 
 	return (
 		<SafeAreaView style={{ backgroundColor: themeVariables.background }}>

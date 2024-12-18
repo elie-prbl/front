@@ -17,7 +17,7 @@ export interface Success {
 export interface UserSuccess {
 	id: number;
 	user_id: number;
-	userSuccesses_id: number;
+	success_id: number;
 	success: Success;
 	progression: number;
 	is_completed: boolean;
@@ -38,10 +38,12 @@ export const userSuccessesSlice = createSlice({
 		builder
 			.addCase(getUserSuccesses.pending, (state, action) => {
 				state.isLoadingUserSuccesses = true;
+				state.isModifiedUserSuccess = false;
 			})
 			.addCase(getUserSuccesses.fulfilled, (state, action) => {
 				state.userSuccesses = action.payload;
 				state.isLoadingUserSuccesses = false;
+				state.isModifiedUserSuccess = true;
 			})
 			.addCase(getUserSuccesses.rejected, (state, action) => {
 				state.isLoadingUserSuccesses = false;

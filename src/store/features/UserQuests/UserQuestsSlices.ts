@@ -26,6 +26,7 @@ export interface Quest {
 	tag: Tag;
 	name: string;
 	xp: number;
+	category: Category;
 	difficulty: Difficulty;
 	done_condition: number;
 }
@@ -44,7 +45,6 @@ export interface UserQuest {
 	quest: Quest;
 	progression: number;
 	is_completed: boolean;
-	category: Category;
 }
 
 const initialState = {
