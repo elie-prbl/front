@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Layout from "../base/Layout";
 import { ActivityIndicator, ScrollView, View } from "react-native";
 import BoxComponent from "../base/Box";
@@ -12,33 +12,16 @@ import ModuleGame from "../base/ModuleGame";
 import { Entypo } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp } from "../navigation/AppNavigator";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { getUserSuccesses } from "../store/features/UserSuccesses/UserSuccessesThunk";
+import { useAppSelector } from "../store/hooks";
 
 export enum ContentQuest {
 	SHOP = "Shop",
 }
 
 const Quest = () => {
-	const dispatch = useAppDispatch();
 	const { userQuests, isLoadingUserQuest } = useSelector((state: RootState) => state.userQuests);
 	const navigation = useNavigation<MyNavigationProp>();
 	const { userSuccesses, isLoadingUserSuccesses } = useAppSelector((state: RootState) => state.userSuccesses);
-	const user = useAppSelector((state: RootState) => state.user.user);
-
-	useEffect(() => {
-		fetchData();
-	}, [dispatch]);
-
-	const fetchData = async () => {
-		if (user?.uuid) {
-			try {
-				await dispatch(getUserSuccesses(user.uuid));
-			} catch (error) {
-				console.error("Error get user:", error);
-			}
-		}
-	};
 
 	if (isLoadingUserQuest || isLoadingUserSuccesses) {
 		return (
