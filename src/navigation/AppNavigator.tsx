@@ -22,6 +22,8 @@ import GameDualQuiz from "../views/game/GameDualQuiz";
 import GameDualQuizScore from "../views/game/GameDualQuizScore";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
+import UnityGameWebView from "../views/unityGame/GameUnityMatchMaking";
+
 
 export type StackParamList = {
 	TabNav: { screen: string };
@@ -47,6 +49,7 @@ export type StackParamList = {
 	Shop: undefined;
 	Profile: undefined;
 	GameMatchMaking: undefined;
+	UnityGame: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -90,6 +93,7 @@ const AppNavigator = (): JSX.Element => {
 					headerTransparent: true,
 					headerBackTitleVisible: false,
 				}}>
+				<Stack.Screen name="UnityGame" component={UnityGameWebView} options={{ headerShown: false }} />
 				<Stack.Screen name="TabNav" component={TabNavigator} options={{ headerShown: false }} />
 				<Stack.Screen
 					name="GameModule"

@@ -11,6 +11,7 @@ import { Text, View } from "react-native";
 import ElieHeader from "../svg/ElieHeader";
 import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp } from "./AppNavigator";
+import UnityGameWebView from "../views/unityGame/GameUnityMatchMaking";
 
 const Tab = createBottomTabNavigator();
 
@@ -23,6 +24,19 @@ const TabNavigator = () => {
 				tabBarActiveTintColor: Color.PRIMARY,
 				tabBarInactiveTintColor: Color.BLACK,
 			}}>
+			<Tab.Screen
+				name="UnityGame"
+				component={UnityGameWebView}
+				options={{
+					tabBarShowLabel: false,
+					tabBarIcon: ({ color }) => <Ionicons name="game-controller-outline" size={24} color={color} />,
+					headerShown: false,
+					headerTransparent: true,
+					headerStyle: {
+						backgroundColor: Color.WHITE,
+					},
+				}}
+			/>
 			<Tab.Screen
 				name="Home"
 				component={Home}
