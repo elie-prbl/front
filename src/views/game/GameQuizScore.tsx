@@ -33,12 +33,6 @@ const GameQuizScore = ({ route }: RouteGameScoreProps) => {
 	const [retrieveUserSuccessByQuiz, setRetrieveUserSuccessByQuiz] = useState<UserSuccess[] | null>(null);
 
 	useEffect(() => {
-		if (user?.uuid) {
-			dispatch(updateUserSuccesses({ user_uuid: user.uuid, success_id: 3 }));
-		}
-	}, [userSuccesses]);
-
-	useEffect(() => {
 		if (Array.isArray(userSuccesses)) {
 			const userSuccessesByQuiz = userSuccesses.filter(
 				userSuccess =>
