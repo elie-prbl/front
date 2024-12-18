@@ -56,13 +56,11 @@ const GameQuizScore = ({ route }: RouteGameScoreProps) => {
 	const handleResetHome = () => {
 		if (user?.uuid && retrieveUserQuestByQuiz) {
 			retrieveUserQuestByQuiz.forEach(userQuest => {
-				console.log("quest", userQuest.quest_id, user.uuid);
 				dispatch(updateUserQuest({ user_uuid: user.uuid, quest_id: userQuest.quest_id }));
 			});
 		}
 		if (user?.uuid && retrieveUserSuccessByQuiz) {
 			retrieveUserSuccessByQuiz.forEach(userSuccess => {
-				console.log("success", userSuccess.success_id, user.uuid);
 				dispatch(updateUserSuccesses({ user_uuid: user.uuid, success_id: userSuccess.success_id }));
 			});
 		}
