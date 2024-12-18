@@ -24,7 +24,7 @@ export const updateUserSuccesses = createAsyncThunk(
 	"updateUserSuccesses",
 	async (body: updateUserSuccessReq, { rejectWithValue }) => {
 		try {
-			const response = await fetch(`${Url.BASE_URL_API}/successes/user/progress`, {
+			const response = await fetch(`${Url.BASE_URL_API}/successes/user`, {
 				method: "PATCH",
 				headers: {
 					"Content-Type": "application/json",

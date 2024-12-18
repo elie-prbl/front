@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getUserSuccesses } from "./UserSuccessesThunk";
-import { Tag } from "../UserQuests/UserQuestsSlices";
+import { Category, Tag } from "../UserQuests/UserQuestsSlices";
 
 export interface Success {
 	id: number;
@@ -9,6 +9,7 @@ export interface Success {
 	done_condition: number;
 	progression_rank: number;
 	currency_reward: number;
+	short_name: Category;
 	tag_id: number;
 	tag: Tag;
 }

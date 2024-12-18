@@ -12,26 +12,23 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import Planet from "../../svg/Planet";
 import { updateUserQuest } from "../../store/features/UserQuests/UserQuestsThunk";
-import { TagName, UserQuest } from "../../store/features/UserQuests/UserQuestsSlices";
+import { UserQuest, Category } from "../../store/features/UserQuests/UserQuestsSlices";
 import TextComponent from "../../base/Text";
 import { useTheme } from "../../context/ThemeContext";
-import { getUserSuccesses, updateUserSuccesses } from "../../store/features/UserSuccesses/UserSuccessesThunk";
+import { updateUserSuccesses } from "../../store/features/UserSuccesses/UserSuccessesThunk";
 import { UserSuccess } from "../../store/features/UserSuccesses/UserSuccessesSlices";
 
 const GameQuizScore = ({ route }: RouteGameScoreProps) => {
 	const { score, nbQuestions } = route.params;
 	const navigation = useNavigation<MyNavigationProp>();
 	const dispatch = useAppDispatch();
-	const { userQuests, isModified } = useSelector((state: RootState) => state.userQuests);
+	const { userQuests, isModifiedUserQuest } = useSelector((state: RootState) => state.userQuests);
 	const { userSuccesses, isModifiedUserSuccess } = useSelector((state: RootState) => state.userSuccesses);
 	const user = useAppSelector((state: RootState) => state.user.user);
-	const quizWon = score === nbQuestions;
 	const { themeVariables } = useTheme();
-
-	const [retrieveUserQuestsWinGames, setRetrieveUserQuestsWinGames] = useState<(UserSuccess | UserQuest)[]>([]);
-	const [retrieveUserQuestsPlayGames, setRetrieveUserQuestsPlayGames] = useState<(UserSuccess | UserQuest)[]>([]);
-	const [retrieveUserSuccessesWinGames, setRetrieveUserSuccessesWinGames] = useState<(UserSuccess | UserQuest)[]>([]);
-	const [retrieveUserSuccessesPlayGames, setRetrieveUserSuccessesPlayGames] = useState<(UserSuccess | UserQuest)[]>([]);
+	const [retrieveUserQuestByQuiz, setRetrieveUserQuestByQuiz] = useState<UserQuest[] | null>(null);
+	const [retrieveUserSuccessByQuiz, setRetrieveUserSuccessByQuiz] = useState<UserSuccess[] | null>(null);
+	console.log("userSuccesses", userSuccesses);
 
 	useEffect(() => {
 		if (user?.uuid) {
@@ -39,82 +36,47 @@ const GameQuizScore = ({ route }: RouteGameScoreProps) => {
 		}
 	}, [userSuccesses]);
 
-	const filterByTag = (userParameter: UserQuest[] | UserSuccess[], type: string) => {
-		const isUserQuest = (item: UserQuest | UserSuccess): item is UserQuest => type === "quests";
-		const winGames = userParameter.filter(item => {
-			const target = isUserQuest(item) ? item.quest : item.success;
-			return (
-				target.tag.name === "" ||
-				target.tag.name === "WonQuizTag" ||
-				target.tag.name === "PlayGameTag" ||
-				target.tag.name === "PlayQuizTag"
+	useEffect(() => {
+		if (Array.isArray(userSuccesses)) {
+			const userSuccessesByQuiz = userSuccesses.filter(
+				userSuccess =>
+					userSuccess.success.short_name === Category.PlayQuizzes ||
+					userSuccess.success.short_name === Category.WinQuizzes,
 			);
-		});
-
-		const playGames = userParameter.filter(item => {
-			const target = isUserQuest(item) ? item.quest : item.success;
-			return target.tag.name === "PlayGameTag" || target.tag.name === "PlayQuizTag";
-		});
-
-		return { winGames, playGames };
-	};
+			setRetrieveUserSuccessByQuiz(userSuccessesByQuiz);
+		}
+	}, [userSuccesses]);
 
 	useEffect(() => {
 		if (Array.isArray(userQuests)) {
-			const { winGames, playGames } = filterByTag(userQuests, "quests");
-
-			setRetrieveUserQuestsWinGames(winGames);
-			setRetrieveUserQuestsPlayGames(playGames);
+			const userQuestsByQuiz = userQuests.filter(
+				userQuest => userQuest.category === Category.PlayQuizzes || userQuest.category === Category.WinQuizzes,
+			);
+			setRetrieveUserQuestByQuiz(userQuestsByQuiz);
 		}
 	}, [userQuests]);
 
-	// useEffect(() => {
-	// 	if (Array.isArray(userQuests)) {
-	// 		const winGames = userQuests.filter(
-	// 			userQuest => userQuest.quest.tag.name === TagName.WinGames || userQuest.quest.tag.name === TagName.PlayGames,
-	// 		);
-	// 		const playGames = userQuests.filter(userQuest => userQuest.quest.tag.name === TagName.PlayGames);
-	//
-	// 		setRetrieveUserQuestsWinGames(winGames);
-	// 		setRetrieveUserQuestsPlayGames(playGames);
-	// 	}
-	// }, [userQuests]);
-
-	useEffect(() => {
-		if (Array.isArray(userSuccesses)) {
-			const { winGames, playGames } = filterByTag(userSuccesses, "successes");
-
-			setRetrieveUserSuccessesWinGames(winGames);
-			setRetrieveUserSuccessesPlayGames(playGames);
-		}
-	}, []);
-
 	const handleResetHome = () => {
-		if (user?.uuid) {
-			if (quizWon) {
-				retrieveUserQuestsWinGames.forEach(userQuest => {
-					if ("quest_id" in userQuest) {
-						dispatch(updateUserQuest({ user_uuid: user.uuid, quest_id: userQuest.quest_id }));
-					}
-				});
-			} else {
-				retrieveUserQuestsPlayGames.forEach(userQuest => {
-					if ("quest_id" in userQuest) {
-						dispatch(updateUserQuest({ user_uuid: user.uuid, quest_id: userQuest.quest_id }));
-					}
-				});
-			}
+		if (user?.uuid && retrieveUserQuestByQuiz) {
+			retrieveUserQuestByQuiz.forEach(userQuest => {
+				dispatch(updateUserQuest({ user_uuid: user.uuid, quest_id: userQuest.quest_id }));
+			});
+		}
+		if (user?.uuid && retrieveUserSuccessByQuiz) {
+			retrieveUserSuccessByQuiz.forEach(userSuccess => {
+				dispatch(updateUserSuccesses({ user_uuid: user.uuid, success_id: userSuccess.userSuccesses_id }));
+			});
 		}
 	};
 
 	useEffect(() => {
-		if (isModified) {
+		if (isModifiedUserQuest || isModifiedUserSuccess) {
 			dispatch(restartCurrentQuiz());
 			navigation.navigate("TabNav", {
 				screen: "Game",
 			});
 		}
-	}, [isModified]);
+	}, [isModifiedUserQuest, isModifiedUserSuccess]);
 
 	return (
 		<SafeAreaView style={{ backgroundColor: themeVariables.background }}>
