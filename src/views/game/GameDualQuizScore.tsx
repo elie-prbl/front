@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { ActivityIndicator, View } from "react-native";
+import { View } from "react-native";
 import { Color, Content } from "../../base/constant";
 import GameScoreComponent from "../../components/game/GameScoreComponent";
 import ButtonComponent from "../../base/Button";
@@ -11,78 +11,62 @@ import { restartCurrentQuiz } from "../../store/features/Quiz/CurrentQuizSlice";
 import Planet from "../../svg/Planet";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { Category, UserQuest } from "../../store/features/UserQuests/UserQuestsSlices";
+import { UserQuest } from "../../store/features/UserQuests/UserQuestsSlices";
 import { updateUserQuest } from "../../store/features/UserQuests/UserQuestsThunk";
 import { useTheme } from "../../context/ThemeContext";
 import TextComponent from "../../base/Text";
-import { UserSuccess } from "../../store/features/UserSuccesses/UserSuccessesSlices";
-import { updateUserSuccesses } from "../../store/features/UserSuccesses/UserSuccessesThunk";
-import Layout from "../../base/Layout";
 
 const GameDualQuizScore = ({ route }: RouteGameDualQuizScoreProps) => {
 	const { isDraw, isWinner, myScore, scorePlayer, nbQuestions, nameOpponent } = route.params;
 	const navigation = useNavigation<MyNavigationProp>();
 	const dispatch = useAppDispatch();
 	const user = useAppSelector((state: RootState) => state.user.user);
-	const { userQuests, isModifiedUserQuest, isLoadingUserQuest } = useSelector((state: RootState) => state.userQuests);
-	const { userSuccesses, isModifiedUserSuccess, isLoadingUserSuccesses } = useSelector(
-		(state: RootState) => state.userSuccesses,
-	);
+	const { userQuests, isModified } = useSelector((state: RootState) => state.userQuests);
 	const { themeVariables } = useTheme();
 
-	const [retrieveUserQuestByQuiz, setRetrieveUserQuestByQuiz] = useState<UserQuest[] | null>(null);
-	const [retrieveUserSuccessByQuiz, setRetrieveUserSuccessByQuiz] = useState<UserSuccess[] | null>(null);
-
-	useEffect(() => {
-		if (Array.isArray(userSuccesses)) {
-			const userSuccessesByQuiz = userSuccesses.filter(
-				userSuccess =>
-					userSuccess.success.short_name === Category.PlayQuizzes ||
-					userSuccess.success.short_name === Category.WinQuizzes,
-			);
-			setRetrieveUserSuccessByQuiz(userSuccessesByQuiz);
-		}
-	}, [userSuccesses]);
+	const [retrieveUserQuestsWinGames, setRetrieveUserQuestsWinGames] = useState<UserQuest[]>([]);
+	const [retrieveUserQuestsPlayGames, setRetrieveUserQuestsPlayGames] = useState<UserQuest[]>([]);
 
 	useEffect(() => {
 		if (Array.isArray(userQuests)) {
-			const userQuestsByQuiz = userQuests.filter(
+			const winGames = userQuests.filter(
 				userQuest =>
-					userQuest.quest.category === Category.PlayQuizzes || userQuest.quest.category === Category.WinQuizzes,
+					userQuest.quest.tag.name === "WonGameTag" ||
+					userQuest.quest.tag.name === "WonQuizTag" ||
+					userQuest.quest.tag.name === "PlayGameTag" ||
+					userQuest.quest.tag.name === "PlayQuizTag",
 			);
-			setRetrieveUserQuestByQuiz(userQuestsByQuiz);
+			const playGames = userQuests.filter(
+				userQuest => userQuest.quest.tag.name === "PlayGameTag" || userQuest.quest.tag.name === "PlayQuizTag",
+			);
+
+			setRetrieveUserQuestsWinGames(winGames);
+			setRetrieveUserQuestsPlayGames(playGames);
 		}
 	}, [userQuests]);
 
 	const handleResetHome = () => {
-		if (user?.uuid && retrieveUserQuestByQuiz) {
-			retrieveUserQuestByQuiz.forEach(userQuest => {
-				dispatch(updateUserQuest({ user_uuid: user.uuid, quest_id: userQuest.quest_id }));
-			});
-		}
-		if (user?.uuid && retrieveUserSuccessByQuiz) {
-			retrieveUserSuccessByQuiz.forEach(userSuccess => {
-				dispatch(updateUserSuccesses({ user_uuid: user.uuid, success_id: userSuccess.success_id }));
-			});
+		if (user?.uuid) {
+			if (isWinner) {
+				retrieveUserQuestsWinGames.forEach(userQuest => {
+					dispatch(updateUserQuest({ user_uuid: user.uuid, quest_id: userQuest.quest_id }));
+				});
+			} else {
+				retrieveUserQuestsPlayGames.forEach(userQuest => {
+					dispatch(updateUserQuest({ user_uuid: user.uuid, quest_id: userQuest.quest_id }));
+				});
+			}
 		}
 	};
 
 	useEffect(() => {
-		if (isModifiedUserQuest || isModifiedUserSuccess) {
+		if (isModified) {
 			dispatch(restartCurrentQuiz());
 			navigation.navigate("TabNav", {
 				screen: "Game",
 			});
 		}
-	}, [isModifiedUserQuest, isModifiedUserSuccess]);
-
-	if (isLoadingUserQuest || isLoadingUserSuccesses) {
-		return (
-			<Layout>
-				<ActivityIndicator size="large" color={themeVariables.primary} className="justify-center h-full" />
-			</Layout>
-		);
-	}
+	}, [isModified]);
 
 	return (
 		<SafeAreaView style={{ backgroundColor: themeVariables.background }}>

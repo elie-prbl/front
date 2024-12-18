@@ -26,16 +26,8 @@ export interface Quest {
 	tag: Tag;
 	name: string;
 	xp: number;
-	category: Category;
 	difficulty: Difficulty;
 	done_condition: number;
-}
-
-export enum Category {
-	PlayQuizzes = "PlayQuizzes",
-	WinQuizzes = "WinQuizzes",
-	PlayGames = "PlayGames",
-	WinGames = "WinGames",
 }
 
 export interface UserQuest {
@@ -51,7 +43,7 @@ const initialState = {
 	userQuests: [] as UserQuest[],
 	isLoadingUserQuest: false,
 	error: null as string | null | unknown,
-	isModifiedUserQuest: false,
+	isModified: false,
 };
 
 export const getUserQuestsSlice = createSlice({
@@ -62,31 +54,31 @@ export const getUserQuestsSlice = createSlice({
 		builder
 			.addCase(getUserQuests.pending, (state, action) => {
 				state.isLoadingUserQuest = true;
-				state.isModifiedUserQuest = false;
+				state.isModified = false;
 			})
 			.addCase(getUserQuests.fulfilled, (state, action) => {
 				state.userQuests = action.payload;
 				state.isLoadingUserQuest = false;
-				state.isModifiedUserQuest = false;
+				state.isModified = false;
 			})
 			.addCase(getUserQuests.rejected, (state, action) => {
 				state.isLoadingUserQuest = false;
 				state.error = action.payload;
-				state.isModifiedUserQuest = false;
+				state.isModified = false;
 			})
 			.addCase(updateUserQuest.pending, (state, action) => {
 				state.isLoadingUserQuest = true;
-				state.isModifiedUserQuest = false;
+				state.isModified = false;
 			})
 			.addCase(updateUserQuest.fulfilled, (state, action) => {
 				state.userQuests = action.payload;
 				state.isLoadingUserQuest = false;
-				state.isModifiedUserQuest = true;
+				state.isModified = true;
 			})
 			.addCase(updateUserQuest.rejected, (state, action) => {
 				state.isLoadingUserQuest = false;
 				state.error = action.payload;
-				state.isModifiedUserQuest = false;
+				state.isModified = false;
 			});
 	},
 });
