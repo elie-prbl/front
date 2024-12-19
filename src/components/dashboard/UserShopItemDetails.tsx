@@ -17,6 +17,9 @@ const UserShopItemDetails = ({ userShopItem }: UserShopItemDetailsProps) => {
 	const { setTheme, themeVariables, theme } = useTheme();
 	const themeName = themeMapping[userShopItem.shop_item.name] || "light";
 
+	console.log(theme);
+	console.log(themeName);
+
 	return (
 		<View className="flex-row items-center mb-2">
 			<View className="w-12 h-20 flex-row items-center">
