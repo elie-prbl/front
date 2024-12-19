@@ -1,27 +1,30 @@
-import { SafeAreaView, Text, View } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import React, { useState } from "react";
-import { Color, Content } from "../../base/constant";
+import { Content } from "../../base/constant";
 import ButtonComponent from "../../base/Button";
 import TextInputComponent from "../../base/TextInput";
 import { useNavigation } from "@react-navigation/core";
 import { NavigationSignUp2Props } from "../../navigation/AppNavigator";
 import SvgSignUp1 from "../../svg/SvgSignUp1";
+import TextComponent from "../../base/Text";
+import { useTheme } from "../../context/ThemeContext";
 
 const SignUp1 = () => {
 	const navigation = useNavigation<NavigationSignUp2Props>();
 	const [email, setEmail] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
 	const [age, setAge] = useState<string>("");
+	const { themeVariables } = useTheme();
 
 	const handleNavigateToSignUp = () => {
 		navigation.navigate("SignUp2");
 	};
 
 	return (
-		<SafeAreaView style={{ backgroundColor: Color.WHITE }} className="h-full justify-between">
+		<SafeAreaView style={{ backgroundColor: themeVariables.background }} className="h-full justify-between">
 			<View className="w-full items-center justify-center h-2/5">
 				<SvgSignUp1 />
-				<Text className="font-bold text-xl">{Content.ELIE_SIGNUP_1}</Text>
+				<TextComponent content={Content.ELIE_SIGNUP_1} className="font-bold text-xl" />
 			</View>
 			<View className="w-full items-center h-2/5">
 				<TextInputComponent

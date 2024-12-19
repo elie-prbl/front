@@ -14,29 +14,23 @@ import { useAppDispatch } from "../../store/hooks";
 const StatDashboardComponent = () => {
 	const dispatch = useAppDispatch();
 	const user = useSelector((state: RootState) => state.user.user);
-	const [quizzes, setQuizzes] = React.useState<number>(0);
+	const { userQuiz } = useSelector((state: RootState) => state.userQuiz);
 
 	useEffect(() => {
-		const fetchCompletedQuizzes = async () => {
-			try {
-				const response = await dispatch(getUserQuiz(user!.uuid)).unwrap();
-				if (response.quizIds !== null) {
-					setQuizzes(response.quizIds.length);
-				}
-			} catch (error) {
-				console.error("Error fetching user quizzes:", error);
-			}
-		};
-
-		if (user!.uuid) {
-			fetchCompletedQuizzes();
+		if (user?.uuid) {
+			dispatch(getUserQuiz({ user_uuid: user.uuid, quiz_id: "1" }));
 		}
-	}, [dispatch, user!.uuid]);
+	}, [dispatch, user?.uuid]);
 
 	return (
 		<View>
 			<View className="flex-row justify-between mb-4">
-				<BoxStat color={Color.GOLD} result={quizzes} resultType={Content.QUIZZ} icon={<Crown />} />
+				<BoxStat
+					color={Color.GOLD}
+					result={!userQuiz?.quizIds ? 0 : userQuiz?.quizIds.length}
+					resultType={Content.QUIZZ}
+					icon={<Crown />}
+				/>
 				<BoxStat color={Color.PURPLE_DARK} result={user?.xp} resultType={Content.XP} icon={<Flash />} />
 			</View>
 			<View className="flex-row justify-between">

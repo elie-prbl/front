@@ -1,52 +1,73 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../base/Layout";
 import BoxComponent from "../base/Box";
-import { Content } from "../base/constant";
-import CustomizationDetailComponent from "../base/PersonnalisationDetail";
-import PowerUp from "../svg/PowerUp";
-import EliePirate from "../svg/EliePirate";
-import ElieCyborg from "../svg/ElieCyborg";
-import { ScrollView } from "react-native";
-import ElieGold from "../svg/ElieGold";
-import Boost from "../svg/Boost";
+import { Color, Content } from "../base/constant";
+import ShopItemDetails from "../components/shop/ShopItemDetails";
+import { ActivityIndicator, ScrollView, Text } from "react-native";
+import { getShopItems, ShopItem, TypeName } from "../store/features/Shop/ShopService";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { RootState } from "../store/store";
+import GemComponent from "../base/Gem";
+import { getUser } from "../store/features/User/UserThunk";
+import { useTheme } from "../context/ThemeContext";
 
 const Shop = () => {
+	const [isLoading, setLoading] = useState<boolean>(true);
+	const [avatarItems, setAvatarItems] = useState<ShopItem[]>([]);
+	const [themeItems, setThemeItems] = useState<ShopItem[]>([]);
+	const dispatch = useAppDispatch();
+	const { user } = useAppSelector((state: RootState) => state.user);
+	const { shop } = useAppSelector((state: RootState) => state.shop);
+	const { themeVariables } = useTheme();
+
+	useEffect(() => {
+		dispatch(getUser(user!.uuid));
+	}, [shop]);
+
+	useEffect(() => {
+		setAvatarItems([]);
+		setThemeItems([]);
+
+		(async () => {
+			try {
+				const avatars = await getShopItems(TypeName.AVATAR);
+				setAvatarItems(avatars);
+
+				const themes = await getShopItems(TypeName.THEME);
+				setThemeItems(themes);
+			} catch (e) {
+				console.log(`error ${e}`);
+			} finally {
+				setLoading(false);
+			}
+		})();
+	}, []);
+
+	if (isLoading) {
+		return (
+			<Layout>
+				<ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center h-full" />
+			</Layout>
+		);
+	}
+
 	return (
 		<Layout>
 			<ScrollView showsVerticalScrollIndicator={false}>
-				<BoxComponent title={Content.SHOP_POWER_UP}>
-					<CustomizationDetailComponent
-						title={Content.SHOP_POWER_UP_LIFE_TITLE}
-						detail={Content.SHOP_POWER_UP_LIFE_DESCRIPTION}
-						elie={<PowerUp />}
-						gem={50}
-					/>
-					<CustomizationDetailComponent
-						title={Content.SHOP_POWER_UP_BOOST_TITLE}
-						detail={Content.SHOP_POWER_UP_BOOST_DESCRIPTION}
-						elie={<Boost />}
-						gem={100}
-					/>
+				{user && (
+					<BoxComponent title={Content.SHOP_GEM} itemRight={<GemComponent nb={user?.currency_amount} />}>
+						<Text style={{ color: themeVariables.text }}>{Content.SHOP_GEM_DESCRIPTION}</Text>
+					</BoxComponent>
+				)}
+				<BoxComponent title={Content.SHOP_AVATAR}>
+					{avatarItems.map(avatar => (
+						<ShopItemDetails key={avatar.id} shopItem={avatar} />
+					))}
 				</BoxComponent>
-				<BoxComponent title={Content.SHOP_PERSONALISATION}>
-					<CustomizationDetailComponent
-						title={Content.ELIE_PIRATE}
-						detail={Content.ELIE_PIRATE_DESCRIPTION}
-						elie={<EliePirate />}
-						gem={50}
-					/>
-					<CustomizationDetailComponent
-						title={Content.ELIE_CYBORG}
-						detail={Content.ELIE_CYBORG_DESCRIPTION}
-						elie={<ElieCyborg />}
-						gem={100}
-					/>
-					<CustomizationDetailComponent
-						title={Content.ELIE_GOLD}
-						detail={Content.ELIE_GOLD_DESCRIPTION}
-						elie={<ElieGold />}
-						gem={150}
-					/>
+				<BoxComponent title={Content.SHOP_THEME}>
+					{themeItems.map(theme => (
+						<ShopItemDetails key={theme.id} shopItem={theme} />
+					))}
 				</BoxComponent>
 			</ScrollView>
 		</Layout>

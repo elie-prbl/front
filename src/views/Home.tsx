@@ -1,14 +1,11 @@
 import React, { useEffect } from "react";
 import { ActivityIndicator, ScrollView, Text } from "react-native";
 import BoxComponent from "../base/Box";
-import { Color, Content } from "../base/constant";
+import { Content } from "../base/constant";
 import QuestComponent from "../components/quest/QuestComponent";
 import ShopHomeComponent from "../components/shop/ShopHomeComponent";
 import GameHomeComponent from "../components/game/GameHomeComponent";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { setPosition } from "../store/features/Position/PositionSlices";
-import { getTheCurrentPosition } from "../utils";
-import MapView from "react-native-maps";
 import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp } from "../navigation/AppNavigator";
 import { useSelector } from "react-redux";
@@ -19,9 +16,12 @@ import GemComponent from "../base/Gem";
 import { getUser } from "../store/features/User/UserThunk";
 import { getUserQuests } from "../store/features/UserQuests/UserQuestsThunk";
 import { getUserQuiz } from "../store/features/UserQuiz/UserQuizThunk";
+import { useTheme } from "../context/ThemeContext";
+import GuideCompactMap from "../components/guide/GuideCompactMap";
+import { getUserSuccesses } from "../store/features/UserSuccesses/UserSuccessesThunk";
 
 export enum ContentHome {
-	MAP = "Map",
+	GUIDE = "Guide",
 	GAME = "Game",
 	SHOP = "Shop",
 }
@@ -29,24 +29,17 @@ export enum ContentHome {
 const Home = () => {
 	const dispatch = useAppDispatch();
 	const navigation = useNavigation<MyNavigationProp>();
-	const position = useSelector((state: RootState) => state.position.position);
+	useSelector((state: RootState) => state.position.position);
 	const { userQuests, isLoadingUserQuest } = useSelector((state: RootState) => state.userQuests);
-	const [nextQuiz, setNextQuiz] = React.useState<string>("");
-	const { user, isLoading } = useAppSelector((state: RootState) => state.user);
-
-	useEffect(() => {
-		getTheCurrentPosition().then(location => {
-			if (location) {
-				const { latitude, longitude } = location.coords;
-				dispatch(setPosition({ latitude, longitude }));
-			}
-		});
-	}, []);
+	const { user } = useAppSelector((state: RootState) => state.user);
+	const { userQuiz } = useAppSelector((state: RootState) => state.userQuiz);
+	const { themeVariables } = useTheme();
+	const [, setNextQuiz] = React.useState<string>("");
 
 	useEffect(() => {
 		const fetchCompletedQuizzes = async () => {
 			try {
-				const response = await dispatch(getUserQuiz(user!.uuid)).unwrap();
+				const response = await dispatch(getUserQuiz({ user_uuid: user!.uuid, quiz_id: "1" })).unwrap();
 				setNextQuiz(response.nextQuiz.title ? response.nextQuiz.title : "");
 			} catch (error) {
 				console.error("Error fetching user quizzes:", error);
@@ -60,23 +53,21 @@ const Home = () => {
 
 	useEffect(() => {
 		fetchData();
-	}, [dispatch]);
+	}, []);
 
 	const fetchData = async () => {
-		try {
-			if (user?.uuid) {
-				await dispatch(getUser(user.uuid));
-				await dispatch(getUserQuests(user.uuid));
-			}
-		} catch (error) {
-			console.error("Error get user:", error);
+		if (user?.uuid) {
+			dispatch(getUser(user.uuid));
+			dispatch(getUserQuests(user.uuid));
+			dispatch(getUserSuccesses(user.uuid));
+			dispatch(getUserQuiz({ user_uuid: user.uuid, quiz_id: "1" }));
 		}
 	};
 
-	if (isLoading || isLoadingUserQuest) {
+	if (isLoadingUserQuest) {
 		return (
 			<Layout>
-				<ActivityIndicator size="large" color={Color.PRIMARY} className="justify-center h-full" />
+				<ActivityIndicator size="large" color={themeVariables.primary} className="justify-center h-full" />
 			</Layout>
 		);
 	}
@@ -96,23 +87,13 @@ const Home = () => {
 					<ShopHomeComponent />
 				</BoxComponent>
 				<BoxComponent title={Content.GAME} onPress={() => navigation.navigate(ContentHome.GAME)}>
-					<GameHomeComponent nextQuiz={nextQuiz} />
+					<GameHomeComponent nextQuiz={userQuiz?.nextQuiz} />
 				</BoxComponent>
-				<BoxComponent title={Content.MAP} height="h-48" onPress={() => navigation.navigate(ContentHome.MAP)}>
-					<MapView
-						className="w-full"
-						style={{ borderRadius: 8, height: "75%" }}
-						region={{
-							latitude: position?.latitude ?? 0,
-							longitude: position?.longitude ?? 0,
-							latitudeDelta: 0.0922,
-							longitudeDelta: 0.0421,
-						}}
-						showsUserLocation
-					/>
+				<BoxComponent title={Content.MAP} height="h-48" onPress={() => navigation.navigate(ContentHome.GUIDE)}>
+					<GuideCompactMap />
 				</BoxComponent>
 				<BoxComponent title={Content.EVENT} height="h-24">
-					<Text>Fonctionnalité à découvrir prochainement !</Text>
+					<Text style={{ color: themeVariables.text }}>Fonctionnalité à découvrir prochainement !</Text>
 				</BoxComponent>
 			</ScrollView>
 		</Layout>

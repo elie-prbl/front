@@ -1,5 +1,6 @@
 import React, { ReactElement } from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
+import TextComponent from "./Text";
 
 interface BoxStatComponentProps {
 	result: number | undefined;
@@ -16,8 +17,8 @@ const BoxStatComponent = ({ color, result, resultType, icon }: BoxStatComponentP
 				style={{ height: 70, width: 165, borderColor: `${color}`, borderBottomWidth: 4, borderWidth: 2 }}>
 				<View className="w-10">{icon}</View>
 				<View className="ml-4 flex-col items-start justify-start">
-					<Text className={`text-${color}-600 font-bold text-xl`}>{result}</Text>
-					<Text className="text-center text-gray-600">{resultType}</Text>
+					<TextComponent content={resultType} />
+					<TextComponent content={result} className="font-bold text-xl" />
 				</View>
 			</View>
 		</>

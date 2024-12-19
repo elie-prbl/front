@@ -6,18 +6,24 @@ interface QuizData {
 	quiz_id: string;
 }
 
-export const getUserQuiz = createAsyncThunk("getUserQuiz", async (userUuid: string, { rejectWithValue }) => {
-	const response = await fetch(`${Url.BASE_URL_API}/games/quiz/${userUuid}`, {
-		method: "GET",
-		headers: {
-			"Content-Type": "application/json",
-		},
-	});
-
+export const getUserQuiz = createAsyncThunk("getUserQuiz", async (quizData: QuizData, { rejectWithValue }) => {
 	try {
+		const response = await fetch(`${Url.BASE_URL_API}/games/quiz/user/${quizData.user_uuid}/quiz/${quizData.quiz_id}`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
+
+		if (!response.ok) {
+			const errorData = await response.json(); // Essayez de lire l'erreur si elle est au format JSON
+			return rejectWithValue(`Error ${response.status}: ${errorData.message || "Could not fetch user quiz"}`);
+		}
+
 		return await response.json();
 	} catch (err) {
-		return rejectWithValue(`network error GET UserQuizz: ${err}`);
+		// @ts-ignore
+		return rejectWithValue(`Network error: ${err.message || err}`);
 	}
 });
 

@@ -11,9 +11,9 @@ import SignUp3 from "../views/registration/SignUp3";
 import TabNavigator from "./TabNavigator";
 import GameModule from "../views/game/GameModule";
 import { Content } from "../base/constant";
-import Map from "../views/Map";
+import Guide from "../views/Guide";
 import GameQuiz from "../views/game/GameQuiz";
-import GameScore from "../views/game/GameScore";
+import GameQuizScore from "../views/game/GameQuizScore";
 import Game from "../views/game/Game";
 import Shop from "../views/Shop";
 import Dashboard from "../views/user/Dashboard";
@@ -22,6 +22,7 @@ import GameDualQuiz from "../views/game/GameDualQuiz";
 import GameDualQuizScore from "../views/game/GameDualQuizScore";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
+import { useTheme } from "../context/ThemeContext";
 import UnityGameWebView from "../views/unityGame/GameUnityMatchMaking";
 
 
@@ -32,11 +33,11 @@ export type StackParamList = {
 	SignUp2: undefined;
 	SignUp3: undefined;
 	Home: undefined;
-	Map: undefined;
+	Guide: undefined;
 	Game: undefined;
 	GameModule: undefined;
 	GameQuiz: undefined;
-	GameScore: { score: number; nbQuestions: number };
+	GameQuizScore: { score: number; nbQuestions: number };
 	GameDualQuiz: { roomId: number; nameOpponent: string };
 	GameDualQuizScore: {
 		isDraw: boolean;
@@ -55,8 +56,8 @@ export type StackParamList = {
 const Stack = createNativeStackNavigator<StackParamList>();
 export type MyNavigationProp = NativeStackNavigationProp<StackParamList>;
 
-export type RouteGameScoreProps = NativeStackScreenProps<StackParamList, "GameScore">;
-export type NavigationGameScoreProps = NativeStackNavigationProp<StackParamList, "GameScore">;
+export type RouteGameScoreProps = NativeStackScreenProps<StackParamList, "GameQuizScore">;
+export type NavigationGameScoreProps = NativeStackNavigationProp<StackParamList, "GameQuizScore">;
 
 export type RouteGameDualQuizProps = NativeStackScreenProps<StackParamList, "GameDualQuiz">;
 export type NavigationGameDualQuizProps = NativeStackNavigationProp<StackParamList, "GameDualQuiz">;
@@ -81,6 +82,7 @@ const AuthStack = () => {
 
 const AppNavigator = (): JSX.Element => {
 	const isLoggedIn = useSelector((state: RootState) => state.user.user !== null);
+	const { themeVariables } = useTheme();
 
 	if (!isLoggedIn) {
 		return <AuthStack />;
@@ -92,15 +94,18 @@ const AppNavigator = (): JSX.Element => {
 				screenOptions={{
 					headerTransparent: true,
 					headerBackTitleVisible: false,
+					headerStyle: {
+						backgroundColor: themeVariables.background, // Changer la couleur de fond de l'en-tête
+					},
 				}}>
 				<Stack.Screen name="UnityGame" component={UnityGameWebView} options={{ headerShown: false }} />
 				<Stack.Screen name="TabNav" component={TabNavigator} options={{ headerShown: false }} />
 				<Stack.Screen
 					name="GameModule"
 					component={GameModule}
-					options={{ presentation: "modal", headerTitle: Content.CHOOSE_MODULE }}
+					options={{ presentation: "modal", headerTintColor: themeVariables.text, headerTitle: Content.CHOOSE_MODULE }}
 				/>
-				<Stack.Screen name="Map" component={Map} options={{ headerShown: false }} />
+				<Stack.Screen name="Guide" component={Guide} options={{ headerShown: false }} />
 				<Stack.Screen name="Game" component={Game} options={{ headerShown: false }} />
 				<Stack.Screen name="GameQuiz" component={GameQuiz} options={{ headerShown: false }} />
 				<Stack.Screen name="GameDualQuiz" component={GameDualQuiz} options={{ headerShown: false }} />
@@ -110,8 +115,8 @@ const AppNavigator = (): JSX.Element => {
 					options={{ headerShown: true, headerTransparent: false, headerTitle: Content.SCORE }}
 				/>
 				<Stack.Screen
-					name="GameScore"
-					component={GameScore}
+					name="GameQuizScore"
+					component={GameQuizScore}
 					options={{ headerShown: true, headerTransparent: false, headerTitle: Content.SCORE }}
 				/>
 				<Stack.Screen name="Shop" component={Shop} options={{ headerShown: false }} />
@@ -122,6 +127,7 @@ const AppNavigator = (): JSX.Element => {
 						headerShown: true,
 						headerTransparent: false,
 						headerTitle: Content.PROFILE,
+						headerTintColor: themeVariables.text,
 					}}
 				/>
 				<Stack.Screen name="GameMatchMaking" component={GameMatchMaking} options={{ headerShown: false }} />

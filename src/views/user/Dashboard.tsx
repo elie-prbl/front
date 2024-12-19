@@ -3,27 +3,26 @@ import UserDashboardComponent from "../../components/dashboard/UserDashboardComp
 import { ScrollView } from "react-native";
 import BoxComponent from "../../base/Box";
 import StatDashboardComponent from "../../components/dashboard/StatDashboardComponent";
-import CustomizeDashboardComponent from "../../components/dashboard/CustomizeDashboardComponent";
+import ShopItemsDashboardComponent from "../../components/dashboard/ShopItemsDashboardComponent";
 import Layout from "../../base/Layout";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store/store";
 import { Content } from "../../base/constant";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from "../../context/ThemeContext";
 
 const Dashboard = () => {
-	const user = useSelector((state: RootState) => state.user.user);
+	const { themeVariables } = useTheme();
 	return (
 		<Layout>
 			<ScrollView>
-				<BoxComponent title={user?.username} itemRight={<Ionicons name="person-circle-outline" size={40} />}>
+				<BoxComponent
+					title={Content.INFORMATIONS}
+					itemRight={<Ionicons name="person-circle-outline" size={40} color={themeVariables.text} />}>
 					<UserDashboardComponent />
 				</BoxComponent>
 				<BoxComponent title={Content.STATISTICS}>
 					<StatDashboardComponent />
 				</BoxComponent>
-				<BoxComponent title={Content.ELIE}>
-					<CustomizeDashboardComponent />
-				</BoxComponent>
+				<ShopItemsDashboardComponent />
 			</ScrollView>
 		</Layout>
 	);

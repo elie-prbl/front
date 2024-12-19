@@ -1,4 +1,4 @@
-import { SafeAreaView, Text, View } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import React, { useState } from "react";
 import { Color, Content } from "../../base/constant";
 import ButtonComponent from "../../base/Button";
@@ -11,6 +11,8 @@ import SvgFacebook from "../../svg/SvgFacebook";
 import SvgGoogle from "../../svg/SvgGoogle";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
+import { useTheme } from "../../context/ThemeContext";
+import TextComponent from "../../base/Text";
 
 const Login = () => {
 	const dispatch = useDispatch<AppDispatch>();
@@ -18,6 +20,7 @@ const Login = () => {
 	const [email, setEmail] = useState<string>("rob@mail.com");
 	const [password, setPassword] = useState<string>("Rob");
 	const [error, setError] = useState<string>("");
+	const { themeVariables } = useTheme();
 
 	const handleNavigateToSignUp = () => {
 		navigation.navigate("SignUp1");
@@ -38,11 +41,11 @@ const Login = () => {
 	};
 
 	return (
-		<SafeAreaView style={{ backgroundColor: Color.WHITE }} className="h-full justify-around">
+		<SafeAreaView style={{ backgroundColor: themeVariables.background }} className="h-full justify-around">
 			<View className="h-3/5">
 				<View className="w-full items-center justify-center">
 					<SvgConnexion />
-					<Text className="font-bold text-xl">{Content.ELIE_LOGIN}</Text>
+					<TextComponent content={Content.ELIE} className="font-bold text-3xl" />
 				</View>
 				<View className="w-full items-center">
 					<TextInputComponent
@@ -57,29 +60,23 @@ const Login = () => {
 						textInput={password}
 						placeholder={Content.PLACEHOLDER_PASSWORD}
 					/>
-					<Text className="underline mt-1">{Content.PASSWORD_FORGET}</Text>
+					<TextComponent content={Content.PASSWORD_FORGET} className="underline mt-1" />
 				</View>
 			</View>
-			{error && (
-				<Text className="text-center font-bold" style={{ color: Color.RED }}>
-					{error}
-				</Text>
-			)}
+			{error && <TextComponent content={error} isError className="text-center font-bold" />}
 			<View>
 				<View className="w-full items-center">
 					<ButtonComponent content={Content.LOGIN} onPress={handleNavigateHome} />
 					<View className="w-11/12 flex-row justify-center mt-3">
-						<Text>{Content.NO_ACCOUNT}</Text>
-						<Text className="underline" style={{ color: Color.PRIMARY }} onPress={handleNavigateToSignUp}>
-							{Content.NO_ACCOUNT_SIGN_UP}
-						</Text>
+						<TextComponent content={Content.NO_ACCOUNT} />
+						<TextComponent content={Content.SIGN_UP} className="underline" onPress={handleNavigateToSignUp} />
 					</View>
 				</View>
 				<View className="w-full items-center">
 					<View className="flex-row items-center w-8/12 my-7">
 						<View style={{ flex: 1, height: 1, backgroundColor: "black" }} />
 						<View>
-							<Text style={{ width: 50, textAlign: "center" }}>OU</Text>
+							<TextComponent content="OU" className="text-center w-12" />
 						</View>
 						<View style={{ flex: 1, height: 1, backgroundColor: "black" }} />
 					</View>

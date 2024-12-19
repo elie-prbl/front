@@ -5,15 +5,18 @@ import React from "react";
 
 interface GemComponentProps {
 	nb?: number;
+	fontSize?: string;
+	widthGem?: number;
+	heightGem?: number;
 }
 
-const GemComponent = ({ nb }: GemComponentProps) => {
+const GemComponent = ({ nb, fontSize = FontSize.TEXT_XL, widthGem, heightGem }: GemComponentProps) => {
 	return (
-		<View className="flex-row items-start">
-			<Gem />
-			<Text className={`${FontSize.TEXT_XL} ml-1 font-bold`} style={{ color: Color.PRIMARY }}>
+		<View className="flex-row items-center">
+			<Text className={`${fontSize} mr-1 font-bold`} style={{ color: Color.PRIMARY }}>
 				{nb}
 			</Text>
+			<Gem width={widthGem} height={heightGem} />
 		</View>
 	);
 };

@@ -1,8 +1,9 @@
 import React, { ReactElement } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import CircleComponent from "../../base/Circle";
 import ProgressBar from "../../base/ProgressBar";
 import { UserQuest } from "../../store/features/UserQuests/UserQuestsSlices";
+import TextComponent from "../../base/Text";
 
 export type questProps = {
 	userQuest: UserQuest;
@@ -20,7 +21,7 @@ const QuestComponent = ({ userQuest, img }: questProps) => {
 					isNext
 				/>
 				<View className="flex-col ml-2 flex-1 justify-center">
-					<Text className="text-md">{userQuest?.quest?.name}</Text>
+					<TextComponent content={userQuest?.quest?.name} className="text-md" />
 					{userQuest?.progression < userQuest?.quest?.done_condition ? (
 						<View className="flex-row justify-between mt-2 w-full">
 							<ProgressBar
@@ -28,12 +29,10 @@ const QuestComponent = ({ userQuest, img }: questProps) => {
 								totalStep={userQuest?.quest?.done_condition}
 								width={230}
 							/>
-							<Text>
-								{userQuest?.progression} / {userQuest?.quest?.done_condition}
-							</Text>
+							<TextComponent content={`${userQuest?.quest?.done_condition} steps`} />
 						</View>
 					) : (
-						<Text className="mt-2"> Tu as gagné {userQuest?.quest?.xp} xp !</Text>
+						<TextComponent content={`Tu as gagné ${userQuest?.quest?.xp} xp !`} className="mt-2" />
 					)}
 				</View>
 			</View>
