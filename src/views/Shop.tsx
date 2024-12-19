@@ -12,6 +12,7 @@ import { getUser } from "../store/features/User/UserThunk";
 import { useTheme } from "../context/ThemeContext";
 import { getUserShopItems, UserShopItem } from "../store/features/UserShop/UserShopService";
 import TextComponent from "../base/Text";
+import { getUserSuccesses } from "../store/features/UserSuccesses/UserSuccessesThunk";
 
 const Shop = () => {
 	const [isLoading, setLoading] = useState<boolean>(true);
@@ -25,6 +26,7 @@ const Shop = () => {
 
 	useEffect(() => {
 		dispatch(getUser(user!.uuid));
+		dispatch(getUserSuccesses(user!.uuid));
 		getUserShopItems(user!.uuid).then(r => setUserShopItems(r));
 	}, [shop]);
 
