@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getUserSuccesses } from "./UserSuccessesThunk";
+import { getUserSuccesses, updateUserSuccesses } from "./UserSuccessesThunk";
 import { Category, Tag } from "../UserQuests/UserQuestsSlices";
 
 export interface Success {
@@ -43,9 +43,23 @@ export const userSuccessesSlice = createSlice({
 			.addCase(getUserSuccesses.fulfilled, (state, action) => {
 				state.userSuccesses = action.payload;
 				state.isLoadingUserSuccesses = false;
-				state.isModifiedUserSuccess = true;
+				state.isModifiedUserSuccess = false;
 			})
 			.addCase(getUserSuccesses.rejected, (state, action) => {
+				state.isLoadingUserSuccesses = false;
+				state.error = action.payload;
+				state.isModifiedUserSuccess = false;
+			})
+			.addCase(updateUserSuccesses.pending, (state, action) => {
+				state.isLoadingUserSuccesses = true;
+				state.isModifiedUserSuccess = false;
+			})
+			.addCase(updateUserSuccesses.fulfilled, (state, action) => {
+				state.userSuccesses = action.payload;
+				state.isLoadingUserSuccesses = false;
+				state.isModifiedUserSuccess = true;
+			})
+			.addCase(updateUserSuccesses.rejected, (state, action) => {
 				state.isLoadingUserSuccesses = false;
 				state.error = action.payload;
 				state.isModifiedUserSuccess = false;
