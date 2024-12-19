@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator, TouchableOpacity, View } from "react-native";
 import { getUserShopItems, UserShopItem } from "../../store/features/UserShop/UserShopService";
 import { useAppSelector } from "../../store/hooks";
 import { RootState } from "../../store/store";
@@ -8,12 +8,16 @@ import BoxComponent from "../../base/Box";
 import { Color, Content } from "../../base/constant";
 import UserShopItemDetails from "./UserShopItemDetails";
 import TextComponent from "../../base/Text";
+import { buildTheme } from "../../utils/buildTheme";
+import { useTheme } from "../../context/ThemeContext";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 const ShopItemsDashboardComponent = () => {
 	const [isLoading, setLoading] = useState<boolean>(true);
 	const { user } = useAppSelector((state: RootState) => state.user);
 	const [avatarItems, setAvatarItems] = useState<UserShopItem[]>([]);
 	const [themeItems, setThemeItems] = useState<UserShopItem[]>([]);
+	const { setTheme, themeVariables, theme } = useTheme();
 
 	useEffect(() => {
 		setAvatarItems([]);
@@ -57,11 +61,27 @@ const ShopItemsDashboardComponent = () => {
 				)}
 			</BoxComponent>
 			<BoxComponent title={Content.SHOP_THEME}>
-				{themeItems.length > 0 ? (
-					themeItems.map(theme => <UserShopItemDetails key={theme.id} userShopItem={theme} />)
-				) : (
-					<TextComponent content={Content.NO_THEME} />
-				)}
+				<>
+					<View className="flex-row items-center mb-2">
+						<View className="w-12 h-20 flex-row items-center">{buildTheme("Green")}</View>
+						<View className="flex-1 flex-col mx-2">
+							<TextComponent content={Content.THEME_DEFAULT} className="font-bold text-lg" />
+							<TextComponent content={Content.THEME_DEFAULT_DESCRIPTION} />
+						</View>
+						<TouchableOpacity onPress={() => setTheme("light")} className="p-1 rounded">
+							<MaterialCommunityIcons
+								name={theme === "light" ? "checkbox-marked-outline" : "checkbox-blank-outline"}
+								size={24}
+								color={themeVariables.text}
+							/>
+						</TouchableOpacity>
+					</View>
+					{themeItems.length > 0 ? (
+						themeItems.map(theme => <UserShopItemDetails key={theme.id} userShopItem={theme} />)
+					) : (
+						<TextComponent content={Content.NO_THEME} />
+					)}
+				</>
 			</BoxComponent>
 		</View>
 	);

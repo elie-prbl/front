@@ -38,7 +38,8 @@ const Shop = () => {
 				setAvatarItems(avatars);
 
 				const themes = await getShopItems(TypeName.THEME);
-				setThemeItems(themes);
+				const filteredThemes = themes.filter(theme => theme.name !== "Green");
+				setThemeItems(filteredThemes);
 			} catch (e) {
 				console.log(`error ${e}`);
 			} finally {

@@ -1,6 +1,5 @@
 import { TouchableOpacity, View } from "react-native";
 import React from "react";
-import { Color } from "../../base/constant";
 import { TypeName } from "../../store/features/Shop/ShopService";
 import { buildElie } from "../../utils/buildElie";
 import { UserShopItem } from "../../store/features/UserShop/UserShopService";
@@ -8,14 +7,14 @@ import { useTheme } from "../../context/ThemeContext";
 import { themeMapping } from "../../base/Themes";
 import TextComponent from "../../base/Text";
 import { buildTheme } from "../../utils/buildTheme";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 interface UserShopItemDetailsProps {
 	userShopItem: UserShopItem;
 }
 
 const UserShopItemDetails = ({ userShopItem }: UserShopItemDetailsProps) => {
-	const { setTheme } = useTheme();
-
+	const { setTheme, themeVariables, theme } = useTheme();
 	const themeName = themeMapping[userShopItem.shop_item.name] || "light";
 
 	return (
@@ -28,11 +27,12 @@ const UserShopItemDetails = ({ userShopItem }: UserShopItemDetailsProps) => {
 				<TextComponent content={userShopItem.shop_item.name} className="font-bold text-lg" />
 				<TextComponent content={userShopItem.shop_item.description} />
 			</View>
-			<TouchableOpacity
-				onPress={() => setTheme(themeName)}
-				className="p-1 rounded"
-				style={{ backgroundColor: Color.GREEN_OPACITY }}>
-				<TextComponent content="Use" />
+			<TouchableOpacity onPress={() => setTheme(themeName)} className="p-1 rounded">
+				<MaterialCommunityIcons
+					name={theme === themeName ? "checkbox-marked-outline" : "checkbox-blank-outline"}
+					size={24}
+					color={themeVariables.text}
+				/>
 			</TouchableOpacity>
 		</View>
 	);
