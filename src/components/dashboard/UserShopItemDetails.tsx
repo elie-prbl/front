@@ -29,7 +29,11 @@ const UserShopItemDetails = ({ userShopItem }: UserShopItemDetailsProps) => {
 			</View>
 			<TouchableOpacity onPress={() => setTheme(themeName)} className="p-1 rounded">
 				<MaterialCommunityIcons
-					name={theme === themeName ? "checkbox-marked-outline" : "checkbox-blank-outline"}
+					name={
+						userShopItem.shop_item.type.name === TypeName.THEME && theme === themeName
+							? "checkbox-marked-outline"
+							: "checkbox-blank-outline"
+					}
 					size={24}
 					color={themeVariables.text}
 				/>
