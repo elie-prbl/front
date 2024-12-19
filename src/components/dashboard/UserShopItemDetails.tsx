@@ -17,6 +17,9 @@ const UserShopItemDetails = ({ userShopItem }: UserShopItemDetailsProps) => {
 	const { setTheme, themeVariables, theme } = useTheme();
 	const themeName = themeMapping[userShopItem.shop_item.name] || "light";
 
+	console.log(theme);
+	console.log(themeName);
+
 	return (
 		<View className="flex-row items-center mb-2">
 			<View className="w-12 h-20 flex-row items-center">
@@ -29,7 +32,11 @@ const UserShopItemDetails = ({ userShopItem }: UserShopItemDetailsProps) => {
 			</View>
 			<TouchableOpacity onPress={() => setTheme(themeName)} className="p-1 rounded">
 				<MaterialCommunityIcons
-					name={theme === themeName ? "checkbox-marked-outline" : "checkbox-blank-outline"}
+					name={
+						userShopItem.shop_item.type.name === TypeName.THEME && theme === themeName
+							? "checkbox-marked-outline"
+							: "checkbox-blank-outline"
+					}
 					size={24}
 					color={themeVariables.text}
 				/>
