@@ -12,6 +12,7 @@ import ElieHeader from "../svg/ElieHeader";
 import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp } from "./AppNavigator";
 import { useTheme } from "../context/ThemeContext";
+import UnityGameWebView from "../views/unityGame/GameUnityMatchMaking";
 
 const Tab = createBottomTabNavigator();
 

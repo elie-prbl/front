@@ -153,6 +153,9 @@ const Game = () => {
 			<Layout>
 				<FlatList data={quiz} renderItem={renderItem} keyExtractor={item => item.id.toString()} />
 				<View className="items-center mb-2">
+					<View className="items-center w-full mb-2">
+						<ButtonComponent onPress={() => navigation.navigate("UnityGame")} content="Jeu communautaire" />
+					</View>
 					<ButtonComponent onPress={() => navigation.navigate("GameMatchMaking")} content="Dual quiz" />
 				</View>
 			</Layout>
