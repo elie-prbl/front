@@ -10,6 +10,7 @@ import { RootState } from "../store/store";
 import GemComponent from "../base/Gem";
 import { getUser } from "../store/features/User/UserThunk";
 import { useTheme } from "../context/ThemeContext";
+import TextComponent from "../base/Text";
 
 const Shop = () => {
 	const [isLoading, setLoading] = useState<boolean>(true);
@@ -56,7 +57,7 @@ const Shop = () => {
 			<ScrollView showsVerticalScrollIndicator={false}>
 				{user && (
 					<BoxComponent title={Content.SHOP_GEM} itemRight={<GemComponent nb={user?.currency_amount} />}>
-						<Text style={{ color: themeVariables.text }}>{Content.SHOP_GEM_DESCRIPTION}</Text>
+						<TextComponent content={Content.SHOP_GEM_DESCRIPTION} style={{ color: themeVariables.text }} />
 					</BoxComponent>
 				)}
 				<BoxComponent title={Content.SHOP_AVATAR}>

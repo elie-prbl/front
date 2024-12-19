@@ -7,8 +7,9 @@ import GuideTabs, { Tab } from "../components/guide/GuideTabs";
 import { getPlaces, Place } from "../store/features/Map/MapPOI";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
-import { ActivityIndicator, ScrollView, Text } from "react-native";
+import { ActivityIndicator, ScrollView } from "react-native";
 import GuideItemDetails from "../components/guide/GuideItemDetails";
+import TextComponent from "../base/Text";
 
 const Guide = () => {
 	const [activeTab, setActiveTab] = useState<Tab>(Tab.EVENTS);
@@ -22,6 +23,7 @@ const Guide = () => {
 
 	const handleDisplayEvents = () => {
 		setActiveTab(Tab.EVENTS);
+		setLoadingPOI(false);
 		// TODO : Récupérer les évènements
 	};
 
@@ -60,13 +62,15 @@ const Guide = () => {
 				onPressEvent={() => handleDisplayEvents()}
 				onPressPoi={() => handleDisplayPoi()}
 			/>
-			{activeTab === Tab.EVENTS && <></>}
+			{activeTab === Tab.EVENTS && (
+				<TextComponent content="Fonctionnalité à venir prochainement" className="text-center mt-10" />
+			)}
 			{isLoadingPOI ? (
 				<ActivityIndicator size="large" color={Color.PRIMARY} className="mt-10" />
 			) : (
 				activeTab === Tab.POI &&
 				(!places.length ? (
-					<Text>{Content.NO_POI}</Text>
+					<TextComponent content={Content.NO_POI} className="text-center mt-10" />
 				) : (
 					<ScrollView showsVerticalScrollIndicator={false}>
 						{places.map(place => (
