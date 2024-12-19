@@ -17,6 +17,8 @@ type ShopItem = {
 
 export type UserShopItem = {
 	id: number;
+	user_id: string;
+	shop_item_id: number;
 	shop_item: ShopItem;
 };
 
@@ -35,10 +37,12 @@ export const getUserShopItems = async (userUuid: string) => {
 	}
 
 	const userShopItems: UserShopItem[] = responseData.map((userShopItem: UserShopItem) => {
-		const { id, shop_item } = userShopItem;
+		const { id, shop_item, shop_item_id, user_id } = userShopItem;
 
 		return {
 			id,
+			user_id,
+			shop_item_id,
 			shop_item: {
 				id: shop_item.id,
 				name: shop_item.name,

@@ -3,13 +3,14 @@ import Layout from "../base/Layout";
 import BoxComponent from "../base/Box";
 import { Color, Content } from "../base/constant";
 import ShopItemDetails from "../components/shop/ShopItemDetails";
-import { ActivityIndicator, ScrollView, Text } from "react-native";
+import { ActivityIndicator, ScrollView } from "react-native";
 import { getShopItems, ShopItem, TypeName } from "../store/features/Shop/ShopService";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { RootState } from "../store/store";
 import GemComponent from "../base/Gem";
 import { getUser } from "../store/features/User/UserThunk";
 import { useTheme } from "../context/ThemeContext";
+import { getUserShopItems, UserShopItem } from "../store/features/UserShop/UserShopService";
 import TextComponent from "../base/Text";
 
 const Shop = () => {
@@ -20,9 +21,11 @@ const Shop = () => {
 	const { user } = useAppSelector((state: RootState) => state.user);
 	const { shop } = useAppSelector((state: RootState) => state.shop);
 	const { themeVariables } = useTheme();
+	const [userShopItems, setUserShopItems] = useState<UserShopItem[] | null>(null);
 
 	useEffect(() => {
 		dispatch(getUser(user!.uuid));
+		getUserShopItems(user!.uuid).then(r => setUserShopItems(r));
 	}, [shop]);
 
 	useEffect(() => {
@@ -62,12 +65,12 @@ const Shop = () => {
 				)}
 				<BoxComponent title={Content.SHOP_AVATAR}>
 					{avatarItems.map(avatar => (
-						<ShopItemDetails key={avatar.id} shopItem={avatar} />
+						<ShopItemDetails key={avatar.id} shopItem={avatar} userShopItem={userShopItems} />
 					))}
 				</BoxComponent>
 				<BoxComponent title={Content.SHOP_THEME}>
 					{themeItems.map(theme => (
-						<ShopItemDetails key={theme.id} shopItem={theme} />
+						<ShopItemDetails key={theme.id} shopItem={theme} userShopItem={userShopItems} />
 					))}
 				</BoxComponent>
 			</ScrollView>
