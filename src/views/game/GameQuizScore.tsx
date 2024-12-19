@@ -29,27 +29,38 @@ const GameQuizScore = ({ route }: RouteGameScoreProps) => {
 	);
 	const user = useAppSelector((state: RootState) => state.user.user);
 	const { themeVariables } = useTheme();
+	const wonQuiz = score === nbQuestions;
 	const [retrieveUserQuestByQuiz, setRetrieveUserQuestByQuiz] = useState<UserQuest[] | null>(null);
 	const [retrieveUserSuccessByQuiz, setRetrieveUserSuccessByQuiz] = useState<UserSuccess[] | null>(null);
 
 	useEffect(() => {
 		if (Array.isArray(userSuccesses)) {
-			const userSuccessesByQuiz = userSuccesses.filter(
-				userSuccess =>
-					userSuccess.success.short_name === Category.PlayQuizzes ||
-					userSuccess.success.short_name === Category.WinQuizzes,
-			);
-			setRetrieveUserSuccessByQuiz(userSuccessesByQuiz);
+			if (wonQuiz) {
+				const userSuccessesByQuiz = userSuccesses.filter(
+					userSuccess => userSuccess.success.short_name === Category.WinQuizzes,
+				);
+				setRetrieveUserSuccessByQuiz(userSuccessesByQuiz);
+			} else {
+				const userSuccessesByQuiz = userSuccesses.filter(
+					userSuccess => userSuccess.success.short_name === Category.PlayQuizzes,
+				);
+				setRetrieveUserSuccessByQuiz(userSuccessesByQuiz);
+			}
 		}
 	}, [userSuccesses]);
 
 	useEffect(() => {
 		if (Array.isArray(userQuests)) {
-			const userQuestsByQuiz = userQuests.filter(
-				userQuest =>
-					userQuest.quest.category === Category.PlayQuizzes || userQuest.quest.category === Category.WinQuizzes,
-			);
-			setRetrieveUserQuestByQuiz(userQuestsByQuiz);
+			if (wonQuiz) {
+				const userQuestsByQuiz = userQuests.filter(
+					userQuest =>
+						userQuest.quest.category === Category.WinQuizzes || userQuest.quest.category === Category.PlayQuizzes,
+				);
+				setRetrieveUserQuestByQuiz(userQuestsByQuiz);
+			} else {
+				const userQuestsByQuiz = userQuests.filter(userQuest => userQuest.quest.category === Category.PlayQuizzes);
+				setRetrieveUserQuestByQuiz(userQuestsByQuiz);
+			}
 		}
 	}, [userQuests]);
 
