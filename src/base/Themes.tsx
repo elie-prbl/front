@@ -4,9 +4,9 @@ import BackgroundDark from "../svg/BackgroundDark";
 import BackgroundIce from "../svg/BackgroundIce";
 
 export const themeMapping: Record<string, ThemeName> = {
-	"Theme Dark": "dark",
-	"Theme Green": "light",
-	"Theme Blue": "ice",
+	Dark: "dark",
+	Green: "light",
+	Blue: "ice",
 };
 
 export const themes = {

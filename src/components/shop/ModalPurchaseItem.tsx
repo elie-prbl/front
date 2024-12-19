@@ -10,6 +10,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import Layout from "../../base/Layout";
 import TextComponent from "../../base/Text";
 import { useTheme } from "../../context/ThemeContext";
+import { buildTheme } from "../../utils/buildTheme";
 
 interface ModalPurchaseItemProps {
 	activeModalPurchase: boolean;
@@ -52,8 +53,9 @@ const ModalPurchaseItem = ({ activeModalPurchase, shopItem, onClose }: ModalPurc
 					<View className="items-end">
 						<Ionicons name="close-circle-outline" size={24} color={themeVariables.primary} onPress={onClose} />
 					</View>
-					<View className="w-full h-36 justify-center">
-						{shopItem.type.name === TypeName.AVATAR && buildElie(shopItem.name)}
+					<View className="w-full h-36 justify-center items-center">
+						{(shopItem.type.name === TypeName.AVATAR && buildElie(shopItem.name)) ||
+							(shopItem.type.name === TypeName.THEME && buildTheme(shopItem.name))}
 					</View>
 					<TextComponent content={shopItem.name} className="text-lg font-bold" />
 					{shopItem.type.name === TypeName.AVATAR ? (

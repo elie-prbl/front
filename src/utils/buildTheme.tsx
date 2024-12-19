@@ -5,11 +5,11 @@ import ThemeLight from "../svg/ThemeLight";
 
 export const buildTheme = (name: string) => {
 	switch (name) {
-		case "Theme Dark":
+		case "Dark":
 			return <ThemeDark />;
-		case "Theme Blue":
+		case "Blue":
 			return <ThemeIce />;
-		case "Theme Green":
+		case "Green":
 			return <ThemeLight />;
 		default:
 			return <ThemeLight />;
