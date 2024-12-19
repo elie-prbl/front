@@ -28,6 +28,7 @@ const initialState = {
 	isLoadingUserSuccesses: false,
 	error: null as null | unknown,
 	isModifiedUserSuccess: false,
+	isRetrievedUserSuccess: false,
 };
 
 export const userSuccessesSlice = createSlice({
@@ -39,30 +40,35 @@ export const userSuccessesSlice = createSlice({
 			.addCase(getUserSuccesses.pending, (state, action) => {
 				state.isLoadingUserSuccesses = true;
 				state.isModifiedUserSuccess = false;
+				state.isRetrievedUserSuccess = false;
 			})
 			.addCase(getUserSuccesses.fulfilled, (state, action) => {
 				state.userSuccesses = action.payload;
 				state.isLoadingUserSuccesses = false;
-				state.isModifiedUserSuccess = false;
+				state.isRetrievedUserSuccess = true;
 			})
 			.addCase(getUserSuccesses.rejected, (state, action) => {
 				state.isLoadingUserSuccesses = false;
 				state.error = action.payload;
 				state.isModifiedUserSuccess = false;
+				state.isRetrievedUserSuccess = false;
 			})
 			.addCase(updateUserSuccesses.pending, (state, action) => {
 				state.isLoadingUserSuccesses = true;
 				state.isModifiedUserSuccess = false;
+				state.isRetrievedUserSuccess = false;
 			})
 			.addCase(updateUserSuccesses.fulfilled, (state, action) => {
 				state.userSuccesses = action.payload;
 				state.isLoadingUserSuccesses = false;
 				state.isModifiedUserSuccess = true;
+				state.isRetrievedUserSuccess = false;
 			})
 			.addCase(updateUserSuccesses.rejected, (state, action) => {
 				state.isLoadingUserSuccesses = false;
 				state.error = action.payload;
 				state.isModifiedUserSuccess = false;
+				state.isRetrievedUserSuccess = false;
 			});
 	},
 });

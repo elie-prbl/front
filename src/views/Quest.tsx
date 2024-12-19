@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../base/Layout";
 import { ActivityIndicator, ScrollView, View } from "react-native";
 import BoxComponent from "../base/Box";
@@ -13,6 +13,7 @@ import { Entypo } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp } from "../navigation/AppNavigator";
 import { useAppSelector } from "../store/hooks";
+import { UserSuccess } from "../store/features/UserSuccesses/UserSuccessesSlices";
 
 export enum ContentQuest {
 	SHOP = "Shop",
@@ -21,7 +22,26 @@ export enum ContentQuest {
 const Quest = () => {
 	const { userQuests, isLoadingUserQuest } = useSelector((state: RootState) => state.userQuests);
 	const navigation = useNavigation<MyNavigationProp>();
-	const { userSuccesses, isLoadingUserSuccesses } = useAppSelector((state: RootState) => state.userSuccesses);
+	const { userSuccesses, isLoadingUserSuccesses, isRetrievedUserSuccess } = useAppSelector(
+		(state: RootState) => state.userSuccesses,
+	);
+	const [firstOfEachShortName, setFirstOfEachShortName] = useState<UserSuccess[]>([]);
+
+	useEffect(() => {
+		if (userSuccesses) {
+			const filtered = userSuccesses
+				.filter(s => !s.is_completed)
+				.sort((a, b) => a.success.short_name.localeCompare(b.success.short_name))
+				.reduce<UserSuccess[]>((acc, current) => {
+					const exists = acc.find(item => item.success.short_name === current.success.short_name);
+					if (!exists) {
+						acc.push(current);
+					}
+					return acc;
+				}, []);
+			setFirstOfEachShortName(filtered);
+		}
+	}, [isRetrievedUserSuccess]);
 
 	if (isLoadingUserQuest || isLoadingUserSuccesses) {
 		return (
@@ -49,15 +69,13 @@ const Quest = () => {
 						userQuests.map(userQuest => <QuestComponent key={userQuest.id} userQuest={userQuest} img={<Circle1 />} />)}
 				</BoxComponent>
 				<BoxComponent title={Content.SUCCESS}>
-					{userSuccesses
-						?.filter(s => s.success.progression_rank === 1)
-						.map((s, index) => {
-							return (
-								<View key={index}>
-									<SuccessComponent userSuccess={s} />
-								</View>
-							);
-						})}
+					{firstOfEachShortName?.map((s, index) => {
+						return (
+							<View key={index}>
+								<SuccessComponent userSuccess={s} />
+							</View>
+						);
+					})}
 				</BoxComponent>
 			</ScrollView>
 		</Layout>
