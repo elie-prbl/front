@@ -7,10 +7,10 @@ interface Props {
 }
 
 const Layout = ({ children }: Props) => {
-	const { BackgroundComponent } = useTheme();
+	const { BackgroundComponent, themeVariables } = useTheme();
 
 	return (
-		<SafeAreaView className="flex-1 p-2">
+		<SafeAreaView className="flex-1" style={{ backgroundColor: themeVariables.background }}>
 			<BackgroundComponent />
 			{children}
 		</SafeAreaView>
