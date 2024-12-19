@@ -13,6 +13,7 @@ export enum TagName {
 	Connection = "Connection",
 	Level = "Level",
 	Avatar = "Avatar",
+	Theme = "Theme",
 }
 
 export interface Tag {

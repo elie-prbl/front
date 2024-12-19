@@ -26,8 +26,11 @@ const SuccessComponent = ({ userSuccess }: successProps) => {
 				return <SuccessQuiz />;
 			case TagName.WinGames:
 				return <SuccessQuizWin />;
+			case TagName.Theme:
+				return <SuccessConnection />;
 			default:
 				console.log(`error to load success image`);
+				return <SuccessConnection />;
 		}
 	};
 
