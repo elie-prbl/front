@@ -49,13 +49,15 @@ const Quest = () => {
 						userQuests.map(userQuest => <QuestComponent key={userQuest.id} userQuest={userQuest} img={<Circle1 />} />)}
 				</BoxComponent>
 				<BoxComponent title={Content.SUCCESS}>
-					{userSuccesses?.map((s, index) => {
-						return (
-							<View key={index}>
-								<SuccessComponent userSuccess={s} />
-							</View>
-						);
-					})}
+					{userSuccesses
+						?.filter(s => s.success.progression_rank === 1)
+						.map((s, index) => {
+							return (
+								<View key={index}>
+									<SuccessComponent userSuccess={s} />
+								</View>
+							);
+						})}
 				</BoxComponent>
 			</ScrollView>
 		</Layout>

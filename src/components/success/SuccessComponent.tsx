@@ -1,16 +1,16 @@
 import React from "react";
 import { View } from "react-native";
 import ProgressBar from "../../base/ProgressBar";
-import { userSuccessState } from "../../store/features/UserSuccesses/UserSuccessesSlices";
 import Gem from "../../svg/Gem";
 import SuccessQuiz from "../../svg/SuccessQuiz";
 import SuccessQuizWin from "../../svg/SuccessQuizWin";
 import SuccessConnection from "../../svg/SuccessConnection";
 import { TagName } from "../../store/features/UserQuests/UserQuestsSlices";
 import TextComponent from "../../base/Text";
+import { UserSuccess } from "../../store/features/UserSuccesses/UserSuccessesSlices";
 
 export type successProps = {
-	userSuccess: userSuccessState;
+	userSuccess: UserSuccess;
 };
 
 const SuccessComponent = ({ userSuccess }: successProps) => {
