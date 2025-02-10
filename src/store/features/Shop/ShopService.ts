@@ -1,5 +1,6 @@
 import { Url } from "../../../base/constant";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { parseErrorMessage } from "../../../utils/parseErrorMessage";
 
 export enum TypeName {
 	AVATAR = "avatar",
@@ -52,18 +53,25 @@ interface PurchaseShopItemI {
 export const purchaseShopItem = createAsyncThunk(
 	"Shop",
 	async (purchaseShopItem: PurchaseShopItemI, { rejectWithValue }) => {
-		const response = await fetch(`${Url.BASE_URL_API}/shop/items/user`, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				user_uuid: purchaseShopItem.user_uuid,
-				shop_item_id: purchaseShopItem.shop_item_id,
-			}),
-		});
 		try {
-			return await response.json();
+			const response = await fetch(`${Url.BASE_URL_API}/shop/items/user`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					user_uuid: purchaseShopItem.user_uuid,
+					shop_item_id: purchaseShopItem.shop_item_id,
+				}),
+			});
+
+			const responseData = await response.json();
+
+			if (!response.ok) {
+				return rejectWithValue(parseErrorMessage(responseData.message) || "Une erreur est survenue");
+			}
+
+			return responseData;
 		} catch (err) {
 			return rejectWithValue(`network error: ${err}`);
 		}

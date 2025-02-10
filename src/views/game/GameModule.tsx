@@ -8,16 +8,18 @@ import { quizModulesState, topic } from "../../store/features/QuizModules/QuizMo
 import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp } from "../../navigation/AppNavigator";
 import { updateCurrentQuizModule } from "../../store/features/QuizModules/CurrentQuizModuleSlice";
+import { Color } from "../../base/constant";
 
 const GameModule = () => {
 	const navigation = useNavigation<MyNavigationProp>();
 	const modules: quizModulesState | null = useAppSelector(state => state.quizModules.modules);
 	const dispatch = useAppDispatch();
+	const colors = [Color.PURPLE_LIGHT, Color.CYAN_LIGHT, Color.PINK_LIGHT, Color.BLUE_BRIGHT_LIGHT];
+	const shadowColors = [Color.PURPLE_DARK, Color.CYAN_DARK, Color.PINK_DARK, Color.BLUE_BRIGHT_DARK];
+
 	const handleModuleSelection = (moduleId: number) => {
 		dispatch(updateCurrentQuizModule(moduleId));
-		navigation.navigate("TabNav", {
-			screen: "Game",
-		});
+		navigation.navigate("GameEcoQuiz");
 	};
 
 	const renderItem = ({ item }: { item: topic }) => (
@@ -27,6 +29,8 @@ const GameModule = () => {
 				title={item.name}
 				description={item.description}
 				icon={<MaterialCommunityIcons name="notebook-multiple" size={24} color="white" />}
+				bg={colors[item.id % colors.length]}
+				shadowColor={shadowColors[item.id % shadowColors.length]}
 			/>
 		</View>
 	);

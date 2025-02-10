@@ -6,9 +6,10 @@ interface ModuleGameProps {
 	onPress: (event: GestureResponderEvent) => void;
 	title: string;
 	description: string;
-	icon: ReactElement;
-	disabled?: boolean;
+	icon?: ReactElement;
+	image?: ReactElement;
 	bg?: string;
+	textColor?: string;
 	borderColor?: string;
 	borderWidth?: number;
 	shadowColor?: string;
@@ -20,46 +21,50 @@ const ModuleGame = ({
 	title,
 	description,
 	icon,
-	disabled = false,
+	image,
 	bg = Color.PRIMARY,
+	textColor = Color.WHITE,
 	shadowColor = Color.SECONDARY,
 	borderColor = Color.SECONDARY,
 	borderWidth,
 	width = "w-full",
 }: ModuleGameProps) => {
 	return (
-		<TouchableOpacity className={width} onPress={onPress} disabled={disabled}>
+		<TouchableOpacity className={width} onPress={onPress}>
 			<View
 				className="rounded-lg"
 				style={{
-					backgroundColor: disabled ? Color.GREY : `${shadowColor}`,
+					backgroundColor: shadowColor,
 					borderColor,
 					borderWidth,
 					height: 95,
 				}}>
 				<View
 					className="rounded-lg p-4 flex-row justify-between items-center"
-					style={{ zIndex: 1, backgroundColor: disabled ? Color.GREY : `${bg}`, height: 90 }}>
+					style={{ zIndex: 1, backgroundColor: bg, height: 90 }}>
 					<View className="w-4/5">
-						<Text className={`font-bold ${FontSize.TEXT_XL}`} style={{ color: Color.WHITE }}>
+						<Text className={`font-bold ${FontSize.TEXT_XL}`} style={{ color: textColor }}>
 							{title}
 						</Text>
-						<Text style={{ color: Color.WHITE }}>{description}</Text>
+						<Text style={{ color: textColor }}>{description}</Text>
 					</View>
 					<View className="w-12">
-						<View
-							className="rounded-lg h-12"
-							style={{
-								backgroundColor: disabled ? Color.GREY : `${shadowColor}`,
-								borderColor,
-								borderWidth: 1,
-							}}>
+						{icon && (
 							<View
-								className="rounded-lg h-11 justify-center items-center"
-								style={{ zIndex: 1, backgroundColor: disabled ? Color.GREY : `${bg}` }}>
-								{icon}
+								className="rounded-lg h-12"
+								style={{
+									backgroundColor: shadowColor,
+									borderColor,
+									borderWidth: 1,
+								}}>
+								<View
+									className="rounded-lg h-11 justify-center items-center"
+									style={{ zIndex: 1, backgroundColor: bg }}>
+									{icon}
+								</View>
 							</View>
-						</View>
+						)}
+						{image && image}
 					</View>
 				</View>
 			</View>
