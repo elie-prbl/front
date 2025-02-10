@@ -12,7 +12,6 @@ import ElieHeader from "../svg/ElieHeader";
 import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp } from "./AppNavigator";
 import { useTheme } from "../context/ThemeContext";
-import UnityGameWebView from "../views/unityGame/GameUnityMatchMaking";
 
 const Tab = createBottomTabNavigator();
 
@@ -75,10 +74,25 @@ const TabNavigator = () => {
 				options={{
 					tabBarShowLabel: false,
 					tabBarIcon: ({ color }) => <Ionicons name="game-controller-outline" size={24} color={color} />,
-					headerShown: false,
-					headerTransparent: true,
 					headerStyle: {
+						height: 120,
 						backgroundColor: themeVariables.background,
+					},
+					headerTitle: () => (
+						<View className="h-full my-2">
+							<View className="flex-1 justify-evenly">
+								<Text style={{ color: themeVariables.text }} className="font-bold text-lg text-center">
+									{Content.GAME_TITLE}
+								</Text>
+								<Text style={{ color: themeVariables.text }} className="w-10/12">
+									{Content.GAME_DESCRIPTION}
+								</Text>
+							</View>
+							<ElieHeader />
+						</View>
+					),
+					headerTitleContainerStyle: {
+						width: "100%",
 					},
 				}}
 			/>

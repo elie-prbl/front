@@ -15,6 +15,7 @@ import Guide from "../views/Guide";
 import GameQuiz from "../views/game/GameQuiz";
 import GameQuizScore from "../views/game/GameQuizScore";
 import Game from "../views/game/Game";
+import GameEcoQuiz from "../views/game/GameEcoQuiz";
 import Shop from "../views/Shop";
 import Dashboard from "../views/user/Dashboard";
 import GameMatchMaking from "../views/game/GameMatchMaking";
@@ -25,7 +26,6 @@ import { RootState } from "../store/store";
 import { useTheme } from "../context/ThemeContext";
 import UnityGameWebView from "../views/unityGame/GameUnityMatchMaking";
 
-
 export type StackParamList = {
 	TabNav: { screen: string };
 	Login: undefined;
@@ -35,6 +35,7 @@ export type StackParamList = {
 	Home: undefined;
 	Guide: undefined;
 	Game: undefined;
+	GameEcoQuiz: undefined;
 	GameModule: undefined;
 	GameQuiz: undefined;
 	GameQuizScore: { score: number; nbQuestions: number };
@@ -95,7 +96,7 @@ const AppNavigator = (): JSX.Element => {
 					headerTransparent: true,
 					headerBackTitleVisible: false,
 					headerStyle: {
-						backgroundColor: themeVariables.background, // Changer la couleur de fond de l'en-tête
+						backgroundColor: themeVariables.background,
 					},
 				}}>
 				<Stack.Screen name="UnityGame" component={UnityGameWebView} options={{ headerShown: false }} />
@@ -107,6 +108,11 @@ const AppNavigator = (): JSX.Element => {
 				/>
 				<Stack.Screen name="Guide" component={Guide} options={{ headerShown: false }} />
 				<Stack.Screen name="Game" component={Game} options={{ headerShown: false }} />
+				<Stack.Screen
+					name="GameEcoQuiz"
+					component={GameEcoQuiz}
+					options={{ headerShown: true, headerTitle: Content.ECO_QUIZ, headerTintColor: themeVariables.text }}
+				/>
 				<Stack.Screen name="GameQuiz" component={GameQuiz} options={{ headerShown: false }} />
 				<Stack.Screen name="GameDualQuiz" component={GameDualQuiz} options={{ headerShown: false }} />
 				<Stack.Screen
@@ -130,7 +136,11 @@ const AppNavigator = (): JSX.Element => {
 						headerTintColor: themeVariables.text,
 					}}
 				/>
-				<Stack.Screen name="GameMatchMaking" component={GameMatchMaking} options={{ headerShown: false }} />
+				<Stack.Screen
+					name="GameMatchMaking"
+					component={GameMatchMaking}
+					options={{ headerShown: true, headerTitle: Content.DUAL_QUIZ, headerTintColor: themeVariables.text }}
+				/>
 			</Stack.Navigator>
 		</>
 	);

@@ -85,6 +85,16 @@ export class Content {
 	static GO_SHOP: string = "Go à la boutique !";
 
 	//Game
+	static GAME_TITLE: string = "Jeux";
+	static GAME_DESCRIPTION: string = "Viens tester tes connaissances !";
+	static ELIE_GAMES: string = "Jeux Elie";
+	static ECO_QUIZ: string = "Eco Quiz";
+	static ECO_QUIZ_DESCRIPTION: string = "Joues aux quiz développés par notre équipe";
+	static DUAL_QUIZ: string = "Dual Quiz";
+	static DUAL_QUIZ_DESCRIPTION: string = "Affrontes la communauté à travers différent quiz";
+	static COMMUNITY_GAMES: string = "Jeux communautaires";
+	static COMMUNITY_GAME_1: string = "1er jeu";
+	static COMMUNITY_GAME_1_DESCRIPTION: string = "Description à définir";
 	static CHOOSE_MODULE: string = "Choisissez un module";
 	static START: string = "Commencer";
 	static VALIDATE: string = "Valider";
