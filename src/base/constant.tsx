@@ -147,6 +147,7 @@ export class Content {
 	static POI: string = "Points d'intérêts";
 	static NO_EVENT: string = "Aucun évènement à venir pour le moment";
 	static NO_POI: string = "Aucun point d'intérêt à découvrir autour de vous";
+	static SEARCH_PLACES: string = "Rechercher dans cette zone";
 }
 
 export class FontSize {

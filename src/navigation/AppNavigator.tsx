@@ -25,6 +25,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { useTheme } from "../context/ThemeContext";
 import UnityGameWebView from "../views/unityGame/GameUnityMatchMaking";
+import GuideFullMap from "../components/guide/GuideFullMap";
 
 export type StackParamList = {
 	TabNav: { screen: string };
@@ -34,6 +35,7 @@ export type StackParamList = {
 	SignUp3: undefined;
 	Home: undefined;
 	Guide: undefined;
+	GuideFullMap: undefined;
 	Game: undefined;
 	GameEcoQuiz: undefined;
 	GameModule: undefined;
@@ -107,6 +109,16 @@ const AppNavigator = (): JSX.Element => {
 					options={{ presentation: "modal", headerTintColor: themeVariables.text, headerTitle: Content.CHOOSE_MODULE }}
 				/>
 				<Stack.Screen name="Guide" component={Guide} options={{ headerShown: false }} />
+				<Stack.Screen
+					name="GuideFullMap"
+					component={GuideFullMap}
+					options={{
+						headerShown: true,
+						headerTransparent: false,
+						headerTitle: Content.MAP,
+						headerTintColor: themeVariables.text,
+					}}
+				/>
 				<Stack.Screen name="Game" component={Game} options={{ headerShown: false }} />
 				<Stack.Screen
 					name="GameEcoQuiz"

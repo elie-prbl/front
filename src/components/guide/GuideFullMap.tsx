@@ -1,17 +1,15 @@
 import MapView, { Marker, Region } from "react-native-maps";
-import { Pressable, View } from "react-native";
+import { ActivityIndicator, Pressable, View } from "react-native";
 import { Feather, FontAwesome6 } from "@expo/vector-icons";
 import { Color, Content } from "../../base/constant";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
-import Toast, { ToastOptions } from "react-native-root-toast";
 import { getPlaces } from "../../store/features/Map/MapPOI";
-import { useDebounce } from "../../hooks/useDebounce";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { useTheme } from "../../context/ThemeContext";
 import TextComponent from "../../base/Text";
+import ButtonComponent from "../../base/Button";
 
 interface Place {
 	id: number;
@@ -22,55 +20,34 @@ interface Place {
 	town: string;
 }
 
-const TOAST_OPTIONS: ToastOptions = {
-	containerStyle: {
-		padding: 15,
-		borderBottomColor: Color.PRIMARY,
-		borderBottomWidth: 5,
-	},
-	backgroundColor: Color.WHITE,
-	textColor: Color.PRIMARY,
-	textStyle: { fontWeight: "bold" },
-	opacity: 1,
-	shadowColor: "transparent",
-	animation: true,
-};
-
 const GuideFullMap = () => {
+	const { themeVariables } = useTheme();
 	const position = useSelector((state: RootState) => state.position.position);
 	const mapRef = useRef<MapView>(null);
 	const bottomSheetRef = useRef<BottomSheet>(null);
 	const [initialRegion, setInitialRegion] = useState<Region>();
+	const [region, setRegion] = useState<Region>();
 	const [places, setPlaces] = useState<Place[]>([]);
 	const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
-	const tabBarHeight = useBottomTabBarHeight();
-	const { themeVariables } = useTheme();
-
-	const showToast = (message: string) => {
-		return Toast.show(message, {
-			...TOAST_OPTIONS,
-			position: selectedPlace ? Toast.positions.BOTTOM - tabBarHeight * 2.5 : Toast.positions.BOTTOM - tabBarHeight,
-		});
-	};
+	const [isLoading, setLoading] = useState(false);
+	const [isHiddenSearchButton, setHiddenSearchButton] = useState(true);
 
 	const fetchPlaces = async (region: Region) => {
+		setLoading(true);
+		setHiddenSearchButton(false);
+
 		try {
 			if (region) {
-				const toast = showToast(Content.LOAD_POI);
 				const places = await getPlaces(region);
 				setPlaces(places);
-				Toast.hide(toast);
+				setRegion(region);
 			}
 		} catch (error) {
-			showToast(Content.LOAD_POI_ERROR);
 			console.error("Error fetching places :", error);
+		} finally {
+			setLoading(false);
+			setHiddenSearchButton(true);
 		}
-	};
-
-	const debouncedFetchPlaces = useDebounce(fetchPlaces, 1000);
-
-	const handleRegionChangeComplete = async (region: Region) => {
-		await debouncedFetchPlaces(region);
 	};
 
 	const setTheCurrentPosition = () => {
@@ -87,20 +64,34 @@ const GuideFullMap = () => {
 	};
 
 	useEffect(() => {
-		(async () => {
-			if (position) {
-				const initialRegion = {
-					latitude: position.latitude,
-					longitude: position.longitude,
-					latitudeDelta: 0.04,
-					longitudeDelta: 0.04,
-				};
-				setInitialRegion(initialRegion);
-				setTheCurrentPosition();
-				await handleRegionChangeComplete(initialRegion);
-			}
-		})();
+		if (position) {
+			const initialRegion = {
+				latitude: position.latitude,
+				longitude: position.longitude,
+				latitudeDelta: 0.04,
+				longitudeDelta: 0.04,
+			};
+			setInitialRegion(initialRegion);
+			setTheCurrentPosition();
+		}
 	}, [position]);
+
+	useEffect(() => {
+		if (initialRegion) {
+			(async () => {
+				await fetchPlaces(initialRegion);
+			})();
+		}
+	}, [initialRegion]);
+
+	const handleRegionChangeComplete = async (region: Region) => {
+		setHiddenSearchButton(false);
+		setRegion(region);
+	};
+
+	const handleFetchPlaces = async (region: Region) => {
+		await fetchPlaces(region);
+	};
 
 	const handleMarkerPress = (place: Place) => {
 		setSelectedPlace(place);
@@ -129,6 +120,9 @@ const GuideFullMap = () => {
 
 	return (
 		<>
+			{isHiddenSearchButton && isLoading && (
+				<ActivityIndicator size="large" color={themeVariables.primary} className="absolute top-50 right-50" />
+			)}
 			<MapView
 				ref={mapRef}
 				className="w-full h-full"
@@ -153,6 +147,22 @@ const GuideFullMap = () => {
 				className="absolute top-2 right-2 bg-[#FFFFFF] p-3 rounded-full">
 				<Feather name="crosshair" size={26} color="black" />
 			</Pressable>
+
+			{!isHiddenSearchButton && region && (
+				<View className="absolute bottom-10 w-full mx-4 content-center">
+					<ButtonComponent
+						onPress={() => handleFetchPlaces(region)}
+						content={
+							isLoading ? (
+								<ActivityIndicator size="small" color={Color.WHITE} className="justify-center" />
+							) : (
+								Content.SEARCH_PLACES
+							)
+						}
+					/>
+				</View>
+			)}
+
 			<BottomSheet ref={bottomSheetRef} index={-1} snapPoints={["20%"]}>
 				<View className="p-4">
 					<Pressable onPress={handleCloseBottomSheet} className="absolute top-2 right-2 p-2 rounded-full z-10">

@@ -42,27 +42,24 @@ export const getPlaces = async (currentMapView: Region) => {
 		},
 		body: new URLSearchParams({ data: query }).toString(),
 	});
-	try {
-		const data = await response.json();
-		const places: Place[] = [];
-		if (data.elements) {
-			for (const element of data.elements) {
-				const placeName = await getPlaceName(element.lat, element.lon);
-				const newPlace = new Place(
-					element.id,
-					placeName.name || placeName.display_name.split(", ")[1] || "-",
-					element.lat,
-					element.lon,
-					placeName.address.road || "",
-					placeName.address.town || "",
-				);
-				places.push(newPlace);
-			}
+
+	const data = await response.json();
+	const places: Place[] = [];
+	if (data.elements) {
+		for (const element of data.elements) {
+			const placeName = await getPlaceName(element.lat, element.lon);
+			const newPlace = new Place(
+				element.id,
+				placeName.name || placeName.display_name.split(", ")[1] || "-",
+				element.lat,
+				element.lon,
+				placeName.address.road || "",
+				placeName.address.town || "",
+			);
+			places.push(newPlace);
 		}
-		return places;
-	} catch (err) {
-		throw new Error(`network error places: ${err}`);
 	}
+	return places;
 };
 
 export const getPlaceName = async (latitude: number, longitude: number) => {

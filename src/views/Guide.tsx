@@ -10,8 +10,11 @@ import { RootState } from "../store/store";
 import { ActivityIndicator, ScrollView } from "react-native";
 import GuideItemDetails from "../components/guide/GuideItemDetails";
 import TextComponent from "../base/Text";
+import { useNavigation } from "@react-navigation/core";
+import { MyNavigationProp } from "../navigation/AppNavigator";
 
 const Guide = () => {
+	const navigation = useNavigation<MyNavigationProp>();
 	const [activeTab, setActiveTab] = useState<Tab>(Tab.EVENTS);
 	const position = useSelector((state: RootState) => state.position.position);
 	const [places, setPlaces] = useState<Place[]>([]);
@@ -53,8 +56,7 @@ const Guide = () => {
 
 	return (
 		<Layout>
-			<BoxComponent title={Content.MAP} height="h-48" onPress={() => {}}>
-				{/*TODO : Pour le moment j'ai juste affiché la map avec ma position, je vais refaire l'autre map dans une autre PR*/}
+			<BoxComponent title={Content.MAP} height="h-48" onPress={() => navigation.navigate("GuideFullMap")}>
 				<GuideCompactMap />
 			</BoxComponent>
 			<GuideTabs
