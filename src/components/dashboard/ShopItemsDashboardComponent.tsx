@@ -11,6 +11,8 @@ import TextComponent from "../../base/Text";
 import { buildTheme } from "../../utils/buildTheme";
 import { useTheme } from "../../context/ThemeContext";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { buildElie } from "../../utils/buildElie";
+import { useAvatar } from "../../context/AvatarContext";
 
 const ShopItemsDashboardComponent = () => {
 	const [isLoading, setLoading] = useState<boolean>(true);
@@ -18,6 +20,7 @@ const ShopItemsDashboardComponent = () => {
 	const [avatarItems, setAvatarItems] = useState<UserShopItem[]>([]);
 	const [themeItems, setThemeItems] = useState<UserShopItem[]>([]);
 	const { setTheme, themeVariables, theme } = useTheme();
+	const { avatar, setAvatar } = useAvatar();
 
 	useEffect(() => {
 		setAvatarItems([]);
@@ -54,11 +57,27 @@ const ShopItemsDashboardComponent = () => {
 	return (
 		<View>
 			<BoxComponent title={Content.SHOP_AVATAR}>
-				{avatarItems.length > 0 ? (
-					avatarItems.map(avatar => <UserShopItemDetails key={avatar.id} userShopItem={avatar} />)
-				) : (
-					<TextComponent content={Content.NO_AVATAR} />
-				)}
+				<>
+					<View className="flex-row items-center mb-2">
+						<View className="w-12 h-20 flex-row items-center">{buildElie("")}</View>
+						<View className="flex-1 flex-col mx-2">
+							<TextComponent content={Content.AVATAR_DEFAULT} className="font-bold text-lg" />
+							<TextComponent content={Content.AVATAR_DEFAULT_DESCRIPTION} />
+						</View>
+						<TouchableOpacity onPress={() => setAvatar("elie")} className="p-1 rounded">
+							<MaterialCommunityIcons
+								name={avatar === "elie" ? "checkbox-marked-outline" : "checkbox-blank-outline"}
+								size={24}
+								color={themeVariables.text}
+							/>
+						</TouchableOpacity>
+					</View>
+					{avatarItems.length > 0 ? (
+						avatarItems.map(avatar => <UserShopItemDetails key={avatar.id} userShopItem={avatar} />)
+					) : (
+						<TextComponent content={Content.NO_AVATAR} />
+					)}
+				</>
 			</BoxComponent>
 			<BoxComponent title={Content.SHOP_THEME}>
 				<>

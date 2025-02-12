@@ -1,8 +1,8 @@
 import React from "react";
 import { SvgXml } from "react-native-svg";
 
-export default function ElieGold() {
-	const svg = `<svg width="571" height="500" viewBox="0 0 571 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+export default function ElieGoldHeader() {
+	const svg = `<svg width="50" height="50" viewBox="0 0 571 340" fill="none" xmlns="http://www.w3.org/2000/svg">
 		<path d="M104.109 278.024C18.6308 192.491 42.8723 129.674 59.8615 106.932C110.606 153.274 164.482 168.007 185.076 169.581L162.561 201.411L106.603 280.52C188.618 362.631 140.137 316.265 105.249 282.434L106.603 280.52C105.785 279.701 104.953 278.869 104.109 278.024Z" fill="url(#paint0_linear_644_10753)"/>
 		<path d="M443.851 195.807C477.144 79.5576 426.738 34.1636 399.603 24.7152C377.688 89.848 337.71 128.853 320.461 140.214L355.585 157.138L442.88 199.199C410.955 310.777 430.88 246.72 444.991 200.217L442.88 199.199C443.198 198.086 443.522 196.955 443.851 195.807Z" fill="url(#paint1_linear_644_10753)"/>
 		<path d="M442.162 201.889C478.907 82.771 428.523 37.4651 403.761 24.5805C392.766 19.8967 407.423 29.7156 409.577 47.0694C413.877 81.7116 388.219 123.004 378.372 151.582L442.162 201.889Z" fill="white"/>
@@ -51,7 +51,7 @@ export default function ElieGold() {
 		</linearGradient>
 		</defs>
 		</svg>`;
-	const Svg = () => <SvgXml xml={svg} width="50" className="items-center" />;
+	const Svg = () => <SvgXml xml={svg} width="50" className="absolute right-0 bottom-0" />;
 
 	return <Svg />;
 }
