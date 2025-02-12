@@ -1,8 +1,8 @@
 import React from "react";
 import { SvgXml } from "react-native-svg";
 
-export default function EliePirate() {
-	const svg = `<svg width="229" height="200" viewBox="0 0 229 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+export default function EliePirateHeader() {
+	const svg = `<svg width="50" height="50" viewBox="0 0 229 130" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M41.6436 111.209C7.45241 76.9954 17.149 51.8684 23.9447 42.7719C44.2426 61.3085 65.7927 67.2017 74.0305 67.8313L65.0244 80.5634L42.6412 112.207C75.4473 145.051 56.0548 126.505 42.0998 112.972L42.6412 112.207C42.3139 111.879 41.9814 111.547 41.6436 111.209Z" fill="#89BF36"/>
     <path d="M177.54 78.3218C190.857 31.822 170.695 13.6644 159.841 9.8851C151.075 35.9382 135.084 51.5402 128.184 56.0846L142.234 62.8541L177.152 79.6787C164.382 124.31 172.352 98.687 177.996 80.0856L177.152 79.6787C177.279 79.2334 177.409 78.7812 177.54 78.3218Z" fill="#89BF36"/>
     <path d="M176.865 80.7542C191.562 33.1071 171.409 14.9848 161.504 9.83094C157.106 7.95739 162.969 11.885 163.831 18.8265C165.551 32.6833 155.287 49.2003 151.349 60.6315L176.865 80.7542Z" fill="white"/>
@@ -24,7 +24,7 @@ export default function EliePirate() {
     <path d="M191.668 181.504H125.608C134.016 164.779 147.191 156.504 159.871 156.504C172.549 156.503 184.903 164.776 191.668 181.504Z" fill="#89BF36" stroke="white"/>
   </svg>`;
 
-	const Svg = () => <SvgXml xml={svg} width="50" className="items-center" />;
+	const Svg = () => <SvgXml xml={svg} width="50" className="absolute right-0 bottom-0" />;
 
 	return <Svg />;
 }

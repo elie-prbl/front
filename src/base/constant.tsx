@@ -129,6 +129,8 @@ export class Content {
 	static GEMS: string = "Total gems";
 	static NO_AVATAR: string = "Aller dans la boutique pour acheter des avatars !";
 	static NO_THEME: string = "Aller dans la boutique pour acheter des themes !";
+	static AVATAR_DEFAULT: string = "Elie (par défaut)";
+	static AVATAR_DEFAULT_DESCRIPTION: string = "Retrouves Elie tel que tu l'as vu dans les jeux !";
 	static THEME_DEFAULT: string = "Green (par défaut)";
 	static THEME_DEFAULT_DESCRIPTION: string = "Plongez dans ce thème pour vous rapprocher de la nature !";
 
