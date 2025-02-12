@@ -57,7 +57,7 @@ export default function ElieCyber() {
 </linearGradient>
 </defs>
 </svg>`;
-	const Svg = () => <SvgXml xml={svg} width="100%" height="50%" />;
+	const Svg = () => <SvgXml xml={svg} width="50" className="items-center" />;
 
 	return <Svg />;
 }

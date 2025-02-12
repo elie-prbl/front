@@ -24,7 +24,7 @@ export default function EliePirate() {
     <path d="M191.668 181.504H125.608C134.016 164.779 147.191 156.504 159.871 156.504C172.549 156.503 184.903 164.776 191.668 181.504Z" fill="#89BF36" stroke="white"/>
   </svg>`;
 
-	const Svg = () => <SvgXml xml={svg} width="100%" height="50%" />;
+	const Svg = () => <SvgXml xml={svg} width="50" className="items-center" />;
 
 	return <Svg />;
 }
