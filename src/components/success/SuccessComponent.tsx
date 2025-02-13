@@ -38,7 +38,7 @@ const SuccessComponent = ({ userSuccess }: successProps) => {
 	return (
 		<View className="flex-row w-full my-3">
 			<View className="justify-center mr-3">{SwitchImg(userSuccess?.success.tag.name)}</View>
-			<View className="flex-col flex-1">
+			<View className="flex-col flex-1 justify-center">
 				<TextComponent className="font-semibold" content={userSuccess?.success.name} />
 				<View className="flex-row justify-between mt-2 w-full">
 					<ProgressBar
