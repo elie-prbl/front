@@ -27,3 +27,23 @@ export const heightPercentageToDP = (heightPercent: any) => {
 		? PixelRatio.roundToNearestPixel((height * elemHeight) / 100)
 		: Math.round(((height * elemHeight) / 100) * Math.round(PixelRatio.getFontScale()));
 };
+
+export const getCoordinatesFromAddress = async (address: string) => {
+	const apiKey = "AIzaSyBKCmoKblT105-hFLHdghpCRgCliPkNqqk";
+	const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
+
+	try {
+		const response = await fetch(url);
+		const data = await response.json();
+
+		if (data.status === "OK" && data.results.length > 0) {
+			return data.results[0].geometry.location;
+		} else {
+			console.error("No results found for the address" + address);
+			return null;
+		}
+	} catch (error) {
+		console.error("Error fetching coordinates:", error);
+		return null;
+	}
+};
