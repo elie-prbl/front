@@ -9,21 +9,13 @@ export type progressBarComponentProps = {
 };
 
 const ProgressBarComponent = ({ currentStep, totalStep, width }: progressBarComponentProps) => {
-	const eachStepSize = width / totalStep;
-	const steps = [];
+	const progressWidth = (currentStep / totalStep) * width;
 
-	for (let i = 1; i <= totalStep; i++) {
-		const stepStyle = i <= currentStep ? Color.PRIMARY : Color.GREY;
-		steps.push(
-			<View
-				key={i}
-				className={`h-4 ${i < 2 ? "rounded-l-lg" : ""} ${i === totalStep ? "rounded-r-lg" : ""}`}
-				style={{ width: eachStepSize, backgroundColor: stepStyle }}
-			/>,
-		);
-	}
-
-	return <View className="h-4 flex-row">{steps}</View>;
+	return (
+		<View className="overflow-hidden h-4" style={{ width, backgroundColor: Color.GREY, borderRadius: 8 }}>
+			<View className="h-full" style={{ width: progressWidth, backgroundColor: Color.PRIMARY, borderRadius: 8 }} />
+		</View>
+	);
 };
 
 export default ProgressBarComponent;

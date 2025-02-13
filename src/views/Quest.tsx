@@ -14,6 +14,7 @@ import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp } from "../navigation/AppNavigator";
 import { useAppSelector } from "../store/hooks";
 import { UserSuccess } from "../store/features/UserSuccesses/UserSuccessesSlices";
+import { Divider } from "@rneui/themed";
 
 export enum ContentQuest {
 	SHOP = "Shop",
@@ -69,10 +70,11 @@ const Quest = () => {
 						userQuests.map(userQuest => <QuestComponent key={userQuest.id} userQuest={userQuest} img={<Circle1 />} />)}
 				</BoxComponent>
 				<BoxComponent title={Content.SUCCESS}>
-					{firstOfEachShortName?.map((s, index) => {
+					{firstOfEachShortName?.map((success, index) => {
 						return (
 							<View key={index}>
-								<SuccessComponent userSuccess={s} />
+								<SuccessComponent userSuccess={success} />
+								{index !== firstOfEachShortName?.length - 1 && <Divider />}
 							</View>
 						);
 					})}

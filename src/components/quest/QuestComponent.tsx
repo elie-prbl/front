@@ -32,7 +32,7 @@ const QuestComponent = ({ userQuest, img }: questProps) => {
 							<TextComponent content={`${userQuest?.progression}/${userQuest?.quest?.done_condition}`} />
 						</View>
 					) : (
-						<TextComponent content={`Tu as gagné ${userQuest?.quest?.xp} xp !`} className="mt-2" />
+						<TextComponent content={`Tu as gagné ${userQuest?.quest?.xp} XP !`} className="mt-2" />
 					)}
 				</View>
 			</View>
