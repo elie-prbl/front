@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../base/Layout";
 import GuideCompactMap from "../components/guide/GuideCompactMap";
 import { Color, Content } from "../base/constant";
@@ -10,6 +10,9 @@ import { RootState } from "../store/store";
 import { ActivityIndicator, ScrollView } from "react-native";
 import GuideItemDetails from "../components/guide/GuideItemDetails";
 import TextComponent from "../base/Text";
+import EventCard from "../components/map/EventCard";
+import { getEvents } from "../store/features/Events/EventThunk";
+import { useAppDispatch } from "../store/hooks";
 import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp } from "../navigation/AppNavigator";
 
@@ -17,8 +20,16 @@ const Guide = () => {
 	const navigation = useNavigation<MyNavigationProp>();
 	const [activeTab, setActiveTab] = useState<Tab>(Tab.EVENTS);
 	const position = useSelector((state: RootState) => state.position.position);
+	const { events, isLoadingEvents } = useSelector((state: RootState) => state.events);
 	const [places, setPlaces] = useState<Place[]>([]);
 	const [isLoadingPOI, setLoadingPOI] = useState(false);
+	const dispatch = useAppDispatch();
+
+	useEffect(() => {
+		if (position) {
+			dispatch(getEvents({ latitude: position.latitude, longitude: position.longitude }));
+		}
+	}, [dispatch, position]);
 
 	// TODO : A voir si on charge les évènements et les POI à chaque fois qu'on click sur les boutons
 	// TODO : Ou si on le fait une fois au début et dans ce cas utiliser un useEffect
@@ -64,13 +75,8 @@ const Guide = () => {
 				onPressEvent={() => handleDisplayEvents()}
 				onPressPoi={() => handleDisplayPoi()}
 			/>
-			{activeTab === Tab.EVENTS && (
-				<TextComponent content="Fonctionnalité à venir prochainement" className="text-center mt-10" />
-			)}
-			{isLoadingPOI ? (
-				<ActivityIndicator size="large" color={Color.PRIMARY} className="mt-10" />
-			) : (
-				activeTab === Tab.POI &&
+			{(isLoadingPOI || isLoadingEvents) && <ActivityIndicator size="large" color={Color.PRIMARY} className="mt-10" />}
+			{activeTab === Tab.POI &&
 				(!places.length ? (
 					<TextComponent content={Content.NO_POI} className="text-center mt-10" />
 				) : (
@@ -79,8 +85,18 @@ const Guide = () => {
 							<GuideItemDetails key={place.id} place={place} />
 						))}
 					</ScrollView>
-				))
-			)}
+				))}
+			{activeTab === Tab.EVENTS &&
+				events &&
+				(!events.length ? (
+					<TextComponent content={Content.NO_EVENT} className="text-center mt-10" />
+				) : (
+					<ScrollView showsVerticalScrollIndicator={false}>
+						{events.map(event => (
+							<EventCard key={event.id} event={event} />
+						))}
+					</ScrollView>
+				))}
 		</Layout>
 	);
 };
