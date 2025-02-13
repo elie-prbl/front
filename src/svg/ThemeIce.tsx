@@ -2,7 +2,7 @@ import React from "react";
 import { SvgXml } from "react-native-svg";
 
 export default function ThemeIce() {
-	const svg = `<svg width="45" height="54" viewBox="0 0 104 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+	const svg = `<svg width="45" height="34" viewBox="0 0 104 54" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M52 27C52 40.8071 40.8071 52 27 52C13.1929 52 2 40.8071 2 27C2 13.1929 13.1929 2 27 2C40.8071 2 52 13.1929 52 27Z" fill="#010A5A"/>
 <path d="M77 27C77 40.8071 65.8071 52 52 52C38.1929 52 27 40.8071 27 27C27 13.1929 38.1929 2 52 2C65.8071 2 77 13.1929 77 27Z" fill="#4FB2D4"/>
 <path d="M102 27C102 40.8071 90.8071 52 77 52C63.1929 52 52 40.8071 52 27C52 13.1929 63.1929 2 77 2C90.8071 2 102 13.1929 102 27Z" fill="white"/>
@@ -11,7 +11,7 @@ export default function ThemeIce() {
 
 `;
 
-	const Svg = () => <SvgXml xml={svg} className="absolute" />;
+	const Svg = () => <SvgXml xml={svg} />;
 
 	return <Svg />;
 }
