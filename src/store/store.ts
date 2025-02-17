@@ -14,6 +14,7 @@ import positionReducer from "./features/Position/PositionSlices";
 import userQuizReducer from "./features/UserQuiz/UserQuizSlices";
 import shopReducer from "./features/Shop/ShopSlices";
 import eventReducer from "./features/Events/EventSlices";
+import placeReducer from "./features/Places/PlacesSlice";
 
 const rootReducer = combineReducers({
 	user: userReducer,
@@ -31,6 +32,7 @@ const rootReducer = combineReducers({
 	position: positionReducer,
 	shop: shopReducer,
 	events: eventReducer,
+	places: placeReducer,
 });
 
 const store = configureStore({

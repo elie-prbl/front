@@ -14,8 +14,8 @@ export interface eventI {
 	currency_win: number;
 	number_of_participants: number;
 	is_full: boolean;
-	latitude?: number;
-	longitude?: number;
+	latitude: number;
+	longitude: number;
 }
 
 const initialState = {
@@ -27,19 +27,7 @@ const initialState = {
 export const EventSlice = createSlice({
 	name: "events",
 	initialState,
-	reducers: {
-		addLatitudeAndLongitude: (state, action) => {
-			if (state.events) {
-				state.events = state.events?.map(event => {
-					if (event.id === action.payload.id) {
-						event.latitude = action.payload.latitude;
-						event.longitude = action.payload.longitude;
-					}
-					return event;
-				});
-			}
-		},
-	},
+	reducers: {},
 	extraReducers: builder => {
 		builder
 			.addCase(getEvents.pending, (state, action) => {
@@ -66,7 +54,5 @@ export const EventSlice = createSlice({
 			});
 	},
 });
-
-export const { addLatitudeAndLongitude } = EventSlice.actions;
 
 export default EventSlice.reducer;

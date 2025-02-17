@@ -1,60 +1,37 @@
-import MapView, { Marker, Region } from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 import { ActivityIndicator, Pressable, View } from "react-native";
 import { Feather, FontAwesome6 } from "@expo/vector-icons";
 import { Color, Content } from "../../base/constant";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { getPlaces } from "../../store/features/Map/MapPOI";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { useTheme } from "../../context/ThemeContext";
 import TextComponent from "../../base/Text";
 import ButtonComponent from "../../base/Button";
 import { getEvents } from "../../store/features/Events/EventThunk";
 import { useAppDispatch } from "../../store/hooks";
-import { addLatitudeAndLongitude, eventI } from "../../store/features/Events/EventSlices";
-import { getCoordinatesFromAddress } from "../../utils";
+import { eventI } from "../../store/features/Events/EventSlices";
+import { configureReanimatedLogger, ReanimatedLogLevel } from "react-native-reanimated";
+import { PlaceI } from "../../store/features/Places/PlacesSlice";
+import { getPlaces } from "../../store/features/Places/PlacesThunk";
+import { LatLng } from "react-native-maps/lib/sharedTypes";
 
-interface Place {
-	id: number;
-	name: string;
-	latitude: number;
-	longitude: number;
-	road: string;
-	town: string;
-}
+configureReanimatedLogger({
+	level: ReanimatedLogLevel.warn,
+	strict: false,
+});
 
 const GuideFullMap = () => {
 	const { themeVariables } = useTheme();
 	const position = useSelector((state: RootState) => state.position.position);
-	const events = useSelector((state: RootState) => state.events.events);
+	const { events, isLoadingEvents } = useSelector((state: RootState) => state.events);
+	const { places, isLoadingPlaces } = useSelector((state: RootState) => state.places);
 	const mapRef = useRef<MapView>(null);
 	const bottomSheetRef = useRef<BottomSheet>(null);
-	const [initialRegion, setInitialRegion] = useState<Region>();
-	const [region, setRegion] = useState<Region>();
-	const [places, setPlaces] = useState<Place[]>([]);
-	const [selectedPlaceOrEvent, setselectedPlaceOrEvent] = useState<Place | eventI | null>(null);
-	const [isLoading, setLoading] = useState(false);
-	const [isHiddenSearchButton, setHiddenSearchButton] = useState(true);
+	const [selectedPlaceOrEvent, setSelectedPlaceOrEvent] = useState<PlaceI | eventI | null>(null);
+	const [currentRegion, setCurrentRegion] = useState<LatLng | null>(position);
 	const dispatch = useAppDispatch();
-
-	const fetchPlaces = async (region: Region) => {
-		setLoading(true);
-		setHiddenSearchButton(false);
-
-		try {
-			if (region) {
-				const places = await getPlaces(region);
-				setPlaces(places);
-				setRegion(region);
-			}
-		} catch (error) {
-			console.error("Error fetching places :", error);
-		} finally {
-			setLoading(false);
-			setHiddenSearchButton(true);
-		}
-	};
 
 	const setTheCurrentPosition = () => {
 		if (position && mapRef.current) {
@@ -71,66 +48,32 @@ const GuideFullMap = () => {
 
 	useEffect(() => {
 		if (position) {
-			const initialRegion = {
-				latitude: position.latitude,
-				longitude: position.longitude,
-				latitudeDelta: 0.04,
-				longitudeDelta: 0.04,
-			};
-			setInitialRegion(initialRegion);
-			setTheCurrentPosition();
-		}
-	}, [position]);
-
-	useEffect(() => {
-		if (initialRegion && position) {
-			(async () => {
-				await fetchPlaces(initialRegion);
-			})();
+			dispatch(getPlaces(position));
 			dispatch(getEvents({ latitude: position.latitude, longitude: position.longitude }));
 		}
-	}, [initialRegion]);
+	}, []);
 
-	const attributeCoordinates = async (event: eventI) => {
-		const coordinates = await getCoordinatesFromAddress(event.address + " " + event.city + " " + event.zip_code);
-		if (event.id) {
-			dispatch(
-				addLatitudeAndLongitude({
-					id: event.id,
-					latitude: coordinates.lat,
-					longitude: coordinates.lng,
-				}),
-			);
+	const handleRegionChangeComplete = async (position: LatLng) => {
+		setCurrentRegion(position);
+	};
+
+	const handleFetchPlacesAndEvents = async () => {
+		if (currentRegion) {
+			dispatch(getPlaces(currentRegion));
 		}
 	};
-	useEffect(() => {
-		if (events) {
-			for (const event of events) {
-				attributeCoordinates(event);
-			}
-		}
-	}, [events?.length, dispatch]);
 
-	const handleRegionChangeComplete = async (region: Region) => {
-		setHiddenSearchButton(false);
-		setRegion(region);
-	};
-
-	const handleFetchPlaces = async (region: Region) => {
-		await fetchPlaces(region);
-	};
-
-	const handleMarkerPress = (placeOrEvent: Place | eventI) => {
-		setselectedPlaceOrEvent(placeOrEvent);
+	const handleMarkerPress = (placeOrEvent: PlaceI | eventI) => {
+		setSelectedPlaceOrEvent(placeOrEvent);
 		bottomSheetRef.current?.snapToIndex(0);
 	};
 
 	const handleCloseBottomSheet = () => {
-		setselectedPlaceOrEvent(null);
+		setSelectedPlaceOrEvent(null);
 		bottomSheetRef.current?.close();
 	};
 
-	const renderCustomMarker = (placeOrEvent: Place | eventI) => {
+	const renderCustomMarker = (placeOrEvent: PlaceI | eventI) => {
 		const isSelected = selectedPlaceOrEvent?.id === placeOrEvent.id;
 
 		return (
@@ -147,17 +90,24 @@ const GuideFullMap = () => {
 
 	return (
 		<>
-			{isHiddenSearchButton && isLoading && (
-				<ActivityIndicator size="large" color={themeVariables.primary} className="absolute top-50 right-50" />
-			)}
 			<MapView
 				ref={mapRef}
+				key={(places?.length ?? 0) + (events?.length ?? 0)}
 				className="w-full h-full"
-				initialRegion={position ? initialRegion : undefined}
+				initialRegion={
+					currentRegion
+						? {
+								latitude: currentRegion.latitude,
+								longitude: currentRegion.longitude,
+								latitudeDelta: 0.04,
+								longitudeDelta: 0.04,
+							}
+						: undefined
+				}
 				showsUserLocation
 				showsCompass={false}
 				onRegionChangeComplete={handleRegionChangeComplete}>
-				{places.map(place => (
+				{places?.map(place => (
 					<Marker
 						key={place.id}
 						coordinate={{
@@ -169,9 +119,6 @@ const GuideFullMap = () => {
 					</Marker>
 				))}
 				{events?.map(event => {
-					if (!event.latitude || !event.longitude) {
-						return null;
-					}
 					return (
 						<Marker
 							key={event.id}
@@ -185,18 +132,15 @@ const GuideFullMap = () => {
 					);
 				})}
 			</MapView>
-			<Pressable
-				onPress={() => setTheCurrentPosition()}
-				className="absolute top-2 right-2 bg-[#FFFFFF] p-3 rounded-full">
+			<Pressable onPress={() => setTheCurrentPosition()} className="absolute top-2 right-2 bg-white p-3 rounded-full">
 				<Feather name="crosshair" size={26} color="black" />
 			</Pressable>
-
-			{!isHiddenSearchButton && region && (
+			{position?.longitude !== currentRegion?.longitude && position?.latitude !== currentRegion?.latitude && (
 				<View className="absolute bottom-10 w-full mx-4 content-center">
 					<ButtonComponent
-						onPress={() => handleFetchPlaces(region)}
+						onPress={() => handleFetchPlacesAndEvents()}
 						content={
-							isLoading ? (
+							isLoadingPlaces || isLoadingEvents ? (
 								<ActivityIndicator size="small" color={Color.WHITE} className="justify-center" />
 							) : (
 								Content.SEARCH_PLACES
@@ -214,10 +158,23 @@ const GuideFullMap = () => {
 					{selectedPlaceOrEvent && (
 						<View>
 							<TextComponent content={selectedPlaceOrEvent.name} className="font-bold text-xl mb-1" />
-							<TextComponent
-								content={`${"road" in selectedPlaceOrEvent ? selectedPlaceOrEvent.road : ""} - ${"town" in selectedPlaceOrEvent ? selectedPlaceOrEvent.town : ""}`}
-								style={{ color: themeVariables.text }}
-							/>
+							{!("road" in selectedPlaceOrEvent) ? (
+								<>
+									<TextComponent
+										content={`${selectedPlaceOrEvent.name} - ${selectedPlaceOrEvent.description}`}
+										style={{ color: themeVariables.text }}
+									/>
+									<TextComponent
+										content={`Nombre de participants : 0 / ${selectedPlaceOrEvent.number_of_participants}`}
+										style={{ color: themeVariables.text, marginTop: 10 }}
+									/>
+								</>
+							) : (
+								<TextComponent
+									content={`${selectedPlaceOrEvent.road} - ${selectedPlaceOrEvent.town}`}
+									style={{ color: themeVariables.text }}
+								/>
+							)}
 						</View>
 					)}
 				</View>
