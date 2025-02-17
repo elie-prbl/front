@@ -6,7 +6,7 @@ import BoxComponent from "../base/Box";
 import GuideTabs, { Tab } from "../components/guide/GuideTabs";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
-import { ActivityIndicator, ScrollView } from "react-native";
+import { ActivityIndicator, ScrollView, TouchableOpacity, View } from "react-native";
 import GuideItemDetails from "../components/guide/GuideItemDetails";
 import TextComponent from "../base/Text";
 import EventCard from "../components/map/EventCard";
@@ -75,6 +75,16 @@ const Guide = () => {
 						))}
 					</ScrollView>
 				))}
+			<TouchableOpacity>
+				<View
+					style={{
+						backgroundColor: "blue",
+						width: 45,
+						height: 45,
+						borderRadius: 45,
+					}}
+				/>
+			</TouchableOpacity>
 		</Layout>
 	);
 };
