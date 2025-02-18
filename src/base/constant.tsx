@@ -93,8 +93,7 @@ export class Content {
 	static DUAL_QUIZ: string = "Dual Quiz";
 	static DUAL_QUIZ_DESCRIPTION: string = "Affrontes la communauté à travers différent quiz";
 	static COMMUNITY_GAMES: string = "Jeux communautaires";
-	static COMMUNITY_GAME_1: string = "1er jeu";
-	static COMMUNITY_GAME_1_DESCRIPTION: string = "Description à définir";
+	static NO_COMMUNITY_GAMES: string = "Aucuns jeux communautaires disponibles pour le moment.";
 	static CHOOSE_MODULE: string = "Choisissez un module";
 	static START: string = "Commencer";
 	static VALIDATE: string = "Valider";
@@ -149,6 +148,9 @@ export class Content {
 	static POI: string = "Points d'intérêts";
 	static NO_EVENT: string = "Aucun évènement à venir pour le moment";
 	static NO_POI: string = "Aucun point d'intérêt à découvrir autour de vous";
+
+	//Commun
+	static ERROR: string = "Une erreur est survenue, veuillez réessayer plus tard";
 }
 
 export class FontSize {
