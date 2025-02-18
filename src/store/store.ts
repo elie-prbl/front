@@ -33,8 +33,8 @@ const rootReducer = combineReducers({
 	position: positionReducer,
 	shop: shopReducer,
 	events: eventReducer,
+	userEvent: userEventReducer,
 	places: placeReducer,
-	// userEvent: userEventReducer,
 });
 
 const store = configureStore({

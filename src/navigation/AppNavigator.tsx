@@ -26,6 +26,7 @@ import { RootState } from "../store/store";
 import { useTheme } from "../context/ThemeContext";
 import UnityGameWebView from "../views/unityGame/GameUnityMatchMaking";
 import GuideFullMap from "../components/guide/GuideFullMap";
+import GuideAddEvents from "../components/guide/GuideAddEvents";
 
 export type StackParamList = {
 	TabNav: { screen: string };
@@ -36,6 +37,7 @@ export type StackParamList = {
 	Home: undefined;
 	Guide: undefined;
 	GuideFullMap: undefined;
+	GuideAddEvent: undefined;
 	Game: undefined;
 	GameEcoQuiz: undefined;
 	GameModule: undefined;
@@ -116,6 +118,15 @@ const AppNavigator = (): JSX.Element => {
 						headerShown: true,
 						headerTransparent: false,
 						headerTitle: Content.MAP,
+						headerTintColor: themeVariables.text,
+					}}
+				/>
+				<Stack.Screen
+					name="GuideAddEvent"
+					component={GuideAddEvents}
+					options={{
+						headerShown: true,
+						headerTitle: Content.ADD_EVENT_TITLE,
 						headerTintColor: themeVariables.text,
 					}}
 				/>

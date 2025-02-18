@@ -1,4 +1,4 @@
-import { SafeAreaView } from "react-native";
+import { Keyboard, KeyboardAvoidingView, Platform, SafeAreaView, TouchableWithoutFeedback } from "react-native";
 import React, { ReactNode } from "react";
 import { useTheme } from "../context/ThemeContext";
 
@@ -12,7 +12,9 @@ const Layout = ({ children }: Props) => {
 	return (
 		<SafeAreaView className="flex-1" style={{ backgroundColor: themeVariables.background }}>
 			<BackgroundComponent />
-			{children}
+			<KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
+				{children}
+			</KeyboardAvoidingView>
 		</SafeAreaView>
 	);
 };
