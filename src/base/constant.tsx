@@ -83,6 +83,7 @@ export class Content {
 	static SUCCESS: string = "Succès";
 	static SPEND_SHOP: string = "Dépenser ces points";
 	static GO_SHOP: string = "Go à la boutique !";
+	static AWARDS: string = "Récompenses :";
 
 	//Game
 	static GAME_TITLE: string = "Jeux";
