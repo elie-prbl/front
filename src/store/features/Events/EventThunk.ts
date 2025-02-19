@@ -28,7 +28,7 @@ export const getEvents = createAsyncThunk(
 );
 
 export const createEvent = createAsyncThunk("createEvent", async (event: eventI, { rejectWithValue }) => {
-	const response = await fetch(`${Url.BASE_URL_API}/events`, {
+	const response = await fetch(`${Url.BASE_URL_API}/events/`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",

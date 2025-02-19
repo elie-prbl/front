@@ -12,6 +12,7 @@ interface ButtonComponentProps {
 	shadowColor?: string;
 	textColor?: string;
 	width?: string;
+	padding?: string;
 }
 
 const ButtonComponent = ({
@@ -24,9 +25,10 @@ const ButtonComponent = ({
 	borderWidth,
 	textColor = Color.WHITE,
 	width = "w-11/12",
+	padding = "",
 }: ButtonComponentProps) => {
 	return (
-		<TouchableOpacity className={width} onPress={onPress} disabled={disabled}>
+		<TouchableOpacity className={`${width} ${padding}`} onPress={onPress} disabled={disabled}>
 			<View
 				className="rounded-lg h-12"
 				style={{

@@ -6,7 +6,7 @@ import BoxComponent from "../base/Box";
 import GuideTabs, { Tab } from "../components/guide/GuideTabs";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
-import { ActivityIndicator, ScrollView } from "react-native";
+import { ActivityIndicator, ScrollView, TouchableOpacity, View } from "react-native";
 import GuideItemDetails from "../components/guide/GuideItemDetails";
 import TextComponent from "../base/Text";
 import EventCard from "../components/map/EventCard";
@@ -15,6 +15,7 @@ import { useAppDispatch } from "../store/hooks";
 import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp } from "../navigation/AppNavigator";
 import { getPlaces } from "../store/features/Places/PlacesThunk";
+import Add from "../svg/Add";
 
 const Guide = () => {
 	const navigation = useNavigation<MyNavigationProp>();
@@ -75,6 +76,26 @@ const Guide = () => {
 						))}
 					</ScrollView>
 				))}
+			<TouchableOpacity
+				onPress={() => navigation.navigate("GuideAddEvent")}
+				style={{
+					position: "absolute",
+					bottom: 20,
+					right: 20,
+				}}>
+				<View
+					style={{
+						backgroundColor: Color.PRIMARY,
+						width: 50,
+						height: 50,
+						borderRadius: 50,
+						display: "flex",
+						justifyContent: "center",
+						alignItems: "center",
+					}}>
+					<Add />
+				</View>
+			</TouchableOpacity>
 		</Layout>
 	);
 };
