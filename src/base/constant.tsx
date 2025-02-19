@@ -160,5 +160,6 @@ export class Url {
 	static LOCALHOST: string = "localhost";
 	static BASE_URL_API: string = `http://${Url.IP}:8080/api/v1`;
 	static BASE_URL_WS: string = `ws://${Url.IP}:8080/ws`;
-	static BASE_URL_GAME_SERVICE: string = `http://192.168.1.15:8082/`;
+	static BASE_URL_GAME_SERVICE: string = `http://${Url.IP}:8082`;
+	static BASE_URL_GAME_MANAGER: string = `http://${Url.IP}:8000`;
 }
