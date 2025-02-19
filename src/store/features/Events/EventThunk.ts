@@ -1,10 +1,21 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Url } from "../../../base/constant";
-import { eventI } from "./EventSlices";
 
 export interface getEventsParamsI {
 	latitude: number;
 	longitude: number;
+}
+
+export interface createEventParamsI {
+	name: string;
+	description: string;
+	address: string;
+	city: string;
+	zip_code: string;
+	start_date: string;
+	end_date: string;
+	organizer_uuid: string;
+	number_of_participants: number;
 }
 
 export const getEvents = createAsyncThunk(
@@ -27,16 +38,20 @@ export const getEvents = createAsyncThunk(
 	},
 );
 
-export const createEvent = createAsyncThunk("createEvent", async (event: eventI, { rejectWithValue }) => {
-	const response = await fetch(`${Url.BASE_URL_API}/events/`, {
+export const createEvent = createAsyncThunk("createEvent", async (event: createEventParamsI, { rejectWithValue }) => {
+	const response = await fetch(`${Url.BASE_URL_API}/events`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
 		},
 		body: JSON.stringify(event),
 	});
+
+	console.log("event = ", event);
 	try {
-		return await response.json();
+		const r = await response.json();
+		console.log("r = ", r);
+		return r;
 	} catch (err) {
 		return rejectWithValue(`network error: ${err}`);
 	}

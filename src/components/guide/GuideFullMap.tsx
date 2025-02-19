@@ -107,19 +107,20 @@ const GuideFullMap = () => {
 				showsUserLocation
 				showsCompass={false}
 				onRegionChangeComplete={handleRegionChangeComplete}>
-				{places?.map(place => (
-					<Marker
-						key={place.id}
-						coordinate={{
-							latitude: place.latitude,
-							longitude: place.longitude,
-						}}
-						onPress={() => handleMarkerPress(place)}>
-						{renderCustomMarker(place)}
-					</Marker>
-				))}
-				{events?.map(event => {
-					return (
+				{Array.isArray(places) &&
+					places?.map(place => (
+						<Marker
+							key={place.id}
+							coordinate={{
+								latitude: place.latitude,
+								longitude: place.longitude,
+							}}
+							onPress={() => handleMarkerPress(place)}>
+							{renderCustomMarker(place)}
+						</Marker>
+					))}
+				{Array.isArray(events) &&
+					events?.map(event => (
 						<Marker
 							key={event.id}
 							coordinate={{
@@ -129,8 +130,7 @@ const GuideFullMap = () => {
 							onPress={() => handleMarkerPress(event)}>
 							{renderCustomMarker(event)}
 						</Marker>
-					);
-				})}
+					))}
 			</MapView>
 			<Pressable onPress={() => setTheCurrentPosition()} className="absolute top-2 right-2 bg-white p-3 rounded-full">
 				<Feather name="crosshair" size={26} color="black" />

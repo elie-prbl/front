@@ -14,8 +14,8 @@ export interface eventI {
 	currency_win: number;
 	number_of_participants: number;
 	is_full: boolean;
-	latitude?: number;
-	longitude?: number;
+	latitude: number;
+	longitude: number;
 }
 
 const initialState = {

@@ -15,17 +15,24 @@ import { createEvent } from "../../store/features/Events/EventThunk";
 import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp } from "../../navigation/AppNavigator";
 
+const formatDateToISOWithOffset = (date: Date) => {
+	const isoString = date.toISOString();
+	const truncatedString = isoString.split(".")[0];
+	return `${truncatedString}+00:00`;
+};
+
 const GuideAddEvents = () => {
 	const navigation = useNavigation<MyNavigationProp>();
 	const [name, setName] = useState<string>("Trie de Déchet à espace vert");
 	const [description, setDescription] = useState<string>(
 		"Tri de déchet dans les espace vert autour des stades, de l'ecole et des voies rapides",
 	);
-	const [address, setAddress] = useState<string>("15 rue pierre de coubertin");
-	const [city, setCity] = useState<string>("Pontoise");
-	const [postalCode, setPostalCode] = useState<string>("95032");
+	const [address, setAddress] = useState<string>("16 impasse bellevue");
+	const [city, setCity] = useState<string>("Change");
+	const [postalCode, setPostalCode] = useState<string>("72560");
 	const [startDateTime, setStartDateTime] = useState(new Date());
 	const [endDateTime, setEndDateTime] = useState(new Date());
+	const [numberOfParticipants, setNumberOfParticipants] = useState<string>("10");
 	const [errorMessage, setErrorMessage] = useState<string>("");
 	const { user } = useAppSelector((state: RootState) => state.user);
 	const dispatch = useAppDispatch();
@@ -36,15 +43,14 @@ const GuideAddEvents = () => {
 		address,
 		city,
 		zip_code: postalCode,
-		start_date: startDateTime.toISOString(),
-		end_date: endDateTime.toISOString(),
+		start_date: formatDateToISOWithOffset(startDateTime),
+		end_date: formatDateToISOWithOffset(endDateTime),
 		organizer_uuid: user!.uuid,
-		currency_win: 100,
-		number_of_participants: 0,
-		is_full: false,
+		number_of_participants: parseInt(numberOfParticipants, 10),
 	};
 
 	const handleCreateEvent = async () => {
+		console.log("dans handleCreateEvent");
 		if (!name || !description || !address || !city || !postalCode) {
 			setErrorMessage("Tous les champs doivent être remplis.");
 			return;
@@ -60,6 +66,7 @@ const GuideAddEvents = () => {
 		}
 
 		try {
+			console.log("dans try");
 			await dispatch(createEvent(newEvent)).unwrap();
 			navigation.goBack();
 			setErrorMessage("");
@@ -106,6 +113,13 @@ const GuideAddEvents = () => {
 						label="Description"
 						textInput={description}
 						placeholder="Description"
+					/>
+					<TextInputComponent
+						onChangeText={setNumberOfParticipants}
+						label="Nombre de participants"
+						textInput={numberOfParticipants}
+						placeholder="10"
+						width="w-full"
 					/>
 					{errorMessage && <TextComponent content={errorMessage} isError className="text-center font-bold py-4" />}
 					<ButtonComponent onPress={handleCreateEvent} content="Confirmer" width="w-full" padding="pt-4" />

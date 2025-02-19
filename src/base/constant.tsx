@@ -149,6 +149,7 @@ export class Content {
 	static ADD_EVENT_TITLE: string = "Création d'un évenement";
 	static POI: string = "Points d'intérêts";
 	static NO_EVENT: string = "Aucun évènement à venir pour le moment";
+	static LOAD_EVENT_ERROR: string = "Erreur lors de la récupération des évènements";
 	static NO_POI: string = "Aucun point d'intérêt à découvrir autour de vous";
 	static SEARCH_PLACES: string = "Rechercher dans cette zone";
 
@@ -159,6 +160,7 @@ export class Content {
 export class FontSize {
 	static TEXT_XL: string = "text-xl";
 	static TEXT_LG: string = "text-lg";
+	static TEXT_SM: string = "text-sm";
 }
 
 export class Url {
