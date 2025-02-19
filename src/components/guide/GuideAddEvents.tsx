@@ -15,9 +15,6 @@ import { createEvent } from "../../store/features/Events/EventThunk";
 import { createUserEvent } from "../../store/features/UserEvents/UserEventThunks";
 import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp } from "../../navigation/AppNavigator";
-import { loginUser } from "../../store/features/User/UserThunk";
-import { useSelector } from "react-redux";
-import { navigate } from "@react-navigation/routers/src/CommonActions";
 
 const GuideAddEvents = () => {
 	const navigation = useNavigation<MyNavigationProp>();
