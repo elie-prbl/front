@@ -150,6 +150,7 @@ export class Content {
 	static POI: string = "Points d'intérêts";
 	static NO_EVENT: string = "Aucun évènement à venir pour le moment";
 	static NO_POI: string = "Aucun point d'intérêt à découvrir autour de vous";
+	static SEARCH_PLACES: string = "Rechercher dans cette zone";
 
 	//Commun
 	static ERROR: string = "Une erreur est survenue, veuillez réessayer plus tard";
@@ -162,9 +163,9 @@ export class FontSize {
 
 export class Url {
 	// Commande pour récupérer l'ip dans le termainal : ipconfig getifaddr en0
-	static IP: string = "192.168.1.73";
+	static IP: string = "192.168.1.15";
 	static LOCALHOST: string = "localhost";
-	static BASE_URL_API: string = `http://${Url.IP}:7070/api/v1`;
+	static BASE_URL_API: string = `http://${Url.IP}:8080/api/v1`;
 	static BASE_URL_WS: string = `ws://${Url.IP}:8080/ws`;
-	static BASE_URL_GAME_SERVICE: string = `http://192.168.1.72:8082/`;
+	static BASE_URL_GAME_SERVICE: string = `http://${Url.IP}:8082/`;
 }
