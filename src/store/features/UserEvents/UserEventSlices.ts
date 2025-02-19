@@ -7,9 +7,9 @@ export interface userEventI {
 	user_id: number;
 	event_id: number;
 	event: eventI;
-	is_realized: string;
-	created_at: string;
-	update_at: string;
+	is_realized: boolean;
+	created_at?: string;
+	update_at?: string;
 }
 
 const initialState = {
