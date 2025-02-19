@@ -1,4 +1,4 @@
-import { Keyboard, KeyboardAvoidingView, Platform, SafeAreaView, TouchableWithoutFeedback } from "react-native";
+import { KeyboardAvoidingView, Platform, SafeAreaView } from "react-native";
 import React, { ReactNode } from "react";
 import { useTheme } from "../context/ThemeContext";
 

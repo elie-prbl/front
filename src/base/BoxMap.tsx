@@ -1,8 +1,6 @@
-import React, { ReactElement } from "react";
-import { Pressable, View } from "react-native";
-import { FontSize } from "./constant";
+import React from "react";
+import { Pressable } from "react-native";
 import { useTheme } from "../context/ThemeContext";
-import TextComponent from "./Text";
 
 interface BoxMapProps {
 	height?: string;

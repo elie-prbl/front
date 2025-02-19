@@ -24,7 +24,6 @@ export const getUsersEvents = createAsyncThunk("getQuests", async (user_uuid: st
 export const createUserEvent = createAsyncThunk(
 	"createUserEvent",
 	async (user_event: userEventI, { rejectWithValue }) => {
-		console.log("user_event", user_event);
 		const response = await fetch(`${Url.BASE_URL_API}/events/user`, {
 			method: "POST",
 			headers: {
@@ -41,3 +40,18 @@ export const createUserEvent = createAsyncThunk(
 		}
 	},
 );
+
+export const deleteUserEvent = createAsyncThunk("deleteUserEvent", async (id: string, { rejectWithValue }) => {
+	const response = await fetch(`${Url.BASE_URL_API}/events/user?user_event=${id}`, {
+		method: "DELETE",
+		headers: {
+			"Content-Type": "application/json",
+		},
+	});
+	try {
+		console.log("response", response.json());
+		return await response.json();
+	} catch (err) {
+		return rejectWithValue(`network error: ${err}`);
+	}
+});

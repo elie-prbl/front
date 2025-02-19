@@ -24,7 +24,6 @@ const Guide = () => {
 	const { events, isLoadingEvents } = useSelector((state: RootState) => state.events);
 	const { places, isLoadingPlaces } = useSelector((state: RootState) => state.places);
 	const dispatch = useAppDispatch();
-	const user = useSelector((state: RootState) => state.user);
 
 	useEffect(() => {
 		if (position) {

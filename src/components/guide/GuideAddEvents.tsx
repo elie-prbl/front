@@ -1,5 +1,5 @@
-import { ScrollView, Text, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import { ScrollView, View } from "react-native";
+import React, { useState } from "react";
 import Layout from "../../base/Layout";
 import GuideCompactMap from "./GuideCompactMap";
 import TextInputComponent from "../../base/TextInput";
@@ -12,7 +12,6 @@ import TextComponent from "../../base/Text";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { RootState } from "../../store/store";
 import { createEvent } from "../../store/features/Events/EventThunk";
-import { createUserEvent } from "../../store/features/UserEvents/UserEventThunks";
 import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp } from "../../navigation/AppNavigator";
 

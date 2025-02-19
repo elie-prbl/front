@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createUserEvent, getUsersEvents } from "./UserEventThunks";
+import { createUserEvent, deleteUserEvent, getUsersEvents } from "./UserEventThunks";
 import { eventI } from "../Events/EventSlices";
 
 export interface userEventI {
@@ -53,6 +53,22 @@ export const UserEventsSlices = createSlice({
 				state.error = false;
 			})
 			.addCase(createUserEvent.rejected, (state, action) => {
+				state.isLoadingUserEvent = false;
+				state.error = action.payload;
+				state.isModifiedUserEvent = false;
+			})
+			.addCase(deleteUserEvent.pending, (state, action) => {
+				state.isLoadingUserEvent = true;
+				state.isModifiedUserEvent = false;
+				state.error = false;
+			})
+			.addCase(deleteUserEvent.fulfilled, (state, action) => {
+				state.user_events = action.payload;
+				state.isLoadingUserEvent = false;
+				state.isModifiedUserEvent = true;
+				state.error = false;
+			})
+			.addCase(deleteUserEvent.rejected, (state, action) => {
 				state.isLoadingUserEvent = false;
 				state.error = action.payload;
 				state.isModifiedUserEvent = false;

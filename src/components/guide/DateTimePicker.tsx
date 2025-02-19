@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, Platform, Modal, Button } from "react-native";
+import { View, Text, TouchableOpacity, Modal } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useTheme } from "../../context/ThemeContext";
 import ButtonComponent from "../../base/Button";
@@ -13,6 +13,7 @@ interface DateTimePickerComponentProps {
 const DateTimePickerComponent = ({ label, dateTime, setDateTime }: DateTimePickerComponentProps) => {
 	const { themeVariables } = useTheme();
 	const [tempDate, setTempDate] = useState(dateTime);
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [pickerMode, setPickerMode] = useState<"date" | "time" | null>(null);
 	const [modalVisible, setModalVisible] = useState(false);
 
