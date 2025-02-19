@@ -8,16 +8,17 @@ import Shop from "../views/Shop";
 import Guide from "../views/Guide";
 import Quest from "../views/Quest";
 import { Text, View } from "react-native";
-import ElieHeader from "../svg/ElieHeader";
 import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp } from "./AppNavigator";
 import { useTheme } from "../context/ThemeContext";
+import { useAvatar } from "../context/AvatarContext";
 
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
 	const navigation = useNavigation<MyNavigationProp>();
 	const { themeVariables } = useTheme();
+	const { AvatarComponent } = useAvatar();
 
 	return (
 		<Tab.Navigator
@@ -88,7 +89,7 @@ const TabNavigator = () => {
 									{Content.GAME_DESCRIPTION}
 								</Text>
 							</View>
-							<ElieHeader />
+							<AvatarComponent />
 						</View>
 					),
 					headerTitleContainerStyle: {
@@ -116,7 +117,7 @@ const TabNavigator = () => {
 									{Content.SHOP_DESCRIPTION}
 								</Text>
 							</View>
-							<ElieHeader />
+							<AvatarComponent />
 						</View>
 					),
 					headerTitleContainerStyle: {
@@ -144,7 +145,7 @@ const TabNavigator = () => {
 									{Content.GUIDE_DESCRIPTION}
 								</Text>
 							</View>
-							<ElieHeader />
+							<AvatarComponent />
 						</View>
 					),
 					headerTitleContainerStyle: {
@@ -172,7 +173,7 @@ const TabNavigator = () => {
 									{Content.QUEST_DESCRIPTION}
 								</Text>
 							</View>
-							<ElieHeader />
+							<AvatarComponent />
 						</View>
 					),
 					headerTitleContainerStyle: {
