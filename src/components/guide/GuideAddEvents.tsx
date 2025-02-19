@@ -1,5 +1,5 @@
 import { ScrollView, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../base/Layout";
 import GuideCompactMap from "./GuideCompactMap";
 import TextInputComponent from "../../base/TextInput";
@@ -11,7 +11,7 @@ import ButtonComponent from "../../base/Button";
 import TextComponent from "../../base/Text";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { RootState } from "../../store/store";
-import { createEvent } from "../../store/features/Events/EventThunk";
+import { createEvent, createEventParamsI } from "../../store/features/Events/EventThunk";
 import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp } from "../../navigation/AppNavigator";
 
@@ -33,11 +33,11 @@ const GuideAddEvents = () => {
 	const [startDateTime, setStartDateTime] = useState(new Date());
 	const [endDateTime, setEndDateTime] = useState(new Date());
 	const [numberOfParticipants, setNumberOfParticipants] = useState<string>("10");
-	const [errorMessage, setErrorMessage] = useState<string>("");
+	const { isCreatedEvent, errorEvents } = useAppSelector((state: RootState) => state.events);
 	const { user } = useAppSelector((state: RootState) => state.user);
 	const dispatch = useAppDispatch();
 
-	const newEvent = {
+	const newEvent: createEventParamsI = {
 		name,
 		description,
 		address,
@@ -49,31 +49,15 @@ const GuideAddEvents = () => {
 		number_of_participants: parseInt(numberOfParticipants, 10),
 	};
 
-	const handleCreateEvent = async () => {
-		console.log("dans handleCreateEvent");
-		if (!name || !description || !address || !city || !postalCode) {
-			setErrorMessage("Tous les champs doivent être remplis.");
-			return;
-		}
-		const postalCodeRegex = /^\d{5}$/;
-		if (!postalCodeRegex.test(postalCode)) {
-			setErrorMessage("Le code postal doit être composé de 5 chiffres.");
-			return;
-		}
-		if (endDateTime <= startDateTime) {
-			setErrorMessage("La date de fin doit être supérieure à la date de début.");
-			return;
-		}
-
-		try {
-			console.log("dans try");
-			await dispatch(createEvent(newEvent)).unwrap();
-			navigation.goBack();
-			setErrorMessage("");
-		} catch (error) {
-			setErrorMessage("Erreur lors de la création de l'évenement.");
-		}
+	const handleCreateEvent = () => {
+		dispatch(createEvent(newEvent));
 	};
+
+	useEffect(() => {
+		if (isCreatedEvent) {
+			navigation.goBack();
+		}
+	}, [isCreatedEvent]);
 
 	return (
 		<Layout>
@@ -121,7 +105,7 @@ const GuideAddEvents = () => {
 						placeholder="10"
 						width="w-full"
 					/>
-					{errorMessage && <TextComponent content={errorMessage} isError className="text-center font-bold py-4" />}
+					{errorEvents && <TextComponent content={errorEvents as string} isError className="text-center font-bold py-4" />}
 					<ButtonComponent onPress={handleCreateEvent} content="Confirmer" width="w-full" padding="pt-4" />
 				</BoxComponent>
 			</ScrollView>

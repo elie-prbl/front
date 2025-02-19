@@ -46,12 +46,8 @@ export const createEvent = createAsyncThunk("createEvent", async (event: createE
 		},
 		body: JSON.stringify(event),
 	});
-
-	console.log("event = ", event);
 	try {
-		const r = await response.json();
-		console.log("r = ", r);
-		return r;
+		return await response.json();
 	} catch (err) {
 		return rejectWithValue(`network error: ${err}`);
 	}
