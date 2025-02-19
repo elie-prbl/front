@@ -1,8 +1,8 @@
 import React from "react";
 import { SvgXml } from "react-native-svg";
 
-export default function ElieCyber() {
-	const svg = `<svg width="58" height="53" viewBox="0 0 58 53" fill="none" xmlns="http://www.w3.org/2000/svg">
+export default function ElieCyberHeader() {
+	const svg = `<svg width="50" height="50" viewBox="0 0 58 36" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M25.5008 15.5001C21.6673 15.3335 19.0005 14.1659 23.9997 12.4998C30.0004 10.5 25.0003 11.0001 22.5003 11.0001C20.0001 11.0001 17.9998 11.0001 24.5001 7.50006C25.6668 6.83339 27.3001 5.20006 24.5001 4.00006" stroke="black"/>
 <circle cx="22.5" cy="3.00006" r="2.5" fill="url(#paint0_linear_606_2224)"/>
 <path d="M10.4104 30.3003C1.86261 21.747 4.28676 15.4653 5.98568 13.1911C11.0602 17.8253 16.4477 19.2986 18.5071 19.456L16.2556 22.639L10.6598 30.5499C18.8613 38.761 14.0132 34.1244 10.5245 30.7413L10.6598 30.5499C10.578 30.468 10.4949 30.3848 10.4104 30.3003Z" fill="url(#paint1_linear_606_2224)"/>
@@ -57,7 +57,7 @@ export default function ElieCyber() {
 </linearGradient>
 </defs>
 </svg>`;
-	const Svg = () => <SvgXml xml={svg} width="50" className="items-center" />;
+	const Svg = () => <SvgXml xml={svg} width="50" className="absolute right-0 bottom-0" />;
 
 	return <Svg />;
 }

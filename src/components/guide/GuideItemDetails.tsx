@@ -1,9 +1,9 @@
 import { FontSize } from "../../base/constant";
 import { View } from "react-native";
 import React from "react";
-import { Place } from "../../store/features/Map/MapPOI";
 import { useTheme } from "../../context/ThemeContext";
 import TextComponent from "../../base/Text";
+import { PlaceI } from "../../store/features/Places/PlacesSlice";
 
 interface GuideItemDetailsProps {
 	// TODO : Remplacer les 4 premières props par l'object Event lorsque ça sera implémenté
@@ -11,7 +11,7 @@ interface GuideItemDetailsProps {
 	descriptionEvent?: string;
 	addressEvent?: string;
 	dateTimeEvent?: string;
-	place?: Place;
+	place?: PlaceI;
 }
 
 const GuideItemDetails = ({

@@ -34,7 +34,7 @@ const UnityGameWebView: React.FC = () => {
 				CommonActions.reset({
 					index: 1,
 					routes: [{ name: "TabNav", params: { screen: "Home" } }],
-				})
+				}),
 			);
 		}
 	};
