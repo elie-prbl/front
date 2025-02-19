@@ -15,7 +15,7 @@ import { Category, UserQuest } from "../../store/features/UserQuests/UserQuestsS
 import { updateUserQuest } from "../../store/features/UserQuests/UserQuestsThunk";
 import { useTheme } from "../../context/ThemeContext";
 import TextComponent from "../../base/Text";
-import { UserSuccess } from "../../store/features/UserSuccesses/UserSuccessesSlices";
+import { PlatformSuccesses } from "../../store/features/UserSuccesses/UserSuccessesSlices";
 import { updateUserSuccesses } from "../../store/features/UserSuccesses/UserSuccessesThunk";
 import Layout from "../../base/Layout";
 
@@ -32,19 +32,19 @@ const GameDualQuizScore = ({ route }: RouteGameDualQuizScoreProps) => {
 	const wonQuiz = myScore > scorePlayer;
 
 	const [retrieveUserQuestByQuiz, setRetrieveUserQuestByQuiz] = useState<UserQuest[] | null>(null);
-	const [retrieveUserSuccessByQuiz, setRetrieveUserSuccessByQuiz] = useState<UserSuccess[] | null>(null);
+	const [retrieveUserSuccessByQuiz, setRetrieveUserSuccessByQuiz] = useState<PlatformSuccesses[] | null>(null);
 
 	useEffect(() => {
 		if (Array.isArray(userSuccesses)) {
 			if (wonQuiz) {
-				const userSuccessesByQuiz = userSuccesses.filter(
-					userSuccess => userSuccess.success.short_name === Category.WinQuizzes,
-				);
+				const userSuccessesByQuiz = userSuccesses
+					.flatMap(s => s.platform_successes)
+					.filter(userSuccess => userSuccess.success.short_name === Category.WinQuizzes);
 				setRetrieveUserSuccessByQuiz(userSuccessesByQuiz);
 			} else {
-				const userSuccessesByQuiz = userSuccesses.filter(
-					userSuccess => userSuccess.success.short_name === Category.PlayQuizzes,
-				);
+				const userSuccessesByQuiz = userSuccesses
+					.flatMap(s => s.platform_successes)
+					.filter(userSuccess => userSuccess.success.short_name === Category.PlayQuizzes);
 				setRetrieveUserSuccessByQuiz(userSuccessesByQuiz);
 			}
 		}
