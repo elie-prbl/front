@@ -18,11 +18,13 @@ import { MyNavigationProp } from "../../navigation/AppNavigator";
 
 const GuideAddEvents = () => {
 	const navigation = useNavigation<MyNavigationProp>();
-	const [name, setName] = useState<string>("test");
-	const [description, setDescription] = useState<string>("test");
-	const [address, setAddress] = useState<string>("test");
-	const [city, setCity] = useState<string>("test");
-	const [postalCode, setPostalCode] = useState<string>("00000");
+	const [name, setName] = useState<string>("Trie de Déchet à espace vert");
+	const [description, setDescription] = useState<string>(
+		"Tri de déchet dans les espace vert autour des stades, de l'ecole et des voies rapides",
+	);
+	const [address, setAddress] = useState<string>("15 rue pierre de coubertin");
+	const [city, setCity] = useState<string>("Pontoise");
+	const [postalCode, setPostalCode] = useState<string>("95032");
 	const [startDateTime, setStartDateTime] = useState(new Date());
 	const [endDateTime, setEndDateTime] = useState(new Date());
 	const [errorMessage, setErrorMessage] = useState<string>("");
@@ -59,23 +61,10 @@ const GuideAddEvents = () => {
 		}
 
 		try {
-			const eventResponse = await dispatch(createEvent(newEvent)).unwrap();
-
-			const userEvent = {
-				user_id: user!.id,
-				event_id: eventResponse.id,
-				event: eventResponse,
-				is_realized: "false",
-				created_at: new Date().toISOString(),
-				update_at: new Date().toISOString(),
-			};
-
-			dispatch(createUserEvent(userEvent))
-				.unwrap()
-				.then(() => navigation.navigate("Guide"))
-				.catch(error => console.log("error dispatch user Event", error));
+			await dispatch(createEvent(newEvent)).unwrap();
+			navigation.goBack();
+			setErrorMessage("");
 		} catch (error) {
-			console.error("Erreur lors de la création de l'événement : ", error);
 			setErrorMessage("Erreur lors de la création de l'évenement.");
 		}
 	};
@@ -119,9 +108,7 @@ const GuideAddEvents = () => {
 						textInput={description}
 						placeholder="Description"
 					/>
-
 					{errorMessage && <TextComponent content={errorMessage} isError className="text-center font-bold py-4" />}
-
 					<ButtonComponent onPress={handleCreateEvent} content="Confirmer" width="w-full" padding="pt-4" />
 				</BoxComponent>
 			</ScrollView>

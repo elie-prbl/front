@@ -15,6 +15,7 @@ import { useAppDispatch } from "../store/hooks";
 import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp } from "../navigation/AppNavigator";
 import { getPlaces } from "../store/features/Places/PlacesThunk";
+import Add from "../svg/Add";
 
 const Guide = () => {
 	const navigation = useNavigation<MyNavigationProp>();
@@ -23,6 +24,7 @@ const Guide = () => {
 	const { events, isLoadingEvents } = useSelector((state: RootState) => state.events);
 	const { places, isLoadingPlaces } = useSelector((state: RootState) => state.places);
 	const dispatch = useAppDispatch();
+	const user = useSelector((state: RootState) => state.user);
 
 	useEffect(() => {
 		if (position) {
@@ -31,38 +33,12 @@ const Guide = () => {
 		}
 	}, [dispatch, position]);
 
-	// TODO : A voir si on charge les évènements et les POI à chaque fois qu'on click sur les boutons
-	// TODO : Ou si on le fait une fois au début et dans ce cas utiliser un useEffect
-	// TODO : Mais pour les POI si la position de l'utilisateur change il faut penser à récupérer les nouveaux POI
-
 	const handleDisplayEvents = () => {
 		setActiveTab(Tab.EVENTS);
-		setLoadingPOI(false);
-		// TODO : Récupérer les évènements
 	};
 
 	const handleDisplayPoi = () => {
 		setActiveTab(Tab.POI);
-
-		if (!position) return;
-
-		(async () => {
-			setLoadingPOI(true);
-			try {
-				const initialRegion = {
-					latitude: position.latitude,
-					longitude: position.longitude,
-					latitudeDelta: 0.04,
-					longitudeDelta: 0.04,
-				};
-				const places = await getPlaces(initialRegion);
-				setPlaces(places);
-			} catch (error) {
-				console.log(error);
-			} finally {
-				setLoadingPOI(false);
-			}
-		})();
 	};
 
 	return (
