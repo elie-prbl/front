@@ -80,7 +80,9 @@ export class Content {
 	//Quest
 	static QUEST_TITLE: string = "Quête";
 	static QUEST_DESCRIPTION: string = "Visualises la progression de tes quêtes !";
-	static SUCCESS: string = "Succès";
+	static PLATFORM_SUCCESSES: string = "Succès des plateformes";
+	static COMMUNITY_SUCCESSES: string = "Succès des jeux communautaires";
+	static NO_COMMUNITY_SUCCESSES: string = "Pas de succès communautaires à afficher pour le moment.";
 	static SPEND_SHOP: string = "Dépenser ces points";
 	static GO_SHOP: string = "Go à la boutique !";
 	static AWARDS: string = "Récompenses :";
