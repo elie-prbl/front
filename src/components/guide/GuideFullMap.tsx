@@ -32,6 +32,26 @@ const GuideFullMap = () => {
 	const [selectedPlaceOrEvent, setSelectedPlaceOrEvent] = useState<PlaceI | eventI | null>(null);
 	const [currentRegion, setCurrentRegion] = useState<LatLng | null>(position);
 	const dispatch = useAppDispatch();
+	const [filteredEvents, setFilteredEvents] = useState<eventI[] | null>(null);
+
+	const filterEventsByDistance = (events: eventI[], position: LatLng, maxDistance: number) => {
+		const toRad = (value: number) => (value * Math.PI) / 180;
+
+		return events.filter(event => {
+			const eventLat = event.latitude;
+			const eventLon = event.longitude;
+
+			const distance =
+				Math.acos(
+					Math.sin(toRad(position.latitude)) * Math.sin(toRad(eventLat)) +
+						Math.cos(toRad(position.latitude)) *
+							Math.cos(toRad(eventLat)) *
+							Math.cos(toRad(eventLon - position.longitude)),
+				) * 6371;
+
+			return distance <= maxDistance;
+		});
+	};
 
 	const setTheCurrentPosition = () => {
 		if (position && mapRef.current) {
@@ -47,19 +67,28 @@ const GuideFullMap = () => {
 	};
 
 	useEffect(() => {
-		if (position) {
-			dispatch(getPlaces(position));
-			dispatch(getEvents({ latitude: position.latitude, longitude: position.longitude }));
+		if (currentRegion) {
+			dispatch(getPlaces(currentRegion));
+			dispatch(getEvents({ latitude: currentRegion.latitude, longitude: currentRegion.longitude }));
 		}
 	}, []);
+
+	useEffect(() => {
+		if (currentRegion && events) {
+			const newFilteredEvents = filterEventsByDistance(events, currentRegion, 5);
+			setFilteredEvents(newFilteredEvents);
+		}
+	}, [events]);
 
 	const handleRegionChangeComplete = async (position: LatLng) => {
 		setCurrentRegion(position);
 	};
 
 	const handleFetchPlacesAndEvents = async () => {
-		if (currentRegion) {
+		if (currentRegion && events) {
 			dispatch(getPlaces(currentRegion));
+			const newFilteredEvents = filterEventsByDistance(events, currentRegion, 5);
+			setFilteredEvents(newFilteredEvents);
 		}
 	};
 
@@ -119,8 +148,8 @@ const GuideFullMap = () => {
 							{renderCustomMarker(place)}
 						</Marker>
 					))}
-				{Array.isArray(events) &&
-					events?.map(event => (
+				{Array.isArray(filteredEvents) &&
+					filteredEvents?.map(event => (
 						<Marker
 							key={event.id}
 							coordinate={{
