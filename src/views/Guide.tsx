@@ -7,9 +7,9 @@ import GuideTabs, { Tab } from "../components/guide/GuideTabs";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { ActivityIndicator, ScrollView, TouchableOpacity, View } from "react-native";
-import GuideItemDetails from "../components/guide/GuideItemDetails";
+import PoiCard from "../components/guide/PoiCard";
 import TextComponent from "../base/Text";
-import EventCard from "../components/map/EventCard";
+import EventCard from "../components/guide/EventCard";
 import { getEvents } from "../store/features/Events/EventThunk";
 import { useAppDispatch } from "../store/hooks";
 import { useNavigation } from "@react-navigation/core";
@@ -60,7 +60,7 @@ const Guide = () => {
 					<TextComponent content={Content.NO_POI} className="text-center mt-10" />
 				) : (
 					<ScrollView showsVerticalScrollIndicator={false}>
-						{places?.map(place => <GuideItemDetails key={place.id} place={place} />)}
+						{places?.map(place => <PoiCard key={place.id} place={place} />)}
 					</ScrollView>
 				))}
 			{activeTab === Tab.EVENTS &&

@@ -2,7 +2,8 @@ import React from "react";
 import { eventI } from "../../store/features/Events/EventSlices";
 import { View } from "react-native";
 import TextComponent from "../../base/Text";
-import { Color, FontSize } from "../../base/constant";
+import { FontSize } from "../../base/constant";
+import { Divider } from "@rneui/themed";
 
 interface EventCardProps {
 	event: eventI;
@@ -22,16 +23,12 @@ const EventCard = ({ event }: EventCardProps) => {
 	};
 
 	return (
-		<View className="flex-col w-11/12 h-fit flex self-center flex-1 p-4 rounded-xl bg-white my-2">
-			<TextComponent
-				content={event.name + " - " + event.city}
-				className={`${FontSize.TEXT_XL} bold color=${Color.BLACK}`}
-			/>
-			<TextComponent
-				content={"Du " + formatDate(event.start_date) + " au " + formatDate(event.end_date)}
-				className={`${FontSize.TEXT_LG} color=${Color.BLACK}`}
-			/>
-			<TextComponent content={event.description} className={`${FontSize.TEXT_SM} color=${Color.BLACK}`} />
+		<View className="flex-col w-11/12 h-fit flex self-center flex-1 p-4 rounded-xl bg-white my-1.5">
+			<TextComponent content={event.name} className={`${FontSize.TEXT_LG} font-bold`} />
+			<TextComponent content={event.description} className="mb-2" />
+			<Divider />
+			<TextComponent content={`Lieu : ${event.city}`} className="mt-2" />
+			<TextComponent content={"Du " + formatDate(event.start_date) + " au " + formatDate(event.end_date)} />
 		</View>
 	);
 };
