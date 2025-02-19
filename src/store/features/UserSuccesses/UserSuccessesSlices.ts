@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { getUserSuccesses, updateUserSuccesses } from "./UserSuccessesThunk";
 import { Category, Tag } from "../UserQuests/UserQuestsSlices";
 
-export interface Success {
+export interface PlatformSuccess {
 	id: number;
 	name: string;
 	xp: number;
@@ -14,17 +14,44 @@ export interface Success {
 	tag: Tag;
 }
 
-export interface UserSuccess {
+export interface PlatformSuccesses {
 	id: number;
 	user_id: number;
 	success_id: number;
-	success: Success;
+	success: PlatformSuccess;
 	progression: number;
 	is_completed: boolean;
 }
 
+export interface CommunityGame {
+	id: number;
+	title: string;
+	short_description: string;
+	description: string;
+}
+
+export interface CommunitySuccess {
+	id: number;
+	game_id: number;
+	name: string;
+	description: string;
+	game: CommunityGame;
+}
+
+export interface CommunitySuccesses {
+	id: number;
+	user_reference: string;
+	is_validated: boolean;
+	success: CommunitySuccess;
+}
+
+export interface Successes {
+	platform_successes: PlatformSuccesses[];
+	community_successes: CommunitySuccesses[];
+}
+
 const initialState = {
-	userSuccesses: null as null | UserSuccess[],
+	userSuccesses: null as null | Successes,
 	isLoadingUserSuccesses: false,
 	error: null as null | unknown,
 	isModifiedUserSuccess: false,
