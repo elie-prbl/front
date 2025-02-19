@@ -73,14 +73,10 @@ const GuideAddEvents = () => {
 				update_at: new Date().toISOString(),
 			};
 
-			await dispatch(createUserEvent(userEvent)).unwrap();
-			console.log(navigation);
-
-			if (navigation.canGoBack()) {
-				navigation.goBack();
-			} else {
-				navigation.navigate("Guide"); // Remplace par l'écran cible
-			}
+			dispatch(createUserEvent(userEvent))
+				.unwrap()
+				.then(() => navigation.navigate("Guide"))
+				.catch(error => console.log("error dispatch user Event", error));
 		} catch (error) {
 			console.error("Erreur lors de la création de l'événement : ", error);
 			setErrorMessage("Erreur lors de la création de l'évenement.");
