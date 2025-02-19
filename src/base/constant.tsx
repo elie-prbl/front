@@ -83,6 +83,7 @@ export class Content {
 	static SUCCESS: string = "Succès";
 	static SPEND_SHOP: string = "Dépenser ces points";
 	static GO_SHOP: string = "Go à la boutique !";
+	static AWARDS: string = "Récompenses :";
 
 	//Game
 	static GAME_TITLE: string = "Jeux";
@@ -93,8 +94,7 @@ export class Content {
 	static DUAL_QUIZ: string = "Dual Quiz";
 	static DUAL_QUIZ_DESCRIPTION: string = "Affrontes la communauté à travers différent quiz";
 	static COMMUNITY_GAMES: string = "Jeux communautaires";
-	static COMMUNITY_GAME_1: string = "1er jeu";
-	static COMMUNITY_GAME_1_DESCRIPTION: string = "Description à définir";
+	static NO_COMMUNITY_GAMES: string = "Aucuns jeux communautaires disponibles pour le moment.";
 	static CHOOSE_MODULE: string = "Choisissez un module";
 	static START: string = "Commencer";
 	static VALIDATE: string = "Valider";
@@ -151,6 +151,9 @@ export class Content {
 	static LOAD_EVENT_ERROR: string = "Erreur lors de la récupération des évènements";
 	static NO_POI: string = "Aucun point d'intérêt à découvrir autour de vous";
 	static SEARCH_PLACES: string = "Rechercher dans cette zone";
+
+	//Commun
+	static ERROR: string = "Une erreur est survenue, veuillez réessayer plus tard";
 }
 
 export class FontSize {
@@ -161,7 +164,7 @@ export class FontSize {
 
 export class Url {
 	// Commande pour récupérer l'ip dans le termainal : ipconfig getifaddr en0
-	static IP: string = "192.168.1.87";
+	static IP: string = "192.168.1.15";
 	static LOCALHOST: string = "localhost";
 	static BASE_URL_API: string = `http://${Url.IP}:8080/api/v1`;
 	static BASE_URL_WS: string = `ws://${Url.IP}:8080/ws`;
