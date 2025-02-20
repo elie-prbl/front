@@ -8,12 +8,14 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { RootState } from "../../store/store";
 import { createUserEvent, deleteUserEvent, getUsersEvents } from "../../store/features/UserEvents/UserEventThunks";
 import { userEventI } from "../../store/features/UserEvents/UserEventSlices";
+import { useTheme } from "../../context/ThemeContext";
 
 interface EventCardProps {
 	event: eventI;
 }
 
 const EventCard = ({ event }: EventCardProps) => {
+	const { themeVariables } = useTheme();
 	const { user } = useAppSelector((state: RootState) => state.user);
 	const { user_events, isModifiedUserEvent } = useAppSelector((state: RootState) => state.userEvent);
 	const [retrieveParticipants, setRetrieveParticipants] = useState<number>(1);
@@ -86,7 +88,9 @@ const EventCard = ({ event }: EventCardProps) => {
 	};
 
 	return (
-		<View className="flex-col w-11/12 h-fit flex self-center flex-1 p-4 rounded-xl bg-white my-1.5">
+		<View
+			className="flex-col w-11/12 h-fit flex self-center flex-1 p-4 rounded-xl bg-white my-1.5"
+			style={{ backgroundColor: themeVariables.background }}>
 			<TextComponent content={event.name} className={`${FontSize.TEXT_LG} font-bold`} />
 			<TextComponent content={event.description} className="mb-2" />
 			<Divider />
