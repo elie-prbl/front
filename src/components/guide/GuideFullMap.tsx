@@ -1,76 +1,56 @@
-import MapView, { Marker, Region } from "react-native-maps";
-import { Pressable, View } from "react-native";
+import MapView, { Marker } from "react-native-maps";
+import { ActivityIndicator, Pressable, View } from "react-native";
 import { Feather, FontAwesome6 } from "@expo/vector-icons";
 import { Color, Content } from "../../base/constant";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
-import Toast, { ToastOptions } from "react-native-root-toast";
-import { getPlaces } from "../../store/features/Map/MapPOI";
-import { useDebounce } from "../../hooks/useDebounce";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { useTheme } from "../../context/ThemeContext";
 import TextComponent from "../../base/Text";
+import ButtonComponent from "../../base/Button";
+import { getEvents } from "../../store/features/Events/EventThunk";
+import { useAppDispatch } from "../../store/hooks";
+import { eventI } from "../../store/features/Events/EventSlices";
+import { configureReanimatedLogger, ReanimatedLogLevel } from "react-native-reanimated";
+import { PlaceI } from "../../store/features/Places/PlacesSlice";
+import { getPlaces } from "../../store/features/Places/PlacesThunk";
+import { LatLng } from "react-native-maps/lib/sharedTypes";
 
-interface Place {
-	id: number;
-	name: string;
-	latitude: number;
-	longitude: number;
-	road: string;
-	town: string;
-}
-
-const TOAST_OPTIONS: ToastOptions = {
-	containerStyle: {
-		padding: 15,
-		borderBottomColor: Color.PRIMARY,
-		borderBottomWidth: 5,
-	},
-	backgroundColor: Color.WHITE,
-	textColor: Color.PRIMARY,
-	textStyle: { fontWeight: "bold" },
-	opacity: 1,
-	shadowColor: "transparent",
-	animation: true,
-};
+configureReanimatedLogger({
+	level: ReanimatedLogLevel.warn,
+	strict: false,
+});
 
 const GuideFullMap = () => {
+	const { themeVariables } = useTheme();
 	const position = useSelector((state: RootState) => state.position.position);
+	const { events, isLoadingEvents } = useSelector((state: RootState) => state.events);
+	const { places, isLoadingPlaces } = useSelector((state: RootState) => state.places);
 	const mapRef = useRef<MapView>(null);
 	const bottomSheetRef = useRef<BottomSheet>(null);
-	const [initialRegion, setInitialRegion] = useState<Region>();
-	const [places, setPlaces] = useState<Place[]>([]);
-	const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
-	const tabBarHeight = useBottomTabBarHeight();
-	const { themeVariables } = useTheme();
+	const [selectedPlaceOrEvent, setSelectedPlaceOrEvent] = useState<PlaceI | eventI | null>(null);
+	const [currentRegion, setCurrentRegion] = useState<LatLng | null>(position);
+	const dispatch = useAppDispatch();
+	const [filteredEvents, setFilteredEvents] = useState<eventI[] | null>(null);
 
-	const showToast = (message: string) => {
-		return Toast.show(message, {
-			...TOAST_OPTIONS,
-			position: selectedPlace ? Toast.positions.BOTTOM - tabBarHeight * 2.5 : Toast.positions.BOTTOM - tabBarHeight,
+	const filterEventsByDistance = (events: eventI[], position: LatLng, maxDistance: number) => {
+		const toRad = (value: number) => (value * Math.PI) / 180;
+
+		return events.filter(event => {
+			const eventLat = event.latitude;
+			const eventLon = event.longitude;
+
+			const distance =
+				Math.acos(
+					Math.sin(toRad(position.latitude)) * Math.sin(toRad(eventLat)) +
+						Math.cos(toRad(position.latitude)) *
+							Math.cos(toRad(eventLat)) *
+							Math.cos(toRad(eventLon - position.longitude)),
+				) * 6371;
+
+			return distance <= maxDistance;
 		});
-	};
-
-	const fetchPlaces = async (region: Region) => {
-		try {
-			if (region) {
-				const toast = showToast(Content.LOAD_POI);
-				const places = await getPlaces(region);
-				setPlaces(places);
-				Toast.hide(toast);
-			}
-		} catch (error) {
-			showToast(Content.LOAD_POI_ERROR);
-			console.error("Error fetching places :", error);
-		}
-	};
-
-	const debouncedFetchPlaces = useDebounce(fetchPlaces, 1000);
-
-	const handleRegionChangeComplete = async (region: Region) => {
-		await debouncedFetchPlaces(region);
 	};
 
 	const setTheCurrentPosition = () => {
@@ -87,40 +67,50 @@ const GuideFullMap = () => {
 	};
 
 	useEffect(() => {
-		(async () => {
-			if (position) {
-				const initialRegion = {
-					latitude: position.latitude,
-					longitude: position.longitude,
-					latitudeDelta: 0.04,
-					longitudeDelta: 0.04,
-				};
-				setInitialRegion(initialRegion);
-				setTheCurrentPosition();
-				await handleRegionChangeComplete(initialRegion);
-			}
-		})();
-	}, [position]);
+		if (currentRegion) {
+			dispatch(getPlaces(currentRegion));
+			dispatch(getEvents({ latitude: currentRegion.latitude, longitude: currentRegion.longitude }));
+		}
+	}, []);
 
-	const handleMarkerPress = (place: Place) => {
-		setSelectedPlace(place);
+	useEffect(() => {
+		if (currentRegion && events) {
+			const newFilteredEvents = filterEventsByDistance(events, currentRegion, 5);
+			setFilteredEvents(newFilteredEvents);
+		}
+	}, [events]);
+
+	const handleRegionChangeComplete = async (position: LatLng) => {
+		setCurrentRegion(position);
+	};
+
+	const handleFetchPlacesAndEvents = async () => {
+		if (currentRegion && events) {
+			dispatch(getPlaces(currentRegion));
+			const newFilteredEvents = filterEventsByDistance(events, currentRegion, 5);
+			setFilteredEvents(newFilteredEvents);
+		}
+	};
+
+	const handleMarkerPress = (placeOrEvent: PlaceI | eventI) => {
+		setSelectedPlaceOrEvent(placeOrEvent);
 		bottomSheetRef.current?.snapToIndex(0);
 	};
 
 	const handleCloseBottomSheet = () => {
-		setSelectedPlace(null);
+		setSelectedPlaceOrEvent(null);
 		bottomSheetRef.current?.close();
 	};
 
-	const renderCustomMarker = (place: Place) => {
-		const isSelected = selectedPlace?.id === place.id;
+	const renderCustomMarker = (placeOrEvent: PlaceI | eventI) => {
+		const isSelected = selectedPlaceOrEvent?.id === placeOrEvent.id;
 
 		return (
 			<View className="items-center">
 				<FontAwesome6 name="map-pin" size={isSelected ? 30 : 20} color={Color.RED_BRIGHT_LIGHT} />
 				{isSelected && (
 					<View className="p-1" style={{ width: 100 }}>
-						<TextComponent content={place.name} className="text-center font-bold flex-wrap" />
+						<TextComponent content={placeOrEvent.name} className="text-center font-bold flex-wrap" />
 					</View>
 				)}
 			</View>
@@ -131,40 +121,89 @@ const GuideFullMap = () => {
 		<>
 			<MapView
 				ref={mapRef}
+				key={(places?.length ?? 0) + (events?.length ?? 0)}
 				className="w-full h-full"
-				initialRegion={position ? initialRegion : undefined}
+				initialRegion={
+					currentRegion
+						? {
+								latitude: currentRegion.latitude,
+								longitude: currentRegion.longitude,
+								latitudeDelta: 0.04,
+								longitudeDelta: 0.04,
+							}
+						: undefined
+				}
 				showsUserLocation
 				showsCompass={false}
 				onRegionChangeComplete={handleRegionChangeComplete}>
-				{places.map(place => (
-					<Marker
-						key={place.id}
-						coordinate={{
-							latitude: place.latitude,
-							longitude: place.longitude,
-						}}
-						onPress={() => handleMarkerPress(place)}>
-						{renderCustomMarker(place)}
-					</Marker>
-				))}
+				{Array.isArray(places) &&
+					places?.map(place => (
+						<Marker
+							key={place.id}
+							coordinate={{
+								latitude: place.latitude,
+								longitude: place.longitude,
+							}}
+							onPress={() => handleMarkerPress(place)}>
+							{renderCustomMarker(place)}
+						</Marker>
+					))}
+				{Array.isArray(filteredEvents) &&
+					filteredEvents?.map(event => (
+						<Marker
+							key={event.id}
+							coordinate={{
+								latitude: event.latitude,
+								longitude: event.longitude,
+							}}
+							onPress={() => handleMarkerPress(event)}>
+							{renderCustomMarker(event)}
+						</Marker>
+					))}
 			</MapView>
-			<Pressable
-				onPress={() => setTheCurrentPosition()}
-				className="absolute top-2 right-2 bg-[#FFFFFF] p-3 rounded-full">
+			<Pressable onPress={() => setTheCurrentPosition()} className="absolute top-2 right-2 bg-white p-3 rounded-full">
 				<Feather name="crosshair" size={26} color="black" />
 			</Pressable>
+			{position?.longitude !== currentRegion?.longitude && position?.latitude !== currentRegion?.latitude && (
+				<View className="absolute bottom-10 w-full mx-4 content-center">
+					<ButtonComponent
+						onPress={() => handleFetchPlacesAndEvents()}
+						content={
+							isLoadingPlaces || isLoadingEvents ? (
+								<ActivityIndicator size="small" color={Color.WHITE} className="justify-center" />
+							) : (
+								Content.SEARCH_PLACES
+							)
+						}
+					/>
+				</View>
+			)}
+
 			<BottomSheet ref={bottomSheetRef} index={-1} snapPoints={["20%"]}>
 				<View className="p-4">
 					<Pressable onPress={handleCloseBottomSheet} className="absolute top-2 right-2 p-2 rounded-full z-10">
 						<Feather name="x-circle" size={24} color={Color.GREY} />
 					</Pressable>
-					{selectedPlace && (
+					{selectedPlaceOrEvent && (
 						<View>
-							<TextComponent content={selectedPlace.name} className="font-bold text-xl mb-1" />
-							<TextComponent
-								content={`${selectedPlace.road} - ${selectedPlace.town}`}
-								style={{ color: themeVariables.text }}
-							/>
+							<TextComponent content={selectedPlaceOrEvent.name} className="font-bold text-xl mb-1" />
+							{!("road" in selectedPlaceOrEvent) ? (
+								<>
+									<TextComponent
+										content={`${selectedPlaceOrEvent.name} - ${selectedPlaceOrEvent.description}`}
+										style={{ color: themeVariables.text }}
+									/>
+									<TextComponent
+										content={`Nombre de participants : 0 / ${selectedPlaceOrEvent.number_of_participants}`}
+										style={{ color: themeVariables.text, marginTop: 10 }}
+									/>
+								</>
+							) : (
+								<TextComponent
+									content={`${selectedPlaceOrEvent.road} - ${selectedPlaceOrEvent.town}`}
+									style={{ color: themeVariables.text }}
+								/>
+							)}
 						</View>
 					)}
 				</View>

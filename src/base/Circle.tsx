@@ -31,10 +31,10 @@ const CircleComponent = ({
 					isDisabled
 						? { backgroundColor: Color.GREY }
 						: isDone
-						? { backgroundColor: Color.PRIMARY }
-						: isNext
-						? { backgroundColor: Color.GOLD }
-						: { backgroundColor: Color.GREY }
+							? { backgroundColor: Color.PRIMARY }
+							: isNext
+								? { backgroundColor: Color.GOLD }
+								: { backgroundColor: Color.GREY }
 				}>
 				<View
 					className={`h-14 w-14 rounded-full justify-center items-center ${classNameView}`}

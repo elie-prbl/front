@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { View, Button } from "react-native";
+import { View } from "react-native";
 import { WebView, WebViewMessageEvent } from "react-native-webview";
 import { Url } from "../../base/constant";
 import { CommonActions, useNavigation } from "@react-navigation/core";
@@ -34,7 +34,7 @@ const UnityGameWebView: React.FC = () => {
 				CommonActions.reset({
 					index: 1,
 					routes: [{ name: "TabNav", params: { screen: "Home" } }],
-				})
+				}),
 			);
 		}
 	};
