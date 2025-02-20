@@ -12,17 +12,20 @@ import ModuleGame from "../base/ModuleGame";
 import { Entypo } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp } from "../navigation/AppNavigator";
-import { useAppSelector } from "../store/hooks";
-import { CommunitySuccesses, PlatformSuccesses } from "../store/features/UserSuccesses/UserSuccessesSlices";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { CommunitySuccesses, PlatformSuccesses, Successes } from "../store/features/UserSuccesses/UserSuccessesSlices";
 import { Divider } from "@rneui/themed";
 import CommunitySuccessComponent from "../components/success/CommunitySuccessComponent";
 import TextComponent from "../base/Text";
+import { getUserSuccesses } from "../store/features/UserSuccesses/UserSuccessesThunk";
 
 export enum ContentQuest {
 	SHOP = "Shop",
 }
 
 const Quest = () => {
+	const dispatch = useAppDispatch();
+	const user = useAppSelector((state: RootState) => state.user.user);
 	const { userQuests, isLoadingUserQuest } = useSelector((state: RootState) => state.userQuests);
 	const navigation = useNavigation<MyNavigationProp>();
 	const { userSuccesses, isLoadingUserSuccesses, isRetrievedUserSuccess } = useAppSelector(
@@ -30,6 +33,10 @@ const Quest = () => {
 	);
 	const [firstOfEachShortName, setFirstOfEachShortName] = useState<PlatformSuccesses[]>([]);
 	const [communitySuccesses, setCommunitySuccesses] = useState<CommunitySuccesses[]>([]);
+
+	useEffect(() => {
+		dispatch(getUserSuccesses(user!.uuid));
+	}, []);
 
 	useEffect(() => {
 		if (userSuccesses) {
@@ -50,7 +57,7 @@ const Quest = () => {
 				setCommunitySuccesses(communitySuccesses);
 			}
 		}
-	}, [isRetrievedUserSuccess]);
+	}, [isRetrievedUserSuccess, userSuccesses]);
 
 	if (isLoadingUserQuest || isLoadingUserSuccesses) {
 		return (

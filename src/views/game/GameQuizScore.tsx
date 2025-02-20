@@ -23,10 +23,8 @@ const GameQuizScore = ({ route }: RouteGameScoreProps) => {
 	const { score, nbQuestions } = route.params;
 	const navigation = useNavigation<MyNavigationProp>();
 	const dispatch = useAppDispatch();
-	const { userQuests, isModifiedUserQuest, isLoadingUserQuest } = useSelector((state: RootState) => state.userQuests);
-	const { userSuccesses, isModifiedUserSuccess, isLoadingUserSuccesses } = useSelector(
-		(state: RootState) => state.userSuccesses,
-	);
+	const { userQuests, isLoadingUserQuest } = useSelector((state: RootState) => state.userQuests);
+	const { userSuccesses, isLoadingUserSuccesses } = useSelector((state: RootState) => state.userSuccesses);
 	const user = useAppSelector((state: RootState) => state.user.user);
 	const { themeVariables } = useTheme();
 	const wonQuiz = score === nbQuestions;
@@ -34,16 +32,16 @@ const GameQuizScore = ({ route }: RouteGameScoreProps) => {
 	const [retrieveUserSuccessByQuiz, setRetrieveUserSuccessByQuiz] = useState<PlatformSuccesses[] | null>(null);
 
 	useEffect(() => {
-		if (Array.isArray(userSuccesses)) {
+		if (userSuccesses) {
 			if (wonQuiz) {
-				const userSuccessesByQuiz = userSuccesses
-					.flatMap(s => s.platform_successes)
-					.filter(userSuccess => userSuccess.success.short_name === Category.WinQuizzes);
+				const userSuccessesByQuiz = userSuccesses.platform_successes.filter(
+					userSuccess => userSuccess.success.short_name === Category.WinQuizzes,
+				);
 				setRetrieveUserSuccessByQuiz(userSuccessesByQuiz);
 			} else {
-				const userSuccessesByQuiz = userSuccesses
-					.flatMap(s => s.platform_successes)
-					.filter(userSuccess => userSuccess.success.short_name === Category.PlayQuizzes);
+				const userSuccessesByQuiz = userSuccesses.platform_successes.filter(
+					userSuccess => userSuccess.success.short_name === Category.PlayQuizzes,
+				);
 				setRetrieveUserSuccessByQuiz(userSuccessesByQuiz);
 			}
 		}
@@ -75,16 +73,21 @@ const GameQuizScore = ({ route }: RouteGameScoreProps) => {
 				dispatch(updateUserSuccesses({ user_uuid: user.uuid, success_id: userSuccess.success_id }));
 			});
 		}
+
+		dispatch(restartCurrentQuiz());
+		navigation.navigate("TabNav", {
+			screen: "Game",
+		});
 	};
 
-	useEffect(() => {
-		if (isModifiedUserQuest || isModifiedUserSuccess) {
-			dispatch(restartCurrentQuiz());
-			navigation.navigate("TabNav", {
-				screen: "Game",
-			});
-		}
-	}, [isModifiedUserQuest, isModifiedUserSuccess]);
+	// useEffect(() => {
+	// 	if (isModifiedUserQuest || isModifiedUserSuccess) {
+	// 		dispatch(restartCurrentQuiz());
+	// 		navigation.navigate("TabNav", {
+	// 			screen: "Game",
+	// 		});
+	// 	}
+	// }, [isModifiedUserQuest, isModifiedUserSuccess]);
 
 	if (isLoadingUserQuest || isLoadingUserSuccesses) {
 		return (
