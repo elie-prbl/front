@@ -13,7 +13,6 @@ import { AppDispatch } from "../../store/store";
 import { getCommunityGames } from "../../store/features/Games/GamesThunk";
 import { useAppSelector } from "../../store/hooks";
 import TextComponent from "../../base/Text";
-import gameAnswerComponent from "../../components/game/GameAnswerComponent";
 
 const Game = () => {
 	const navigation = useNavigation<MyNavigationProp>();
@@ -25,10 +24,6 @@ const Game = () => {
 	useEffect(() => {
 		dispatch(getCommunityGames());
 	}, [dispatch]);
-
-	useEffect(() => {
-		console.log(games);
-	}, []);
 
 	return (
 		<Layout>

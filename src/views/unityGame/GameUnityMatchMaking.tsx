@@ -47,7 +47,6 @@ const UnityGameWebView = ({ route }: RouteCommunityGameProps) => {
 	useEffect(() => {
 		if (webViewRef?.current) {
 			console.log("Injecting");
-			console.log(Url.BASE_URL_GAME_MANAGER);
 			webViewRef.current.injectJavaScript(injectPlayerIdScript); // Injecter le playerId au jeu Unity
 		}
 	}, [isLoaded]);
