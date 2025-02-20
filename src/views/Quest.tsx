@@ -47,7 +47,6 @@ const Quest = () => {
 
 			if (userSuccesses.community_successes) {
 				const communitySuccesses = userSuccesses.community_successes
-					.filter(s => !s.is_validated)
 					.sort((a, b) => a.success.name.localeCompare(b.success.name))
 					.reduce<CommunitySuccesses[]>((acc, current) => {
 						const exists = acc.find(item => item.success.name === current.success.name);
@@ -102,7 +101,7 @@ const Quest = () => {
 							return (
 								<View key={index}>
 									<CommunitySuccessComponent userSuccess={success} />
-									{index !== firstOfEachShortName?.length - 1 && <Divider />}
+									{index !== communitySuccesses?.length - 1 && <Divider />}
 								</View>
 							);
 						})
