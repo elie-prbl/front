@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { eventI } from "../../store/features/Events/EventSlices";
-import { ActivityIndicator, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import TextComponent from "../../base/Text";
 import { Color, FontSize, Url } from "../../base/constant";
 import { Divider } from "@rneui/themed";
@@ -15,14 +15,11 @@ interface EventCardProps {
 
 const EventCard = ({ event }: EventCardProps) => {
 	const { user } = useAppSelector((state: RootState) => state.user);
-	const { user_events, isLoadingUserEvent, isModifiedUserEvent } = useAppSelector(
-		(state: RootState) => state.userEvent,
-	);
+	const { user_events, isModifiedUserEvent } = useAppSelector((state: RootState) => state.userEvent);
 	const [retrieveParticipants, setRetrieveParticipants] = useState(false);
 	const [userEventFromEvent, setUserEventFromEvent] = useState<userEventI | null>(null);
+	const [isParticipating, setParticipating] = useState(false);
 	const dispatch = useAppDispatch();
-
-	console.log("userEventFromEvent", userEventFromEvent?.id);
 
 	const getNumberOfParticipants = async () => {
 		try {
@@ -56,9 +53,9 @@ const EventCard = ({ event }: EventCardProps) => {
 
 	useEffect(() => {
 		if (user_events) {
-			const userEventFromEventFiltered = user_events?.filter(userEvent => userEvent.event_id === event.id);
-			if (userEventFromEventFiltered.length > 0) {
-				setUserEventFromEvent(userEventFromEventFiltered[0]);
+			const userEventFromEventFiltered = user_events?.find(userEvent => userEvent.event_id === event.id);
+			if (userEventFromEventFiltered) {
+				setUserEventFromEvent(userEventFromEventFiltered);
 			}
 		}
 	}, [isModifiedUserEvent, user_events]);
@@ -76,21 +73,17 @@ const EventCard = ({ event }: EventCardProps) => {
 	};
 
 	const handleParticipate = () => {
-		if (userEventFromEvent) {
-			console.log("je rentre ici", userEventFromEvent.id);
-			dispatch(deleteUserEvent(userEventFromEvent.id));
-			setUserEventFromEvent(null);
-		}
-
-		if (user && event.id) {
-			dispatch(createUserEvent({ user_id: user.id, event_id: event.id }));
+		if (user && userEventFromEvent) {
+			if (!isParticipating) {
+				dispatch(createUserEvent({ user_id: user.id, event_id: userEventFromEvent.event_id }));
+			} else {
+				if (user) {
+					dispatch(deleteUserEvent(userEventFromEvent.id));
+				}
+			}
+			setParticipating(!isParticipating);
 		}
 	};
-
-
-	if (isLoadingUserEvent) {
-		return <ActivityIndicator size="small" color={Color.PRIMARY} />;
-	}
 
 	return (
 		<View className="flex-col w-11/12 h-fit flex self-center flex-1 p-4 rounded-xl bg-white my-1.5">
@@ -114,7 +107,7 @@ const EventCard = ({ event }: EventCardProps) => {
 						style={{ backgroundColor: Color.PRIMARY }}>
 						<TextComponent
 							className={`color=${Color.WHITE}`}
-							content={userEventFromEvent ? "Se désinscrire" : "Participer"}
+							content={isParticipating ? "Se désinscrire" : "Participer"}
 						/>
 					</TouchableOpacity>
 				)}
