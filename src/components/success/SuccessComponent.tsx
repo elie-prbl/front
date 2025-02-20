@@ -4,14 +4,14 @@ import ProgressBar from "../../base/ProgressBar";
 import Gem from "../../svg/Gem";
 import { TagName } from "../../store/features/UserQuests/UserQuestsSlices";
 import TextComponent from "../../base/Text";
-import { UserSuccess } from "../../store/features/UserSuccesses/UserSuccessesSlices";
+import { PlatformSuccesses } from "../../store/features/UserSuccesses/UserSuccessesSlices";
 import { Content } from "../../base/constant";
 import Sage from "../../svg/Sage";
 import Scholar from "../../svg/Scholar";
 import Wildfire from "../../svg/Wildfire";
 
 export type successProps = {
-	userSuccess: UserSuccess;
+	userSuccess: PlatformSuccesses;
 };
 
 const SuccessComponent = ({ userSuccess }: successProps) => {

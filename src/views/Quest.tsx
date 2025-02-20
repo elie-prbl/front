@@ -13,8 +13,10 @@ import { Entypo } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp } from "../navigation/AppNavigator";
 import { useAppSelector } from "../store/hooks";
-import { UserSuccess } from "../store/features/UserSuccesses/UserSuccessesSlices";
+import { CommunitySuccesses, PlatformSuccesses } from "../store/features/UserSuccesses/UserSuccessesSlices";
 import { Divider } from "@rneui/themed";
+import CommunitySuccessComponent from "../components/success/CommunitySuccessComponent";
+import TextComponent from "../base/Text";
 
 export enum ContentQuest {
 	SHOP = "Shop",
@@ -26,14 +28,15 @@ const Quest = () => {
 	const { userSuccesses, isLoadingUserSuccesses, isRetrievedUserSuccess } = useAppSelector(
 		(state: RootState) => state.userSuccesses,
 	);
-	const [firstOfEachShortName, setFirstOfEachShortName] = useState<UserSuccess[]>([]);
+	const [firstOfEachShortName, setFirstOfEachShortName] = useState<PlatformSuccesses[]>([]);
+	const [communitySuccesses, setCommunitySuccesses] = useState<CommunitySuccesses[]>([]);
 
 	useEffect(() => {
 		if (userSuccesses) {
-			const filtered = userSuccesses
+			const filtered = userSuccesses.platform_successes
 				.filter(s => !s.is_completed)
 				.sort((a, b) => a.success.short_name.localeCompare(b.success.short_name))
-				.reduce<UserSuccess[]>((acc, current) => {
+				.reduce<PlatformSuccesses[]>((acc, current) => {
 					const exists = acc.find(item => item.success.short_name === current.success.short_name);
 					if (!exists) {
 						acc.push(current);
@@ -41,6 +44,20 @@ const Quest = () => {
 					return acc;
 				}, []);
 			setFirstOfEachShortName(filtered);
+
+			if (userSuccesses.community_successes) {
+				const communitySuccesses = userSuccesses.community_successes
+					.filter(s => !s.is_validated)
+					.sort((a, b) => a.success.name.localeCompare(b.success.name))
+					.reduce<CommunitySuccesses[]>((acc, current) => {
+						const exists = acc.find(item => item.success.name === current.success.name);
+						if (!exists) {
+							acc.push(current);
+						}
+						return acc;
+					}, []);
+				setCommunitySuccesses(communitySuccesses);
+			}
 		}
 	}, [isRetrievedUserSuccess]);
 
@@ -69,7 +86,7 @@ const Quest = () => {
 					{Array.isArray(userQuests) &&
 						userQuests.map(userQuest => <QuestComponent key={userQuest.id} userQuest={userQuest} img={<Circle1 />} />)}
 				</BoxComponent>
-				<BoxComponent title={Content.SUCCESS}>
+				<BoxComponent title={Content.PLATFORM_SUCCESSES}>
 					{firstOfEachShortName?.map((success, index) => {
 						return (
 							<View key={index}>
@@ -78,6 +95,20 @@ const Quest = () => {
 							</View>
 						);
 					})}
+				</BoxComponent>
+				<BoxComponent title={Content.COMMUNITY_SUCCESSES}>
+					{communitySuccesses.length ? (
+						communitySuccesses?.map((success, index) => {
+							return (
+								<View key={index}>
+									<CommunitySuccessComponent userSuccess={success} />
+									{index !== firstOfEachShortName?.length - 1 && <Divider />}
+								</View>
+							);
+						})
+					) : (
+						<TextComponent content={Content.NO_COMMUNITY_SUCCESSES} />
+					)}
 				</BoxComponent>
 			</ScrollView>
 		</Layout>
