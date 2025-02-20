@@ -1,23 +1,24 @@
 import React, { useEffect, useRef, useState } from "react";
-import { View, Button } from "react-native";
+import { View } from "react-native";
 import { WebView, WebViewMessageEvent } from "react-native-webview";
 import { Url } from "../../base/constant";
 import { CommonActions, useNavigation } from "@react-navigation/core";
-import { MyNavigationProp } from "../../navigation/AppNavigator";
+import { NavigationCommunityGameProps, RouteCommunityGameProps } from "../../navigation/AppNavigator";
 import { useAppSelector } from "../../store/hooks";
 import { RootState } from "../../store/store";
 
-const UnityGameWebView: React.FC = () => {
-	const navigation = useNavigation<MyNavigationProp>();
+const UnityGameWebView = ({ route }: RouteCommunityGameProps) => {
+	const { gameId, gameTitle } = route.params;
+	const navigation = useNavigation<NavigationCommunityGameProps>();
 	const { user } = useAppSelector((state: RootState) => state.user);
-	const [gameUrl] = useState<string>(`${Url.BASE_URL_GAME_SERVICE}/ElieGameTest/`); // URL du build WebGL de Unity
+	const [gameUrl] = useState<string>(`${Url.BASE_URL_GAME_SERVICE}/${gameTitle}/`); // URL du build WebGL de Unity
 	const webViewRef = useRef<WebView>(null);
 	const [isLoaded, setIsLoaded] = useState(false);
 
 	// Injecter du JavaScript dans la WebView pour envoyer le playerId au jeu Unity
 	const injectPlayerIdScript = `
     if (typeof MyGameInstance !== 'undefined' && MyGameInstance !== null) {
-      MyGameInstance.SendMessage('ElieTool','SetGameId', ${1})
+      MyGameInstance.SendMessage('ElieTool','SetGameId', ${gameId})
       MyGameInstance.SendMessage('ElieTool','SetPlayerId', '${user?.uuid}')
 		 	MyGameInstance.SendMessage('ElieTool','SetMainApiURL', '${Url.BASE_URL_API}')
 		 	MyGameInstance.SendMessage('ElieTool','SetGameManagerUrl', '${Url.BASE_URL_GAME_MANAGER}')
@@ -64,6 +65,6 @@ const UnityGameWebView: React.FC = () => {
 			/>
 		</View>
 	);
-};
+}
 
 export default UnityGameWebView;

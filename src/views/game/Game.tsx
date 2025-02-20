@@ -13,6 +13,7 @@ import { AppDispatch } from "../../store/store";
 import { getCommunityGames } from "../../store/features/Games/GamesThunk";
 import { useAppSelector } from "../../store/hooks";
 import TextComponent from "../../base/Text";
+import gameAnswerComponent from "../../components/game/GameAnswerComponent";
 
 const Game = () => {
 	const navigation = useNavigation<MyNavigationProp>();
@@ -24,6 +25,10 @@ const Game = () => {
 	useEffect(() => {
 		dispatch(getCommunityGames());
 	}, [dispatch]);
+
+	useEffect(() => {
+		console.log(games);
+	}, []);
 
 	return (
 		<Layout>
@@ -51,10 +56,11 @@ const Game = () => {
 			<BoxComponent title={Content.COMMUNITY_GAMES}>
 				{isLoadingGames && <ActivityIndicator size="large" color={Color.PRIMARY} className="mt-10" />}
 				{errorGames && <TextComponent content={Content.ERROR} />}
-				{games?.community_games.length ? (
+				{games ? (
 					games.community_games.map(game => (
 						<ModuleGame
-							onPress={() => navigation.navigate("UnityGame")}
+							onPress={() => navigation.navigate("UnityGame", {gameId: game.id, gameTitle: game.title})}
+							key={game.id}
 							title={game.title}
 							description={game.description}
 							bg={colors[game.id % colors.length]}
