@@ -16,7 +16,7 @@ interface EventCardProps {
 const EventCard = ({ event }: EventCardProps) => {
 	const { user } = useAppSelector((state: RootState) => state.user);
 	const { user_events, isModifiedUserEvent } = useAppSelector((state: RootState) => state.userEvent);
-	const [retrieveParticipants, setRetrieveParticipants] = useState(false);
+	const [retrieveParticipants, setRetrieveParticipants] = useState<number>(1);
 	const [userEventFromEvent, setUserEventFromEvent] = useState<userEventI | null>(null);
 	const [isParticipating, setParticipating] = useState(false);
 	const dispatch = useAppDispatch();
