@@ -21,8 +21,8 @@ const GuideCompactMap = () => {
 
 	return (
 		<MapView
-			className="w-full"
-			style={{ borderRadius: 8, height: "75%" }}
+			className="w-full h-28"
+			style={{ borderRadius: 8 }}
 			region={{
 				latitude: position?.latitude ?? 0,
 				longitude: position?.longitude ?? 0,

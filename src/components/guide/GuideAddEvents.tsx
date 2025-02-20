@@ -23,13 +23,11 @@ const formatDateToISOWithOffset = (date: Date) => {
 
 const GuideAddEvents = () => {
 	const navigation = useNavigation<MyNavigationProp>();
-	const [name, setName] = useState<string>("Trie de Déchet à espace vert");
-	const [description, setDescription] = useState<string>(
-		"Tri de déchet dans les espace vert autour des stades, de l'ecole et des voies rapides",
-	);
-	const [address, setAddress] = useState<string>("16 impasse bellevue");
-	const [city, setCity] = useState<string>("Change");
-	const [postalCode, setPostalCode] = useState<string>("72560");
+	const [name, setName] = useState<string>("Nettoyage des dépôts sauvages");
+	const [description, setDescription] = useState<string>("Nettoyage des dépôts sauvages dans les espaces publics");
+	const [address, setAddress] = useState<string>("8 rue Pierre de Coubertin");
+	const [city, setCity] = useState<string>("Pontoise");
+	const [postalCode, setPostalCode] = useState<string>("95300");
 	const [startDateTime, setStartDateTime] = useState(new Date());
 	const [endDateTime, setEndDateTime] = useState(new Date());
 	const [numberOfParticipants, setNumberOfParticipants] = useState<string>("10");

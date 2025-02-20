@@ -19,6 +19,7 @@ import { getUserQuiz } from "../store/features/UserQuiz/UserQuizThunk";
 import { useTheme } from "../context/ThemeContext";
 import GuideCompactMap from "../components/guide/GuideCompactMap";
 import { getUserSuccesses } from "../store/features/UserSuccesses/UserSuccessesThunk";
+import TextComponent from "../base/Text";
 
 export enum ContentHome {
 	GUIDE = "Guide",
@@ -89,7 +90,8 @@ const Home = () => {
 				<BoxComponent title={Content.GAME} onPress={() => navigation.navigate(ContentHome.GAME)}>
 					<GameHomeComponent nextQuiz={userQuiz?.nextQuiz} />
 				</BoxComponent>
-				<BoxComponent title={Content.MAP} height="h-48" onPress={() => navigation.navigate(ContentHome.GUIDE)}>
+				<BoxComponent title={Content.GUIDE_TITLE} onPress={() => navigation.navigate(ContentHome.GUIDE)}>
+					<TextComponent content={Content.GUIDE_HOME_DESCRIPTION} className="mb-4" />
 					<GuideCompactMap />
 				</BoxComponent>
 			</ScrollView>

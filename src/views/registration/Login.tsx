@@ -17,8 +17,8 @@ import TextComponent from "../../base/Text";
 const Login = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const navigation = useNavigation<MyNavigationProp>();
-	const [email, setEmail] = useState<string>("test2@mail.com");
-	const [password, setPassword] = useState<string>("rob");
+	const [email, setEmail] = useState<string>("lena@mail.com");
+	const [password, setPassword] = useState<string>("");
 	const [error, setError] = useState<string>("");
 	const { themeVariables } = useTheme();
 

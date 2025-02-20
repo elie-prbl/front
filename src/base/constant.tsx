@@ -67,6 +67,7 @@ export class Content {
 	static MAP: string = "Map";
 	static EVENT: string = "Évènement";
 	static PROFIL: string = "Profil";
+	static GUIDE_HOME_DESCRIPTION: string = "Retrouves les évènements et les points d'intérêts de ton choix !";
 
 	//Shop
 	static SHOP_TITLE: string = "Boutique";

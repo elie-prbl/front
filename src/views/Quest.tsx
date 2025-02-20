@@ -46,15 +46,7 @@ const Quest = () => {
 			setFirstOfEachShortName(filtered);
 
 			if (userSuccesses.community_successes) {
-				const communitySuccesses = userSuccesses.community_successes
-					.sort((a, b) => a.success.name.localeCompare(b.success.name))
-					.reduce<CommunitySuccesses[]>((acc, current) => {
-						const exists = acc.find(item => item.success.name === current.success.name);
-						if (!exists) {
-							acc.push(current);
-						}
-						return acc;
-					}, []);
+				const communitySuccesses = userSuccesses.community_successes;
 				setCommunitySuccesses(communitySuccesses);
 			}
 		}

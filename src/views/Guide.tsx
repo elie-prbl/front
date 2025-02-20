@@ -42,7 +42,7 @@ const Guide = () => {
 
 	return (
 		<Layout>
-			<BoxComponent title={Content.MAP} height="h-48" onPress={() => navigation.navigate("GuideFullMap")}>
+			<BoxComponent title={Content.MAP} onPress={() => navigation.navigate("GuideFullMap")}>
 				<GuideCompactMap />
 			</BoxComponent>
 			<GuideTabs
