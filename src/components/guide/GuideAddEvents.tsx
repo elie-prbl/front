@@ -11,7 +11,7 @@ import ButtonComponent from "../../base/Button";
 import TextComponent from "../../base/Text";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { RootState } from "../../store/store";
-import { createEvent, createEventParamsI } from "../../store/features/Events/EventThunk";
+import { createEvent, createEventBodyI } from "../../store/features/Events/EventThunk";
 import { useNavigation } from "@react-navigation/core";
 import { MyNavigationProp } from "../../navigation/AppNavigator";
 
@@ -33,11 +33,12 @@ const GuideAddEvents = () => {
 	const [startDateTime, setStartDateTime] = useState(new Date());
 	const [endDateTime, setEndDateTime] = useState(new Date());
 	const [numberOfParticipants, setNumberOfParticipants] = useState<string>("10");
-	const { isCreatedEvent, errorEvents } = useAppSelector((state: RootState) => state.events);
+	const [errorMessage, setErrorMessage] = useState<string>("");
+	const { isCreatedEvent } = useAppSelector((state: RootState) => state.events);
 	const { user } = useAppSelector((state: RootState) => state.user);
 	const dispatch = useAppDispatch();
 
-	const newEvent: createEventParamsI = {
+	const newEvent: createEventBodyI = {
 		name,
 		description,
 		address,
@@ -50,6 +51,23 @@ const GuideAddEvents = () => {
 	};
 
 	const handleCreateEvent = () => {
+		if (!name || !description || !address || !city || !postalCode) {
+			setErrorMessage("Tous les champs doivent être remplis.");
+			return;
+		}
+		const postalCodeRegex = /^\d{5}$/;
+		if (!postalCodeRegex.test(postalCode)) {
+			setErrorMessage("Le code postal doit être composé de 5 chiffres.");
+			return;
+		}
+		if (isNaN(parseInt(numberOfParticipants, 10))) {
+			setErrorMessage("Le nombre de participants doit être un nombre valide.");
+			return;
+		}
+		if (endDateTime <= startDateTime) {
+			setErrorMessage("La date de fin doit être supérieure à la date de début.");
+			return;
+		}
 		dispatch(createEvent(newEvent));
 	};
 
@@ -105,7 +123,7 @@ const GuideAddEvents = () => {
 						placeholder="10"
 						width="w-full"
 					/>
-					{errorEvents && <TextComponent content={errorEvents as string} isError className="text-center font-bold py-4" />}
+					{errorMessage && <TextComponent content={errorMessage as string} isError className="text-center font-bold py-4" />}
 					<ButtonComponent onPress={handleCreateEvent} content="Confirmer" width="w-full" padding="pt-4" />
 				</BoxComponent>
 			</ScrollView>

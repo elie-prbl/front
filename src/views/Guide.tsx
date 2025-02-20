@@ -21,7 +21,7 @@ const Guide = () => {
 	const navigation = useNavigation<MyNavigationProp>();
 	const [activeTab, setActiveTab] = useState<Tab>(Tab.EVENTS);
 	const position = useSelector((state: RootState) => state.position.position);
-	const { events, isLoadingEvents } = useSelector((state: RootState) => state.events);
+	const { events, isLoadingEvents, isCreatedEvent } = useSelector((state: RootState) => state.events);
 	const { places, isLoadingPlaces } = useSelector((state: RootState) => state.places);
 	const dispatch = useAppDispatch();
 
@@ -30,7 +30,7 @@ const Guide = () => {
 			dispatch(getEvents({ latitude: position.latitude, longitude: position.longitude }));
 			dispatch(getPlaces(position));
 		}
-	}, [dispatch, position]);
+	}, [dispatch, position, isCreatedEvent]);
 
 	const handleDisplayEvents = () => {
 		setActiveTab(Tab.EVENTS);

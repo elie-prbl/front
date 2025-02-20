@@ -6,7 +6,7 @@ export interface getEventsParamsI {
 	longitude: number;
 }
 
-export interface createEventParamsI {
+export interface createEventBodyI {
 	name: string;
 	description: string;
 	address: string;
@@ -38,8 +38,8 @@ export const getEvents = createAsyncThunk(
 	},
 );
 
-export const createEvent = createAsyncThunk("createEvent", async (event: createEventParamsI, { rejectWithValue }) => {
-	const response = await fetch(`${Url.BASE_URL_API}/events`, {
+export const createEvent = createAsyncThunk("createEvent", async (event: createEventBodyI, { rejectWithValue }) => {
+	const response = await fetch(`${Url.BASE_URL_API}/events/`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
