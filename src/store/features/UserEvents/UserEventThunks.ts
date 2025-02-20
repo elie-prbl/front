@@ -6,8 +6,8 @@ export interface createEventBodyI {
 	event_id: number;
 }
 
-export const getUsersEvents = createAsyncThunk("getQuests", async (user_uuid: string, { rejectWithValue }) => {
-	const response = await fetch(`${Url.BASE_URL_API}/events/user?user_uuid=${user_uuid}`, {
+export const getUsersEvents = createAsyncThunk("getUserEvent", async (user_id: number, { rejectWithValue }) => {
+	const response = await fetch(`${Url.BASE_URL_API}/events/user?participant=${user_id}`, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",

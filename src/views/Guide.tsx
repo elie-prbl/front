@@ -71,9 +71,7 @@ const Guide = () => {
 					<TextComponent content={Content.NO_EVENT} className="text-center mt-10" />
 				) : (
 					<ScrollView showsVerticalScrollIndicator={false}>
-						{events.map(event => (
-							<EventCard key={event.id} event={event} />
-						))}
+							<EventCard event={events[0]} />
 					</ScrollView>
 				))}
 			<TouchableOpacity

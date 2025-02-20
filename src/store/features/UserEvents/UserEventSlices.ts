@@ -3,7 +3,7 @@ import { createUserEvent, deleteUserEvent, getUsersEvents } from "./UserEventThu
 import { eventI } from "../Events/EventSlices";
 
 export interface userEventI {
-	id?: number;
+	id: number;
 	user_id: number;
 	event_id: number;
 	event: eventI;
@@ -63,6 +63,7 @@ export const UserEventsSlices = createSlice({
 				state.isLoadingUserEvent = false;
 				state.isModifiedUserEvent = true;
 				state.error = false;
+				state.user_events = state.user_events?.filter(userEvent => userEvent.id !== action.payload) || [];
 			})
 			.addCase(deleteUserEvent.rejected, (state, action) => {
 				state.isLoadingUserEvent = false;
