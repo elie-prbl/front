@@ -62,6 +62,14 @@ const EventCard = ({ event }: EventCardProps) => {
 		}
 	}, [isModifiedUserEvent, user_events]);
 
+	useEffect(() => {
+		if (userEventFromEvent?.user_id === user?.id) {
+			setParticipating(true);
+		} else {
+			setParticipating(false);
+		}
+	}, [userEventFromEvent]);
+
 	const formatDate = (dateString: string) => {
 		const date = new Date(dateString);
 
@@ -75,11 +83,11 @@ const EventCard = ({ event }: EventCardProps) => {
 	};
 
 	const handleParticipate = () => {
-		if (user && userEventFromEvent) {
-			if (!isParticipating) {
-				dispatch(createUserEvent({ user_id: user.id, event_id: userEventFromEvent.event_id }));
+		if (user) {
+			if (!isParticipating && event.id) {
+				dispatch(createUserEvent({ user_id: user.id, event_id: event.id }));
 			} else {
-				if (user) {
+				if (userEventFromEvent) {
 					dispatch(deleteUserEvent(userEventFromEvent.id));
 				}
 			}
