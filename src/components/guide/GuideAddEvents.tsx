@@ -123,7 +123,9 @@ const GuideAddEvents = () => {
 						placeholder="10"
 						width="w-full"
 					/>
-					{errorMessage && <TextComponent content={errorMessage as string} isError className="text-center font-bold py-4" />}
+					{errorMessage && (
+						<TextComponent content={errorMessage as string} isError className="text-center font-bold py-4" />
+					)}
 					<ButtonComponent onPress={handleCreateEvent} content="Confirmer" width="w-full" padding="pt-4" />
 				</BoxComponent>
 			</ScrollView>

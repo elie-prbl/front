@@ -8,8 +8,6 @@ export interface userEventI {
 	event_id: number;
 	event: eventI;
 	is_realized: boolean;
-	created_at?: string;
-	update_at?: string;
 }
 
 const initialState = {
@@ -34,7 +32,7 @@ export const UserEventsSlices = createSlice({
 				state.user_events = action.payload;
 				state.isLoadingUserEvent = false;
 				state.error = false;
-				state.isModifiedUserEvent = true;
+				state.isModifiedUserEvent = false;
 			})
 			.addCase(getUsersEvents.rejected, (state, action) => {
 				state.isLoadingUserEvent = false;
@@ -47,7 +45,6 @@ export const UserEventsSlices = createSlice({
 				state.error = false;
 			})
 			.addCase(createUserEvent.fulfilled, (state, action) => {
-				state.user_events = action.payload;
 				state.isLoadingUserEvent = false;
 				state.isModifiedUserEvent = true;
 				state.error = false;
@@ -63,7 +60,6 @@ export const UserEventsSlices = createSlice({
 				state.error = false;
 			})
 			.addCase(deleteUserEvent.fulfilled, (state, action) => {
-				state.user_events = action.payload;
 				state.isLoadingUserEvent = false;
 				state.isModifiedUserEvent = true;
 				state.error = false;
