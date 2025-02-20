@@ -167,9 +167,10 @@ export class FontSize {
 
 export class Url {
 	// Commande pour récupérer l'ip dans le termainal : ipconfig getifaddr en0
-	static IP: string = "192.168.1.15";
+	static IP: string = "192.168.1.133";
 	static LOCALHOST: string = "localhost";
 	static BASE_URL_API: string = `http://${Url.IP}:8080/api/v1`;
 	static BASE_URL_WS: string = `ws://${Url.IP}:8080/ws`;
-	static BASE_URL_GAME_SERVICE: string = `http://${Url.IP}:8082/`;
+	static BASE_URL_GAME_SERVICE: string = `http://${Url.IP}:8082`;
+	static BASE_URL_GAME_MANAGER: string = `http://${Url.IP}:8000`;
 }

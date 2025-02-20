@@ -55,7 +55,7 @@ export type StackParamList = {
 	Shop: undefined;
 	Profile: undefined;
 	GameMatchMaking: undefined;
-	UnityGame: undefined;
+	UnityGame: { gameId: number; gameTitle: string };
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -69,6 +69,9 @@ export type NavigationGameDualQuizProps = NativeStackNavigationProp<StackParamLi
 
 export type RouteGameDualQuizScoreProps = NativeStackScreenProps<StackParamList, "GameDualQuizScore">;
 export type NavigationGameDualQuizScoreProps = NativeStackNavigationProp<StackParamList, "GameDualQuizScore">;
+
+export type RouteCommunityGameProps = NativeStackScreenProps<StackParamList, "UnityGame">;
+export type NavigationCommunityGameProps = NativeStackNavigationProp<StackParamList, "UnityGame">;
 
 const AuthStack = () => {
 	return (
@@ -103,7 +106,6 @@ const AppNavigator = (): JSX.Element => {
 						backgroundColor: themeVariables.background,
 					},
 				}}>
-				<Stack.Screen name="UnityGame" component={UnityGameWebView} options={{ headerShown: false }} />
 				<Stack.Screen name="TabNav" component={TabNavigator} options={{ headerShown: false }} />
 				<Stack.Screen
 					name="GameModule"
@@ -138,6 +140,7 @@ const AppNavigator = (): JSX.Element => {
 				/>
 				<Stack.Screen name="GameQuiz" component={GameQuiz} options={{ headerShown: false }} />
 				<Stack.Screen name="GameDualQuiz" component={GameDualQuiz} options={{ headerShown: false }} />
+				<Stack.Screen name="UnityGame" component={UnityGameWebView} options={{ headerShown: false }} />
 				<Stack.Screen
 					name="GameDualQuizScore"
 					component={GameDualQuizScore}

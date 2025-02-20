@@ -52,9 +52,11 @@ const Game = () => {
 				{isLoadingGames ? (
 					<ActivityIndicator size="large" color={Color.PRIMARY} className="mt-10" />
 				) : games?.community_games?.length ? (
+
 					games.community_games.map(game => (
 						<ModuleGame
-							onPress={() => navigation.navigate("UnityGame")}
+							onPress={() => navigation.navigate("UnityGame", { gameId: game.id, gameTitle: game.title })}
+							key={game.id}
 							title={game.title}
 							description={game.description}
 							bg={colors[game.id % colors.length]}

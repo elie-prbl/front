@@ -9,9 +9,8 @@ export const getCommunityGames = createAsyncThunk("getCommunityGames", async (_,
 				"Content-Type": "application/json",
 			},
 		});
-		const res = await response.json();
 
-		return res["community_games"];
+		return await response.json();
 	} catch (err) {
 		return rejectWithValue(`network error: ${err}`);
 	}
