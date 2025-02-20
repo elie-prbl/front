@@ -14,6 +14,9 @@ import rewardsReducer from "./features/Rewards/RewardsSlices";
 import positionReducer from "./features/Position/PositionSlices";
 import userQuizReducer from "./features/UserQuiz/UserQuizSlices";
 import shopReducer from "./features/Shop/ShopSlices";
+import eventReducer from "./features/Events/EventSlices";
+import userEventReducer from "./features/UserEvents/UserEventSlices";
+import placeReducer from "./features/Places/PlacesSlice";
 
 const rootReducer = combineReducers({
 	user: userReducer,
@@ -31,6 +34,9 @@ const rootReducer = combineReducers({
 	rewards: rewardsReducer,
 	position: positionReducer,
 	shop: shopReducer,
+	events: eventReducer,
+	userEvent: userEventReducer,
+	places: placeReducer,
 });
 
 const store = configureStore({

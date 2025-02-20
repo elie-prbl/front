@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { ActivityIndicator, ScrollView, Text } from "react-native";
+import { ActivityIndicator, ScrollView } from "react-native";
 import BoxComponent from "../base/Box";
 import { Content } from "../base/constant";
 import QuestComponent from "../components/quest/QuestComponent";
@@ -91,9 +91,6 @@ const Home = () => {
 				</BoxComponent>
 				<BoxComponent title={Content.MAP} height="h-48" onPress={() => navigation.navigate(ContentHome.GUIDE)}>
 					<GuideCompactMap />
-				</BoxComponent>
-				<BoxComponent title={Content.EVENT} height="h-24">
-					<Text style={{ color: themeVariables.text }}>Fonctionnalité à découvrir prochainement !</Text>
 				</BoxComponent>
 			</ScrollView>
 		</Layout>

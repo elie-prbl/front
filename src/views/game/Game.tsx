@@ -49,9 +49,10 @@ const Game = () => {
 				/>
 			</BoxComponent>
 			<BoxComponent title={Content.COMMUNITY_GAMES}>
-				{isLoadingGames && <ActivityIndicator size="large" color={Color.PRIMARY} className="mt-10" />}
-				{errorGames && <TextComponent content={Content.ERROR} />}
-				{games?.community_games?.length ? (
+				{isLoadingGames ? (
+					<ActivityIndicator size="large" color={Color.PRIMARY} className="mt-10" />
+				) : games?.community_games?.length ? (
+
 					games.community_games.map(game => (
 						<ModuleGame
 							onPress={() => navigation.navigate("UnityGame", { gameId: game.id, gameTitle: game.title })}
@@ -66,6 +67,7 @@ const Game = () => {
 				) : (
 					<TextComponent content={Content.NO_COMMUNITY_GAMES} />
 				)}
+				{errorGames && <TextComponent content={Content.ERROR} />}
 			</BoxComponent>
 		</Layout>
 	);

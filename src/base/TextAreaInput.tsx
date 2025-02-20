@@ -1,39 +1,43 @@
 import React from "react";
-import { KeyboardTypeOptions, Text, TextInput, View } from "react-native";
+import { Text, TextInput, View } from "react-native";
 import { useTheme } from "../context/ThemeContext";
 
-interface TextInputComponentProps {
+interface TextAreaInputComponentProps {
 	onChangeText: (text: string) => void;
 	label: string;
 	textInput: string;
-	keyboardType?: KeyboardTypeOptions;
 	placeholder: string;
-	width?: string;
+	numberOfLines?: number;
 }
 
-const TextInputComponent = ({
+const TextAreaInputComponent = ({
 	onChangeText,
 	label,
 	textInput,
-	keyboardType = "default",
 	placeholder,
-	width = "w-11/12",
-}: TextInputComponentProps) => {
+	numberOfLines = 4,
+}: TextAreaInputComponentProps) => {
 	const { themeVariables } = useTheme();
 	return (
-		<View className={`${width} my-2`}>
+		<View className="w-full my-2">
 			<Text className="text-lg mb-1" style={{ color: themeVariables.text }}>
 				{label}
 			</Text>
-			<View className="rounded-lg h-12" style={{ backgroundColor: themeVariables.primary }}>
+			<View className="rounded-lg" style={{ backgroundColor: themeVariables.primary }}>
 				<View className="rounded-lg" style={{ zIndex: 1, backgroundColor: themeVariables.background }}>
 					<TextInput
-						style={{ borderColor: themeVariables.primary, borderWidth: 1, color: themeVariables.text }}
-						className="px-4 rounded-lg h-11"
+						style={{
+							borderColor: themeVariables.primary,
+							borderWidth: 1,
+							color: themeVariables.text,
+							textAlignVertical: "top",
+						}}
+						className="px-4 py-4 rounded-lg border-b-4"
 						onChangeText={onChangeText}
 						value={textInput}
-						keyboardType={keyboardType}
 						placeholder={placeholder}
+						multiline
+						numberOfLines={numberOfLines}
 					/>
 				</View>
 			</View>
@@ -41,4 +45,4 @@ const TextInputComponent = ({
 	);
 };
 
-export default TextInputComponent;
+export default TextAreaInputComponent;

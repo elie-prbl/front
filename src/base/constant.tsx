@@ -148,9 +148,12 @@ export class Content {
 	static LOAD_POI: string = "Chargement des lieux...";
 	static LOAD_POI_ERROR: string = "Erreur lors de la récupération des lieux";
 	static EVENTS: string = "Évènements";
+	static ADD_EVENT_TITLE: string = "Création d'un évenement";
 	static POI: string = "Points d'intérêts";
 	static NO_EVENT: string = "Aucun évènement à venir pour le moment";
+	static LOAD_EVENT_ERROR: string = "Erreur lors de la récupération des évènements";
 	static NO_POI: string = "Aucun point d'intérêt à découvrir autour de vous";
+	static SEARCH_PLACES: string = "Rechercher dans cette zone";
 
 	//Commun
 	static ERROR: string = "Une erreur est survenue, veuillez réessayer plus tard";
@@ -159,11 +162,12 @@ export class Content {
 export class FontSize {
 	static TEXT_XL: string = "text-xl";
 	static TEXT_LG: string = "text-lg";
+	static TEXT_SM: string = "text-sm";
 }
 
 export class Url {
 	// Commande pour récupérer l'ip dans le termainal : ipconfig getifaddr en0
-	static IP: string = "192.168.1.15";
+	static IP: string = "192.168.1.133";
 	static LOCALHOST: string = "localhost";
 	static BASE_URL_API: string = `http://${Url.IP}:8080/api/v1`;
 	static BASE_URL_WS: string = `ws://${Url.IP}:8080/ws`;
