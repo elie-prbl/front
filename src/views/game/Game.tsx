@@ -51,10 +51,10 @@ const Game = () => {
 			<BoxComponent title={Content.COMMUNITY_GAMES}>
 				{isLoadingGames && <ActivityIndicator size="large" color={Color.PRIMARY} className="mt-10" />}
 				{errorGames && <TextComponent content={Content.ERROR} />}
-				{games ? (
+				{games?.community_games?.length ? (
 					games.community_games.map(game => (
 						<ModuleGame
-							onPress={() => navigation.navigate("UnityGame", {gameId: game.id, gameTitle: game.title})}
+							onPress={() => navigation.navigate("UnityGame", { gameId: game.id, gameTitle: game.title })}
 							key={game.id}
 							title={game.title}
 							description={game.description}
